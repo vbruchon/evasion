@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { PageHero } from "@/components/layout/page-hero";
-import { AccommodationsSection } from "@/components/features/accomodations/accommodations-section";
+import { AccommodationsSection } from "@/components/features/accommodations/accommodations-section";
 import { ContactCta } from "@/components/layout/contact-cta";
 
 export default async function AccommodationsPage() {
