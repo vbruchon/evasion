@@ -1,24 +1,10 @@
-import { prisma } from "@/lib/prisma";
 import { PageHero } from "@/components/layout/page-hero";
 import { AccommodationsSection } from "@/components/features/accommodations/accommodations-section";
 import { ContactCta } from "@/components/layout/contact-cta";
+import { getPublishedAccommodations } from "@/lib/accommodations";
 
 export default async function AccommodationsPage() {
-  const accommodations = await prisma.accommodation.findMany({
-    where: {
-      status: "PUBLISHED",
-    },
-    orderBy: {
-      position: "asc",
-    },
-    include: {
-      images: {
-        orderBy: {
-          position: "asc",
-        },
-      },
-    },
-  });
+  const accommodations = await getPublishedAccommodations();
 
   return (
     <main className="min-h-screen bg-background text-foreground">
