@@ -33,3 +33,18 @@ export const getPublishedAccommodationBySlug = async (slug: string) => {
     },
   });
 };
+
+export const getAdminAccommodations = async () => {
+  return prisma.accommodation.findMany({
+    orderBy: {
+      position: "asc",
+    },
+    include: {
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
+    },
+  });
+};
