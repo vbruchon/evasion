@@ -1,11 +1,10 @@
-import {
-  Copy,
-  ExternalLink,
-  MoreHorizontal,
-  Pencil,
-  Trash2,
-} from "lucide-react";
+"use client";
+
+import { ExternalLink, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+
+import { AccommodationDeleteDialog } from "./accommodation-delete-dialog";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -17,80 +16,87 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 type AccommodationAdminActionsProps = {
+  id: string;
   name: string;
   slug: string;
   mobile?: boolean;
 };
 
 export const AccommodationAdminActions = ({
+  id,
   name,
   slug,
   mobile = false,
 }: AccommodationAdminActionsProps) => {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+
   return (
-    <div
-      className={
-        mobile
-          ? "flex w-full items-center gap-2"
-          : "flex items-center justify-end gap-2"
-      }
-    >
-      <Button
-        nativeButton={false}
-        variant="outline"
-        size="sm"
+    <>
+      <div
         className={
           mobile
-            ? "flex-1 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
-            : "hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
+            ? "flex w-full items-center gap-2"
+            : "flex items-center justify-end gap-2"
         }
-        render={<Link href={`/admin/logements/${slug}`} />}
       >
-        <Pencil />
-        Modifier
-      </Button>
-
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label={`Actions pour ${name}`}
-              className="shrink-0 hover:border-primary/50 hover:bg-primary/5 hover:text-primary"
-            />
-          }
+        <Button
+          nativeButton={false}
+          variant="outline"
+          size="sm"
+          className={mobile ? "flex-1" : undefined}
+          render={<Link href={`/admin/logements/${slug}`} />}
         >
-          <MoreHorizontal />
-        </DropdownMenuTrigger>
+          <Pencil />
+          Modifier
+        </Button>
 
-        <DropdownMenuContent align="end" className="w-52">
-          <DropdownMenuItem
+        <DropdownMenu>
+          <DropdownMenuTrigger
             render={
-              <Link
-                href={`/logements/${slug}`}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Button
+                type="button"
+                variant="outline"
+                size="icon-sm"
+                aria-label={`Actions pour ${name}`}
               />
             }
           >
-            <ExternalLink />
-            Voir la page
-          </DropdownMenuItem>
+            <MoreHorizontal />
+          </DropdownMenuTrigger>
 
-          <DropdownMenuItem disabled>
-            <Copy />
-            Dupliquer
-          </DropdownMenuItem>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              render={
+                <Link
+                  href={`/logements/${slug}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                />
+              }
+            >
+              <ExternalLink />
+              Voir la page
+            </DropdownMenuItem>
 
-          <DropdownMenuSeparator />
+            <DropdownMenuSeparator />
 
-          <DropdownMenuItem disabled variant="destructive">
-            <Trash2 />
-            Supprimer définitivement
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </div>
+            <DropdownMenuItem
+              variant="destructive"
+              onClick={() => setDeleteDialogOpen(true)}
+            >
+              <Trash2 />
+              Supprimer
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
+      <AccommodationDeleteDialog
+        id={id}
+        name={name}
+        open={deleteDialogOpen}
+        onOpenChange={setDeleteDialogOpen}
+      />
+    </>
   );
 };

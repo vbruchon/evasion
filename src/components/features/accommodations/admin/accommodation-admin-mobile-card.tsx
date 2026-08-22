@@ -77,6 +77,7 @@ export const AccommodationAdminMobileCard = ({
       {!isReordering ? (
         <div className="border-t border-border/60 p-3">
           <AccommodationAdminActions
+            id={accommodation.id}
             name={accommodation.name}
             slug={accommodation.slug}
             mobile

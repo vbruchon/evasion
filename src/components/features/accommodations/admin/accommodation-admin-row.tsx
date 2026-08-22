@@ -74,8 +74,10 @@ export const AccommodationAdminRow = ({
       <TableCell className="pr-6">
         {!isReordering ? (
           <AccommodationAdminActions
+            id={accommodation.id}
             name={accommodation.name}
             slug={accommodation.slug}
+            mobile
           />
         ) : null}
       </TableCell>

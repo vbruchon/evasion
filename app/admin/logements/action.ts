@@ -45,3 +45,12 @@ export const reorderAccommodations = async (
   revalidatePath("/admin/logements");
   revalidatePath("/logements");
 };
+
+export const deleteAccommodation = async (id: string) => {
+  await prisma.accommodation.delete({
+    where: { id },
+  });
+
+  revalidatePath("/admin/logements");
+  revalidatePath("/logements");
+};
