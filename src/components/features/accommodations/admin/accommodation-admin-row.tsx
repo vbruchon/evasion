@@ -28,7 +28,10 @@ export const AccommodationAdminRow = ({
       </TableCell>
 
       <TableCell>
-        <AccommodationStatusBadge status={accommodation.status} />
+        <AccommodationStatusBadge
+          id={accommodation.id}
+          status={accommodation.status}
+        />
       </TableCell>
 
       <TableCell className="text-center">
@@ -50,7 +53,6 @@ export const AccommodationAdminRow = ({
         <AccommodationAdminActions
           name={accommodation.name}
           slug={accommodation.slug}
-          status={accommodation.status}
         />
       </TableCell>
     </TableRow>

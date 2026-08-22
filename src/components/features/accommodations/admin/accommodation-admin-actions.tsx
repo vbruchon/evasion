@@ -21,14 +21,12 @@ import {
 type AccommodationAdminActionsProps = {
   name: string;
   slug: string;
-  status: AccommodationStatus;
   mobile?: boolean;
 };
 
 export const AccommodationAdminActions = ({
   name,
   slug,
-  status,
   mobile = false,
 }: AccommodationAdminActionsProps) => {
   return (
@@ -85,11 +83,6 @@ export const AccommodationAdminActions = ({
           <DropdownMenuItem disabled>
             <Copy />
             Dupliquer
-          </DropdownMenuItem>
-
-          <DropdownMenuItem disabled>
-            <Archive />
-            {status === "ARCHIVED" ? "Restaurer" : "Archiver"}
           </DropdownMenuItem>
 
           <DropdownMenuSeparator />
