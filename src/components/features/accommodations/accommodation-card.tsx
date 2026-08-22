@@ -9,14 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type {
-  Accommodation,
-  AccommodationImage,
-} from "@/generated/prisma/client";
-
-type AccommodationWithImages = Accommodation & {
-  images: AccommodationImage[];
-};
+import { AccommodationWithImages } from "@/lib/accommodation-types";
 
 type AccommodationCardProps = {
   accommodation: AccommodationWithImages;

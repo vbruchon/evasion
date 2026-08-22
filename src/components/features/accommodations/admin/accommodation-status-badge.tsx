@@ -10,11 +10,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { updateAccommodationStatus } from "../../../../../app/admin/logements/action";
+import { updateAccommodationStatus } from "~/app/admin/logements/action";
 
 type AccommodationStatusBadgeProps = {
   id: string;
   status: AccommodationStatus;
+  disabled?: boolean;
 };
 
 const statusConfig = {
@@ -43,16 +44,18 @@ const statusConfig = {
 export const AccommodationStatusBadge = ({
   id,
   status,
+  disabled = false,
 }: AccommodationStatusBadgeProps) => {
   const currentStatus = statusConfig[status];
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
+        disabled={disabled}
         render={
           <button
             type="button"
-            className="cursor-pointer"
+            className={disabled ? "cursor-default" : "cursor-pointer"}
             aria-label="Modifier le statut du logement"
           />
         }

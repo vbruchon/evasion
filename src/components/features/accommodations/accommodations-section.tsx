@@ -1,12 +1,5 @@
-import type {
-  Accommodation,
-  AccommodationImage,
-} from "@/generated/prisma/client";
 import { AccommodationCard } from "./accommodation-card";
-
-type AccommodationWithImages = Accommodation & {
-  images: AccommodationImage[];
-};
+import { AccommodationWithImages } from "@/lib/accommodation-types";
 
 type AccommodationsSectionProps = {
   accommodations: AccommodationWithImages[];

@@ -1,29 +1,53 @@
-import type {
-  Accommodation,
-  AccommodationImage,
-} from "@/generated/prisma/client";
+"use client";
+
+import { GripVertical } from "lucide-react";
 
 import { AccommodationAdminActions } from "./accommodation-admin-actions";
 import { AccommodationAdminIdentity } from "./accommodation-admin-identity";
 import { AccommodationStatusBadge } from "./accommodation-status-badge";
 
+import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
-
-type AccommodationWithImages = Accommodation & {
-  images: AccommodationImage[];
-};
+import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
+import { AccommodationWithImages } from "@/lib/accommodation-types";
 
 type AccommodationAdminRowProps = {
   accommodation: AccommodationWithImages;
+  isReordering: boolean;
 };
 
 export const AccommodationAdminRow = ({
   accommodation,
+  isReordering,
 }: AccommodationAdminRowProps) => {
+  const { attributes, listeners, setNodeRef, style, isDragging } =
+    useAccommodationSortable(accommodation.id, isReordering);
+
   return (
-    <TableRow className="h-24 border-border/60 hover:bg-muted/20">
-      <TableCell className="py-3">
+    <TableRow
+      ref={setNodeRef}
+      style={style}
+      className={`h-24 border-border/60 ${
+        isReordering ? "cursor-grab touch-none active:cursor-grabbing" : ""
+      } ${isDragging ? "relative z-10 bg-background shadow-md" : ""}`}
+      {...(isReordering ? attributes : {})}
+      {...(isReordering ? listeners : {})}
+    >
+      <TableCell className="flex items-center gap-4 pl-6">
+        {isReordering ? (
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            tabIndex={-1}
+            className="pointer-events-none"
+            aria-hidden="true"
+          >
+            <GripVertical />
+          </Button>
+        ) : null}
+
         <AccommodationAdminIdentity accommodation={accommodation} />
       </TableCell>
 
@@ -31,29 +55,29 @@ export const AccommodationAdminRow = ({
         <AccommodationStatusBadge
           id={accommodation.id}
           status={accommodation.status}
+          disabled={isReordering}
         />
       </TableCell>
 
       <TableCell className="text-center">
-        <span className="text-sm text-muted-foreground">
-          {accommodation.position}
-        </span>
+        <span className="text-sm">{accommodation.position}</span>
       </TableCell>
 
       <TableCell>
-        <p className="text-sm text-foreground">
-          {formatDate(accommodation.updatedAt)}
-        </p>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-sm">{formatDate(accommodation.updatedAt)}</p>
+
+        <p className="mt-1 text-xs text-muted-foreground">
           {formatRelativeDate(accommodation.updatedAt)}
         </p>
       </TableCell>
 
-      <TableCell>
-        <AccommodationAdminActions
-          name={accommodation.name}
-          slug={accommodation.slug}
-        />
+      <TableCell className="pr-6">
+        {!isReordering ? (
+          <AccommodationAdminActions
+            name={accommodation.name}
+            slug={accommodation.slug}
+          />
+        ) : null}
       </TableCell>
     </TableRow>
   );

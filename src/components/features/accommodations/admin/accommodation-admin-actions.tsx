@@ -1,6 +1,4 @@
-import type { AccommodationStatus } from "@/generated/prisma/client";
 import {
-  Archive,
   Copy,
   ExternalLink,
   MoreHorizontal,

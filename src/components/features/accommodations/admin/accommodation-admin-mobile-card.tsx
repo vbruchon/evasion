@@ -1,38 +1,69 @@
-import type {
-  Accommodation,
-  AccommodationImage,
-} from "@/generated/prisma/client";
+"use client";
+
+import { GripVertical } from "lucide-react";
 
 import { AccommodationAdminActions } from "./accommodation-admin-actions";
 import { AccommodationAdminIdentity } from "./accommodation-admin-identity";
 import { AccommodationStatusBadge } from "./accommodation-status-badge";
-import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
 
-type AccommodationWithImages = Accommodation & {
-  images: AccommodationImage[];
-};
+import { Button } from "@/components/ui/button";
+import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
+import { AccommodationWithImages } from "@/lib/accommodation-types";
+import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
 
 type AccommodationAdminMobileCardProps = {
   accommodation: AccommodationWithImages;
+  isReordering: boolean;
 };
 
 export const AccommodationAdminMobileCard = ({
   accommodation,
+  isReordering,
 }: AccommodationAdminMobileCardProps) => {
+  const { attributes, listeners, setNodeRef, style, isDragging } =
+    useAccommodationSortable(accommodation.id, isReordering);
+
   return (
-    <div className="border border-border/60 bg-card">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={`border border-border/60 bg-card ${
+        isReordering ? "cursor-grab touch-none active:cursor-grabbing" : ""
+      } ${isDragging ? "relative z-10 shadow-md" : ""}`}
+      {...(isReordering ? attributes : {})}
+      {...(isReordering ? listeners : {})}
+    >
       <div className="p-4">
         <AccommodationAdminIdentity accommodation={accommodation} />
 
         <div className="mt-5 flex items-center justify-between gap-4">
-          <AccommodationStatusBadge status={accommodation.status} />
+          <AccommodationStatusBadge
+            id={accommodation.id}
+            status={accommodation.status}
+            disabled={isReordering}
+          />
 
-          <p className="text-sm text-muted-foreground">
-            Position {accommodation.position}
-          </p>
+          <div className="flex items-center gap-2">
+            <p className="text-sm text-muted-foreground">
+              Position {accommodation.position}
+            </p>
+
+            {isReordering ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon-sm"
+                tabIndex={-1}
+                aria-hidden="true"
+                className="pointer-events-none"
+              >
+                <GripVertical />
+              </Button>
+            ) : null}
+          </div>
         </div>
 
-        <div className="flex items-center justify-between mt-5 border-t border-border/60 pt-4">
+        <div className="mt-5 border-t border-border/60 pt-4 flex justify-between">
           <p className="text-sm text-foreground">
             {formatDate(accommodation.updatedAt)}
           </p>
@@ -43,14 +74,15 @@ export const AccommodationAdminMobileCard = ({
         </div>
       </div>
 
-      <div className="border-t border-border/60 p-3">
-        <AccommodationAdminActions
-          name={accommodation.name}
-          slug={accommodation.slug}
-          status={accommodation.status}
-          mobile
-        />
-      </div>
+      {!isReordering ? (
+        <div className="border-t border-border/60 p-3">
+          <AccommodationAdminActions
+            name={accommodation.name}
+            slug={accommodation.slug}
+            mobile
+          />
+        </div>
+      ) : null}
     </div>
   );
 };
