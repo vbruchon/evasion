@@ -6,12 +6,13 @@ const accommodations = [
   {
     name: "Le Container",
     slug: "le-container",
-    type: "Logement insolite",
-    subtitle: "Une parenthèse avec vue sur le Vercors",
+    type: "Container avec spa",
+    subtitle:
+      "Un cocon insolite pour deux, avec jacuzzi privatif et vue panoramique sur le Vercors",
     shortDescription:
-      "Un container aménagé pour un séjour à deux, entre confort contemporain et panorama sur le Vercors.",
+      "Un cocon insolite avec jacuzzi privatif et vue panoramique sur le Vercors.",
     description:
-      "Pensé comme une véritable parenthèse, Le Container offre une atmosphère chaleureuse et intimiste. Son espace extérieur, sa vue dégagée et son jacuzzi permettent de profiter pleinement d’un séjour à deux.",
+      "Offrez-vous une parenthèse dépaysante dans ce container maritime entièrement transformé en studio confortable et tout équipé pour deux personnes.\n\nPensé comme un véritable cocon, ce logement insolite réunit calme, intimité et vue panoramique sur le Vercors, dans une atmosphère chaleureuse et romantique.\n\nÀ la tombée de la nuit, détendez-vous dans le jacuzzi privatif et profitez du ciel étoilé pour vivre un moment hors du temps, en couple ou entre amis.",
     city: "Valence",
     region: "Drôme",
     status: "PUBLISHED" as const,
@@ -22,7 +23,7 @@ const accommodations = [
         {
           url: "/images/accommodations/container/hero.avif",
           fileKey: "seed-container-hero",
-          alt: "Vue intérieure du Container",
+          alt: "Vue principale du Container",
           position: 0,
           isCover: true,
         },
@@ -35,33 +36,35 @@ const accommodations = [
         {
           url: "/images/accommodations/container/gallery-02.avif",
           fileKey: "seed-container-gallery-02",
-          alt: "Jacuzzi extérieur du Container",
+          alt: "Espace intérieur du Container",
           position: 2,
         },
         {
           url: "/images/accommodations/container/gallery-03.avif",
           fileKey: "seed-container-gallery-03",
-          alt: "Jacuzzi extérieur du Container",
+          alt: "Vue panoramique depuis le Container",
           position: 3,
         },
         {
           url: "/images/accommodations/container/gallery-04.avif",
           fileKey: "seed-container-gallery-04",
-          alt: "Jacuzzi extérieur du Container",
+          alt: "Espace extérieur du Container",
           position: 4,
         },
       ],
     },
   },
+
   {
-    name: "La Suite",
-    slug: "la-suite",
-    type: "Suite romantique",
-    subtitle: "Un cocon intimiste pensé pour deux",
+    name: "Le Dôme",
+    slug: "le-dome",
+    type: "Dôme panoramique",
+    subtitle:
+      "Spa privatif, cinéma sous les étoiles et vue imprenable sur le Vercors",
     shortDescription:
-      "Une suite chaleureuse avec terrasse, jacuzzi privatif et espace cinéma.",
+      "Une parenthèse romantique entre spa privatif, cinéma et vue sur le Vercors.",
     description:
-      "La Suite a été imaginée pour offrir un moment privilégié à deux. Son ambiance feutrée, son jacuzzi couvert et son espace cinéma créent une expérience intime en toute saison.",
+      "Offrez-vous une parenthèse hors du temps dans ce dôme haut de gamme, pensé pour accueillir deux personnes dans une atmosphère intime et dépaysante.\n\nEntièrement climatisé et chauffé, il vous garantit un confort optimal en toute saison. Depuis votre lit, profitez d’une soirée cinéma sur écran géant, détendez-vous dans le spa privatif couvert ou laissez-vous simplement séduire par la vue imprenable sur le Vercors.\n\nUn lieu idéal pour célébrer une occasion particulière, partager un séjour romantique ou simplement prendre le temps de se retrouver à deux.",
     city: "Valence",
     region: "Drôme",
     status: "PUBLISHED" as const,
@@ -71,45 +74,45 @@ const accommodations = [
       create: [
         {
           url: "/images/accommodations/dome/hero.avif",
-          fileKey: "seed-suite-hero",
-          alt: "Vue principale de La Suite",
+          fileKey: "seed-dome-hero",
+          alt: "Vue principale du Dôme",
           position: 0,
           isCover: true,
         },
         {
           url: "/images/accommodations/dome/gallery-01.webp",
           fileKey: "seed-dome-gallery-01",
-          alt: "Jacuzzi extérieur du dome",
+          alt: "Spa privatif du Dôme",
           position: 1,
         },
         {
           url: "/images/accommodations/dome/gallery-02.avif",
           fileKey: "seed-dome-gallery-02",
-          alt: "Jacuzzi extérieur du dome",
+          alt: "Vue intérieure du Dôme",
           position: 2,
         },
         {
           url: "/images/accommodations/dome/gallery-03.avif",
           fileKey: "seed-dome-gallery-03",
-          alt: "Jacuzzi extérieur du dome",
+          alt: "Espace cinéma du Dôme",
           position: 3,
         },
         {
           url: "/images/accommodations/dome/gallery-04.webp",
           fileKey: "seed-dome-gallery-04",
-          alt: "Jacuzzi extérieur du dome",
+          alt: "Espace extérieur du Dôme",
           position: 4,
         },
         {
           url: "/images/accommodations/dome/gallery-05.avif",
           fileKey: "seed-dome-gallery-05",
-          alt: "Jacuzzi extérieur du dome",
+          alt: "Ambiance intérieure du Dôme",
           position: 5,
         },
         {
           url: "/images/accommodations/dome/gallery-06.avif",
           fileKey: "seed-dome-gallery-06",
-          alt: "Jacuzzi extérieur du dome",
+          alt: "Vue sur le Vercors depuis le Dôme",
           position: 6,
         },
       ],
@@ -139,7 +142,7 @@ const main = async () => {
     });
   }
 
-  console.log("Seed terminé : logements créés.");
+  console.log("Seed terminé : logements réels créés.");
 };
 
 main()
