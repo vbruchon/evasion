@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
-import { AccommodationCreateImages } from "./accommodation-create-images";
-
 import { createAccommodation } from "~/app/admin/logements/action";
 import {
   accommodationsSchema,
@@ -14,9 +12,11 @@ import {
 } from "~/app/admin/logements/schema";
 
 import { uploadAccommodationImages } from "@/lib/admin/uploadthing/upload-accommodation-images";
-import { AdminFormSubmitButton } from "../../../../layout/admin/admin-form-submit-button";
-import { AccommodationCreateInformation } from "./accommodation-create-information";
-import { AccommodationCreatePublication } from "./accommodation-create-publication";
+import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
+import { AccommodationPublicationSection } from "../form/accommodation-publication-section";
+import { AccommodationInformationSection } from "../form/accommodation-information-section";
+import { useAccommodationImages } from "@/hooks/use-accommodation-images";
+import { AccommodationImagesSection } from "../form/accommodation-images-section";
 
 const defaultValues: AccommodationFormValues = {
   name: "",
@@ -33,6 +33,14 @@ export const AccommodationCreateForm = () => {
 
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [coverImageIndex, setCoverImageIndex] = useState(0);
+
+  const { images, coverImageId, addFiles, removeImage, setCoverImage } =
+    useAccommodationImages({
+      onFilesChange: (files, coverIndex) => {
+        setImageFiles(files);
+        setCoverImageIndex(coverIndex);
+      },
+    });
 
   const form = useForm<AccommodationFormValues>({
     resolver: zodResolver(accommodationsSchema),
@@ -72,8 +80,6 @@ export const AccommodationCreateForm = () => {
       router.push("/admin/logements");
       router.refresh();
     } catch (error) {
-      console.error("Erreur lors de la création du logement :", error);
-
       form.setError("root", {
         type: "server",
         message:
@@ -97,17 +103,18 @@ export const AccommodationCreateForm = () => {
           </div>
         ) : null}
 
-        <AccommodationCreateInformation />
+        <AccommodationInformationSection mode="create" />
 
-        <AccommodationCreateImages
-          onFilesChange={(files, coverIndex) => {
-            setImageFiles(files);
-            setCoverImageIndex(coverIndex);
-          }}
+        <AccommodationImagesSection
+          images={images}
+          coverImageId={coverImageId}
           disabled={isSubmitting}
+          onFilesSelected={addFiles}
+          onSetCover={setCoverImage}
+          onRemove={removeImage}
         />
 
-        <AccommodationCreatePublication />
+        <AccommodationPublicationSection mode="create" />
 
         <div className="flex justify-end border-t border-border/60 pt-6">
           <AdminFormSubmitButton

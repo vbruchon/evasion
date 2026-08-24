@@ -2,17 +2,30 @@
 
 import { useFormContext } from "react-hook-form";
 
+import type { AccommodationFormValues } from "~/app/admin/logements/schema";
+
+import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
 import { FieldGroup } from "@/components/ui/field";
 import { createAccommodationSlug } from "@/lib/admin/accommodation/create-accommodation-slug";
 
-import type { AccommodationFormValues } from "~/app/admin/logements/schema";
-import { AccommodationTextField } from "../form/accommodation-text-field";
-import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
+import { AccommodationTextField } from "./accommodation-text-field";
 
-export const AccommodationCreateInformation = () => {
+type AccommodationInformationSectionProps = {
+  mode: "create" | "update";
+};
+
+export const AccommodationInformationSection = ({
+  mode,
+}: AccommodationInformationSectionProps) => {
   const form = useFormContext<AccommodationFormValues>();
 
+  const isCreate = mode === "create";
+
   const handleNameChange = (value: string) => {
+    if (!isCreate) {
+      return;
+    }
+
     const slugState = form.getFieldState("slug");
 
     if (slugState.isDirty) {
@@ -36,7 +49,7 @@ export const AccommodationCreateInformation = () => {
             name="name"
             label="Nom du logement"
             placeholder="Ex : Le Dôme"
-            onValueChange={handleNameChange}
+            onValueChange={isCreate ? handleNameChange : undefined}
           />
 
           <AccommodationTextField
@@ -55,8 +68,12 @@ export const AccommodationCreateInformation = () => {
             name="slug"
             label="Slug"
             placeholder="le-dome"
-            description="Généré automatiquement à partir du nom, mais modifiable."
-            transform={createAccommodationSlug}
+            description={
+              isCreate
+                ? "Généré automatiquement à partir du nom, mais modifiable."
+                : "Utilisé dans l’adresse publique du logement."
+            }
+            transform={isCreate ? createAccommodationSlug : undefined}
           />
         </div>
 

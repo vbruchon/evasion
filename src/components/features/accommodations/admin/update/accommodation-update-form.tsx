@@ -8,40 +8,20 @@ import { updateAccommodation } from "~/app/admin/logements/action";
 import {
   accommodationsSchema,
   type AccommodationFormValues,
-  type AccommodationUpdateImageInput,
 } from "~/app/admin/logements/schema";
 
 import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
-import {
-  type AccommodationInitialImage,
-  type AccommodationPreviewImage,
-  useAccommodationImages,
-} from "@/hooks/use-accommodation-images";
-import { uploadAccommodationImageFiles } from "@/lib/admin/uploadthing/upload-accommodation-image-files";
+import { useAccommodationImages } from "@/hooks/use-accommodation-images";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
+import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
 
-import { AccommodationUpdateImages } from "./accommodation-update-images";
-import { AccommodationUpdateInformation } from "./accommodation-update-information";
-import { AccommodationUpdatePublication } from "./accommodation-update-publication";
+import { AccommodationImagesSection } from "../form/accommodation-images-section";
+import { AccommodationInformationSection } from "../form/accommodation-information-section";
+import { AccommodationPublicationSection } from "../form/accommodation-publication-section";
 
 type AccommodationUpdateFormProps = {
-  accommodation: {
-    id: string;
-    name: string;
-    slug: string;
-    type: string | null;
-    subtitle: string | null;
-    shortDescription: string | null;
-    description: string | null;
-    status: "DRAFT" | "PUBLISHED" | "ARCHIVED";
-    images: AccommodationInitialImage[];
-  };
+  accommodation: AccommodationUpdateData;
 };
-
-const isNewImage = (
-  image: AccommodationPreviewImage,
-): image is AccommodationPreviewImage & {
-  file: File;
-} => !image.isExisting && image.file instanceof File;
 
 export const AccommodationUpdateForm = ({
   accommodation,
@@ -71,39 +51,9 @@ export const AccommodationUpdateForm = ({
     form.clearErrors("root");
 
     try {
-      const newImages = images.filter(isNewImage);
-
-      const uploadedImages = await uploadAccommodationImageFiles(
-        newImages.map((image) => image.file),
-      );
-
-      const uploadedImagesById = new Map(
-        newImages.map((image, index) => [image.id, uploadedImages[index]]),
-      );
-
-      const finalImages: AccommodationUpdateImageInput[] = images.map(
-        (image) => {
-          const isCover = image.id === coverImageId;
-
-          if (image.isExisting) {
-            return {
-              id: image.id,
-              isCover,
-            };
-          }
-
-          const uploadedImage = uploadedImagesById.get(image.id);
-
-          if (!uploadedImage) {
-            throw new Error("Une image n’a pas pu être envoyée.");
-          }
-
-          return {
-            url: uploadedImage.url,
-            fileKey: uploadedImage.fileKey,
-            isCover,
-          };
-        },
+      const finalImages = await prepareAccommodationUpdateImages(
+        images,
+        coverImageId,
       );
 
       const result = await updateAccommodation(
@@ -133,8 +83,6 @@ export const AccommodationUpdateForm = ({
       router.push("/admin/logements");
       router.refresh();
     } catch (error) {
-      console.error("Erreur pendant la modification du logement :", error);
-
       form.setError("root", {
         type: "server",
         message:
@@ -156,9 +104,9 @@ export const AccommodationUpdateForm = ({
           </p>
         ) : null}
 
-        <AccommodationUpdateInformation />
+        <AccommodationInformationSection mode="update" />
 
-        <AccommodationUpdateImages
+        <AccommodationImagesSection
           images={images}
           coverImageId={coverImageId}
           disabled={isSubmitting}
@@ -167,7 +115,7 @@ export const AccommodationUpdateForm = ({
           onRemove={removeImage}
         />
 
-        <AccommodationUpdatePublication />
+        <AccommodationPublicationSection mode="update" />
 
         <div className="flex justify-end border-t border-border/60 pt-6">
           <AdminFormSubmitButton
