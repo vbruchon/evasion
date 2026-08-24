@@ -70,6 +70,7 @@ export const deleteAccommodation = async (id: string) => {
   const accommodation = await prisma.accommodation.findUnique({
     where: { id },
     select: {
+      position: true,
       images: {
         select: {
           fileKey: true,
@@ -84,9 +85,24 @@ export const deleteAccommodation = async (id: string) => {
 
   const fileKeys = accommodation.images.map((image) => image.fileKey);
 
-  await prisma.accommodation.delete({
-    where: { id },
-  });
+  await prisma.$transaction([
+    prisma.accommodation.delete({
+      where: { id },
+    }),
+
+    prisma.accommodation.updateMany({
+      where: {
+        position: {
+          gt: accommodation.position,
+        },
+      },
+      data: {
+        position: {
+          decrement: 1,
+        },
+      },
+    }),
+  ]);
 
   await deleteUploadThingFiles(
     fileKeys,
