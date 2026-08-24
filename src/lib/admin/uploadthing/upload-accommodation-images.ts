@@ -1,27 +1,17 @@
-import type { CreateAccommodationImageInput } from "~/app/admin/logements/nouveau/schema";
+"use client";
 
-import { uploadFiles } from "@/lib/admin/uploadthing/client";
+import type { AccommodationImageInput } from "~/app/admin/logements/schema";
+
+import { uploadAccommodationImageFiles } from "@/lib/admin/uploadthing/upload-accommodation-image-files";
 
 export const uploadAccommodationImages = async (
   files: File[],
   coverImageIndex: number,
-): Promise<CreateAccommodationImageInput[]> => {
-  if (files.length === 0) {
-    return [];
-  }
-
-  const uploadedFiles = await uploadFiles("accommodationImages", {
-    files,
-  });
-
-  const invalidUpload = uploadedFiles.some((file) => !file.key || !file.url);
-
-  if (invalidUpload) {
-    throw new Error("Une erreur est survenue pendant l’envoi des images.");
-  }
+): Promise<AccommodationImageInput[]> => {
+  const uploadedFiles = await uploadAccommodationImageFiles(files);
 
   return uploadedFiles.map((file, index) => ({
-    fileKey: file.key,
+    fileKey: file.fileKey,
     url: file.url,
     isCover: index === coverImageIndex,
   }));

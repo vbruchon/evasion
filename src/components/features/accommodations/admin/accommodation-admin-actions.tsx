@@ -44,7 +44,7 @@ export const AccommodationAdminActions = ({
           variant="outline"
           size="sm"
           className={mobile ? "flex-1" : undefined}
-          render={<Link href={`/admin/logements/${slug}`} />}
+          render={<Link href={`/admin/logements/${id}/modifier`} />}
         >
           <Pencil />
           Modifier

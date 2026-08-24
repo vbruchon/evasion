@@ -3,7 +3,7 @@
 import { ImagePlus, Upload } from "lucide-react";
 import { type ChangeEvent, type DragEvent, useRef } from "react";
 
-import { MAX_ACCOMMODATION_IMAGES } from "@/hooks/use-accommodation-create-images";
+import { MAX_ACCOMMODATION_IMAGES } from "@/hooks/use-accommodation-images";
 
 type AccommodationImageDropzoneProps = {
   onFilesSelected: (files: File[]) => void;

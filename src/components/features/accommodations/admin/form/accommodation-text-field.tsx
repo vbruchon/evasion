@@ -2,6 +2,8 @@
 
 import { Controller, useFormContext } from "react-hook-form";
 
+import type { AccommodationFormValues } from "~/app/admin/logements/schema";
+
 import {
   Field,
   FieldDescription,
@@ -11,10 +13,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
-import type { CreateAccommodationFormValues } from "~/app/admin/logements/nouveau/schema";
-
 type AccommodationTextFieldName = Exclude<
-  keyof CreateAccommodationFormValues,
+  keyof AccommodationFormValues,
   "status"
 >;
 
@@ -39,7 +39,7 @@ export const AccommodationTextField = ({
   transform,
   onValueChange,
 }: AccommodationTextFieldProps) => {
-  const form = useFormContext<CreateAccommodationFormValues>();
+  const form = useFormContext<AccommodationFormValues>();
 
   return (
     <Controller
@@ -61,18 +61,20 @@ export const AccommodationTextField = ({
               <Textarea
                 {...field}
                 id={field.name}
+                value={field.value ?? ""}
+                placeholder={placeholder}
                 aria-invalid={fieldState.invalid}
                 className={className}
-                placeholder={placeholder}
                 onChange={(event) => handleChange(event.target.value)}
               />
             ) : (
               <Input
                 {...field}
                 id={field.name}
+                value={field.value ?? ""}
+                placeholder={placeholder}
                 aria-invalid={fieldState.invalid}
                 className={className}
-                placeholder={placeholder}
                 onChange={(event) => handleChange(event.target.value)}
               />
             )}
@@ -81,9 +83,7 @@ export const AccommodationTextField = ({
               <FieldDescription>{description}</FieldDescription>
             ) : null}
 
-            {fieldState.invalid ? (
-              <FieldError errors={[fieldState.error]} />
-            ) : null}
+            <FieldError errors={[fieldState.error]} />
           </Field>
         );
       }}

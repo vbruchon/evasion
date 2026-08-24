@@ -5,12 +5,12 @@ import { useFormContext } from "react-hook-form";
 import { FieldGroup } from "@/components/ui/field";
 import { createAccommodationSlug } from "@/lib/admin/accommodation/create-accommodation-slug";
 
-import type { CreateAccommodationFormValues } from "~/app/admin/logements/nouveau/schema";
+import type { AccommodationFormValues } from "~/app/admin/logements/schema";
 import { AccommodationTextField } from "../form/accommodation-text-field";
 import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
 
 export const AccommodationCreateInformation = () => {
-  const form = useFormContext<CreateAccommodationFormValues>();
+  const form = useFormContext<AccommodationFormValues>();
 
   const handleNameChange = (value: string) => {
     const slugState = form.getFieldState("slug");

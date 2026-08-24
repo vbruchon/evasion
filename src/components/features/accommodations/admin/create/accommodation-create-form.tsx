@@ -9,16 +9,16 @@ import { AccommodationCreateImages } from "./accommodation-create-images";
 
 import { createAccommodation } from "~/app/admin/logements/action";
 import {
-  createAccommodationSchema,
-  type CreateAccommodationFormValues,
-} from "~/app/admin/logements/nouveau/schema";
+  accommodationsSchema,
+  type AccommodationFormValues,
+} from "~/app/admin/logements/schema";
 
 import { uploadAccommodationImages } from "@/lib/admin/uploadthing/upload-accommodation-images";
 import { AdminFormSubmitButton } from "../../../../layout/admin/admin-form-submit-button";
 import { AccommodationCreateInformation } from "./accommodation-create-information";
 import { AccommodationCreatePublication } from "./accommodation-create-publication";
 
-const defaultValues: CreateAccommodationFormValues = {
+const defaultValues: AccommodationFormValues = {
   name: "",
   slug: "",
   type: "",
@@ -34,8 +34,8 @@ export const AccommodationCreateForm = () => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [coverImageIndex, setCoverImageIndex] = useState(0);
 
-  const form = useForm<CreateAccommodationFormValues>({
-    resolver: zodResolver(createAccommodationSchema),
+  const form = useForm<AccommodationFormValues>({
+    resolver: zodResolver(accommodationsSchema),
     defaultValues,
     mode: "onSubmit",
   });

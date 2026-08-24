@@ -3,8 +3,7 @@
 import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
 import { AccommodationImageDropzone } from "../form/accommodation-image-dropzone";
 import { AccommodationImageGallery } from "../form/accommodation-image-gallery";
-
-import { useAccommodationCreateImages } from "@/hooks/use-accommodation-create-images";
+import { useAccommodationImages } from "@/hooks/use-accommodation-images";
 
 type AccommodationCreateImagesProps = {
   onFilesChange: (files: File[], coverIndex: number) => void;
@@ -16,9 +15,8 @@ export const AccommodationCreateImages = ({
   disabled = false,
 }: AccommodationCreateImagesProps) => {
   const { images, coverImageId, addFiles, removeImage, setCoverImage } =
-    useAccommodationCreateImages({
+    useAccommodationImages({
       onFilesChange,
-      disabled,
     });
 
   return (

@@ -2,6 +2,8 @@
 
 import { Controller, useFormContext } from "react-hook-form";
 
+import type { AccommodationFormValues } from "~/app/admin/logements/schema";
+
 import {
   Field,
   FieldDescription,
@@ -16,67 +18,70 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import type { CreateAccommodationFormValues } from "~/app/admin/logements/nouveau/schema";
-
-const statusConfig = {
-  DRAFT: {
-    label: "Brouillon",
-    description:
-      "Le logement sera enregistré sans être visible sur le site public.",
-  },
-  PUBLISHED: {
-    label: "Publié",
-    description: "Le logement sera visible sur le site public dès sa création.",
-  },
-} satisfies Record<
-  CreateAccommodationFormValues["status"],
+const statuses = [
   {
-    label: string;
-    description: string;
-  }
->;
+    value: "DRAFT",
+    label: "Brouillon",
+    description: "Le logement reste invisible sur le site public.",
+  },
+  {
+    value: "PUBLISHED",
+    label: "Publié",
+    description: "Le logement est visible sur le site public.",
+  },
+  {
+    value: "ARCHIVED",
+    label: "Archivé",
+    description:
+      "Le logement est conservé dans l’administration mais n’est plus visible publiquement.",
+  },
+] as const;
 
-export const AccommodationStatusField = () => {
-  const form = useFormContext<CreateAccommodationFormValues>();
+type AccommodationStatusFieldProps = {
+  includeArchived?: boolean;
+};
+
+export const AccommodationStatusField = ({
+  includeArchived = false,
+}: AccommodationStatusFieldProps) => {
+  const form = useFormContext<AccommodationFormValues>();
+
+  const availableStatuses = includeArchived
+    ? statuses
+    : statuses.filter((status) => status.value !== "ARCHIVED");
 
   return (
     <Controller
       name="status"
       control={form.control}
       render={({ field, fieldState }) => {
-        const currentStatus = statusConfig[field.value];
+        const currentStatus = statuses.find(
+          (status) => status.value === field.value,
+        );
 
         return (
-          <Field className="max-w-md" data-invalid={fieldState.invalid}>
-            <FieldLabel htmlFor="status">Statut</FieldLabel>
+          <Field data-invalid={fieldState.invalid}>
+            <FieldLabel htmlFor={field.name}>Statut</FieldLabel>
 
-            <Select
-              name={field.name}
-              value={field.value}
-              onValueChange={field.onChange}
-            >
-              <SelectTrigger
-                id="status"
-                aria-invalid={fieldState.invalid}
-                className="max-w-xs"
-              >
-                <SelectValue>{currentStatus.label}</SelectValue>
+            <Select value={field.value} onValueChange={field.onChange}>
+              <SelectTrigger id={field.name} aria-invalid={fieldState.invalid}>
+                <SelectValue>{currentStatus?.label}</SelectValue>
               </SelectTrigger>
 
               <SelectContent>
-                {Object.entries(statusConfig).map(([value, config]) => (
-                  <SelectItem key={value} value={value}>
-                    {config.label}
+                {availableStatuses.map((status) => (
+                  <SelectItem key={status.value} value={status.value}>
+                    {status.label}
                   </SelectItem>
                 ))}
               </SelectContent>
             </Select>
 
-            <FieldDescription>{currentStatus.description}</FieldDescription>
-
-            {fieldState.invalid ? (
-              <FieldError errors={[fieldState.error]} />
+            {currentStatus ? (
+              <FieldDescription>{currentStatus.description}</FieldDescription>
             ) : null}
+
+            <FieldError errors={[fieldState.error]} />
           </Field>
         );
       }}

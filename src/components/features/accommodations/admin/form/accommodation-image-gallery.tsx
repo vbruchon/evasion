@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-create-images";
+import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 
 type AccommodationImageGalleryProps = {
   images: AccommodationPreviewImage[];
@@ -32,6 +32,9 @@ export const AccommodationImageGallery = ({
         {images.map((image) => {
           const isCover = image.id === coverImageId;
 
+          const imageLabel =
+            image.alt ?? image.file?.name ?? "Image du logement";
+
           return (
             <div
               key={image.id}
@@ -42,7 +45,11 @@ export const AccommodationImageGallery = ({
                   ? "border-2 border-primary ring-2 ring-primary"
                   : "cursor-pointer border border-border/60 hover:border-primary/60"
               }`}
-              onClick={() => onSetCover(image.id)}
+              onClick={() => {
+                if (!disabled) {
+                  onSetCover(image.id);
+                }
+              }}
               onKeyDown={(event) => {
                 if (!disabled && (event.key === "Enter" || event.key === " ")) {
                   event.preventDefault();
@@ -52,7 +59,7 @@ export const AccommodationImageGallery = ({
             >
               <Image
                 src={image.url}
-                alt={image.file.name}
+                alt={imageLabel}
                 fill
                 unoptimized
                 className="object-cover"
@@ -73,7 +80,7 @@ export const AccommodationImageGallery = ({
                   event.stopPropagation();
                   onRemove(image.id);
                 }}
-                aria-label={`Retirer ${image.file.name}`}
+                aria-label={`Retirer ${imageLabel}`}
               >
                 <Trash2 />
               </Button>
