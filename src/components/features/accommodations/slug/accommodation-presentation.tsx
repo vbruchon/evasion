@@ -5,8 +5,11 @@ import type {
 import Image from "next/image";
 
 type AccommodationPresentationProps = {
-  accommodation: Accommodation;
-  image?: AccommodationImage;
+  accommodation: Pick<
+    Accommodation,
+    "name" | "shortDescription" | "description"
+  >;
+  image?: Pick<AccommodationImage, "url" | "alt">;
 };
 
 export function AccommodationPresentation({

@@ -1,6 +1,6 @@
 "use client";
 
-import { AccommodationWithImages } from "@/lib/accommodation-types";
+import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";

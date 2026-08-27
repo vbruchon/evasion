@@ -1,5 +1,5 @@
 import { AccommodationCard } from "./accommodation-card";
-import { AccommodationWithImages } from "@/lib/accommodation-types";
+import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationsSectionProps = {
   accommodations: AccommodationWithImages[];

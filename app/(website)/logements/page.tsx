@@ -1,7 +1,7 @@
 import { PageHero } from "@/components/layout/page-hero";
 import { AccommodationsSection } from "@/components/features/accommodations/accommodations-section";
 import { ContactCta } from "@/components/layout/contact-cta";
-import { getPublishedAccommodations } from "@/lib/accommodations";
+import { getPublishedAccommodations } from "@/lib/accommodations/accommodations";
 
 export default async function AccommodationsPage() {
   const accommodations = await getPublishedAccommodations();

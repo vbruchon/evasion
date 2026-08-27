@@ -6,8 +6,8 @@ import Image from "next/image";
 import Link from "next/link";
 
 type AccommodationHeroProps = {
-  accommodation: Accommodation;
-  coverImage?: AccommodationImage;
+  accommodation: Pick<Accommodation, "name" | "type" | "subtitle">;
+  coverImage?: Pick<AccommodationImage, "url" | "alt">;
   hasGallery?: boolean;
 };
 

@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AccommodationWithImages } from "@/lib/accommodation-types";
+import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationsAdminDesktopTableProps = {
   accommodations: AccommodationWithImages[];

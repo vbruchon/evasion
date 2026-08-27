@@ -9,7 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AccommodationWithImages } from "@/lib/accommodation-types";
+import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationCardProps = {
   accommodation: AccommodationWithImages;

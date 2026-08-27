@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 
 type AccommodationGalleryProps = {
   accommodationName: string;
-  images: AccommodationImage[];
+  images: Pick<AccommodationImage, "id" | "url" | "alt">[];
 };
 
 export function AccommodationGallery({

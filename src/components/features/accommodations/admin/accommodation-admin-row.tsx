@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
 import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
-import { AccommodationWithImages } from "@/lib/accommodation-types";
+import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationAdminRowProps = {
   accommodation: AccommodationWithImages;

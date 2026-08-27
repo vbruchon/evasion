@@ -14,7 +14,7 @@ import {
 
 type AccommodationGalleryLightboxProps = {
   accommodationName: string;
-  images: AccommodationImage[];
+  images: Pick<AccommodationImage, "id" | "url" | "alt">[];
   selectedIndex: number | null;
   onSelectedIndexChange: (index: number | null) => void;
 };

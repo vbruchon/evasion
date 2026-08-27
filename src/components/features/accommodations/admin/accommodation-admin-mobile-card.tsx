@@ -8,7 +8,7 @@ import { AccommodationStatusBadge } from "./accommodation-status-badge";
 
 import { Button } from "@/components/ui/button";
 import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
-import { AccommodationWithImages } from "@/lib/accommodation-types";
+import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
 
 type AccommodationAdminMobileCardProps = {

@@ -11,7 +11,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import { AccommodationAdminMobileCard } from "./accommodation-admin-mobile-card";
-import { AccommodationWithImages } from "@/lib/accommodation-types";
+import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationsAdminMobileListProps = {
   accommodations: AccommodationWithImages[];
