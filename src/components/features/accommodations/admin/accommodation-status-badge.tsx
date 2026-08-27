@@ -1,7 +1,8 @@
 "use client";
 
-import type { AccommodationStatus } from "@/generated/prisma/client";
 import { Check, ChevronDown } from "lucide-react";
+
+import { updateAccommodationStatus } from "~/app/admin/logements/action";
 
 import { Badge } from "@/components/ui/badge";
 import {
@@ -10,7 +11,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { updateAccommodationStatus } from "~/app/admin/logements/action";
+import type { AccommodationStatus } from "@/generated/prisma/client";
+import {
+  accommodationStatuses,
+  getAccommodationStatus,
+} from "@/lib/admin/accommodation/accommodation-statuses";
 
 type AccommodationStatusBadgeProps = {
   id: string;
@@ -18,35 +23,20 @@ type AccommodationStatusBadgeProps = {
   disabled?: boolean;
 };
 
-const statusConfig = {
-  PUBLISHED: {
-    label: "Publié",
-    className:
-      "border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
-  },
-  DRAFT: {
-    label: "Brouillon",
-    className:
-      "border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-400",
-  },
-  ARCHIVED: {
-    label: "Archivé",
-    className: "border-border bg-muted text-muted-foreground",
-  },
-} satisfies Record<
-  AccommodationStatus,
-  {
-    label: string;
-    className: string;
-  }
->;
+const statusClassNames: Record<AccommodationStatus, string> = {
+  PUBLISHED:
+    "border-emerald-500/20 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400",
+  DRAFT:
+    "border-amber-500/20 bg-amber-500/10 text-amber-700 dark:text-amber-400",
+  ARCHIVED: "border-border bg-muted text-muted-foreground",
+};
 
 export const AccommodationStatusBadge = ({
   id,
   status,
   disabled = false,
 }: AccommodationStatusBadgeProps) => {
-  const currentStatus = statusConfig[status];
+  const currentStatus = getAccommodationStatus(status);
 
   return (
     <DropdownMenu>
@@ -62,24 +52,24 @@ export const AccommodationStatusBadge = ({
       >
         <Badge
           variant="outline"
-          className={`${currentStatus.className} pointer-events-none gap-1.5 py-1 px-2`}
+          className={`${statusClassNames[status]} pointer-events-none gap-1.5 px-2 py-1`}
         >
-          {currentStatus.label}
+          {currentStatus?.label}
+
           <ChevronDown className="size-3.5 opacity-70" />
         </Badge>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent align="start">
-        {Object.entries(statusConfig).map(([value, config]) => {
-          const accommodationStatus = value as AccommodationStatus;
-          const active = accommodationStatus === status;
+        {accommodationStatuses.map((option) => {
+          const active = option.value === status;
 
           return (
             <DropdownMenuItem
-              key={value}
-              onClick={() => updateAccommodationStatus(id, accommodationStatus)}
+              key={option.value}
+              onClick={() => updateAccommodationStatus(id, option.value)}
             >
-              {config.label}
+              {option.label}
 
               {active ? <Check className="ml-auto" /> : null}
             </DropdownMenuItem>

@@ -2,7 +2,7 @@
 
 import { Controller, useFormContext } from "react-hook-form";
 
-import type { AccommodationFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationCreateFormValues } from "~/app/admin/logements/schema";
 
 import {
   Field,
@@ -17,47 +17,24 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  accommodationStatuses,
+  getAccommodationStatus,
+} from "@/lib/admin/accommodation/accommodation-statuses";
 
-const statuses = [
-  {
-    value: "DRAFT",
-    label: "Brouillon",
-    description: "Le logement reste invisible sur le site public.",
-  },
-  {
-    value: "PUBLISHED",
-    label: "Publié",
-    description: "Le logement est visible sur le site public.",
-  },
-  {
-    value: "ARCHIVED",
-    label: "Archivé",
-    description:
-      "Le logement est conservé dans l’administration mais n’est plus visible publiquement.",
-  },
-] as const;
+export const AccommodationStatusField = () => {
+  const form = useFormContext<AccommodationCreateFormValues>();
 
-type AccommodationStatusFieldProps = {
-  includeArchived?: boolean;
-};
-
-export const AccommodationStatusField = ({
-  includeArchived = false,
-}: AccommodationStatusFieldProps) => {
-  const form = useFormContext<AccommodationFormValues>();
-
-  const availableStatuses = includeArchived
-    ? statuses
-    : statuses.filter((status) => status.value !== "ARCHIVED");
+  const availableStatuses = accommodationStatuses.filter(
+    (status) => status.value !== "ARCHIVED",
+  );
 
   return (
     <Controller
       name="status"
       control={form.control}
       render={({ field, fieldState }) => {
-        const currentStatus = statuses.find(
-          (status) => status.value === field.value,
-        );
+        const currentStatus = getAccommodationStatus(field.value);
 
         return (
           <Field data-invalid={fieldState.invalid}>
