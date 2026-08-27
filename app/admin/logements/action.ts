@@ -8,17 +8,19 @@ import {
   reorderAccommodationsAdmin,
   type AccommodationPosition,
 } from "@/lib/admin/accommodation/reorder-accommodations.action";
-import type {
-  AccommodationFormValues,
-  AccommodationImageInput,
-  AccommodationUpdateImageInput,
-} from "./schema";
 import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accommodation.action";
 import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/update-accommodation-status.action";
 import { requireAdmin } from "@/lib/admin/require-admin";
 
+import type {
+  AccommodationCreateFormValues,
+  AccommodationImageInput,
+  AccommodationUpdateFormValues,
+  AccommodationUpdateImageInput,
+} from "./schema";
+
 export const createAccommodation = async (
-  values: AccommodationFormValues,
+  values: AccommodationCreateFormValues,
   images: AccommodationImageInput[] = [],
 ) => {
   await requireAdmin();
@@ -28,7 +30,7 @@ export const createAccommodation = async (
 
 export const updateAccommodation = async (
   id: string,
-  values: AccommodationFormValues,
+  values: AccommodationUpdateFormValues,
   images: AccommodationUpdateImageInput[],
 ) => {
   await requireAdmin();

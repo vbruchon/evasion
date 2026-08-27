@@ -5,19 +5,18 @@ import { prisma } from "@/lib/prisma";
 
 import { revalidateAccommodation } from "./revalidate-accommodation";
 import {
-  AccommodationFormValues,
-  AccommodationUpdateImageInput,
-  accommodationsSchema,
+  accommodationUpdateSchema,
+  type AccommodationUpdateFormValues,
+  type AccommodationUpdateImageInput,
   accommodationUpdateImagesSchema,
 } from "~/app/admin/logements/schema";
 
 export const updateAccommodationAdmin = async (
   id: string,
-  values: AccommodationFormValues,
+  values: AccommodationUpdateFormValues,
   images: AccommodationUpdateImageInput[],
 ) => {
-  const parsedValues = accommodationsSchema.safeParse(values);
-
+  const parsedValues = accommodationUpdateSchema.safeParse(values);
   const parsedImages = accommodationUpdateImagesSchema.safeParse(images);
 
   const uploadedFileKeys = images.flatMap((image) => {
@@ -40,7 +39,7 @@ export const updateAccommodationAdmin = async (
 
       return {
         success: false as const,
-        field: issue.path[0] as keyof AccommodationFormValues,
+        field: issue.path[0] as keyof AccommodationUpdateFormValues,
         message: issue.message,
       };
     }
@@ -107,28 +106,6 @@ export const updateAccommodationAdmin = async (
     };
   }
 
-  const slugAlreadyExists = await prisma.accommodation.findFirst({
-    where: {
-      slug: data.slug,
-      id: {
-        not: id,
-      },
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (slugAlreadyExists) {
-    await cleanupUploadedImages();
-
-    return {
-      success: false as const,
-      field: "slug" as const,
-      message: "Cette URL est déjà utilisée par un autre logement.",
-    };
-  }
-
   const submittedImageIds = new Set(submittedExistingImageIds);
 
   const removedImages = accommodation.images.filter(
@@ -143,7 +120,6 @@ export const updateAccommodationAdmin = async (
         },
         data: {
           name: data.name,
-          slug: data.slug,
           type: data.type || null,
           subtitle: data.subtitle || null,
           shortDescription: data.shortDescription || null,
@@ -201,10 +177,6 @@ export const updateAccommodationAdmin = async (
     revalidateAccommodation();
 
     revalidatePath(`/logements/${accommodation.slug}`);
-
-    if (accommodation.slug !== data.slug) {
-      revalidatePath(`/logements/${data.slug}`);
-    }
 
     return {
       success: true as const,

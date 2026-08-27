@@ -2,7 +2,7 @@
 
 import { useFormContext } from "react-hook-form";
 
-import type { AccommodationFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationCreateFormValues } from "~/app/admin/logements/schema";
 
 import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
 import { FieldGroup } from "@/components/ui/field";
@@ -17,7 +17,7 @@ type AccommodationInformationSectionProps = {
 export const AccommodationInformationSection = ({
   mode,
 }: AccommodationInformationSectionProps) => {
-  const form = useFormContext<AccommodationFormValues>();
+  const form = useFormContext<AccommodationCreateFormValues>();
 
   const isCreate = mode === "create";
 

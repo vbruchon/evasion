@@ -7,8 +7,8 @@ import { FormProvider, useForm } from "react-hook-form";
 
 import { createAccommodation } from "~/app/admin/logements/action";
 import {
-  accommodationsSchema,
-  type AccommodationFormValues,
+  accommodationCreateSchema,
+  type AccommodationCreateFormValues,
 } from "~/app/admin/logements/schema";
 
 import { uploadAccommodationImages } from "@/lib/admin/uploadthing/upload-accommodation-images";
@@ -18,7 +18,7 @@ import { AccommodationInformationSection } from "../form/accommodation-informati
 import { useAccommodationImages } from "@/hooks/use-accommodation-images";
 import { AccommodationImagesSection } from "../form/accommodation-images-section";
 
-const defaultValues: AccommodationFormValues = {
+const defaultValues: AccommodationCreateFormValues = {
   name: "",
   slug: "",
   type: "",
@@ -42,8 +42,8 @@ export const AccommodationCreateForm = () => {
       },
     });
 
-  const form = useForm<AccommodationFormValues>({
-    resolver: zodResolver(accommodationsSchema),
+  const form = useForm<AccommodationCreateFormValues>({
+    resolver: zodResolver(accommodationCreateSchema),
     defaultValues,
     mode: "onSubmit",
   });

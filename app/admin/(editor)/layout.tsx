@@ -1,13 +1,13 @@
 import type { ReactNode } from "react";
 
-type AccommodationEditorLayoutProps = {
+type EditorLayoutProps = {
   children: ReactNode;
 };
 
-export default function AccommodationEditorLayout({
-  children,
-}: AccommodationEditorLayoutProps) {
+export default function EditorLayout({ children }: EditorLayoutProps) {
   return (
-    <main className="h-dvh overflow-hidden bg-background">{children}</main>
+    <main className="flex h-dvh min-h-0 flex-col overflow-hidden bg-background">
+      {children}
+    </main>
   );
 }

@@ -11,6 +11,7 @@ type AccommodationImageGalleryProps = {
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
   disabled?: boolean;
+  compact?: boolean;
   onSetCover: (id: string) => void;
   onRemove: (id: string) => void;
 };
@@ -19,16 +20,23 @@ export const AccommodationImageGallery = ({
   images,
   coverImageId,
   disabled = false,
+  compact = false,
   onSetCover,
   onRemove,
 }: AccommodationImageGalleryProps) => {
   return (
-    <div className="mt-6">
+    <div className={compact ? "" : "mt-6"}>
       <p className="mb-3 text-xs text-muted-foreground md:hidden">
         Touchez une photo pour la définir comme image de couverture.
       </p>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+      <div
+        className={
+          compact
+            ? "grid grid-cols-2 gap-3"
+            : "grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5"
+        }
+      >
         {images.map((image) => {
           const isCover = image.id === coverImageId;
 

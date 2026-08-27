@@ -3,9 +3,9 @@ import { prisma } from "@/lib/prisma";
 
 import { revalidateAccommodation } from "./revalidate-accommodation";
 import {
-  AccommodationFormValues,
+  AccommodationCreateFormValues,
   AccommodationImageInput,
-  accommodationsSchema,
+  accommodationCreateSchema,
   accommodationImagesSchema,
 } from "~/app/admin/logements/schema";
 
@@ -16,15 +16,15 @@ type CreateAccommodationResult =
     }
   | {
       success: false;
-      field?: keyof AccommodationFormValues;
+      field?: keyof AccommodationCreateFormValues;
       message: string;
     };
 
 export const createAccommodationAdmin = async (
-  values: AccommodationFormValues,
+  values: AccommodationCreateFormValues,
   images: AccommodationImageInput[] = [],
 ): Promise<CreateAccommodationResult> => {
-  const result = accommodationsSchema.safeParse(values);
+  const result = accommodationCreateSchema.safeParse(values);
   const imagesResult = accommodationImagesSchema.safeParse(images);
 
   const cleanupImages = async () => {
@@ -44,16 +44,6 @@ export const createAccommodationAdmin = async (
 
   const data = result.data;
   const uploadedImages = imagesResult.data;
-
-  if (data.status === "ARCHIVED") {
-    await cleanupImages();
-
-    return {
-      success: false,
-      field: "status",
-      message: "Un logement ne peut pas être créé avec le statut archivé.",
-    };
-  }
 
   const existingAccommodation = await prisma.accommodation.findUnique({
     where: {

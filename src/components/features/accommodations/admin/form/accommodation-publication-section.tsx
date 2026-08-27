@@ -20,7 +20,7 @@ export const AccommodationPublicationSection = ({
       }
       compact
     >
-      <AccommodationStatusField includeArchived={isUpdate} />
+      <AccommodationStatusField />
     </AdminFormSection>
   );
 };
