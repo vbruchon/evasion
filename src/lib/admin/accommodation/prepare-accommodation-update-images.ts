@@ -11,6 +11,16 @@ const isNewImage = (
   file: File;
 } => !image.isExisting && image.file instanceof File;
 
+const isUploadedDraftImage = (
+  image: AccommodationPreviewImage,
+): image is AccommodationPreviewImage & {
+  fileKey: string;
+} =>
+  !image.isExisting &&
+  !image.file &&
+  typeof image.fileKey === "string" &&
+  image.fileKey.length > 0;
+
 export const prepareAccommodationUpdateImages = async (
   images: AccommodationPreviewImage[],
   coverImageId: string | null,
@@ -31,6 +41,14 @@ export const prepareAccommodationUpdateImages = async (
     if (image.isExisting) {
       return {
         id: image.id,
+        isCover,
+      };
+    }
+
+    if (isUploadedDraftImage(image)) {
+      return {
+        url: image.url,
+        fileKey: image.fileKey,
         isCover,
       };
     }

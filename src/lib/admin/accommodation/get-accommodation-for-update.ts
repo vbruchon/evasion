@@ -1,10 +1,13 @@
+import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/accommodation-draft";
+import { resolveAccommodationDraftImages } from "@/lib/admin/accommodation/resolve-accommodation-draft-images";
 import { prisma } from "@/lib/prisma";
 
-export const getAccommodationForUpdate = async (id: string) =>
-  prisma.accommodation.findUnique({
+export const getAccommodationForUpdate = async (id: string) => {
+  const accommodation = await prisma.accommodation.findUnique({
     where: {
       id,
     },
+
     select: {
       id: true,
       name: true,
@@ -19,6 +22,7 @@ export const getAccommodationForUpdate = async (id: string) =>
         orderBy: {
           position: "asc",
         },
+
         select: {
           id: true,
           url: true,
@@ -27,8 +31,56 @@ export const getAccommodationForUpdate = async (id: string) =>
           isCover: true,
         },
       },
+
+      draft: {
+        select: {
+          content: true,
+          updatedAt: true,
+        },
+      },
     },
   });
+
+  if (!accommodation) {
+    return null;
+  }
+
+  const draft = accommodation.draft
+    ? parseAccommodationDraftContent(accommodation.draft.content)
+    : null;
+
+  const values = draft?.values ?? {
+    name: accommodation.name,
+    type: accommodation.type ?? "",
+    subtitle: accommodation.subtitle ?? "",
+    shortDescription: accommodation.shortDescription ?? "",
+    description: accommodation.description ?? "",
+  };
+
+  const images = draft
+    ? resolveAccommodationDraftImages(accommodation.images, draft.images)
+    : accommodation.images.map((image) => ({
+        ...image,
+        isExisting: true,
+      }));
+
+  return {
+    id: accommodation.id,
+    slug: accommodation.slug,
+    status: accommodation.status,
+
+    name: values.name,
+    type: values.type,
+    subtitle: values.subtitle,
+    shortDescription: values.shortDescription,
+    description: values.description,
+
+    images,
+
+    hasDraft: draft !== null,
+    draftUpdatedAt: accommodation.draft?.updatedAt ?? null,
+  };
+};
 
 export type AccommodationUpdateData = NonNullable<
   Awaited<ReturnType<typeof getAccommodationForUpdate>>

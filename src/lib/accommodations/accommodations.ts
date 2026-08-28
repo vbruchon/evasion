@@ -39,10 +39,18 @@ export const getAdminAccommodations = async () => {
     orderBy: {
       position: "asc",
     },
+
     include: {
       images: {
         orderBy: {
           position: "asc",
+        },
+      },
+
+      draft: {
+        select: {
+          id: true,
+          updatedAt: true,
         },
       },
     },

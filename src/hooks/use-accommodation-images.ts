@@ -12,6 +12,7 @@ export type AccommodationInitialImage = {
   fileKey: string;
   alt?: string | null;
   isCover: boolean;
+  isExisting?: boolean;
 };
 
 export type AccommodationPreviewImage = {
@@ -58,7 +59,7 @@ export const useAccommodationImages = ({
       url: image.url,
       fileKey: image.fileKey,
       alt: image.alt,
-      isExisting: true,
+      isExisting: image.isExisting ?? true,
     })),
   );
 

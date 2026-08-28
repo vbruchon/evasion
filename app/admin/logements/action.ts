@@ -4,16 +4,16 @@ import type { AccommodationStatus } from "@/generated/prisma/client";
 
 import { createAccommodationAdmin } from "@/lib/admin/accommodation/create-accommodation.action";
 import { deleteAccommodationAdmin } from "@/lib/admin/accommodation/delete-accommodation.action";
-import {
-  reorderAccommodationsAdmin,
-  type AccommodationPosition,
-} from "@/lib/admin/accommodation/reorder-accommodations.action";
+import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/publish-accommodation-draft.action";
+import { reorderAccommodationsAdmin } from "@/lib/admin/accommodation/reorder-accommodations.action";
+import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";
 import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accommodation.action";
 import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/update-accommodation-status.action";
 import { requireAdmin } from "@/lib/admin/require-admin";
 
 import type {
   AccommodationCreateFormValues,
+  AccommodationDraftContent,
   AccommodationImageInput,
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
@@ -21,7 +21,7 @@ import type {
 
 export const createAccommodation = async (
   values: AccommodationCreateFormValues,
-  images: AccommodationImageInput[] = [],
+  images: AccommodationImageInput[],
 ) => {
   await requireAdmin();
 
@@ -29,23 +29,26 @@ export const createAccommodation = async (
 };
 
 export const updateAccommodation = async (
-  id: string,
+  accommodationId: string,
   values: AccommodationUpdateFormValues,
   images: AccommodationUpdateImageInput[],
 ) => {
   await requireAdmin();
 
-  return updateAccommodationAdmin(id, values, images);
+  return updateAccommodationAdmin(accommodationId, values, images);
 };
 
-export const deleteAccommodation = async (id: string) => {
+export const deleteAccommodation = async (accommodationId: string) => {
   await requireAdmin();
 
-  return deleteAccommodationAdmin(id);
+  return deleteAccommodationAdmin(accommodationId);
 };
 
 export const reorderAccommodations = async (
-  accommodations: AccommodationPosition[],
+  accommodations: {
+    id: string;
+    position: number;
+  }[],
 ) => {
   await requireAdmin();
 
@@ -53,10 +56,26 @@ export const reorderAccommodations = async (
 };
 
 export const updateAccommodationStatus = async (
-  id: string,
+  accommodationId: string,
   status: AccommodationStatus,
 ) => {
   await requireAdmin();
 
-  return updateAccommodationStatusAdmin(id, status);
+  return updateAccommodationStatusAdmin(accommodationId, status);
+};
+
+export const saveAccommodationDraft = async (
+  accommodationId: string,
+  values: AccommodationDraftContent["values"],
+  images: AccommodationUpdateImageInput[],
+) => {
+  await requireAdmin();
+
+  return saveAccommodationDraftAdmin(accommodationId, values, images);
+};
+
+export const publishAccommodationDraft = async (accommodationId: string) => {
+  await requireAdmin();
+
+  return publishAccommodationDraftAdmin(accommodationId);
 };

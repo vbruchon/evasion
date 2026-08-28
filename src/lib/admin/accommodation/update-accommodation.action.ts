@@ -1,9 +1,5 @@
 import { revalidatePath } from "next/cache";
 
-import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
-import { prisma } from "@/lib/prisma";
-
-import { revalidateAccommodation } from "./revalidate-accommodation";
 import {
   accommodationUpdateSchema,
   type AccommodationUpdateFormValues,
@@ -11,28 +7,86 @@ import {
   accommodationUpdateImagesSchema,
 } from "~/app/admin/logements/schema";
 
+import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
+import { prisma } from "@/lib/prisma";
+
+import {
+  getAccommodationDraftFileKeys,
+  parseAccommodationDraftContent,
+} from "./accommodation-draft";
+import { revalidateAccommodation } from "./revalidate-accommodation";
+
 export const updateAccommodationAdmin = async (
   id: string,
   values: AccommodationUpdateFormValues,
   images: AccommodationUpdateImageInput[],
 ) => {
+  const submittedFileKeys = images.flatMap((image) =>
+    "fileKey" in image && typeof image.fileKey === "string"
+      ? [image.fileKey]
+      : [],
+  );
+
+  const accommodation = await prisma.accommodation.findUnique({
+    where: {
+      id,
+    },
+    select: {
+      id: true,
+      slug: true,
+      publishedAt: true,
+
+      images: {
+        select: {
+          id: true,
+          fileKey: true,
+        },
+      },
+
+      draft: {
+        select: {
+          content: true,
+        },
+      },
+    },
+  });
+
+  if (!accommodation) {
+    await deleteUploadThingFiles(submittedFileKeys);
+
+    return {
+      success: false as const,
+      message: "Le logement est introuvable.",
+    };
+  }
+
+  const draftContent = accommodation.draft
+    ? parseAccommodationDraftContent(accommodation.draft.content)
+    : null;
+
+  const draftFileKeys = new Set(
+    draftContent ? getAccommodationDraftFileKeys(draftContent) : [],
+  );
+
+  /*
+   * Un fileKey déjà présent dans le brouillon correspond à une image
+   * uploadée lors d'une précédente sauvegarde.
+   *
+   * Elle ne doit donc pas être supprimée si la requête actuelle échoue.
+   */
+  const newlyUploadedFileKeys = submittedFileKeys.filter(
+    (fileKey) => !draftFileKeys.has(fileKey),
+  );
+
+  const cleanupNewlyUploadedImages = async () => {
+    await deleteUploadThingFiles(newlyUploadedFileKeys);
+  };
+
   const parsedValues = accommodationUpdateSchema.safeParse(values);
   const parsedImages = accommodationUpdateImagesSchema.safeParse(images);
 
-  const uploadedFileKeys = images.flatMap((image) => {
-    if ("fileKey" in image && typeof image.fileKey === "string") {
-      return [image.fileKey];
-    }
-
-    return [];
-  });
-
-  const cleanupUploadedImages = async () => {
-    await deleteUploadThingFiles(uploadedFileKeys);
-  };
-
   if (!parsedValues.success || !parsedImages.success) {
-    await cleanupUploadedImages();
+    await cleanupNewlyUploadedImages();
 
     if (!parsedValues.success) {
       const issue = parsedValues.error.issues[0];
@@ -53,33 +107,6 @@ export const updateAccommodationAdmin = async (
   const data = parsedValues.data;
   const finalImages = parsedImages.data;
 
-  const accommodation = await prisma.accommodation.findUnique({
-    where: {
-      id,
-    },
-    select: {
-      id: true,
-      slug: true,
-      publishedAt: true,
-
-      images: {
-        select: {
-          id: true,
-          fileKey: true,
-        },
-      },
-    },
-  });
-
-  if (!accommodation) {
-    await cleanupUploadedImages();
-
-    return {
-      success: false as const,
-      message: "Le logement est introuvable.",
-    };
-  }
-
   const existingImageIds = new Set(
     accommodation.images.map((image) => image.id),
   );
@@ -98,7 +125,7 @@ export const updateAccommodationAdmin = async (
   );
 
   if (invalidExistingImage) {
-    await cleanupUploadedImages();
+    await cleanupNewlyUploadedImages();
 
     return {
       success: false as const,
@@ -110,6 +137,19 @@ export const updateAccommodationAdmin = async (
 
   const removedImages = accommodation.images.filter(
     (image) => !submittedImageIds.has(image.id),
+  );
+
+  /*
+   * Images uniquement présentes dans l'ancien brouillon et qui ne font
+   * pas partie de l'enregistrement direct actuel.
+   *
+   * Une image du brouillon présente dans submittedFileKeys est au contraire
+   * promue en AccommodationImage et doit donc être conservée.
+   */
+  const submittedFileKeySet = new Set(submittedFileKeys);
+
+  const abandonedDraftFileKeys = [...draftFileKeys].filter(
+    (fileKey) => !submittedFileKeySet.has(fileKey),
   );
 
   try {
@@ -170,23 +210,35 @@ export const updateAccommodationAdmin = async (
           },
         });
       }
+
+      await tx.accommodationDraft.deleteMany({
+        where: {
+          accommodationId: id,
+        },
+      });
     });
-
-    await deleteUploadThingFiles(removedImages.map((image) => image.fileKey));
-
-    revalidateAccommodation();
-
-    revalidatePath(`/logements/${accommodation.slug}`);
-
-    return {
-      success: true as const,
-    };
   } catch {
-    await cleanupUploadedImages();
+    await cleanupNewlyUploadedImages();
 
     return {
       success: false as const,
       message: "Une erreur est survenue pendant la modification du logement.",
     };
   }
+
+  const filesToDelete = [
+    ...new Set([
+      ...removedImages.map((image) => image.fileKey),
+      ...abandonedDraftFileKeys,
+    ]),
+  ];
+
+  await deleteUploadThingFiles(filesToDelete);
+
+  revalidateAccommodation();
+  revalidatePath(`/logements/${accommodation.slug}`);
+
+  return {
+    success: true as const,
+  };
 };

@@ -101,8 +101,9 @@ model Accommodation {
 
   images AccommodationImage[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+  draft     AccommodationDraft?
 
   @@index([status, position])
   @@map("accommodations")
@@ -125,4 +126,18 @@ model AccommodationImage {
 
   @@index([accommodationId, position])
   @@map("accommodation_images")
+}
+
+model AccommodationDraft {
+  id String @id @default(cuid())
+
+  content Json
+
+  accommodationId String        @unique
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("accommodation_drafts")
 }

@@ -15,6 +15,7 @@ import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-acco
 import type { AccommodationEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import { cn } from "@/lib/utils";
 
+import { AccommodationEditorDraftBanner } from "./accommodation-editor-draft-banner";
 import { AccommodationEditorHeader } from "./accommodation-editor-header";
 import {
   AccommodationEditorMobileNavigation,
@@ -40,10 +41,10 @@ export const AccommodationEditor = ({
     resolver: zodResolver(accommodationUpdateSchema),
     defaultValues: {
       name: accommodation.name,
-      type: accommodation.type ?? "",
-      subtitle: accommodation.subtitle ?? "",
-      shortDescription: accommodation.shortDescription ?? "",
-      description: accommodation.description ?? "",
+      type: accommodation.type,
+      subtitle: accommodation.subtitle,
+      shortDescription: accommodation.shortDescription,
+      description: accommodation.description,
       status: accommodation.status,
     },
     mode: "onSubmit",
@@ -54,7 +55,13 @@ export const AccommodationEditor = ({
       initialImages: accommodation.images,
     });
 
-  const handleSubmit = useAccommodationEditorSubmit({
+  const {
+    handleSubmit,
+    handleSaveDraft,
+    handlePublishDraft,
+    isSavingDraft,
+    isPublishing,
+  } = useAccommodationEditorSubmit({
     accommodationId: accommodation.id,
     form,
     images,
@@ -66,13 +73,28 @@ export const AccommodationEditor = ({
     setMobileView("editor");
   };
 
+  const disabled = form.formState.isSubmitting || isSavingDraft || isPublishing;
+
   return (
     <FormProvider {...form}>
       <form
         onSubmit={handleSubmit}
         className="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
-        <AccommodationEditorHeader slug={accommodation.slug} />
+        <AccommodationEditorHeader
+          slug={accommodation.slug}
+          canSaveDraft={accommodation.status === "PUBLISHED"}
+          hasDraft={accommodation.hasDraft}
+          disabled={disabled}
+          isSavingDraft={isSavingDraft}
+          isPublishing={isPublishing}
+          onSaveDraft={handleSaveDraft}
+          onPublishDraft={handlePublishDraft}
+        />
+
+        {accommodation.hasDraft ? (
+          <AccommodationEditorDraftBanner slug={accommodation.slug} />
+        ) : null}
 
         <AccommodationEditorMobileNavigation
           activeView={mobileView}
@@ -110,7 +132,7 @@ export const AccommodationEditor = ({
               activeSection={activeSection}
               images={images}
               coverImageId={coverImageId}
-              disabled={form.formState.isSubmitting}
+              disabled={disabled}
               onFilesSelected={addFiles}
               onSetCover={setCoverImage}
               onRemoveImage={removeImage}

@@ -1,8 +1,13 @@
-import type {
-  Accommodation,
-  AccommodationImage,
-} from "@/generated/prisma/client";
+import type { Prisma } from "@/generated/prisma/client";
 
-export type AccommodationWithImages = Accommodation & {
-  images: AccommodationImage[];
-};
+export type AccommodationWithImages = Prisma.AccommodationGetPayload<{
+  include: {
+    images: true;
+    draft: {
+      select: {
+        id: true;
+        updatedAt: true;
+      };
+    };
+  };
+}>;

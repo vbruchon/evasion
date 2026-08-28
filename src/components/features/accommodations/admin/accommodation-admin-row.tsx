@@ -4,13 +4,14 @@ import { GripVertical } from "lucide-react";
 
 import { AccommodationAdminActions } from "./accommodation-admin-actions";
 import { AccommodationAdminIdentity } from "./accommodation-admin-identity";
+import { AccommodationDraftBadge } from "./accommodation-draft-badge";
 import { AccommodationStatusBadge } from "./accommodation-status-badge";
 
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
 import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
-import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
+import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
+import type { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationAdminRowProps = {
   accommodation: AccommodationWithImages;
@@ -52,11 +53,15 @@ export const AccommodationAdminRow = ({
       </TableCell>
 
       <TableCell>
-        <AccommodationStatusBadge
-          id={accommodation.id}
-          status={accommodation.status}
-          disabled={isReordering}
-        />
+        <div className="flex flex-wrap items-center gap-2">
+          <AccommodationStatusBadge
+            id={accommodation.id}
+            status={accommodation.status}
+            disabled={isReordering}
+          />
+
+          {accommodation.draft ? <AccommodationDraftBadge /> : null}
+        </div>
       </TableCell>
 
       <TableCell className="text-center">

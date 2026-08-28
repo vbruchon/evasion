@@ -87,6 +87,12 @@ export const accommodationUpdateImagesSchema = z
     message: "Une seule image de couverture doit être sélectionnée.",
   });
 
+export const accommodationDraftContentSchema = z.object({
+  version: z.literal(1),
+  values: accommodationFieldsSchema,
+  images: accommodationUpdateImagesSchema,
+});
+
 export type AccommodationCreateFormValues = z.infer<
   typeof accommodationCreateSchema
 >;
@@ -99,6 +105,10 @@ export type AccommodationImageInput = z.infer<typeof accommodationImageSchema>;
 
 export type AccommodationUpdateImageInput = z.infer<
   typeof accommodationUpdateImageSchema
+>;
+
+export type AccommodationDraftContent = z.infer<
+  typeof accommodationDraftContentSchema
 >;
 
 export type AccommodationTextFormValues = Pick<

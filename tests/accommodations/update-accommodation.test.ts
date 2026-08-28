@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type {
   AccommodationUpdateFormValues,
@@ -227,6 +227,177 @@ describe("updateAccommodationAdmin", () => {
     });
 
     expect(legitimateImage.fileKey).toBe("legitimate-image");
+  });
+
+  it("removes the existing draft when changes are saved directly", async () => {
+    const accommodation = await createAccommodationFixture({
+      status: "PUBLISHED",
+      images: [
+        {
+          url: "https://example.com/published-image.webp",
+          fileKey: "published-image",
+          isCover: true,
+        },
+      ],
+    });
+
+    const publishedImage = accommodation.images[0];
+
+    await prisma.accommodationDraft.create({
+      data: {
+        accommodationId: accommodation.id,
+        content: {
+          version: 1,
+          values: {
+            name: "Draft chalet",
+            type: "Draft type",
+            subtitle: "Draft subtitle",
+            shortDescription: "Draft short description",
+            description: "Draft description",
+          },
+          images: [
+            {
+              id: publishedImage.id,
+              isCover: false,
+            },
+            {
+              url: "https://example.com/draft-kept.webp",
+              fileKey: "draft-kept",
+              isCover: true,
+            },
+            {
+              url: "https://example.com/draft-abandoned.webp",
+              fileKey: "draft-abandoned",
+              isCover: false,
+            },
+          ],
+        },
+      },
+    });
+
+    const result = await updateAccommodationAdmin(
+      accommodation.id,
+      updateValues({
+        name: "Directly saved chalet",
+        status: "PUBLISHED",
+      }),
+      [
+        {
+          id: publishedImage.id,
+          isCover: false,
+        },
+        {
+          url: "https://example.com/draft-kept.webp",
+          fileKey: "draft-kept",
+          isCover: true,
+        },
+      ],
+    );
+
+    expect(result).toEqual({
+      success: true,
+    });
+
+    const updatedAccommodation = await prisma.accommodation.findUniqueOrThrow({
+      where: {
+        id: accommodation.id,
+      },
+      include: {
+        draft: true,
+        images: {
+          orderBy: {
+            position: "asc",
+          },
+        },
+      },
+    });
+
+    expect(updatedAccommodation.name).toBe("Directly saved chalet");
+
+    expect(updatedAccommodation.draft).toBeNull();
+
+    expect(updatedAccommodation.images.map((image) => image.fileKey)).toEqual([
+      "published-image",
+      "draft-kept",
+    ]);
+
+    expect(deleteUploadThingFiles).toHaveBeenCalledWith(["draft-abandoned"]);
+  });
+
+  it("keeps existing draft files when direct saving fails", async () => {
+    const accommodation = await createAccommodationFixture({
+      status: "PUBLISHED",
+    });
+
+    await prisma.accommodationDraft.create({
+      data: {
+        accommodationId: accommodation.id,
+        content: {
+          version: 1,
+          values: {
+            name: "Draft chalet",
+            type: "Draft type",
+            subtitle: "Draft subtitle",
+            shortDescription: "Draft short description",
+            description: "Draft description",
+          },
+          images: [
+            {
+              url: "https://example.com/existing-draft-image.webp",
+              fileKey: "existing-draft-image",
+              isCover: true,
+            },
+          ],
+        },
+      },
+    });
+
+    vi.mocked(deleteUploadThingFiles).mockClear();
+
+    const result = await updateAccommodationAdmin(
+      accommodation.id,
+      updateValues({
+        name: "",
+      }),
+      [
+        {
+          url: "https://example.com/existing-draft-image.webp",
+          fileKey: "existing-draft-image",
+          isCover: true,
+        },
+        {
+          url: "https://example.com/new-image.webp",
+          fileKey: "new-image",
+          isCover: false,
+        },
+      ],
+    );
+
+    expect(result).toEqual({
+      success: false,
+      field: "name",
+      message: "Le nom du logement est obligatoire.",
+    });
+
+    expect(deleteUploadThingFiles).toHaveBeenCalledWith(["new-image"]);
+
+    expect(deleteUploadThingFiles).not.toHaveBeenCalledWith([
+      "existing-draft-image",
+    ]);
+
+    const draft = await prisma.accommodationDraft.findUniqueOrThrow({
+      where: {
+        accommodationId: accommodation.id,
+      },
+    });
+
+    expect(draft.content).toMatchObject({
+      images: [
+        {
+          fileKey: "existing-draft-image",
+        },
+      ],
+    });
   });
 
   it("preserves publishedAt when an already published accommodation is updated", async () => {
