@@ -37,18 +37,25 @@ export const AccommodationEditor = ({
     addFiles,
     removeImage,
     setCoverImage,
+    status,
+    statusChanged,
     canSaveDraft,
     hasDraft,
     autosaveStatus,
     disabled,
+    draftActionDisabled,
     publishDisabled,
+    statusSaveDisabled,
     handleSubmit,
     handleSaveDraft,
     handlePublishDraft,
     handleDiscardDraft,
+    handleStatusChange,
+    handleSaveStatus,
     isSavingDraft,
     isPublishing,
     isDiscardingDraft,
+    isUpdatingStatus,
   } = useAccommodationEditor(accommodation);
 
   const handleSectionChange = (section: AccommodationEditorSection) => {
@@ -63,14 +70,19 @@ export const AccommodationEditor = ({
         className="flex min-h-0 flex-1 flex-col overflow-hidden"
       >
         <AccommodationEditorHeader
-          slug={accommodation.slug}
+          status={status}
+          statusChanged={statusChanged}
           canSaveDraft={canSaveDraft}
           hasDraft={hasDraft}
           disabled={disabled}
+          statusSaveDisabled={statusSaveDisabled}
           publishDisabled={publishDisabled}
           isSavingDraft={isSavingDraft}
           isPublishing={isPublishing}
+          isUpdatingStatus={isUpdatingStatus}
           autosaveStatus={autosaveStatus}
+          onStatusChange={handleStatusChange}
+          onSaveStatus={handleSaveStatus}
           onSaveDraft={handleSaveDraft}
           onPublishDraft={handlePublishDraft}
         />
@@ -78,7 +90,7 @@ export const AccommodationEditor = ({
         {hasDraft ? (
           <AccommodationEditorDraftBanner
             slug={accommodation.slug}
-            disabled={publishDisabled}
+            disabled={draftActionDisabled}
             isDiscarding={isDiscardingDraft}
             onDiscard={handleDiscardDraft}
           />

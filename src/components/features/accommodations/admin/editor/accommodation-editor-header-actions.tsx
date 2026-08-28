@@ -1,8 +1,6 @@
 "use client";
 
-import { FileClock, Send } from "lucide-react";
-import Link from "next/link";
-import { useFormContext, useWatch } from "react-hook-form";
+import { FileClock, LoaderCircle, Save, Send } from "lucide-react";
 
 import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
 
@@ -12,57 +10,80 @@ import { Button } from "@/components/ui/button";
 import { AccommodationStatusDropdown } from "../accommodation-status-dropdown";
 
 type AccommodationEditorHeaderActionsProps = {
-  slug: string;
+  status: AccommodationUpdateFormValues["status"];
+  statusChanged: boolean;
   canSaveDraft: boolean;
   hasDraft: boolean;
   disabled: boolean;
+  statusSaveDisabled: boolean;
   publishDisabled: boolean;
   isSavingDraft: boolean;
   isPublishing: boolean;
+  isUpdatingStatus: boolean;
+  onStatusChange: (status: AccommodationUpdateFormValues["status"]) => void;
+  onSaveStatus: () => void;
   onSaveDraft: () => void;
   onPublishDraft: () => void;
 };
 
 export const AccommodationEditorHeaderActions = ({
-  slug,
+  status,
+  statusChanged,
   canSaveDraft,
   hasDraft,
   disabled,
+  statusSaveDisabled,
   publishDisabled,
   isSavingDraft,
   isPublishing,
+  isUpdatingStatus,
+  onStatusChange,
+  onSaveStatus,
   onSaveDraft,
   onPublishDraft,
 }: AccommodationEditorHeaderActionsProps) => {
-  const { control, setValue } = useFormContext<AccommodationUpdateFormValues>();
-
-  const status = useWatch({
-    control,
-    name: "status",
-  });
-
   return (
     <div className="flex shrink-0 items-center gap-2 lg:gap-3">
       <AccommodationStatusDropdown
         status={status}
         disabled={disabled}
         className="px-2.5 py-2 text-[11px] uppercase tracking-wide sm:px-3 lg:px-4 lg:py-2.5 lg:text-sm"
-        onStatusChange={(nextStatus) =>
-          setValue("status", nextStatus, {
-            shouldDirty: true,
-            shouldValidate: true,
-          })
-        }
+        onStatusChange={onStatusChange}
       />
 
-      <Button
-        nativeButton={false}
-        variant="outline"
-        className="hidden lg:inline-flex"
-        render={<Link href={`/logements/${slug}`} target="_blank" />}
-      >
-        {hasDraft ? "Version publiée" : "Aperçu"}
-      </Button>
+      {canSaveDraft && statusChanged ? (
+        <>
+          <Button
+            type="button"
+            size="icon"
+            className="sm:hidden"
+            disabled={statusSaveDisabled}
+            aria-label="Enregistrer le statut"
+            onClick={onSaveStatus}
+          >
+            {isUpdatingStatus ? (
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              <Save />
+            )}
+          </Button>
+
+          <Button
+            type="button"
+            className="hidden sm:inline-flex"
+            disabled={statusSaveDisabled}
+            onClick={onSaveStatus}
+          >
+            {isUpdatingStatus ? (
+              <LoaderCircle className="animate-spin" />
+            ) : (
+              <Save />
+            )}
+
+            {isUpdatingStatus ? "Enregistrement..." : "Enregistrer"}
+          </Button>
+        </>
+      ) : null}
 
       {canSaveDraft ? (
         <>
@@ -91,7 +112,7 @@ export const AccommodationEditorHeaderActions = ({
         </>
       ) : null}
 
-      {hasDraft ? (
+      {hasDraft && canSaveDraft ? (
         <>
           <Button
             type="button"

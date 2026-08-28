@@ -1,8 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useCallback, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
 
+import { updateAccommodationStatus } from "~/app/admin/logements/action";
 import {
   accommodationUpdateSchema,
   type AccommodationUpdateFormValues,
@@ -16,6 +18,8 @@ import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-acco
 export const useAccommodationEditor = (
   accommodation: AccommodationUpdateData,
 ) => {
+  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+
   const canSaveDraft = accommodation.status === "PUBLISHED";
 
   const form = useForm<AccommodationUpdateFormValues>({
@@ -30,6 +34,13 @@ export const useAccommodationEditor = (
     },
     mode: "onSubmit",
   });
+
+  const status = useWatch({
+    control: form.control,
+    name: "status",
+  });
+
+  const statusChanged = status !== accommodation.status;
 
   const {
     images,
@@ -61,7 +72,8 @@ export const useAccommodationEditor = (
     form.formState.isSubmitting ||
     isSavingDraft ||
     isPublishing ||
-    isDiscardingDraft;
+    isDiscardingDraft ||
+    isUpdatingStatus;
 
   const { hasDraft, isAutosaving, autosaveStatus } =
     useAccommodationDraftAutosave({
@@ -76,7 +88,42 @@ export const useAccommodationEditor = (
 
   const disabled = manualActionPending || isAutosaving;
 
-  const publishDisabled = disabled || autosaveStatus === "pending";
+  const draftActionDisabled = disabled || autosaveStatus === "pending";
+
+  const publishDisabled = draftActionDisabled || statusChanged;
+
+  const statusSaveDisabled = draftActionDisabled;
+
+  const handleStatusChange = useCallback(
+    (nextStatus: AccommodationUpdateFormValues["status"]) => {
+      form.setValue("status", nextStatus, {
+        shouldDirty: true,
+        shouldValidate: true,
+      });
+    },
+    [form],
+  );
+
+  const handleSaveStatus = useCallback(async () => {
+    if (!statusChanged) {
+      return;
+    }
+
+    form.clearErrors("root");
+    setIsUpdatingStatus(true);
+
+    try {
+      await updateAccommodationStatus(accommodation.id, status);
+
+      window.location.reload();
+    } catch {
+      form.setError("root", {
+        message: "Une erreur est survenue pendant la modification du statut.",
+      });
+    } finally {
+      setIsUpdatingStatus(false);
+    }
+  }, [accommodation.id, form, status, statusChanged]);
 
   return {
     form,
@@ -87,20 +134,27 @@ export const useAccommodationEditor = (
     removeImage,
     setCoverImage,
 
+    status,
+    statusChanged,
     canSaveDraft,
     hasDraft,
     autosaveStatus,
 
     disabled,
+    draftActionDisabled,
     publishDisabled,
+    statusSaveDisabled,
 
     handleSubmit,
     handleSaveDraft,
     handlePublishDraft,
     handleDiscardDraft,
+    handleStatusChange,
+    handleSaveStatus,
 
     isSavingDraft,
     isPublishing,
     isDiscardingDraft,
+    isUpdatingStatus,
   };
 };

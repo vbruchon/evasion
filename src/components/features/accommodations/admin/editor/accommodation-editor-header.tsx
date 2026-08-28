@@ -13,27 +13,37 @@ import type { AccommodationDraftAutosaveStatus } from "@/hooks/use-accommodation
 import { AccommodationEditorHeaderActions } from "./accommodation-editor-header-actions";
 
 type AccommodationEditorHeaderProps = {
-  slug: string;
+  status: AccommodationUpdateFormValues["status"];
+  statusChanged: boolean;
   canSaveDraft: boolean;
   hasDraft: boolean;
   disabled: boolean;
+  statusSaveDisabled: boolean;
   publishDisabled: boolean;
   isSavingDraft: boolean;
   isPublishing: boolean;
+  isUpdatingStatus: boolean;
   autosaveStatus: AccommodationDraftAutosaveStatus;
+  onStatusChange: (status: AccommodationUpdateFormValues["status"]) => void;
+  onSaveStatus: () => void;
   onSaveDraft: () => void;
   onPublishDraft: () => void;
 };
 
 export const AccommodationEditorHeader = ({
-  slug,
+  status,
+  statusChanged,
   canSaveDraft,
   hasDraft,
   disabled,
+  statusSaveDisabled,
   publishDisabled,
   isSavingDraft,
   isPublishing,
+  isUpdatingStatus,
   autosaveStatus,
+  onStatusChange,
+  onSaveStatus,
   onSaveDraft,
   onPublishDraft,
 }: AccommodationEditorHeaderProps) => {
@@ -101,13 +111,18 @@ export const AccommodationEditorHeader = ({
       </div>
 
       <AccommodationEditorHeaderActions
-        slug={slug}
+        status={status}
+        statusChanged={statusChanged}
         canSaveDraft={canSaveDraft}
         hasDraft={hasDraft}
         disabled={disabled}
+        statusSaveDisabled={statusSaveDisabled}
         publishDisabled={publishDisabled}
         isSavingDraft={isSavingDraft}
         isPublishing={isPublishing}
+        isUpdatingStatus={isUpdatingStatus}
+        onStatusChange={onStatusChange}
+        onSaveStatus={onSaveStatus}
         onSaveDraft={onSaveDraft}
         onPublishDraft={onPublishDraft}
       />
