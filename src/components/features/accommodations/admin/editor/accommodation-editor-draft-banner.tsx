@@ -1,15 +1,26 @@
-import { ExternalLink, FileClock } from "lucide-react";
+"use client";
+
+import { ExternalLink, FileClock, Trash2 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 
 type AccommodationEditorDraftBannerProps = {
   slug: string;
+  disabled: boolean;
+  isDiscarding: boolean;
+  onDiscard: () => void;
 };
 
 export const AccommodationEditorDraftBanner = ({
   slug,
+  disabled,
+  isDiscarding,
+  onDiscard,
 }: AccommodationEditorDraftBannerProps) => {
+  const [isConfirmingDiscard, setIsConfirmingDiscard] = useState(false);
+
   return (
     <div className="shrink-0 border-b border-primary/20 bg-primary/5 px-4 py-4 lg:px-6">
       <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
@@ -30,7 +41,7 @@ export const AccommodationEditorDraftBanner = ({
           </div>
         </div>
 
-        <div className="shrink-0">
+        <div className="flex shrink-0 flex-wrap items-center gap-2">
           <Button
             nativeButton={false}
             type="button"
@@ -40,6 +51,41 @@ export const AccommodationEditorDraftBanner = ({
             <ExternalLink />
             Voir la version publiée
           </Button>
+
+          {!isConfirmingDiscard ? (
+            <Button
+              type="button"
+              variant="outline"
+              className="text-destructive hover:text-destructive"
+              disabled={disabled}
+              onClick={() => setIsConfirmingDiscard(true)}
+            >
+              <Trash2 />
+              Abandonner le brouillon
+            </Button>
+          ) : (
+            <>
+              <Button
+                type="button"
+                variant="ghost"
+                disabled={disabled}
+                onClick={() => setIsConfirmingDiscard(false)}
+              >
+                Conserver le brouillon
+              </Button>
+
+              <Button
+                type="button"
+                variant="outline"
+                className="border-destructive/40 text-destructive hover:bg-destructive/5 hover:text-destructive"
+                disabled={disabled}
+                onClick={onDiscard}
+              >
+                <Trash2 />
+                {isDiscarding ? "Suppression..." : "Confirmer l’abandon"}
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

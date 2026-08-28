@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 
 import {
+  discardAccommodationDraft,
   publishAccommodationDraft,
   saveAccommodationDraft,
   updateAccommodation,
@@ -41,6 +42,7 @@ export const useAccommodationEditorSubmit = ({
 }: UseAccommodationEditorSubmitOptions) => {
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isDiscardingDraft, setIsDiscardingDraft] = useState(false);
 
   const setRootError = useCallback(
     (message: string) => {
@@ -140,11 +142,35 @@ export const useAccommodationEditorSubmit = ({
     }
   }, [accommodationId, form, setRootError]);
 
+  const handleDiscardDraft = useCallback(async () => {
+    form.clearErrors("root");
+    setIsDiscardingDraft(true);
+
+    try {
+      const result = await discardAccommodationDraft(accommodationId);
+
+      if (!result.success) {
+        setRootError(result.message);
+        return;
+      }
+
+      window.location.reload();
+    } catch {
+      setRootError(
+        "Une erreur est survenue pendant la suppression du brouillon.",
+      );
+    } finally {
+      setIsDiscardingDraft(false);
+    }
+  }, [accommodationId, form, setRootError]);
+
   return {
     handleSubmit,
     handleSaveDraft,
     handlePublishDraft,
+    handleDiscardDraft,
     isSavingDraft,
     isPublishing,
+    isDiscardingDraft,
   };
 };

@@ -9,6 +9,8 @@ import { reorderAccommodationsAdmin } from "@/lib/admin/accommodation/reorder-ac
 import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";
 import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accommodation.action";
 import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/update-accommodation-status.action";
+import { discardAccommodationDraftAdmin } from "@/lib/admin/accommodation/discard-accommodation-draft.action";
+
 import { requireAdmin } from "@/lib/admin/require-admin";
 
 import type {
@@ -78,4 +80,10 @@ export const publishAccommodationDraft = async (accommodationId: string) => {
   await requireAdmin();
 
   return publishAccommodationDraftAdmin(accommodationId);
+};
+
+export const discardAccommodationDraft = async (accommodationId: string) => {
+  await requireAdmin();
+
+  return discardAccommodationDraftAdmin(accommodationId);
 };
