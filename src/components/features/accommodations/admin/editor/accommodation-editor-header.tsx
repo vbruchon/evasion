@@ -1,24 +1,26 @@
 "use client";
 
-import { ChevronLeft, FileClock, Send } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useFormContext, useWatch } from "react-hook-form";
 
 import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
 
-import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import type { AccommodationDraftAutosaveStatus } from "@/hooks/use-accommodation-draft-autosave";
 
-import { AccommodationStatusDropdown } from "../accommodation-status-dropdown";
+import { AccommodationEditorHeaderActions } from "./accommodation-editor-header-actions";
 
 type AccommodationEditorHeaderProps = {
   slug: string;
   canSaveDraft: boolean;
   hasDraft: boolean;
   disabled: boolean;
+  publishDisabled: boolean;
   isSavingDraft: boolean;
   isPublishing: boolean;
+  autosaveStatus: AccommodationDraftAutosaveStatus;
   onSaveDraft: () => void;
   onPublishDraft: () => void;
 };
@@ -28,16 +30,18 @@ export const AccommodationEditorHeader = ({
   canSaveDraft,
   hasDraft,
   disabled,
+  publishDisabled,
   isSavingDraft,
   isPublishing,
+  autosaveStatus,
   onSaveDraft,
   onPublishDraft,
 }: AccommodationEditorHeaderProps) => {
-  const { control, setValue } = useFormContext<AccommodationUpdateFormValues>();
+  const { control } = useFormContext<AccommodationUpdateFormValues>();
 
-  const [name, status] = useWatch({
+  const name = useWatch({
     control,
-    name: ["name", "status"],
+    name: "name",
   });
 
   return (
@@ -76,93 +80,37 @@ export const AccommodationEditorHeader = ({
             Brouillon non publié
           </Badge>
         ) : null}
+
+        {canSaveDraft && autosaveStatus !== "idle" ? (
+          <span
+            className={`hidden text-xs xl:inline ${
+              autosaveStatus === "error"
+                ? "text-destructive"
+                : "text-muted-foreground"
+            }`}
+          >
+            {autosaveStatus === "pending"
+              ? "Modifications en attente..."
+              : autosaveStatus === "saving"
+                ? "Sauvegarde auto..."
+                : autosaveStatus === "saved"
+                  ? "Brouillon enregistré"
+                  : "Échec de la sauvegarde auto"}
+          </span>
+        ) : null}
       </div>
 
-      <div className="flex shrink-0 items-center gap-2 lg:gap-3">
-        <AccommodationStatusDropdown
-          status={status}
-          disabled={disabled}
-          className="px-2.5 py-2 text-[11px] uppercase tracking-wide sm:px-3 lg:px-4 lg:py-2.5 lg:text-sm"
-          onStatusChange={(nextStatus) =>
-            setValue("status", nextStatus, {
-              shouldDirty: true,
-              shouldValidate: true,
-            })
-          }
-        />
-
-        <Button
-          nativeButton={false}
-          variant="outline"
-          className="hidden lg:inline-flex"
-          render={<Link href={`/logements/${slug}`} target="_blank" />}
-        >
-          {hasDraft ? "Version publiée" : "Aperçu"}
-        </Button>
-
-        {canSaveDraft ? (
-          <>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="sm:hidden"
-              disabled={disabled}
-              aria-label="Sauvegarder en brouillon"
-              onClick={onSaveDraft}
-            >
-              <FileClock />
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="hidden sm:inline-flex"
-              disabled={disabled}
-              onClick={onSaveDraft}
-            >
-              <FileClock />
-
-              {isSavingDraft ? "Sauvegarde..." : "Sauvegarder en brouillon"}
-            </Button>
-          </>
-        ) : null}
-
-        {hasDraft ? (
-          <>
-            <Button
-              type="button"
-              variant="outline"
-              size="icon"
-              className="sm:hidden"
-              disabled={disabled}
-              aria-label="Publier les modifications"
-              onClick={onPublishDraft}
-            >
-              <Send />
-            </Button>
-
-            <Button
-              type="button"
-              variant="outline"
-              className="hidden sm:inline-flex"
-              disabled={disabled}
-              onClick={onPublishDraft}
-            >
-              <Send />
-
-              {isPublishing ? "Publication..." : "Publier les modifications"}
-            </Button>
-          </>
-        ) : null}
-
-        <AdminFormSubmitButton
-          className="px-3 text-xs sm:px-4 sm:text-sm"
-          label="Enregistrer"
-          pendingLabel="Enregistrement..."
-          disabled={disabled}
-        />
-      </div>
+      <AccommodationEditorHeaderActions
+        slug={slug}
+        canSaveDraft={canSaveDraft}
+        hasDraft={hasDraft}
+        disabled={disabled}
+        publishDisabled={publishDisabled}
+        isSavingDraft={isSavingDraft}
+        isPublishing={isPublishing}
+        onSaveDraft={onSaveDraft}
+        onPublishDraft={onPublishDraft}
+      />
     </header>
   );
 };

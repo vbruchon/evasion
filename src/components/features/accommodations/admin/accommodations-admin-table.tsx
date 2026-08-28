@@ -9,11 +9,11 @@ import { AccommodationsAdminMobileList } from "./accommodations-admin-mobile-lis
 import { AdminEmptyState } from "@/components/layout/admin/admin-empty-state";
 import { AdminPagination } from "@/components/layout/admin/admin-pagination";
 import { Button } from "@/components/ui/button";
-import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
+import { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
 import { useAccommodationReordering } from "@/hooks/use-accommodation-reordering";
 
 type AccommodationsAdminTableProps = {
-  accommodations: AccommodationWithImages[];
+  accommodations: AccommodationAdminListItem[];
 };
 
 const ITEMS_PER_PAGE = 5;

@@ -19,10 +19,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
+import type { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationsAdminDesktopTableProps = {
-  accommodations: AccommodationWithImages[];
+  accommodations: AccommodationAdminListItem[];
   isReordering: boolean;
   sensors: SensorDescriptor<SensorOptions>[];
   onDragEnd: (event: DragEndEvent) => void;

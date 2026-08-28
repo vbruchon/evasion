@@ -11,10 +11,10 @@ import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
 import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
 import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
-import type { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
+import type { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationAdminRowProps = {
-  accommodation: AccommodationWithImages;
+  accommodation: AccommodationAdminListItem;
   isReordering: boolean;
 };
 

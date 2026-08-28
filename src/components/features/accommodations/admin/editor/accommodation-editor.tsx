@@ -9,10 +9,11 @@ import {
   type AccommodationUpdateFormValues,
 } from "~/app/admin/logements/schema";
 
+import { useAccommodationDraftAutosave } from "@/hooks/use-accommodation-draft-autosave";
 import { useAccommodationEditorSubmit } from "@/hooks/use-accommodation-editor-submit";
 import { useAccommodationImages } from "@/hooks/use-accommodation-images";
-import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 import type { AccommodationEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 import { cn } from "@/lib/utils";
 
 import { AccommodationEditorDraftBanner } from "./accommodation-editor-draft-banner";
@@ -37,6 +38,8 @@ export const AccommodationEditor = ({
   const [mobileView, setMobileView] =
     useState<AccommodationEditorMobileView>("preview");
 
+  const canSaveDraft = accommodation.status === "PUBLISHED";
+
   const form = useForm<AccommodationUpdateFormValues>({
     resolver: zodResolver(accommodationUpdateSchema),
     defaultValues: {
@@ -50,10 +53,16 @@ export const AccommodationEditor = ({
     mode: "onSubmit",
   });
 
-  const { images, coverImageId, addFiles, removeImage, setCoverImage } =
-    useAccommodationImages({
-      initialImages: accommodation.images,
-    });
+  const {
+    images,
+    coverImageId,
+    addFiles,
+    removeImage,
+    setCoverImage,
+    syncPreparedImages,
+  } = useAccommodationImages({
+    initialImages: accommodation.images,
+  });
 
   const {
     handleSubmit,
@@ -68,12 +77,28 @@ export const AccommodationEditor = ({
     coverImageId,
   });
 
+  const manualActionPending =
+    form.formState.isSubmitting || isSavingDraft || isPublishing;
+
+  const { hasDraft, isAutosaving, autosaveStatus } =
+    useAccommodationDraftAutosave({
+      accommodationId: accommodation.id,
+      form,
+      images,
+      coverImageId,
+      enabled: canSaveDraft && !manualActionPending,
+      initialHasDraft: accommodation.hasDraft,
+      syncPreparedImages,
+    });
+
   const handleSectionChange = (section: AccommodationEditorSection) => {
     setActiveSection(section);
     setMobileView("editor");
   };
 
-  const disabled = form.formState.isSubmitting || isSavingDraft || isPublishing;
+  const disabled = manualActionPending || isAutosaving;
+
+  const publishDisabled = disabled || autosaveStatus === "pending";
 
   return (
     <FormProvider {...form}>
@@ -83,16 +108,18 @@ export const AccommodationEditor = ({
       >
         <AccommodationEditorHeader
           slug={accommodation.slug}
-          canSaveDraft={accommodation.status === "PUBLISHED"}
-          hasDraft={accommodation.hasDraft}
+          canSaveDraft={canSaveDraft}
+          hasDraft={hasDraft}
           disabled={disabled}
+          publishDisabled={publishDisabled}
           isSavingDraft={isSavingDraft}
           isPublishing={isPublishing}
+          autosaveStatus={autosaveStatus}
           onSaveDraft={handleSaveDraft}
           onPublishDraft={handlePublishDraft}
         />
 
-        {accommodation.hasDraft ? (
+        {hasDraft ? (
           <AccommodationEditorDraftBanner slug={accommodation.slug} />
         ) : null}
 

@@ -2,6 +2,8 @@
 
 import { useCallback, useState } from "react";
 
+import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
+
 export const MAX_ACCOMMODATION_IMAGES = 15;
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
@@ -165,11 +167,53 @@ export const useAccommodationImages = ({
     [images, notifyFilesChange],
   );
 
+  const syncPreparedImages = useCallback(
+    (
+      sourceImages: AccommodationPreviewImage[],
+      preparedImages: AccommodationUpdateImageInput[],
+    ) => {
+      const preparedImagesById = new Map(
+        sourceImages.flatMap((image, index) => {
+          if (image.isExisting) {
+            return [];
+          }
+
+          const preparedImage = preparedImages[index];
+
+          if (!preparedImage || "id" in preparedImage) {
+            return [];
+          }
+
+          return [[image.id, preparedImage] as const];
+        }),
+      );
+
+      setImages((currentImages) =>
+        currentImages.map((image) => {
+          const preparedImage = preparedImagesById.get(image.id);
+
+          if (!preparedImage) {
+            return image;
+          }
+
+          return {
+            ...image,
+            url: preparedImage.url,
+            fileKey: preparedImage.fileKey,
+            file: undefined,
+          };
+        }),
+      );
+    },
+    [],
+  );
+
   return {
     images,
     coverImageId,
     addFiles,
     removeImage,
     setCoverImage,
+    syncPreparedImages,
   };
 };

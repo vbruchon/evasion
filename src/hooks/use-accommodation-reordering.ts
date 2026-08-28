@@ -1,6 +1,6 @@
 "use client";
 
-import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
+import { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";
@@ -8,7 +8,7 @@ import { useState, useTransition } from "react";
 import { reorderAccommodations } from "~/app/admin/logements/action";
 
 export const useAccommodationReordering = (
-  accommodations: AccommodationWithImages[],
+  accommodations: AccommodationAdminListItem[],
 ) => {
   const [isReordering, setIsReordering] = useState(false);
   const [orderedAccommodations, setOrderedAccommodations] =
