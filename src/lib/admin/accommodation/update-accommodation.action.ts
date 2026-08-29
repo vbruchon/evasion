@@ -165,6 +165,11 @@ export const updateAccommodationAdmin = async (
           shortDescription: data.shortDescription || null,
           description: data.description || null,
           status: data.status,
+          guestCapacity: data.guestCapacity,
+          bedrooms: data.bedrooms,
+          beds: data.beds,
+          bathrooms: data.bathrooms,
+          surface: data.surface,
           publishedAt:
             data.status === "PUBLISHED"
               ? (accommodation.publishedAt ?? new Date())

@@ -82,6 +82,11 @@ export const createAccommodationAdmin = async (
           description: data.description || null,
           status: data.status,
           position: (highestPosition._max.position ?? 0) + 1,
+          guestCapacity: data.guestCapacity,
+          bedrooms: data.bedrooms || null,
+          beds: data.beds || null,
+          bathrooms: data.bathrooms || null,
+          surface: data.surface || null,
           publishedAt: data.status === "PUBLISHED" ? new Date() : null,
 
           images: {

@@ -4,9 +4,20 @@ import type {
 } from "@/generated/prisma/client";
 import Image from "next/image";
 import Link from "next/link";
+import { AccommodationKeyDetails } from "../accommodation-key-details";
 
 type AccommodationHeroProps = {
-  accommodation: Pick<Accommodation, "name" | "type" | "subtitle">;
+  accommodation: Pick<
+    Accommodation,
+    | "name"
+    | "type"
+    | "subtitle"
+    | "guestCapacity"
+    | "bedrooms"
+    | "beds"
+    | "bathrooms"
+    | "surface"
+  >;
   coverImage?: Pick<AccommodationImage, "url" | "alt">;
   hasGallery?: boolean;
 };
@@ -16,6 +27,14 @@ export function AccommodationHero({
   coverImage,
   hasGallery = false,
 }: AccommodationHeroProps) {
+  const hasKeyDetails = [
+    accommodation.guestCapacity,
+    accommodation.bedrooms,
+    accommodation.beds,
+    accommodation.bathrooms,
+    accommodation.surface,
+  ].some((value) => value !== null);
+
   return (
     <section className="relative flex min-h-140 w-full items-center overflow-hidden px-6 pb-16 pt-32 md:min-h-155 md:px-12 md:pb-20 md:pt-36 lg:min-h-185 lg:px-20 xl:px-24">
       {coverImage ? (
@@ -36,24 +55,32 @@ export function AccommodationHero({
       <div className="absolute inset-x-0 bottom-0 h-24 bg-linear-to-t from-background to-transparent" />
 
       <div className="relative flex w-full items-center">
-        <div className="max-w-2xl">
-          {accommodation.type ? (
-            <p className="font-heading text-lg italic text-primary md:text-xl">
-              {accommodation.type}
-            </p>
+        <div>
+          <div className="max-w-2xl">
+            {accommodation.type ? (
+              <p className="font-heading text-lg italic text-primary md:text-xl">
+                {accommodation.type}
+              </p>
+            ) : null}
+
+            <h1 className="mt-4 font-heading text-4xl leading-[0.92] uppercase tracking-tight text-white md:text-6xl lg:mt-6">
+              {accommodation.name}
+            </h1>
+
+            {accommodation.subtitle ? (
+              <p className="mt-5 text-base leading-7 text-white/85 md:text-lg lg:mt-7">
+                {accommodation.subtitle}
+              </p>
+            ) : null}
+          </div>
+
+          {hasKeyDetails ? (
+            <div className="mt-8 lg:mt-10">
+              <AccommodationKeyDetails accommodationDetails={accommodation} />
+            </div>
           ) : null}
 
-          <h1 className="mt-4 max-w-2xl font-heading text-4xl leading-[0.92] uppercase tracking-tight text-white md:text-6xl">
-            {accommodation.name}
-          </h1>
-
-          {accommodation.subtitle ? (
-            <p className="mt-5 max-w-xl text-base leading-7 text-white/85 md:text-lg">
-              {accommodation.subtitle}
-            </p>
-          ) : null}
-
-          <div className="mt-7 flex flex-wrap gap-4">
+          <div className="mt-8 flex max-w-2xl flex-wrap gap-4 lg:mt-10">
             <Link
               href="/contact"
               className="inline-flex h-12 items-center justify-center gap-8 rounded-sm bg-primary px-7 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"

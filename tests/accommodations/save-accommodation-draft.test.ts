@@ -24,6 +24,13 @@ const createDraftValues = (
     "Une nouvelle description courte enregistrée dans le brouillon.",
   description:
     "Une nouvelle description complète enregistrée uniquement dans le brouillon.",
+
+  guestCapacity: 4,
+  bedrooms: 2,
+  beds: 3,
+  bathrooms: 2,
+  surface: 72.5,
+
   ...overrides,
 });
 
@@ -45,6 +52,13 @@ describe("saveAccommodationDraftAdmin", () => {
       subtitle: "Version publique",
       shortDescription: "Description publique courte",
       description: "Description publique complète",
+
+      guestCapacity: 2,
+      bedrooms: 1,
+      beds: 1,
+      bathrooms: 1,
+      surface: 45,
+
       status: "PUBLISHED",
       publishedAt: publicationDate,
 
@@ -98,6 +112,13 @@ describe("saveAccommodationDraftAdmin", () => {
       subtitle: "Version publique",
       shortDescription: "Description publique courte",
       description: "Description publique complète",
+
+      guestCapacity: 2,
+      bedrooms: 1,
+      beds: 1,
+      bathrooms: 1,
+      surface: 45,
+
       status: "PUBLISHED",
       publishedAt: publicationDate,
     });
@@ -119,6 +140,12 @@ describe("saveAccommodationDraftAdmin", () => {
           "Une nouvelle description courte enregistrée dans le brouillon.",
         description:
           "Une nouvelle description complète enregistrée uniquement dans le brouillon.",
+
+        guestCapacity: 4,
+        bedrooms: 2,
+        beds: 3,
+        bathrooms: 2,
+        surface: 72.5,
       },
 
       images: [

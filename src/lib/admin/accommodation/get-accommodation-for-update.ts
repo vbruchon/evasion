@@ -17,6 +17,11 @@ export const getAccommodationForUpdate = async (id: string) => {
       shortDescription: true,
       description: true,
       status: true,
+      guestCapacity: true,
+      bedrooms: true,
+      beds: true,
+      bathrooms: true,
+      surface: true,
 
       images: {
         orderBy: {
@@ -55,6 +60,11 @@ export const getAccommodationForUpdate = async (id: string) => {
     subtitle: accommodation.subtitle ?? "",
     shortDescription: accommodation.shortDescription ?? "",
     description: accommodation.description ?? "",
+    guestCapacity: accommodation.guestCapacity,
+    bedrooms: accommodation.bedrooms,
+    beds: accommodation.beds,
+    bathrooms: accommodation.bathrooms,
+    surface: accommodation.surface,
   };
 
   const images = draft
@@ -74,6 +84,12 @@ export const getAccommodationForUpdate = async (id: string) => {
     subtitle: values.subtitle,
     shortDescription: values.shortDescription,
     description: values.description,
+
+    guestCapacity: values.guestCapacity,
+    bedrooms: values.bedrooms,
+    beds: values.beds,
+    bathrooms: values.bathrooms,
+    surface: values.surface,
 
     images,
 

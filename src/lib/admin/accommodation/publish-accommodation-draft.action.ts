@@ -90,6 +90,11 @@ export const publishAccommodationDraftAdmin = async (
         subtitle: draft.values.subtitle,
         shortDescription: draft.values.shortDescription,
         description: draft.values.description,
+        guestCapacity: draft.values.guestCapacity,
+        bedrooms: draft.values.bedrooms,
+        beds: draft.values.beds,
+        bathrooms: draft.values.bathrooms,
+        surface: draft.values.surface,
       },
     });
 

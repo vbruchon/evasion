@@ -13,11 +13,19 @@ const accommodations = [
       "Un cocon insolite avec jacuzzi privatif et vue panoramique sur le Vercors.",
     description:
       "Offrez-vous une parenthèse dépaysante dans ce container maritime entièrement transformé en studio confortable et tout équipé pour deux personnes.\n\nPensé comme un véritable cocon, ce logement insolite réunit calme, intimité et vue panoramique sur le Vercors, dans une atmosphère chaleureuse et romantique.\n\nÀ la tombée de la nuit, détendez-vous dans le jacuzzi privatif et profitez du ciel étoilé pour vivre un moment hors du temps, en couple ou entre amis.",
+
+    guestCapacity: 2,
+    bedrooms: 1,
+    beds: 1,
+    bathrooms: 1,
+    surface: null,
+
     city: "Valence",
     region: "Drôme",
     status: "PUBLISHED" as const,
     position: 1,
     publishedAt: new Date(),
+
     images: {
       create: [
         {
@@ -65,11 +73,19 @@ const accommodations = [
       "Une parenthèse romantique entre spa privatif, cinéma et vue sur le Vercors.",
     description:
       "Offrez-vous une parenthèse hors du temps dans ce dôme haut de gamme, pensé pour accueillir deux personnes dans une atmosphère intime et dépaysante.\n\nEntièrement climatisé et chauffé, il vous garantit un confort optimal en toute saison. Depuis votre lit, profitez d’une soirée cinéma sur écran géant, détendez-vous dans le spa privatif couvert ou laissez-vous simplement séduire par la vue imprenable sur le Vercors.\n\nUn lieu idéal pour célébrer une occasion particulière, partager un séjour romantique ou simplement prendre le temps de se retrouver à deux.",
+
+    guestCapacity: 2,
+    bedrooms: 1,
+    beds: 1,
+    bathrooms: 1,
+    surface: null,
+
     city: "Valence",
     region: "Drôme",
     status: "PUBLISHED" as const,
     position: 2,
     publishedAt: new Date(),
+
     images: {
       create: [
         {
@@ -126,23 +142,32 @@ const main = async () => {
       where: {
         slug: accommodation.slug,
       },
+
       update: {
         name: accommodation.name,
         type: accommodation.type,
         subtitle: accommodation.subtitle,
         shortDescription: accommodation.shortDescription,
         description: accommodation.description,
+
+        guestCapacity: accommodation.guestCapacity,
+        bedrooms: accommodation.bedrooms,
+        beds: accommodation.beds,
+        bathrooms: accommodation.bathrooms,
+        surface: accommodation.surface,
+
         city: accommodation.city,
         region: accommodation.region,
         status: accommodation.status,
         position: accommodation.position,
         publishedAt: accommodation.publishedAt,
       },
+
       create: accommodation,
     });
   }
 
-  console.log("Seed terminé : logements réels créés.");
+  console.log("Seed terminé : logements créés.");
 };
 
 main()

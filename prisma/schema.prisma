@@ -84,13 +84,18 @@ enum AccommodationStatus {
 model Accommodation {
   id String @id @default(cuid())
 
-  name     String
-  slug     String  @unique
-  type     String?
-  subtitle String?
-
+  name             String
+  slug             String  @unique
+  type             String?
+  subtitle         String?
   shortDescription String? @db.Text
   description      String? @db.Text
+
+  guestCapacity Int?
+  bedrooms      Int?
+  beds          Int?
+  bathrooms     Int?
+  surface       Float?
 
   city   String?
   region String?

@@ -23,6 +23,13 @@ const createValues = (
     "Un chalet confortable imaginé pour tester la création d'un logement.",
   description:
     "Description complète du logement utilisée dans les tests d'intégration.",
+
+  guestCapacity: 4,
+  bedrooms: 2,
+  beds: 3,
+  bathrooms: 1,
+  surface: 65,
+
   status: "DRAFT",
   ...overrides,
 });
@@ -87,6 +94,13 @@ describe("createAccommodationAdmin", () => {
       name: "Le Chalet Test",
       slug: "le-chalet-test",
       type: "Chalet de montagne",
+
+      guestCapacity: 4,
+      bedrooms: 2,
+      beds: 3,
+      bathrooms: 1,
+      surface: 65,
+
       status: "DRAFT",
       position: 6,
       publishedAt: null,

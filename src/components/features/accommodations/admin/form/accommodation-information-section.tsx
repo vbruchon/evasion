@@ -9,6 +9,8 @@ import { FieldGroup } from "@/components/ui/field";
 import { createAccommodationSlug } from "@/lib/admin/accommodation/create-accommodation-slug";
 
 import { AccommodationTextField } from "./accommodation-text-field";
+import { AccommodationNumberField } from "./accommodation-number-field";
+import { Bath, BedDouble, DoorOpen, Ruler, Users } from "lucide-react";
 
 type AccommodationInformationSectionProps = {
   mode: "create" | "update";
@@ -75,6 +77,60 @@ export const AccommodationInformationSection = ({
             }
             transform={isCreate ? createAccommodationSlug : undefined}
           />
+        </div>
+
+        <div className="space-y-4">
+          <div>
+            <h3 className="text-sm font-medium">Infos clés</h3>
+            <p className="text-sm text-muted-foreground">
+              Ces informations sont affichées dans le hero du logement.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 md:flex gap-4">
+            <AccommodationNumberField
+              name="guestCapacity"
+              label="Voyageurs"
+              icon={Users}
+              min={1}
+              max={50}
+              controls
+            />
+
+            <AccommodationNumberField
+              name="bedrooms"
+              label="Chambres"
+              icon={DoorOpen}
+              max={20}
+              controls
+            />
+
+            <AccommodationNumberField
+              name="beds"
+              label="Lits"
+              icon={BedDouble}
+              max={50}
+              controls
+            />
+
+            <AccommodationNumberField
+              name="bathrooms"
+              label="Salles de bain"
+              icon={Bath}
+              max={20}
+              controls
+            />
+
+            <AccommodationNumberField
+              name="surface"
+              label="Surface"
+              icon={Ruler}
+              placeholder="35"
+              suffix="m²"
+              max={10000}
+              step={0.5}
+            />
+          </div>
         </div>
 
         <AccommodationTextField

@@ -22,6 +22,13 @@ const updateValues = (
     "Une nouvelle description courte après modification du logement.",
   description:
     "La nouvelle description complète enregistrée par l'éditeur visuel.",
+
+  guestCapacity: 4,
+  bedrooms: 2,
+  beds: 3,
+  bathrooms: 2,
+  surface: 72.5,
+
   status: "PUBLISHED",
   ...overrides,
 });
@@ -62,6 +69,13 @@ describe("updateAccommodationAdmin", () => {
       slug: "le-chalet-immuable",
       type: "Chalet premium",
       subtitle: "Un nouveau sous-titre",
+
+      guestCapacity: 4,
+      bedrooms: 2,
+      beds: 3,
+      bathrooms: 2,
+      surface: 72.5,
+
       status: "PUBLISHED",
     });
 

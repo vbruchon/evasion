@@ -26,6 +26,11 @@ const defaultValues: AccommodationCreateFormValues = {
   shortDescription: "",
   description: "",
   status: "DRAFT",
+  guestCapacity: null,
+  bedrooms: null,
+  beds: null,
+  bathrooms: null,
+  surface: null,
 };
 
 export const AccommodationCreateForm = () => {

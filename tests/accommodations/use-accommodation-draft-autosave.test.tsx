@@ -34,9 +34,15 @@ const initialValues: AccommodationUpdateFormValues = {
   subtitle: "Sous-titre",
   shortDescription: "Description courte",
   description: "Description complète",
+
+  guestCapacity: 4,
+  bedrooms: 2,
+  beds: 3,
+  bathrooms: 1,
+  surface: 65,
+
   status: "PUBLISHED",
 };
-
 const renderAutosaveHook = () => {
   const images: AccommodationPreviewImage[] = [];
   const syncPreparedImages = vi.fn();
@@ -115,6 +121,12 @@ describe("useAccommodationDraftAutosave", () => {
         subtitle: "Sous-titre",
         shortDescription: "Description courte",
         description: "Description complète",
+
+        guestCapacity: 4,
+        bedrooms: 2,
+        beds: 3,
+        bathrooms: 1,
+        surface: 65,
       },
       [],
     );
@@ -198,11 +210,49 @@ describe("useAccommodationDraftAutosave", () => {
         subtitle: "Sous-titre",
         shortDescription: "Description courte",
         description: "Description complète",
+
+        guestCapacity: 4,
+        bedrooms: 2,
+        beds: 3,
+        bathrooms: 1,
+        surface: 65,
       },
       [],
     );
 
     expect(result.current.hasDraft).toBe(true);
     expect(result.current.autosaveStatus).toBe("saved");
+  });
+
+  it("autosaves when a key detail changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue("guestCapacity", 6, {
+        shouldDirty: true,
+      });
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        guestCapacity: 6,
+        bedrooms: 2,
+        beds: 3,
+        bathrooms: 1,
+        surface: 65,
+      }),
+      [],
+    );
+
+    expect(result.current.hasDraft).toBe(true);
   });
 });

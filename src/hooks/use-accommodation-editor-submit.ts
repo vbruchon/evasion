@@ -32,6 +32,11 @@ const getDraftValues = (
   subtitle: values.subtitle,
   shortDescription: values.shortDescription,
   description: values.description,
+  guestCapacity: values.guestCapacity,
+  bedrooms: values.bedrooms,
+  beds: values.beds,
+  bathrooms: values.bathrooms,
+  surface: values.surface,
 });
 
 export const useAccommodationEditorSubmit = ({

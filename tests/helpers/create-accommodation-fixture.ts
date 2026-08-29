@@ -19,6 +19,13 @@ type CreateAccommodationFixtureOptions = {
   subtitle?: string | null;
   shortDescription?: string | null;
   description?: string | null;
+
+  guestCapacity?: number | null;
+  bedrooms?: number | null;
+  beds?: number | null;
+  bathrooms?: number | null;
+  surface?: number | null;
+
   status?: AccommodationStatus;
   position?: number;
   publishedAt?: Date | null;
@@ -45,6 +52,18 @@ export const createAccommodationFixture = async (
       description:
         options.description ??
         "Une description détaillée utilisée uniquement pendant les tests automatisés.",
+
+      guestCapacity:
+        options.guestCapacity === undefined ? 2 : options.guestCapacity,
+
+      bedrooms: options.bedrooms === undefined ? 1 : options.bedrooms,
+
+      beds: options.beds === undefined ? 1 : options.beds,
+
+      bathrooms: options.bathrooms === undefined ? 1 : options.bathrooms,
+
+      surface: options.surface === undefined ? 35 : options.surface,
+
       status,
       position: options.position ?? 1,
 

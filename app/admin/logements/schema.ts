@@ -25,6 +25,35 @@ const accommodationFieldsSchema = z.object({
     .max(500, "La description courte ne peut pas dépasser 500 caractères."),
 
   description: z.string().trim(),
+  guestCapacity: z
+    .int()
+    .min(1, "La capacité doit être d’au moins 1 voyageur.")
+    .max(20, "La capacité ne peut pas dépasser 20 voyageurs.")
+    .nullable(),
+
+  bedrooms: z
+    .int()
+    .min(0, "Le nombre de chambres ne peut pas être négatif.")
+    .max(10, "Le nombre de chambres ne peut pas dépasser 10.")
+    .nullable(),
+
+  beds: z
+    .int()
+    .min(0, "Le nombre de lits ne peut pas être négatif.")
+    .max(10, "Le nombre de lits ne peut pas dépasser 10.")
+    .nullable(),
+
+  bathrooms: z
+    .int()
+    .min(0, "Le nombre de salles de bain ne peut pas être négatif.")
+    .max(10, "Le nombre de salles de bain ne peut pas dépasser 10.")
+    .nullable(),
+
+  surface: z
+    .number()
+    .positive("La surface doit être supérieure à 0.")
+    .max(10000, "La surface ne peut pas dépasser 10 000 m².")
+    .nullable(),
 });
 
 const accommodationSlugSchema = z
@@ -87,9 +116,24 @@ export const accommodationUpdateImagesSchema = z
     message: "Une seule image de couverture doit être sélectionnée.",
   });
 
+const accommodationDraftValuesSchema = z.preprocess((value) => {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return value;
+  }
+
+  return {
+    guestCapacity: null,
+    bedrooms: null,
+    beds: null,
+    bathrooms: null,
+    surface: null,
+    ...(value as Record<string, unknown>),
+  };
+}, accommodationFieldsSchema);
+
 export const accommodationDraftContentSchema = z.object({
   version: z.literal(1),
-  values: accommodationFieldsSchema,
+  values: accommodationDraftValuesSchema,
   images: accommodationUpdateImagesSchema,
 });
 

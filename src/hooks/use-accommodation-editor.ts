@@ -31,6 +31,11 @@ export const useAccommodationEditor = (
       shortDescription: accommodation.shortDescription,
       description: accommodation.description,
       status: accommodation.status,
+      guestCapacity: accommodation.guestCapacity,
+      bedrooms: accommodation.bedrooms,
+      beds: accommodation.beds,
+      bathrooms: accommodation.bathrooms,
+      surface: accommodation.surface,
     },
     mode: "onSubmit",
   });

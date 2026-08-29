@@ -28,9 +28,31 @@ export const AccommodationEditorPreview = ({
 }: AccommodationEditorPreviewProps) => {
   const { control } = useFormContext<AccommodationUpdateFormValues>();
 
-  const [name, type, subtitle, shortDescription, description] = useWatch({
+  const [
+    name,
+    type,
+    subtitle,
+    shortDescription,
+    description,
+    guestCapacity,
+    bedrooms,
+    beds,
+    bathrooms,
+    surface,
+  ] = useWatch({
     control,
-    name: ["name", "type", "subtitle", "shortDescription", "description"],
+    name: [
+      "name",
+      "type",
+      "subtitle",
+      "shortDescription",
+      "description",
+      "guestCapacity",
+      "bedrooms",
+      "beds",
+      "bathrooms",
+      "surface",
+    ],
   });
 
   const accommodation = {
@@ -39,6 +61,11 @@ export const AccommodationEditorPreview = ({
     subtitle,
     shortDescription,
     description,
+    guestCapacity,
+    bedrooms,
+    beds,
+    bathrooms,
+    surface,
   };
 
   const previewImages = images.map((image) => ({
