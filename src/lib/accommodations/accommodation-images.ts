@@ -1,3 +1,5 @@
+export const MAX_ACCOMMODATION_IMAGES = 15;
+
 type AccommodationDisplayImage = {
   id: string;
   isCover?: boolean;

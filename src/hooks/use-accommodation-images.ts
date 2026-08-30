@@ -1,10 +1,9 @@
 "use client";
 
+import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 import { useCallback, useState } from "react";
 
 import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
-
-export const MAX_ACCOMMODATION_IMAGES = 15;
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 

@@ -1,6 +1,5 @@
+import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 import { z } from "zod";
-
-const MAX_ACCOMMODATION_IMAGES = 15;
 
 const hasSingleCoverImage = (images: { isCover: boolean }[]) =>
   images.length === 0 || images.filter((image) => image.isCover).length === 1;
