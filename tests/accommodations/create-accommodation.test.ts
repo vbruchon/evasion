@@ -30,6 +30,19 @@ const createValues = (
   bathrooms: 1,
   surface: 65,
 
+  highlights: [
+    {
+      title: "Spa privatif",
+      description: "Jacuzzi rien que pour vous",
+      icon: "Waves",
+    },
+    {
+      title: "Vue montagne",
+      description: "Panorama depuis le chalet",
+      icon: "Mountain",
+    },
+  ],
+
   status: "DRAFT",
   ...overrides,
 });
@@ -79,8 +92,15 @@ describe("createAccommodationAdmin", () => {
       where: {
         slug: "le-chalet-test",
       },
+
       include: {
         images: {
+          orderBy: {
+            position: "asc",
+          },
+        },
+
+        highlights: {
           orderBy: {
             position: "asc",
           },
@@ -105,6 +125,28 @@ describe("createAccommodationAdmin", () => {
       position: 6,
       publishedAt: null,
     });
+
+    expect(
+      accommodation?.highlights.map((highlight) => ({
+        title: highlight.title,
+        description: highlight.description,
+        icon: highlight.icon,
+        position: highlight.position,
+      })),
+    ).toEqual([
+      {
+        title: "Spa privatif",
+        description: "Jacuzzi rien que pour vous",
+        icon: "Waves",
+        position: 0,
+      },
+      {
+        title: "Vue montagne",
+        description: "Panorama depuis le chalet",
+        icon: "Mountain",
+        position: 1,
+      },
+    ]);
 
     expect(accommodation?.images).toHaveLength(2);
 

@@ -97,6 +97,8 @@ model Accommodation {
   bathrooms     Int?
   surface       Float?
 
+  highlights AccommodationHighlight[]
+
   city   String?
   region String?
 
@@ -145,4 +147,22 @@ model AccommodationDraft {
   updatedAt DateTime @updatedAt
 
   @@map("accommodation_drafts")
+}
+
+model AccommodationHighlight {
+  id String @id @default(cuid())
+
+  title       String
+  description String?
+  icon        String
+  position    Int     @default(0)
+
+  accommodationId String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([accommodationId, position])
+  @@map("accommodation_highlights")
 }

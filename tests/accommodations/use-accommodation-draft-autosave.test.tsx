@@ -41,8 +41,18 @@ const initialValues: AccommodationUpdateFormValues = {
   bathrooms: 1,
   surface: 65,
 
+  highlights: [
+    {
+      id: "highlight-1",
+      title: "Spa privatif",
+      description: "Jacuzzi rien que pour vous",
+      icon: "Waves",
+    },
+  ],
+
   status: "PUBLISHED",
 };
+
 const renderAutosaveHook = () => {
   const images: AccommodationPreviewImage[] = [];
   const syncPreparedImages = vi.fn();
@@ -129,6 +139,7 @@ describe("useAccommodationDraftAutosave", () => {
         surface: 65,
       },
       [],
+      initialValues.highlights,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -218,6 +229,7 @@ describe("useAccommodationDraftAutosave", () => {
         surface: 65,
       },
       [],
+      initialValues.highlights,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -251,8 +263,50 @@ describe("useAccommodationDraftAutosave", () => {
         surface: 65,
       }),
       [],
+      initialValues.highlights,
     );
 
     expect(result.current.hasDraft).toBe(true);
+  });
+
+  it("autosaves when a highlight changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue(
+        "highlights.0.title",
+        "Spa privatif modifié",
+        {
+          shouldDirty: true,
+        },
+      );
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        name: "Le Chalet",
+      }),
+      [],
+      [
+        {
+          id: "highlight-1",
+          title: "Spa privatif modifié",
+          description: "Jacuzzi rien que pour vous",
+          icon: "Waves",
+        },
+      ],
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
   });
 });

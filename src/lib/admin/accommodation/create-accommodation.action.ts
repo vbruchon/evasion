@@ -83,10 +83,10 @@ export const createAccommodationAdmin = async (
           status: data.status,
           position: (highestPosition._max.position ?? 0) + 1,
           guestCapacity: data.guestCapacity,
-          bedrooms: data.bedrooms || null,
-          beds: data.beds || null,
-          bathrooms: data.bathrooms || null,
-          surface: data.surface || null,
+          bedrooms: data.bedrooms ?? null,
+          beds: data.beds ?? null,
+          bathrooms: data.bathrooms ?? null,
+          surface: data.surface ?? null,
           publishedAt: data.status === "PUBLISHED" ? new Date() : null,
 
           images: {
@@ -95,8 +95,16 @@ export const createAccommodationAdmin = async (
               fileKey: image.fileKey,
               alt: null,
               caption: null,
-              position: index + 1,
+              position: index,
               isCover: image.isCover,
+            })),
+          },
+          highlights: {
+            create: data.highlights.map((highlight, position) => ({
+              title: highlight.title,
+              description: highlight.description || null,
+              icon: highlight.icon,
+              position,
             })),
           },
         },

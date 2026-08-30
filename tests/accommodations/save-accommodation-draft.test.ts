@@ -13,6 +13,7 @@ import { createAccommodationFixture } from "../helpers/create-accommodation-fixt
 import { resetAccommodationDatabase } from "../helpers/database";
 
 type DraftValues = AccommodationDraftContent["values"];
+type DraftHighlights = AccommodationDraftContent["highlights"];
 
 const createDraftValues = (
   overrides: Partial<DraftValues> = {},
@@ -33,6 +34,10 @@ const createDraftValues = (
 
   ...overrides,
 });
+
+const createDraftHighlights = (
+  overrides: DraftHighlights = [],
+): DraftHighlights => overrides;
 
 describe("saveAccommodationDraftAdmin", () => {
   beforeEach(async () => {
@@ -69,9 +74,32 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: true,
         },
       ],
+
+      highlights: [
+        {
+          title: "Spa public",
+          description: "Description publique",
+          icon: "Waves",
+        },
+      ],
     });
 
     const existingImage = accommodation.images[0];
+    const existingHighlight = accommodation.highlights[0];
+
+    const draftHighlights: DraftHighlights = [
+      {
+        id: existingHighlight.id,
+        title: "Spa privatif",
+        description: "Nouvelle description spa",
+        icon: "Waves",
+      },
+      {
+        title: "Vue montagne",
+        description: "Panorama sur le Vercors",
+        icon: "Mountain",
+      },
+    ];
 
     const result = await saveAccommodationDraftAdmin(
       accommodation.id,
@@ -87,6 +115,7 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: true,
         },
       ],
+      draftHighlights,
     );
 
     expect(result).toEqual({
@@ -101,6 +130,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
         include: {
           images: true,
+          highlights: true,
           draft: true,
         },
       },
@@ -124,8 +154,16 @@ describe("saveAccommodationDraftAdmin", () => {
     });
 
     expect(persistedAccommodation.images).toHaveLength(1);
-
     expect(persistedAccommodation.images[0].fileKey).toBe("published-cover");
+
+    expect(persistedAccommodation.highlights).toHaveLength(1);
+
+    expect(persistedAccommodation.highlights[0]).toMatchObject({
+      id: existingHighlight.id,
+      title: "Spa public",
+      description: "Description publique",
+      icon: "Waves",
+    });
 
     expect(persistedAccommodation.draft).not.toBeNull();
 
@@ -159,6 +197,8 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: true,
         },
       ],
+
+      highlights: draftHighlights,
     });
   });
 
@@ -173,6 +213,7 @@ describe("saveAccommodationDraftAdmin", () => {
         name: "First draft",
       }),
       [],
+      createDraftHighlights(),
     );
 
     const firstDraft = await prisma.accommodationDraft.findUniqueOrThrow({
@@ -187,6 +228,13 @@ describe("saveAccommodationDraftAdmin", () => {
         name: "Second draft",
       }),
       [],
+      createDraftHighlights([
+        {
+          title: "Nouveau point fort",
+          description: "Description",
+          icon: "Sparkles",
+        },
+      ]),
     );
 
     const drafts = await prisma.accommodationDraft.findMany({
@@ -196,7 +244,6 @@ describe("saveAccommodationDraftAdmin", () => {
     });
 
     expect(drafts).toHaveLength(1);
-
     expect(drafts[0].id).toBe(firstDraft.id);
 
     expect(drafts[0].content).toMatchObject({
@@ -205,6 +252,14 @@ describe("saveAccommodationDraftAdmin", () => {
       values: {
         name: "Second draft",
       },
+
+      highlights: [
+        {
+          title: "Nouveau point fort",
+          description: "Description",
+          icon: "Sparkles",
+        },
+      ],
     });
   });
 
@@ -225,6 +280,7 @@ describe("saveAccommodationDraftAdmin", () => {
       accommodation.id,
       createDraftValues(),
       images,
+      [],
     );
 
     expect(result).toEqual({
@@ -282,6 +338,7 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: true,
         },
       ],
+      [],
     );
 
     expect(result).toEqual({
@@ -300,23 +357,80 @@ describe("saveAccommodationDraftAdmin", () => {
     expect(deleteUploadThingFiles).toHaveBeenCalledWith(["new-image"]);
   });
 
+  it("rejects an existing highlight that belongs to another accommodation", async () => {
+    const accommodation = await createAccommodationFixture({
+      status: "PUBLISHED",
+      highlights: [
+        {
+          title: "Highlight légitime",
+          icon: "Sparkles",
+        },
+      ],
+    });
+
+    const otherAccommodation = await createAccommodationFixture({
+      status: "PUBLISHED",
+      position: 2,
+      highlights: [
+        {
+          title: "Highlight étranger",
+          icon: "Mountain",
+        },
+      ],
+    });
+
+    const foreignHighlight = otherAccommodation.highlights[0];
+
+    const result = await saveAccommodationDraftAdmin(
+      accommodation.id,
+      createDraftValues(),
+      [],
+      [
+        {
+          id: foreignHighlight.id,
+          title: foreignHighlight.title,
+          description: foreignHighlight.description,
+          icon: foreignHighlight.icon,
+        },
+      ],
+    );
+
+    expect(result).toEqual({
+      success: false,
+      message: "Un point fort n'appartient pas à ce logement.",
+    });
+
+    expect(
+      await prisma.accommodationDraft.findUnique({
+        where: {
+          accommodationId: accommodation.id,
+        },
+      }),
+    ).toBeNull();
+  });
+
   it("removes draft-only files that are no longer referenced after saving", async () => {
     const accommodation = await createAccommodationFixture({
       status: "PUBLISHED",
     });
 
-    await saveAccommodationDraftAdmin(accommodation.id, createDraftValues(), [
-      {
-        url: "https://example.com/draft-a.webp",
-        fileKey: "draft-a",
-        isCover: true,
-      },
-      {
-        url: "https://example.com/draft-b.webp",
-        fileKey: "draft-b",
-        isCover: false,
-      },
-    ]);
+    await saveAccommodationDraftAdmin(
+      accommodation.id,
+      createDraftValues(),
+      [
+        {
+          url: "https://example.com/draft-a.webp",
+          fileKey: "draft-a",
+          isCover: true,
+        },
+        {
+          url: "https://example.com/draft-b.webp",
+          fileKey: "draft-b",
+          isCover: false,
+        },
+      ],
+      [],
+    );
 
     await saveAccommodationDraftAdmin(
       accommodation.id,
@@ -335,6 +449,7 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: false,
         },
       ],
+      [],
     );
 
     expect(deleteUploadThingFiles).toHaveBeenLastCalledWith(["draft-a"]);
@@ -362,13 +477,18 @@ describe("saveAccommodationDraftAdmin", () => {
       status: "PUBLISHED",
     });
 
-    await saveAccommodationDraftAdmin(accommodation.id, createDraftValues(), [
-      {
-        url: "https://example.com/existing-draft-image.webp",
-        fileKey: "existing-draft-image",
-        isCover: true,
-      },
-    ]);
+    await saveAccommodationDraftAdmin(
+      accommodation.id,
+      createDraftValues(),
+      [
+        {
+          url: "https://example.com/existing-draft-image.webp",
+          fileKey: "existing-draft-image",
+          isCover: true,
+        },
+      ],
+      [],
+    );
 
     vi.mocked(deleteUploadThingFiles).mockClear();
 
@@ -389,6 +509,7 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: false,
         },
       ],
+      [],
     );
 
     expect(result).toEqual({
@@ -433,6 +554,7 @@ describe("saveAccommodationDraftAdmin", () => {
             isCover: true,
           },
         ],
+        [],
       ),
     ).rejects.toThrow("Logement introuvable");
 

@@ -39,6 +39,7 @@ export const AccommodationEditorPreview = ({
     beds,
     bathrooms,
     surface,
+    highlights,
   ] = useWatch({
     control,
     name: [
@@ -52,6 +53,7 @@ export const AccommodationEditorPreview = ({
       "beds",
       "bathrooms",
       "surface",
+      "highlights",
     ],
   });
 
@@ -90,6 +92,7 @@ export const AccommodationEditorPreview = ({
           accommodation={accommodation}
           coverImage={coverImage}
           hasGallery={previewImages.length > 0}
+          highlights={highlights}
         />
       </EditorSection>
 

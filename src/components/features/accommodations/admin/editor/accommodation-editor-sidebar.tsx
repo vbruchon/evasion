@@ -9,6 +9,7 @@ import {
 import { AccommodationGalleryEditor } from "./section/accommodation-gallery-editor";
 import { AccommodationHeroEditor } from "./section/accommodation-hero-editor";
 import { AccommodationPresentationEditor } from "./section/accommodation-presentation-editor";
+import { AccommodationHighlightsEditor } from "./section/accommodation-highlights-editor";
 
 type AccommodationEditorSidebarProps = {
   activeSection: AccommodationEditorSection;
@@ -46,7 +47,12 @@ export const AccommodationEditorSidebar = ({
       </header>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {activeSection === "hero" ? <AccommodationHeroEditor /> : null}
+        {activeSection === "hero" ? (
+          <>
+            <AccommodationHeroEditor />
+            <AccommodationHighlightsEditor disabled={disabled} />
+          </>
+        ) : null}
 
         {activeSection === "presentation" ? (
           <AccommodationPresentationEditor />

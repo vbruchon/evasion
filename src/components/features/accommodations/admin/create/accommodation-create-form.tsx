@@ -17,6 +17,9 @@ import { AccommodationPublicationSection } from "../form/accommodation-publicati
 import { AccommodationInformationSection } from "../form/accommodation-information-section";
 import { useAccommodationImages } from "@/hooks/use-accommodation-images";
 import { AccommodationImagesSection } from "../form/accommodation-images-section";
+import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
+
+import { AccommodationHighlightsField } from "../form/accommodation-highlights-field";
 
 const defaultValues: AccommodationCreateFormValues = {
   name: "",
@@ -31,6 +34,7 @@ const defaultValues: AccommodationCreateFormValues = {
   beds: null,
   bathrooms: null,
   surface: null,
+  highlights: [],
 };
 
 export const AccommodationCreateForm = () => {
@@ -109,6 +113,13 @@ export const AccommodationCreateForm = () => {
         ) : null}
 
         <AccommodationInformationSection mode="create" />
+
+        <AdminFormSection
+          title="Points forts"
+          description="Mettez en avant les principaux atouts du logement."
+        >
+          <AccommodationHighlightsField />
+        </AdminFormSection>
 
         <AccommodationImagesSection
           images={images}

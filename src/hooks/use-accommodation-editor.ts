@@ -36,6 +36,7 @@ export const useAccommodationEditor = (
       beds: accommodation.beds,
       bathrooms: accommodation.bathrooms,
       surface: accommodation.surface,
+      highlights: accommodation.highlights,
     },
     mode: "onSubmit",
   });

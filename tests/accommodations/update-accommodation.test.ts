@@ -29,6 +29,8 @@ const updateValues = (
   bathrooms: 2,
   surface: 72.5,
 
+  highlights: [],
+
   status: "PUBLISHED",
   ...overrides,
 });
@@ -188,6 +190,166 @@ describe("updateAccommodationAdmin", () => {
     expect(deleteUploadThingFiles).toHaveBeenCalledWith(["image-to-remove"]);
   });
 
+  it("updates, creates, removes and reorders highlights", async () => {
+    const accommodation = await createAccommodationFixture({
+      highlights: [
+        {
+          title: "Spa privatif",
+          description: "Ancienne description spa",
+          icon: "Waves",
+          position: 0,
+        },
+        {
+          title: "Vue montagne",
+          description: "Ancienne description montagne",
+          icon: "Mountain",
+          position: 1,
+        },
+        {
+          title: "Point à supprimer",
+          description: "Ce point doit disparaître",
+          icon: "Sparkles",
+          position: 2,
+        },
+      ],
+    });
+
+    const spa = accommodation.highlights.find(
+      (highlight) => highlight.title === "Spa privatif",
+    )!;
+
+    const mountain = accommodation.highlights.find(
+      (highlight) => highlight.title === "Vue montagne",
+    )!;
+
+    const result = await updateAccommodationAdmin(
+      accommodation.id,
+      updateValues({
+        highlights: [
+          {
+            id: mountain.id,
+            title: "Vue sur le Vercors",
+            description: "Panorama sur les reliefs du Vercors",
+            icon: "Mountain",
+          },
+          {
+            title: "Terrasse privative",
+            description: "Un espace ouvert sur le paysage",
+            icon: "Sun",
+          },
+          {
+            id: spa.id,
+            title: "Spa privatif",
+            description: "Jacuzzi rien que pour vous",
+            icon: "Waves",
+          },
+        ],
+      }),
+      [],
+    );
+
+    expect(result).toEqual({
+      success: true,
+    });
+
+    const highlights = await prisma.accommodationHighlight.findMany({
+      where: {
+        accommodationId: accommodation.id,
+      },
+      orderBy: {
+        position: "asc",
+      },
+    });
+
+    expect(
+      highlights.map((highlight) => ({
+        id: highlight.id,
+        title: highlight.title,
+        description: highlight.description,
+        icon: highlight.icon,
+        position: highlight.position,
+      })),
+    ).toEqual([
+      {
+        id: mountain.id,
+        title: "Vue sur le Vercors",
+        description: "Panorama sur les reliefs du Vercors",
+        icon: "Mountain",
+        position: 0,
+      },
+      {
+        id: expect.any(String),
+        title: "Terrasse privative",
+        description: "Un espace ouvert sur le paysage",
+        icon: "Sun",
+        position: 1,
+      },
+      {
+        id: spa.id,
+        title: "Spa privatif",
+        description: "Jacuzzi rien que pour vous",
+        icon: "Waves",
+        position: 2,
+      },
+    ]);
+
+    expect(
+      highlights.some((highlight) => highlight.title === "Point à supprimer"),
+    ).toBe(false);
+  });
+
+  it("rejects an existing highlight that belongs to another accommodation", async () => {
+    const accommodation = await createAccommodationFixture({
+      highlights: [
+        {
+          title: "Highlight légitime",
+          icon: "Sparkles",
+        },
+      ],
+    });
+
+    const otherAccommodation = await createAccommodationFixture({
+      position: 2,
+      highlights: [
+        {
+          title: "Highlight étranger",
+          icon: "Mountain",
+        },
+      ],
+    });
+
+    const foreignHighlight = otherAccommodation.highlights[0];
+
+    const result = await updateAccommodationAdmin(
+      accommodation.id,
+      updateValues({
+        highlights: [
+          {
+            id: foreignHighlight.id,
+            title: foreignHighlight.title,
+            description: foreignHighlight.description,
+            icon: foreignHighlight.icon,
+          },
+        ],
+      }),
+      [],
+    );
+
+    expect(result).toEqual({
+      success: false,
+      message: expect.stringContaining("appartient"),
+    });
+
+    const persistedHighlights = await prisma.accommodationHighlight.findMany({
+      where: {
+        accommodationId: accommodation.id,
+      },
+    });
+
+    expect(persistedHighlights).toHaveLength(1);
+    expect(persistedHighlights[0].title).toBe("Highlight légitime");
+  });
+
   it("rejects an existing image that belongs to another accommodation", async () => {
     const accommodation = await createAccommodationFixture({
       images: [
@@ -318,6 +480,7 @@ describe("updateAccommodationAdmin", () => {
       },
       include: {
         draft: true,
+
         images: {
           orderBy: {
             position: "asc",
@@ -355,6 +518,7 @@ describe("updateAccommodationAdmin", () => {
             shortDescription: "Draft short description",
             description: "Draft description",
           },
+
           images: [
             {
               url: "https://example.com/existing-draft-image.webp",

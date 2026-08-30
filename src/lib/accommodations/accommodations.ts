@@ -14,6 +14,11 @@ export const getPublishedAccommodations = async () => {
           position: "asc",
         },
       },
+      highlights: {
+        orderBy: {
+          position: "asc",
+        },
+      },
     },
   });
 };
@@ -26,6 +31,11 @@ export const getPublishedAccommodationBySlug = async (slug: string) => {
     },
     include: {
       images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
+      highlights: {
         orderBy: {
           position: "asc",
         },

@@ -23,6 +23,12 @@ export const publishAccommodationDraftAdmin = async (
         },
       },
 
+      highlights: {
+        select: {
+          id: true,
+        },
+      },
+
       draft: {
         select: {
           content: true,
@@ -69,6 +75,26 @@ export const publishAccommodationDraftAdmin = async (
       success: false as const,
       message:
         "Le brouillon contient une image qui n'appartient pas à ce logement.",
+    };
+  }
+
+  const accommodationHighlightIds = new Set(
+    accommodation.highlights.map((highlight) => highlight.id),
+  );
+
+  const draftExistingHighlightIds = draft.highlights.flatMap((highlight) =>
+    highlight.id ? [highlight.id] : [],
+  );
+
+  const hasForeignHighlight = draftExistingHighlightIds.some(
+    (id) => !accommodationHighlightIds.has(id),
+  );
+
+  if (hasForeignHighlight) {
+    return {
+      success: false as const,
+      message:
+        "Le brouillon contient un point fort qui n'appartient pas à ce logement.",
     };
   }
 
@@ -135,6 +161,49 @@ export const publishAccommodationDraftAdmin = async (
           fileKey: image.fileKey,
           position,
           isCover: image.isCover,
+        },
+      });
+    }
+
+    await tx.accommodationHighlight.deleteMany({
+      where: {
+        accommodationId,
+
+        ...(draftExistingHighlightIds.length > 0
+          ? {
+              id: {
+                notIn: draftExistingHighlightIds,
+              },
+            }
+          : {}),
+      },
+    });
+
+    for (const [position, highlight] of draft.highlights.entries()) {
+      if (highlight.id) {
+        await tx.accommodationHighlight.update({
+          where: {
+            id: highlight.id,
+          },
+
+          data: {
+            title: highlight.title,
+            description: highlight.description || null,
+            icon: highlight.icon,
+            position,
+          },
+        });
+
+        continue;
+      }
+
+      await tx.accommodationHighlight.create({
+        data: {
+          accommodationId,
+          title: highlight.title,
+          description: highlight.description || null,
+          icon: highlight.icon,
+          position,
         },
       });
     }

@@ -31,24 +31,12 @@ type UseAccommodationDraftAutosaveOptions = {
   coverImageId: string | null;
   enabled: boolean;
   initialHasDraft: boolean;
+
   syncPreparedImages: (
     sourceImages: AccommodationPreviewImage[],
     preparedImages: AccommodationUpdateImageInput[],
   ) => void;
 };
-
-const createDraftSignature = (
-  values: AccommodationDraftContent["values"],
-  images: AccommodationPreviewImage[],
-  coverImageId: string | null,
-) =>
-  JSON.stringify({
-    values,
-    images: images.map((image) => ({
-      id: image.id,
-      isCover: image.id === coverImageId,
-    })),
-  });
 
 export const useAccommodationDraftAutosave = ({
   accommodationId,
@@ -86,6 +74,11 @@ export const useAccommodationDraftAutosave = ({
     ],
   });
 
+  const highlights = useWatch({
+    control: form.control,
+    name: "highlights",
+  });
+
   const values = useMemo<AccommodationDraftContent["values"]>(
     () => ({
       name,
@@ -114,8 +107,17 @@ export const useAccommodationDraftAutosave = ({
   );
 
   const signature = useMemo(
-    () => createDraftSignature(values, images, coverImageId),
-    [values, images, coverImageId],
+    () =>
+      JSON.stringify({
+        values,
+        highlights,
+
+        images: images.map((image) => ({
+          id: image.id,
+          isCover: image.id === coverImageId,
+        })),
+      }),
+    [values, highlights, images, coverImageId],
   );
 
   const lastSavedSignatureRef = useRef(signature);
@@ -130,6 +132,7 @@ export const useAccommodationDraftAutosave = ({
   const saveDraft = useCallback(async () => {
     const parsedValues = accommodationUpdateSchema.safeParse({
       ...values,
+      highlights,
       status: "PUBLISHED",
     });
 
@@ -154,6 +157,7 @@ export const useAccommodationDraftAutosave = ({
         accommodationId,
         values,
         preparedImages,
+        highlights,
       );
 
       if (!result.success) {
@@ -178,6 +182,7 @@ export const useAccommodationDraftAutosave = ({
   }, [
     accommodationId,
     coverImageId,
+    highlights,
     images,
     signature,
     syncPreparedImages,

@@ -20,6 +20,35 @@ const accommodations = [
     bathrooms: 1,
     surface: null,
 
+    highlights: {
+      create: [
+        {
+          title: "Spa privatif",
+          description: "Jacuzzi rien que pour vous",
+          icon: "Waves",
+          position: 0,
+        },
+        {
+          title: "Vue sur le Vercors",
+          description: "Panorama sur les reliefs du Vercors",
+          icon: "Mountain",
+          position: 1,
+        },
+        {
+          title: "Logement insolite",
+          description: "Un container transformé en cocon",
+          icon: "Sparkles",
+          position: 2,
+        },
+        {
+          title: "Terrasse privative",
+          description: "Un espace ouvert sur le paysage",
+          icon: "Sun",
+          position: 3,
+        },
+      ],
+    },
+
     city: "Valence",
     region: "Drôme",
     status: "PUBLISHED" as const,
@@ -79,6 +108,35 @@ const accommodations = [
     beds: 1,
     bathrooms: 1,
     surface: null,
+
+    highlights: {
+      create: [
+        {
+          title: "Spa privatif",
+          description: "Un spa couvert rien que pour vous",
+          icon: "Waves",
+          position: 0,
+        },
+        {
+          title: "Cinéma privé",
+          description: "Grand écran depuis votre cocon",
+          icon: "Film",
+          position: 1,
+        },
+        {
+          title: "Vue sur le Vercors",
+          description: "Panorama sur les reliefs du Vercors",
+          icon: "Mountain",
+          position: 2,
+        },
+        {
+          title: "Expérience insolite",
+          description: "Une nuit hors du commun à deux",
+          icon: "Sparkles",
+          position: 3,
+        },
+      ],
+    },
 
     city: "Valence",
     region: "Drôme",
@@ -161,6 +219,11 @@ const main = async () => {
         status: accommodation.status,
         position: accommodation.position,
         publishedAt: accommodation.publishedAt,
+
+        highlights: {
+          deleteMany: {},
+          create: accommodation.highlights.create,
+        },
       },
 
       create: accommodation,

@@ -31,6 +31,7 @@ export const updateAccommodationAdmin = async (
     where: {
       id,
     },
+
     select: {
       id: true,
       slug: true,
@@ -40,6 +41,12 @@ export const updateAccommodationAdmin = async (
         select: {
           id: true,
           fileKey: true,
+        },
+      },
+
+      highlights: {
+        select: {
+          id: true,
         },
       },
 
@@ -133,6 +140,27 @@ export const updateAccommodationAdmin = async (
     };
   }
 
+  const existingHighlightIds = new Set(
+    accommodation.highlights.map((highlight) => highlight.id),
+  );
+
+  const submittedExistingHighlightIds = data.highlights.flatMap((highlight) =>
+    highlight.id ? [highlight.id] : [],
+  );
+
+  const invalidExistingHighlight = submittedExistingHighlightIds.some(
+    (highlightId) => !existingHighlightIds.has(highlightId),
+  );
+
+  if (invalidExistingHighlight) {
+    await cleanupNewlyUploadedImages();
+
+    return {
+      success: false as const,
+      message: "Un point fort n’appartient pas à ce logement.",
+    };
+  }
+
   const submittedImageIds = new Set(submittedExistingImageIds);
 
   const removedImages = accommodation.images.filter(
@@ -158,18 +186,22 @@ export const updateAccommodationAdmin = async (
         where: {
           id,
         },
+
         data: {
           name: data.name,
           type: data.type || null,
           subtitle: data.subtitle || null,
           shortDescription: data.shortDescription || null,
           description: data.description || null,
-          status: data.status,
+
           guestCapacity: data.guestCapacity,
           bedrooms: data.bedrooms,
           beds: data.beds,
           bathrooms: data.bathrooms,
           surface: data.surface,
+
+          status: data.status,
+
           publishedAt:
             data.status === "PUBLISHED"
               ? (accommodation.publishedAt ?? new Date())
@@ -181,6 +213,7 @@ export const updateAccommodationAdmin = async (
         await tx.accommodationImage.deleteMany({
           where: {
             accommodationId: id,
+
             id: {
               in: removedImages.map((image) => image.id),
             },
@@ -188,14 +221,15 @@ export const updateAccommodationAdmin = async (
         });
       }
 
-      for (const [index, image] of finalImages.entries()) {
+      for (const [position, image] of finalImages.entries()) {
         if ("id" in image) {
           await tx.accommodationImage.update({
             where: {
               id: image.id,
             },
+
             data: {
-              position: index,
+              position,
               isCover: image.isCover,
             },
           });
@@ -210,8 +244,51 @@ export const updateAccommodationAdmin = async (
             fileKey: image.fileKey,
             alt: null,
             caption: null,
-            position: index,
+            position,
             isCover: image.isCover,
+          },
+        });
+      }
+
+      await tx.accommodationHighlight.deleteMany({
+        where: {
+          accommodationId: id,
+
+          ...(submittedExistingHighlightIds.length > 0
+            ? {
+                id: {
+                  notIn: submittedExistingHighlightIds,
+                },
+              }
+            : {}),
+        },
+      });
+
+      for (const [position, highlight] of data.highlights.entries()) {
+        if (highlight.id) {
+          await tx.accommodationHighlight.update({
+            where: {
+              id: highlight.id,
+            },
+
+            data: {
+              title: highlight.title,
+              description: highlight.description || null,
+              icon: highlight.icon,
+              position,
+            },
+          });
+
+          continue;
+        }
+
+        await tx.accommodationHighlight.create({
+          data: {
+            accommodationId: id,
+            title: highlight.title,
+            description: highlight.description || null,
+            icon: highlight.icon,
+            position,
           },
         });
       }

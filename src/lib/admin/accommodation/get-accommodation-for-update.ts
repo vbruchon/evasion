@@ -37,6 +37,19 @@ export const getAccommodationForUpdate = async (id: string) => {
         },
       },
 
+      highlights: {
+        orderBy: {
+          position: "asc",
+        },
+
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          icon: true,
+        },
+      },
+
       draft: {
         select: {
           content: true,
@@ -74,6 +87,8 @@ export const getAccommodationForUpdate = async (id: string) => {
         isExisting: true,
       }));
 
+  const highlights = draft ? draft.highlights : accommodation.highlights;
+
   return {
     id: accommodation.id,
     slug: accommodation.slug,
@@ -90,6 +105,8 @@ export const getAccommodationForUpdate = async (id: string) => {
     beds: values.beds,
     bathrooms: values.bathrooms,
     surface: values.surface,
+
+    highlights,
 
     images,
 

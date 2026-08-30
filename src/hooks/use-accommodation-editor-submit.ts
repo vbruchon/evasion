@@ -108,6 +108,7 @@ export const useAccommodationEditorSubmit = ({
         accommodationId,
         getDraftValues(values),
         preparedImages,
+        values.highlights,
       );
 
       if (!result.success) {
@@ -174,6 +175,7 @@ export const useAccommodationEditorSubmit = ({
     handleSaveDraft,
     handlePublishDraft,
     handleDiscardDraft,
+
     isSavingDraft,
     isPublishing,
     isDiscardingDraft,

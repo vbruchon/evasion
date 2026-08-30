@@ -70,10 +70,16 @@ export const saveAccommodationDraft = async (
   accommodationId: string,
   values: AccommodationDraftContent["values"],
   images: AccommodationUpdateImageInput[],
+  highlights: AccommodationDraftContent["highlights"],
 ) => {
   await requireAdmin();
 
-  return saveAccommodationDraftAdmin(accommodationId, values, images);
+  return saveAccommodationDraftAdmin(
+    accommodationId,
+    values,
+    images,
+    highlights,
+  );
 };
 
 export const publishAccommodationDraft = async (accommodationId: string) => {

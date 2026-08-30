@@ -13,11 +13,13 @@ import {
 } from "./accommodation-draft";
 
 type AccommodationDraftValues = AccommodationDraftContent["values"];
+type AccommodationDraftHighlights = AccommodationDraftContent["highlights"];
 
 export const saveAccommodationDraftAdmin = async (
   accommodationId: string,
   values: AccommodationDraftValues,
   images: AccommodationUpdateImageInput[],
+  highlights: AccommodationDraftHighlights,
 ) => {
   const accommodation = await prisma.accommodation.findUnique({
     where: {
@@ -29,6 +31,12 @@ export const saveAccommodationDraftAdmin = async (
       status: true,
 
       images: {
+        select: {
+          id: true,
+        },
+      },
+
+      highlights: {
         select: {
           id: true,
         },
@@ -72,6 +80,7 @@ export const saveAccommodationDraftAdmin = async (
     version: 1,
     values,
     images,
+    highlights,
   });
 
   if (!contentResult.success) {
@@ -109,6 +118,25 @@ export const saveAccommodationDraftAdmin = async (
     return {
       success: false as const,
       message: "Une image sélectionnée n'appartient pas à ce logement.",
+    };
+  }
+
+  const accommodationHighlightIds = new Set(
+    accommodation.highlights.map((highlight) => highlight.id),
+  );
+
+  const hasForeignHighlight = content.highlights.some(
+    (highlight) =>
+      highlight.id !== undefined &&
+      !accommodationHighlightIds.has(highlight.id),
+  );
+
+  if (hasForeignHighlight) {
+    await deleteUploadThingFiles(newlyUploadedFileKeys);
+
+    return {
+      success: false as const,
+      message: "Un point fort n'appartient pas à ce logement.",
     };
   }
 

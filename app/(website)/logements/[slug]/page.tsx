@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { AccommodationHero } from "@/components/features/accommodations/slug/accommodation-hero";
 import { AccommodationPresentation } from "@/components/features/accommodations/slug/accommodation-presentation";
 import { AccommodationGallery } from "@/components/features/accommodations/slug/accommodation-gallery";
+
 import { getPublishedAccommodationBySlug } from "@/lib/accommodations/accommodations";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
 
@@ -31,7 +32,8 @@ export default async function AccommodationPage({
       <AccommodationHero
         accommodation={accommodation}
         coverImage={coverImage}
-        hasGallery={galleryImages.length > 0}
+        hasGallery={accommodation.images.length > 0}
+        highlights={accommodation.highlights}
       />
 
       <AccommodationPresentation

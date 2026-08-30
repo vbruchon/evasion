@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 
 import type { AccommodationStatus } from "@/generated/prisma/client";
+import { DEFAULT_ACCOMMODATION_HIGHLIGHT_ICON } from "@/lib/accommodations/accommodation-highlights";
 import { prisma } from "@/lib/prisma";
 
 type AccommodationFixtureImage = {
@@ -10,6 +11,13 @@ type AccommodationFixtureImage = {
   caption?: string | null;
   position?: number;
   isCover?: boolean;
+};
+
+type AccommodationFixtureHighlight = {
+  title?: string;
+  description?: string | null;
+  icon?: string;
+  position?: number;
 };
 
 type CreateAccommodationFixtureOptions = {
@@ -29,7 +37,9 @@ type CreateAccommodationFixtureOptions = {
   status?: AccommodationStatus;
   position?: number;
   publishedAt?: Date | null;
+
   images?: AccommodationFixtureImage[];
+  highlights?: AccommodationFixtureHighlight[];
 };
 
 export const createAccommodationFixture = async (
@@ -84,10 +94,25 @@ export const createAccommodationFixture = async (
           isCover: image.isCover ?? index === 0,
         })),
       },
+
+      highlights: {
+        create: (options.highlights ?? []).map((highlight, index) => ({
+          title: highlight.title ?? `Point fort ${index + 1}`,
+          description: highlight.description ?? null,
+          icon: highlight.icon ?? DEFAULT_ACCOMMODATION_HIGHLIGHT_ICON,
+          position: highlight.position ?? index,
+        })),
+      },
     },
 
     include: {
       images: {
+        orderBy: {
+          position: "asc",
+        },
+      },
+
+      highlights: {
         orderBy: {
           position: "asc",
         },

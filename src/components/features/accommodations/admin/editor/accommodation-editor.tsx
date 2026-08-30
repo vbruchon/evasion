@@ -62,7 +62,6 @@ export const AccommodationEditor = ({
     setActiveSection(section);
     setMobileView("editor");
   };
-  console.log({ accommodation });
 
   return (
     <FormProvider {...form}>

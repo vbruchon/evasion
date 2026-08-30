@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const MAX_ACCOMMODATION_IMAGES = 15;
+const MAX_ACCOMMODATION_HIGHLIGHTS = 6;
 
 const accommodationFieldsSchema = z.object({
   name: z
@@ -25,6 +26,7 @@ const accommodationFieldsSchema = z.object({
     .max(500, "La description courte ne peut pas dépasser 500 caractères."),
 
   description: z.string().trim(),
+
   guestCapacity: z
     .int()
     .min(1, "La capacité doit être d’au moins 1 voyageur.")
@@ -68,15 +70,6 @@ const accommodationSlugSchema = z
 
 const hasSingleCoverImage = (images: { isCover: boolean }[]) =>
   images.length === 0 || images.filter((image) => image.isCover).length === 1;
-
-export const accommodationCreateSchema = accommodationFieldsSchema.extend({
-  slug: accommodationSlugSchema,
-  status: z.enum(["DRAFT", "PUBLISHED"]),
-});
-
-export const accommodationUpdateSchema = accommodationFieldsSchema.extend({
-  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
-});
 
 export const accommodationImageSchema = z.object({
   url: z.string().url(),
@@ -131,10 +124,47 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
   };
 }, accommodationFieldsSchema);
 
+export const accommodationHighlightSchema = z.object({
+  id: z.string().min(1).optional(),
+
+  title: z
+    .string()
+    .trim()
+    .min(1, "Le titre du point fort est obligatoire.")
+    .max(40, "Le titre ne peut pas dépasser 40 caractères."),
+
+  description: z
+    .string()
+    .trim()
+    .max(60, "La description ne peut pas dépasser 60 caractères.")
+    .nullable(),
+
+  icon: z.string().trim().max(50),
+});
+
+export const accommodationHighlightsSchema = z
+  .array(accommodationHighlightSchema)
+  .max(
+    MAX_ACCOMMODATION_HIGHLIGHTS,
+    `Un logement ne peut pas contenir plus de ${MAX_ACCOMMODATION_HIGHLIGHTS} points forts.`,
+  );
+
+export const accommodationCreateSchema = accommodationFieldsSchema.extend({
+  slug: accommodationSlugSchema,
+  status: z.enum(["DRAFT", "PUBLISHED"]),
+  highlights: accommodationHighlightsSchema,
+});
+
+export const accommodationUpdateSchema = accommodationFieldsSchema.extend({
+  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
+  highlights: accommodationHighlightsSchema,
+});
+
 export const accommodationDraftContentSchema = z.object({
   version: z.literal(1),
   values: accommodationDraftValuesSchema,
   images: accommodationUpdateImagesSchema,
+  highlights: accommodationHighlightsSchema.default([]),
 });
 
 export type AccommodationCreateFormValues = z.infer<
@@ -149,6 +179,14 @@ export type AccommodationImageInput = z.infer<typeof accommodationImageSchema>;
 
 export type AccommodationUpdateImageInput = z.infer<
   typeof accommodationUpdateImageSchema
+>;
+
+export type AccommodationHighlightInput = z.infer<
+  typeof accommodationHighlightSchema
+>;
+
+export type AccommodationHighlightsInput = z.infer<
+  typeof accommodationHighlightsSchema
 >;
 
 export type AccommodationDraftContent = z.infer<
