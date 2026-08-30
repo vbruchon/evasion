@@ -1,12 +1,9 @@
 import { Bath, BedDouble, DoorOpen, Ruler, Users } from "lucide-react";
 
-import type { Accommodation } from "@/generated/prisma/client";
+import type { AccommodationKeyDetailsData } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationKeyDetailsProps = {
-  accommodationDetails: Pick<
-    Accommodation,
-    "guestCapacity" | "bedrooms" | "beds" | "bathrooms" | "surface"
-  >;
+  accommodationDetails: AccommodationKeyDetailsData;
 };
 
 const DETAILS = [

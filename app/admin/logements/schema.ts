@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-const MAX_ACCOMMODATION_IMAGES = 15;
-const MAX_ACCOMMODATION_HIGHLIGHTS = 6;
+import { accommodationHighlightsSchema } from "./schemas/accommodation-highlight.schema";
+import { accommodationUpdateImagesSchema } from "./schemas/accommodation-image.schema";
 
 const accommodationFieldsSchema = z.object({
   name: z
@@ -68,47 +68,6 @@ const accommodationSlugSchema = z
     "Le slug doit contenir uniquement des lettres minuscules, chiffres et tirets.",
   );
 
-const hasSingleCoverImage = (images: { isCover: boolean }[]) =>
-  images.length === 0 || images.filter((image) => image.isCover).length === 1;
-
-export const accommodationImageSchema = z.object({
-  url: z.string().url(),
-  fileKey: z.string().min(1),
-  isCover: z.boolean(),
-});
-
-export const accommodationImagesSchema = z
-  .array(accommodationImageSchema)
-  .max(
-    MAX_ACCOMMODATION_IMAGES,
-    `Un logement ne peut pas contenir plus de ${MAX_ACCOMMODATION_IMAGES} images.`,
-  )
-  .refine(hasSingleCoverImage, {
-    message: "Une seule image de couverture doit être sélectionnée.",
-  });
-
-export const accommodationUpdateImageSchema = z.union([
-  z.object({
-    id: z.string().min(1),
-    isCover: z.boolean(),
-  }),
-  z.object({
-    url: z.string().url(),
-    fileKey: z.string().min(1),
-    isCover: z.boolean(),
-  }),
-]);
-
-export const accommodationUpdateImagesSchema = z
-  .array(accommodationUpdateImageSchema)
-  .max(
-    MAX_ACCOMMODATION_IMAGES,
-    `Un logement ne peut pas contenir plus de ${MAX_ACCOMMODATION_IMAGES} images.`,
-  )
-  .refine(hasSingleCoverImage, {
-    message: "Une seule image de couverture doit être sélectionnée.",
-  });
-
 const accommodationDraftValuesSchema = z.preprocess((value) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return value;
@@ -123,31 +82,6 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
     ...(value as Record<string, unknown>),
   };
 }, accommodationFieldsSchema);
-
-export const accommodationHighlightSchema = z.object({
-  id: z.string().min(1).optional(),
-
-  title: z
-    .string()
-    .trim()
-    .min(1, "Le titre du point fort est obligatoire.")
-    .max(40, "Le titre ne peut pas dépasser 40 caractères."),
-
-  description: z
-    .string()
-    .trim()
-    .max(60, "La description ne peut pas dépasser 60 caractères.")
-    .nullable(),
-
-  icon: z.string().trim().max(50),
-});
-
-export const accommodationHighlightsSchema = z
-  .array(accommodationHighlightSchema)
-  .max(
-    MAX_ACCOMMODATION_HIGHLIGHTS,
-    `Un logement ne peut pas contenir plus de ${MAX_ACCOMMODATION_HIGHLIGHTS} points forts.`,
-  );
 
 export const accommodationCreateSchema = accommodationFieldsSchema.extend({
   slug: accommodationSlugSchema,
@@ -167,26 +101,34 @@ export const accommodationDraftContentSchema = z.object({
   highlights: accommodationHighlightsSchema.default([]),
 });
 
+export {
+  accommodationHighlightSchema,
+  accommodationHighlightsSchema,
+} from "./schemas/accommodation-highlight.schema";
+
+export {
+  accommodationImageSchema,
+  accommodationImagesSchema,
+  accommodationUpdateImageSchema,
+  accommodationUpdateImagesSchema,
+} from "./schemas/accommodation-image.schema";
+
+export type {
+  AccommodationHighlightInput,
+  AccommodationHighlightsInput,
+} from "./schemas/accommodation-highlight.schema";
+
+export type {
+  AccommodationImageInput,
+  AccommodationUpdateImageInput,
+} from "./schemas/accommodation-image.schema";
+
 export type AccommodationCreateFormValues = z.infer<
   typeof accommodationCreateSchema
 >;
 
 export type AccommodationUpdateFormValues = z.infer<
   typeof accommodationUpdateSchema
->;
-
-export type AccommodationImageInput = z.infer<typeof accommodationImageSchema>;
-
-export type AccommodationUpdateImageInput = z.infer<
-  typeof accommodationUpdateImageSchema
->;
-
-export type AccommodationHighlightInput = z.infer<
-  typeof accommodationHighlightSchema
->;
-
-export type AccommodationHighlightsInput = z.infer<
-  typeof accommodationHighlightsSchema
 >;
 
 export type AccommodationDraftContent = z.infer<

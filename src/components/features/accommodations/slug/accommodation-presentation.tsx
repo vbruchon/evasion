@@ -1,21 +1,19 @@
-import type {
-  Accommodation,
-  AccommodationImage,
-} from "@/generated/prisma/client";
 import Image from "next/image";
 
+import type {
+  AccommodationDisplayImageSource,
+  AccommodationPresentationData,
+} from "@/lib/accommodations/accommodation-types";
+
 type AccommodationPresentationProps = {
-  accommodation: Pick<
-    Accommodation,
-    "name" | "shortDescription" | "description"
-  >;
-  image?: Pick<AccommodationImage, "url" | "alt">;
+  accommodation: AccommodationPresentationData;
+  image?: AccommodationDisplayImageSource;
 };
 
-export function AccommodationPresentation({
+export const AccommodationPresentation = ({
   accommodation,
   image,
-}: AccommodationPresentationProps) {
+}: AccommodationPresentationProps) => {
   return (
     <section className="border-b border-border/60 px-6 py-16 md:px-12 lg:px-20 lg:py-20 xl:px-24">
       <div className="mx-auto grid max-w-420 items-center gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-16 xl:gap-20">
@@ -32,6 +30,7 @@ export function AccommodationPresentation({
             </p>
           ) : null}
         </div>
+
         {image ? (
           <div className="relative aspect-4/3 overflow-hidden rounded-sm md:aspect-16/8.5 md:min-h-80 lg:min-h-88">
             <Image
@@ -52,4 +51,4 @@ export function AccommodationPresentation({
       </div>
     </section>
   );
-}
+};

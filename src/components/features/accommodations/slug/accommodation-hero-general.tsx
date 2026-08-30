@@ -1,7 +1,7 @@
-import type { Accommodation } from "@/generated/prisma/client";
+import type { AccommodationHeroGeneralData } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationHeroGeneralProps = {
-  accommodation: Pick<Accommodation, "name" | "type" | "subtitle">;
+  accommodation: AccommodationHeroGeneralData;
 };
 
 export const AccommodationHeroGeneral = ({

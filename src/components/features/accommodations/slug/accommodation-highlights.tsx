@@ -1,14 +1,8 @@
+import type { AccommodationHighlightDisplay } from "@/lib/accommodations/accommodation-types";
 import {
   ACCOMMODATION_HIGHLIGHT_ICON_MAP,
   DEFAULT_ACCOMMODATION_HIGHLIGHT_ICON,
 } from "@/lib/accommodations/accommodation-highlights";
-
-export type AccommodationHighlightDisplay = {
-  id?: string;
-  title: string;
-  description: string | null;
-  icon: string | null;
-};
 
 type AccommodationHighlightsProps = {
   highlights: AccommodationHighlightDisplay[];
@@ -23,9 +17,8 @@ export const AccommodationHighlights = ({
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-none lg:grid-flow-col lg:auto-cols-fr">
       {highlights.map((highlight, index) => {
-        const Icon = highlight.icon
-          ? (ACCOMMODATION_HIGHLIGHT_ICON_MAP[highlight.icon] ?? DefaultIcon)
-          : DefaultIcon;
+        const Icon =
+          ACCOMMODATION_HIGHLIGHT_ICON_MAP[highlight.icon] ?? DefaultIcon;
 
         return (
           <article

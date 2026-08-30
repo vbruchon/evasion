@@ -1,28 +1,29 @@
 "use client";
 
-import type { AccommodationImage } from "@/generated/prisma/client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-import { AccommodationGalleryLightbox } from "./accommodation-gallery-lightbox";
+import { Button } from "@/components/ui/button";
 import {
   Carousel,
   type CarouselApi,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
+import type { AccommodationDisplayImage } from "@/lib/accommodations/accommodation-types";
+
+import { AccommodationGalleryLightbox } from "./accommodation-gallery-lightbox";
 
 type AccommodationGalleryProps = {
   accommodationName: string;
-  images: Pick<AccommodationImage, "id" | "url" | "alt">[];
+  images: AccommodationDisplayImage[];
 };
 
-export function AccommodationGallery({
+export const AccommodationGallery = ({
   accommodationName,
   images,
-}: AccommodationGalleryProps) {
+}: AccommodationGalleryProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrevious, setCanScrollPrevious] = useState(false);
@@ -138,4 +139,4 @@ export function AccommodationGallery({
       />
     </>
   );
-}
+};

@@ -1,6 +1,5 @@
 "use client";
 
-import type { AccommodationImage } from "@/generated/prisma/client";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
@@ -11,20 +10,21 @@ import {
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
+import type { AccommodationDisplayImage } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationGalleryLightboxProps = {
   accommodationName: string;
-  images: Pick<AccommodationImage, "id" | "url" | "alt">[];
+  images: AccommodationDisplayImage[];
   selectedIndex: number | null;
   onSelectedIndexChange: (index: number | null) => void;
 };
 
-export function AccommodationGalleryLightbox({
+export const AccommodationGalleryLightbox = ({
   accommodationName,
   images,
   selectedIndex,
   onSelectedIndexChange,
-}: AccommodationGalleryLightboxProps) {
+}: AccommodationGalleryLightboxProps) => {
   const selectedImage =
     selectedIndex !== null ? images[selectedIndex] : undefined;
 
@@ -144,4 +144,4 @@ export function AccommodationGalleryLightbox({
       </DialogContent>
     </Dialog>
   );
-}
+};
