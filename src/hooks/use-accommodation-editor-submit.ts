@@ -9,12 +9,10 @@ import {
   saveAccommodationDraft,
   updateAccommodation,
 } from "~/app/admin/logements/action";
-import type {
-  AccommodationDraftContent,
-  AccommodationUpdateFormValues,
-} from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
 
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import { getAccommodationDraftValues } from "@/lib/admin/accommodation/accommodation-draft";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
 
 type UseAccommodationEditorSubmitOptions = {
@@ -23,21 +21,6 @@ type UseAccommodationEditorSubmitOptions = {
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
 };
-
-const getDraftValues = (
-  values: AccommodationUpdateFormValues,
-): AccommodationDraftContent["values"] => ({
-  name: values.name,
-  type: values.type,
-  subtitle: values.subtitle,
-  shortDescription: values.shortDescription,
-  description: values.description,
-  guestCapacity: values.guestCapacity,
-  bedrooms: values.bedrooms,
-  beds: values.beds,
-  bathrooms: values.bathrooms,
-  surface: values.surface,
-});
 
 export const useAccommodationEditorSubmit = ({
   accommodationId,
@@ -106,7 +89,7 @@ export const useAccommodationEditorSubmit = ({
 
       const result = await saveAccommodationDraft(
         accommodationId,
-        getDraftValues(values),
+        getAccommodationDraftValues(values),
         preparedImages,
         values.highlights,
       );

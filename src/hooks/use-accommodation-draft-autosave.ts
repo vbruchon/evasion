@@ -13,6 +13,10 @@ import {
 } from "~/app/admin/logements/schema";
 
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import {
+  ACCOMMODATION_DRAFT_VALUE_FIELDS,
+  getAccommodationDraftSignature,
+} from "@/lib/admin/accommodation/accommodation-draft";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
 
 const AUTOSAVE_DELAY = 2500;
@@ -47,31 +51,9 @@ export const useAccommodationDraftAutosave = ({
   initialHasDraft,
   syncPreparedImages,
 }: UseAccommodationDraftAutosaveOptions) => {
-  const [
-    name,
-    type,
-    subtitle,
-    shortDescription,
-    description,
-    guestCapacity,
-    bedrooms,
-    beds,
-    bathrooms,
-    surface,
-  ] = useWatch({
+  const watchedDraftValues = useWatch({
     control: form.control,
-    name: [
-      "name",
-      "type",
-      "subtitle",
-      "shortDescription",
-      "description",
-      "guestCapacity",
-      "bedrooms",
-      "beds",
-      "bathrooms",
-      "surface",
-    ],
+    name: ACCOMMODATION_DRAFT_VALUE_FIELDS,
   });
 
   const highlights = useWatch({
@@ -79,8 +61,8 @@ export const useAccommodationDraftAutosave = ({
     name: "highlights",
   });
 
-  const values = useMemo<AccommodationDraftContent["values"]>(
-    () => ({
+  const values = useMemo<AccommodationDraftContent["values"]>(() => {
+    const [
       name,
       type,
       subtitle,
@@ -91,8 +73,9 @@ export const useAccommodationDraftAutosave = ({
       beds,
       bathrooms,
       surface,
-    }),
-    [
+    ] = watchedDraftValues;
+
+    return {
       name,
       type,
       subtitle,
@@ -103,22 +86,15 @@ export const useAccommodationDraftAutosave = ({
       beds,
       bathrooms,
       surface,
-    ],
-  );
+    };
+  }, [watchedDraftValues]);
 
-  const signature = useMemo(
-    () =>
-      JSON.stringify({
-        values,
-        highlights,
-
-        images: images.map((image) => ({
-          id: image.id,
-          isCover: image.id === coverImageId,
-        })),
-      }),
-    [values, highlights, images, coverImageId],
-  );
+  const signature = getAccommodationDraftSignature({
+    values,
+    highlights,
+    images,
+    coverImageId,
+  });
 
   const lastSavedSignatureRef = useRef(signature);
   const failedSignatureRef = useRef<string | null>(null);
