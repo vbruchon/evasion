@@ -1,6 +1,6 @@
 "use client";
 
-import type { KeyboardEvent, ReactNode } from "react";
+import type { KeyboardEvent, MouseEvent, ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -8,6 +8,7 @@ type AccommodationEditorSectionProps = {
   active: boolean;
   label: string;
   children: ReactNode;
+  interactiveChildren?: boolean;
   onSelect: () => void;
 };
 
@@ -15,9 +16,22 @@ export const AccommodationEditorSection = ({
   active,
   label,
   children,
+  interactiveChildren = false,
   onSelect,
 }: AccommodationEditorSectionProps) => {
+  const handleClick = (event: MouseEvent<HTMLElement>) => {
+    if (interactiveChildren) {
+      event.preventDefault();
+    }
+
+    onSelect();
+  };
+
   const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+    if (event.target !== event.currentTarget) {
+      return;
+    }
+
     if (event.key !== "Enter" && event.key !== " ") {
       return;
     }
@@ -36,10 +50,12 @@ export const AccommodationEditorSection = ({
         "group relative cursor-pointer ring-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
         active ? "ring-primary" : "ring-transparent hover:ring-primary/40",
       )}
-      onClick={onSelect}
+      onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <div className="pointer-events-none">{children}</div>
+      <div className={cn(!interactiveChildren && "pointer-events-none")}>
+        {children}
+      </div>
 
       <div className="pointer-events-none absolute right-3 top-3 z-30 lg:right-4 lg:top-4">
         <span className="border border-primary/50 bg-background/90 px-2.5 py-1.5 text-[10px] font-medium uppercase tracking-wide text-foreground backdrop-blur-sm lg:hidden">

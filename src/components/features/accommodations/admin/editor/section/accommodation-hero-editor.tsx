@@ -4,37 +4,46 @@ import { AccommodationNumberField } from "../../form/accommodation-number-field"
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
 
-export const AccommodationHeroEditor = () => (
-  <AccommodationEditorSectionContent>
-    <AccommodationTextField
-      name="type"
-      label="Type de logement"
-      placeholder="Ex. Chalet de montagne"
-      variant="editor"
-    />
+type AccommodationHeroEditorProps = {
+  section: "general" | "key-details";
+};
 
-    <AccommodationTextField
-      name="name"
-      label="Nom"
-      placeholder="Ex. Le Chalet"
-      variant="editor"
-    />
+export const AccommodationHeroEditor = ({
+  section,
+}: AccommodationHeroEditorProps) => {
+  if (section === "general") {
+    return (
+      <AccommodationEditorSectionContent>
+        <AccommodationTextField
+          name="type"
+          label="Type de logement"
+          placeholder="Ex. Chalet de montagne"
+          variant="editor"
+        />
 
-    <AccommodationTextField
-      name="subtitle"
-      label="Sous-titre"
-      placeholder="Présentez le logement en une phrase"
-      multiline
-      variant="editor"
-    />
+        <AccommodationTextField
+          name="name"
+          label="Nom"
+          placeholder="Ex. Le Chalet"
+          variant="editor"
+        />
 
-    <div className="space-y-4 pt-2">
-      <div>
-        <p className="text-sm font-medium">Infos clés</p>
-        <p className="mt-1 text-xs leading-5 text-muted-foreground">
-          Affichées sous le sous-titre dans le hero.
-        </p>
-      </div>
+        <AccommodationTextField
+          name="subtitle"
+          label="Sous-titre"
+          placeholder="Présentez le logement en une phrase"
+          multiline
+          variant="editor"
+        />
+      </AccommodationEditorSectionContent>
+    );
+  }
+
+  return (
+    <AccommodationEditorSectionContent>
+      <p className="text-xs leading-5 text-muted-foreground">
+        Affichées sous le sous-titre dans le hero.
+      </p>
 
       <div className="grid grid-cols-2 gap-4">
         <AccommodationNumberField
@@ -80,6 +89,6 @@ export const AccommodationHeroEditor = () => (
           step={0.5}
         />
       </div>
-    </div>
-  </AccommodationEditorSectionContent>
-);
+    </AccommodationEditorSectionContent>
+  );
+};

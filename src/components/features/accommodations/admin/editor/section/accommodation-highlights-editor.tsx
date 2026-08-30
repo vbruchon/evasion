@@ -1,15 +1,10 @@
 "use client";
 
-import { Plus, Sparkles } from "lucide-react";
 import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 
 import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
 
-import { Button } from "@/components/ui/button";
-import {
-  DEFAULT_ACCOMMODATION_HIGHLIGHT_ICON,
-  MAX_ACCOMMODATION_HIGHLIGHTS,
-} from "@/lib/accommodations/accommodation-highlights";
+import { MAX_ACCOMMODATION_HIGHLIGHTS } from "@/lib/accommodations/accommodation-highlights";
 
 import { AccommodationHighlightFieldCard } from "../../form/accommodation-highlight-field-card";
 import { AccommodationHighlightPresetPicker } from "../../form/accommodation-highlight-preset-picker";
@@ -36,15 +31,11 @@ export const AccommodationHighlightsEditor = ({
   const canAdd = !disabled && fields.length < MAX_ACCOMMODATION_HIGHLIGHTS;
 
   return (
-    <div className="border-t border-border/60 px-5 py-6 sm:px-6">
+    <div className="px-5 py-6 sm:px-6">
       <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-medium">Points forts</p>
-
-          <p className="mt-1 text-xs leading-5 text-muted-foreground">
-            Atouts affichés dans le bandeau inférieur du hero.
-          </p>
-        </div>
+        <p className="text-xs leading-5 text-muted-foreground">
+          Atouts affichés dans le bandeau inférieur du hero.
+        </p>
 
         <span className="shrink-0 text-xs text-muted-foreground">
           {fields.length} / {MAX_ACCOMMODATION_HIGHLIGHTS}
