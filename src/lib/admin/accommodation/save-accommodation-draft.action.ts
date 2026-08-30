@@ -11,6 +11,11 @@ import {
   getAccommodationDraftFileKeys,
   parseAccommodationDraftContent,
 } from "./accommodation-draft";
+import {
+  getAccommodationUpdateImageFileKeys,
+  hasForeignAccommodationImage,
+} from "./sync-accommodation-images";
+import { hasForeignAccommodationHighlight } from "./sync-accommodation-highlights";
 
 type AccommodationDraftValues = AccommodationDraftContent["values"];
 type AccommodationDraftHighlights = AccommodationDraftContent["highlights"];
@@ -21,6 +26,8 @@ export const saveAccommodationDraftAdmin = async (
   images: AccommodationUpdateImageInput[],
   highlights: AccommodationDraftHighlights,
 ) => {
+  const incomingFileKeys = getAccommodationUpdateImageFileKeys(images);
+
   const accommodation = await prisma.accommodation.findUnique({
     where: {
       id: accommodationId,
@@ -51,10 +58,6 @@ export const saveAccommodationDraftAdmin = async (
   });
 
   if (!accommodation) {
-    const incomingFileKeys = images.flatMap((image) =>
-      "fileKey" in image ? [image.fileKey] : [],
-    );
-
     await deleteUploadThingFiles(incomingFileKeys);
 
     throw new Error("Logement introuvable.");
@@ -66,10 +69,6 @@ export const saveAccommodationDraftAdmin = async (
 
   const previousDraftFileKeys = new Set(
     previousDraft ? getAccommodationDraftFileKeys(previousDraft) : [],
-  );
-
-  const incomingFileKeys = images.flatMap((image) =>
-    "fileKey" in image ? [image.fileKey] : [],
   );
 
   const newlyUploadedFileKeys = incomingFileKeys.filter(
@@ -104,12 +103,9 @@ export const saveAccommodationDraftAdmin = async (
     };
   }
 
-  const accommodationImageIds = new Set(
+  const hasForeignImage = hasForeignAccommodationImage(
+    content.images,
     accommodation.images.map((image) => image.id),
-  );
-
-  const hasForeignImage = content.images.some(
-    (image) => "id" in image && !accommodationImageIds.has(image.id),
   );
 
   if (hasForeignImage) {
@@ -121,14 +117,9 @@ export const saveAccommodationDraftAdmin = async (
     };
   }
 
-  const accommodationHighlightIds = new Set(
+  const hasForeignHighlight = hasForeignAccommodationHighlight(
+    content.highlights,
     accommodation.highlights.map((highlight) => highlight.id),
-  );
-
-  const hasForeignHighlight = content.highlights.some(
-    (highlight) =>
-      highlight.id !== undefined &&
-      !accommodationHighlightIds.has(highlight.id),
   );
 
   if (hasForeignHighlight) {

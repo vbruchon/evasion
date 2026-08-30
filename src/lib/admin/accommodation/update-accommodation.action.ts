@@ -1,10 +1,10 @@
 import { revalidatePath } from "next/cache";
 
 import {
+  accommodationUpdateImagesSchema,
   accommodationUpdateSchema,
   type AccommodationUpdateFormValues,
   type AccommodationUpdateImageInput,
-  accommodationUpdateImagesSchema,
 } from "~/app/admin/logements/schema";
 
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
@@ -15,17 +15,23 @@ import {
   parseAccommodationDraftContent,
 } from "./accommodation-draft";
 import { revalidateAccommodation } from "./revalidate-accommodation";
+import {
+  getAccommodationUpdateImageFileKeys,
+  getRemovedAccommodationImages,
+  hasForeignAccommodationImage,
+  syncAccommodationImages,
+} from "./sync-accommodation-images";
+import {
+  hasForeignAccommodationHighlight,
+  syncAccommodationHighlights,
+} from "./sync-accommodation-highlights";
 
 export const updateAccommodationAdmin = async (
   id: string,
   values: AccommodationUpdateFormValues,
   images: AccommodationUpdateImageInput[],
 ) => {
-  const submittedFileKeys = images.flatMap((image) =>
-    "fileKey" in image && typeof image.fileKey === "string"
-      ? [image.fileKey]
-      : [],
-  );
+  const submittedFileKeys = getAccommodationUpdateImageFileKeys(images);
 
   const accommodation = await prisma.accommodation.findUnique({
     where: {
@@ -75,12 +81,7 @@ export const updateAccommodationAdmin = async (
     draftContent ? getAccommodationDraftFileKeys(draftContent) : [],
   );
 
-  /*
-   * Un fileKey déjà présent dans le brouillon correspond à une image
-   * uploadée lors d'une précédente sauvegarde.
-   *
-   * Elle ne doit donc pas être supprimée si la requête actuelle échoue.
-   */
+  // Only delete uploads created by this request if it fails.
   const newlyUploadedFileKeys = submittedFileKeys.filter(
     (fileKey) => !draftFileKeys.has(fileKey),
   );
@@ -114,21 +115,9 @@ export const updateAccommodationAdmin = async (
   const data = parsedValues.data;
   const finalImages = parsedImages.data;
 
-  const existingImageIds = new Set(
+  const invalidExistingImage = hasForeignAccommodationImage(
+    finalImages,
     accommodation.images.map((image) => image.id),
-  );
-
-  const submittedExistingImageIds = finalImages
-    .filter(
-      (
-        image,
-      ): image is Extract<AccommodationUpdateImageInput, { id: string }> =>
-        "id" in image,
-    )
-    .map((image) => image.id);
-
-  const invalidExistingImage = submittedExistingImageIds.some(
-    (imageId) => !existingImageIds.has(imageId),
   );
 
   if (invalidExistingImage) {
@@ -140,16 +129,9 @@ export const updateAccommodationAdmin = async (
     };
   }
 
-  const existingHighlightIds = new Set(
+  const invalidExistingHighlight = hasForeignAccommodationHighlight(
+    data.highlights,
     accommodation.highlights.map((highlight) => highlight.id),
-  );
-
-  const submittedExistingHighlightIds = data.highlights.flatMap((highlight) =>
-    highlight.id ? [highlight.id] : [],
-  );
-
-  const invalidExistingHighlight = submittedExistingHighlightIds.some(
-    (highlightId) => !existingHighlightIds.has(highlightId),
   );
 
   if (invalidExistingHighlight) {
@@ -161,19 +143,12 @@ export const updateAccommodationAdmin = async (
     };
   }
 
-  const submittedImageIds = new Set(submittedExistingImageIds);
-
-  const removedImages = accommodation.images.filter(
-    (image) => !submittedImageIds.has(image.id),
+  const removedImages = getRemovedAccommodationImages(
+    accommodation.images,
+    finalImages,
   );
 
-  /*
-   * Images uniquement présentes dans l'ancien brouillon et qui ne font
-   * pas partie de l'enregistrement direct actuel.
-   *
-   * Une image du brouillon présente dans submittedFileKeys est au contraire
-   * promue en AccommodationImage et doit donc être conservée.
-   */
+  // Delete draft files that are not kept by the direct update.
   const submittedFileKeySet = new Set(submittedFileKeys);
 
   const abandonedDraftFileKeys = [...draftFileKeys].filter(
@@ -209,89 +184,9 @@ export const updateAccommodationAdmin = async (
         },
       });
 
-      if (removedImages.length > 0) {
-        await tx.accommodationImage.deleteMany({
-          where: {
-            accommodationId: id,
+      await syncAccommodationImages(tx, id, finalImages);
 
-            id: {
-              in: removedImages.map((image) => image.id),
-            },
-          },
-        });
-      }
-
-      for (const [position, image] of finalImages.entries()) {
-        if ("id" in image) {
-          await tx.accommodationImage.update({
-            where: {
-              id: image.id,
-            },
-
-            data: {
-              position,
-              isCover: image.isCover,
-            },
-          });
-
-          continue;
-        }
-
-        await tx.accommodationImage.create({
-          data: {
-            accommodationId: id,
-            url: image.url,
-            fileKey: image.fileKey,
-            alt: null,
-            caption: null,
-            position,
-            isCover: image.isCover,
-          },
-        });
-      }
-
-      await tx.accommodationHighlight.deleteMany({
-        where: {
-          accommodationId: id,
-
-          ...(submittedExistingHighlightIds.length > 0
-            ? {
-                id: {
-                  notIn: submittedExistingHighlightIds,
-                },
-              }
-            : {}),
-        },
-      });
-
-      for (const [position, highlight] of data.highlights.entries()) {
-        if (highlight.id) {
-          await tx.accommodationHighlight.update({
-            where: {
-              id: highlight.id,
-            },
-
-            data: {
-              title: highlight.title,
-              description: highlight.description || null,
-              icon: highlight.icon,
-              position,
-            },
-          });
-
-          continue;
-        }
-
-        await tx.accommodationHighlight.create({
-          data: {
-            accommodationId: id,
-            title: highlight.title,
-            description: highlight.description || null,
-            icon: highlight.icon,
-            position,
-          },
-        });
-      }
+      await syncAccommodationHighlights(tx, id, data.highlights);
 
       await tx.accommodationDraft.deleteMany({
         where: {

@@ -1,7 +1,17 @@
-import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/accommodation-draft";
-import { revalidateAccommodation } from "@/lib/admin/accommodation/revalidate-accommodation";
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";
+
+import { parseAccommodationDraftContent } from "./accommodation-draft";
+import { revalidateAccommodation } from "./revalidate-accommodation";
+import {
+  getRemovedAccommodationImages,
+  hasForeignAccommodationImage,
+  syncAccommodationImages,
+} from "./sync-accommodation-images";
+import {
+  hasForeignAccommodationHighlight,
+  syncAccommodationHighlights,
+} from "./sync-accommodation-highlights";
 
 export const publishAccommodationDraftAdmin = async (
   accommodationId: string,
@@ -58,16 +68,9 @@ export const publishAccommodationDraftAdmin = async (
 
   const draft = parseAccommodationDraftContent(accommodation.draft.content);
 
-  const accommodationImageIds = new Set(
+  const hasForeignImage = hasForeignAccommodationImage(
+    draft.images,
     accommodation.images.map((image) => image.id),
-  );
-
-  const draftExistingImageIds = draft.images.flatMap((image) =>
-    "id" in image ? [image.id] : [],
-  );
-
-  const hasForeignImage = draftExistingImageIds.some(
-    (id) => !accommodationImageIds.has(id),
   );
 
   if (hasForeignImage) {
@@ -78,16 +81,9 @@ export const publishAccommodationDraftAdmin = async (
     };
   }
 
-  const accommodationHighlightIds = new Set(
+  const hasForeignHighlight = hasForeignAccommodationHighlight(
+    draft.highlights,
     accommodation.highlights.map((highlight) => highlight.id),
-  );
-
-  const draftExistingHighlightIds = draft.highlights.flatMap((highlight) =>
-    highlight.id ? [highlight.id] : [],
-  );
-
-  const hasForeignHighlight = draftExistingHighlightIds.some(
-    (id) => !accommodationHighlightIds.has(id),
   );
 
   if (hasForeignHighlight) {
@@ -98,10 +94,9 @@ export const publishAccommodationDraftAdmin = async (
     };
   }
 
-  const existingImageIds = new Set(draftExistingImageIds);
-
-  const removedImages = accommodation.images.filter(
-    (image) => !existingImageIds.has(image.id),
+  const removedImages = getRemovedAccommodationImages(
+    accommodation.images,
+    draft.images,
   );
 
   await prisma.$transaction(async (tx) => {
@@ -124,89 +119,9 @@ export const publishAccommodationDraftAdmin = async (
       },
     });
 
-    await tx.accommodationImage.deleteMany({
-      where: {
-        accommodationId,
+    await syncAccommodationImages(tx, accommodationId, draft.images);
 
-        ...(draftExistingImageIds.length > 0
-          ? {
-              id: {
-                notIn: draftExistingImageIds,
-              },
-            }
-          : {}),
-      },
-    });
-
-    for (const [position, image] of draft.images.entries()) {
-      if ("id" in image) {
-        await tx.accommodationImage.update({
-          where: {
-            id: image.id,
-          },
-
-          data: {
-            position,
-            isCover: image.isCover,
-          },
-        });
-
-        continue;
-      }
-
-      await tx.accommodationImage.create({
-        data: {
-          accommodationId,
-          url: image.url,
-          fileKey: image.fileKey,
-          position,
-          isCover: image.isCover,
-        },
-      });
-    }
-
-    await tx.accommodationHighlight.deleteMany({
-      where: {
-        accommodationId,
-
-        ...(draftExistingHighlightIds.length > 0
-          ? {
-              id: {
-                notIn: draftExistingHighlightIds,
-              },
-            }
-          : {}),
-      },
-    });
-
-    for (const [position, highlight] of draft.highlights.entries()) {
-      if (highlight.id) {
-        await tx.accommodationHighlight.update({
-          where: {
-            id: highlight.id,
-          },
-
-          data: {
-            title: highlight.title,
-            description: highlight.description || null,
-            icon: highlight.icon,
-            position,
-          },
-        });
-
-        continue;
-      }
-
-      await tx.accommodationHighlight.create({
-        data: {
-          accommodationId,
-          title: highlight.title,
-          description: highlight.description || null,
-          icon: highlight.icon,
-          position,
-        },
-      });
-    }
+    await syncAccommodationHighlights(tx, accommodationId, draft.highlights);
 
     await tx.accommodationDraft.delete({
       where: {
