@@ -10,6 +10,7 @@ import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema
 import { useAccommodationDraftAutosave } from "@/hooks/use-accommodation-draft-autosave";
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
+import { createAccommodationUpdateValues } from "../helpers/accommodation-values";
 
 vi.mock("~/app/admin/logements/action", () => ({
   saveAccommodationDraft: vi.fn(),
@@ -28,7 +29,7 @@ const mockedPrepareAccommodationUpdateImages = vi.mocked(
   prepareAccommodationUpdateImages,
 );
 
-const initialValues: AccommodationUpdateFormValues = {
+const initialValues = createAccommodationUpdateValues({
   name: "Le Chalet",
   type: "Chalet",
   subtitle: "Sous-titre",
@@ -51,7 +52,7 @@ const initialValues: AccommodationUpdateFormValues = {
   ],
 
   status: "PUBLISHED",
-};
+});
 
 const renderAutosaveHook = () => {
   const images: AccommodationPreviewImage[] = [];

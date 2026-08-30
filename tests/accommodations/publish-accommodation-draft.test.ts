@@ -8,6 +8,7 @@ import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
 import { resetAccommodationDatabase } from "../helpers/database";
+import { createAccommodationDraftValues } from "../helpers/accommodation-values";
 
 type DraftValues = AccommodationDraftContent["values"];
 
@@ -75,7 +76,9 @@ describe("publishAccommodationDraftAdmin", () => {
 
     const saveResult = await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues(),
+      createAccommodationDraftValues({
+        subtitle: "Une nouvelle version",
+      }),
       [],
       [
         {

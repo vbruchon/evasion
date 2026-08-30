@@ -11,6 +11,7 @@ import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
 import { resetAccommodationDatabase } from "../helpers/database";
+import { createAccommodationDraftValues } from "../helpers/accommodation-values";
 
 type DraftValues = AccommodationDraftContent["values"];
 type DraftHighlights = AccommodationDraftContent["highlights"];
@@ -34,10 +35,6 @@ const createDraftValues = (
 
   ...overrides,
 });
-
-const createDraftHighlights = (
-  overrides: DraftHighlights = [],
-): DraftHighlights => overrides;
 
 describe("saveAccommodationDraftAdmin", () => {
   beforeEach(async () => {
@@ -103,7 +100,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     const result = await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues(),
+      createAccommodationDraftValues(),
       [
         {
           id: existingImage.id,
@@ -213,7 +210,7 @@ describe("saveAccommodationDraftAdmin", () => {
         name: "First draft",
       }),
       [],
-      createDraftHighlights(),
+      [],
     );
 
     const firstDraft = await prisma.accommodationDraft.findUniqueOrThrow({
@@ -228,13 +225,13 @@ describe("saveAccommodationDraftAdmin", () => {
         name: "Second draft",
       }),
       [],
-      createDraftHighlights([
+      [
         {
           title: "Nouveau point fort",
           description: "Description",
           icon: "Sparkles",
         },
-      ]),
+      ],
     );
 
     const drafts = await prisma.accommodationDraft.findMany({
@@ -278,7 +275,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     const result = await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues(),
+      createAccommodationDraftValues(),
       images,
       [],
     );
@@ -326,7 +323,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     const result = await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues(),
+      createAccommodationDraftValues(),
       [
         {
           id: foreignImage.id,
@@ -383,7 +380,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     const result = await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues(),
+      createAccommodationDraftValues(),
       [],
       [
         {
@@ -416,7 +413,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues(),
+      createAccommodationDraftValues(),
       [
         {
           url: "https://example.com/draft-a.webp",
@@ -479,7 +476,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues(),
+      createAccommodationDraftValues(),
       [
         {
           url: "https://example.com/existing-draft-image.webp",
@@ -546,7 +543,7 @@ describe("saveAccommodationDraftAdmin", () => {
     await expect(
       saveAccommodationDraftAdmin(
         "accommodation-inexistante",
-        createDraftValues(),
+        createAccommodationDraftValues(),
         [
           {
             url: "https://example.com/orphan.webp",

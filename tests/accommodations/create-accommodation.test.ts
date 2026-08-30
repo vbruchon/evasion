@@ -11,6 +11,7 @@ import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
 import { resetAccommodationDatabase } from "../helpers/database";
+import { createAccommodationCreateValues } from "../helpers/accommodation-values";
 
 const createValues = (
   overrides: Partial<AccommodationCreateFormValues> = {},
@@ -79,7 +80,7 @@ describe("createAccommodationAdmin", () => {
     });
 
     const result = await createAccommodationAdmin(
-      createValues(),
+      createAccommodationCreateValues(),
       createImages(),
     );
 
@@ -237,7 +238,7 @@ describe("createAccommodationAdmin", () => {
   it("does not persist anything when the submitted data is invalid", async () => {
     const result = await createAccommodationAdmin(
       {
-        ...createValues(),
+        ...createAccommodationCreateValues(),
         name: "",
       },
       createImages(),

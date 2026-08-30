@@ -11,6 +11,7 @@ import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
 import { resetAccommodationDatabase } from "../helpers/database";
+import { createAccommodationUpdateValues } from "../helpers/accommodation-values";
 
 const updateValues = (
   overrides: Partial<AccommodationUpdateFormValues> = {},
@@ -52,7 +53,7 @@ describe("updateAccommodationAdmin", () => {
 
     const result = await updateAccommodationAdmin(
       accommodation.id,
-      updateValues(),
+      createAccommodationUpdateValues(),
       [],
     );
 
@@ -372,7 +373,7 @@ describe("updateAccommodationAdmin", () => {
 
     const result = await updateAccommodationAdmin(
       accommodation.id,
-      updateValues(),
+      createAccommodationUpdateValues(),
       [
         {
           id: foreignImage.id,
