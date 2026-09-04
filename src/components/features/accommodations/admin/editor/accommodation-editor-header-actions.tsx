@@ -1,13 +1,13 @@
 "use client";
 
-import { FileClock, LoaderCircle, Save, Send } from "lucide-react";
+import { FileClock, Save, Send } from "lucide-react";
 
 import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
 
 import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
-import { Button } from "@/components/ui/button";
 
 import { AccommodationStatusDropdown } from "../accommodation-status-dropdown";
+import { AccommodationEditorHeaderActionButton } from "./accommodation-editor-header-action-button";
 
 type AccommodationEditorHeaderActionsProps = {
   status: AccommodationUpdateFormValues["status"];
@@ -56,91 +56,38 @@ export const AccommodationEditorHeaderActions = ({
       />
 
       {canSaveDraft && statusChanged ? (
-        <>
-          <Button
-            type="button"
-            size="icon"
-            className="sm:hidden"
-            disabled={statusSaveDisabled}
-            aria-label="Enregistrer le statut"
-            onClick={onSaveStatus}
-          >
-            {isUpdatingStatus ? (
-              <LoaderCircle className="animate-spin" />
-            ) : (
-              <Save />
-            )}
-          </Button>
-
-          <Button
-            type="button"
-            className="hidden sm:inline-flex"
-            disabled={statusSaveDisabled}
-            onClick={onSaveStatus}
-          >
-            {isUpdatingStatus ? (
-              <LoaderCircle className="animate-spin" />
-            ) : (
-              <Save />
-            )}
-
-            {isUpdatingStatus ? "Enregistrement..." : "Enregistrer"}
-          </Button>
-        </>
+        <AccommodationEditorHeaderActionButton
+          icon={Save}
+          label="Enregistrer"
+          pendingLabel="Enregistrement..."
+          ariaLabel="Enregistrer le statut"
+          pending={isUpdatingStatus}
+          disabled={statusSaveDisabled}
+          onClick={onSaveStatus}
+        />
       ) : null}
 
       {canSaveDraft ? (
-        <>
-          <Button
-            type="button"
-            variant="outline"
-            size="icon"
-            className="sm:hidden"
-            disabled={disabled}
-            aria-label="Sauvegarder en brouillon"
-            onClick={onSaveDraft}
-          >
-            <FileClock />
-          </Button>
-
-          <Button
-            type="button"
-            variant="outline"
-            className="hidden sm:inline-flex"
-            disabled={disabled}
-            onClick={onSaveDraft}
-          >
-            <FileClock />
-
-            {isSavingDraft ? "Sauvegarde..." : "Sauvegarder en brouillon"}
-          </Button>
-        </>
+        <AccommodationEditorHeaderActionButton
+          icon={FileClock}
+          label="Sauvegarder en brouillon"
+          pendingLabel="Sauvegarde..."
+          pending={isSavingDraft}
+          disabled={disabled}
+          variant="outline"
+          onClick={onSaveDraft}
+        />
       ) : null}
 
       {canPublishChanges ? (
-        <>
-          <Button
-            type="button"
-            size="icon"
-            className="sm:hidden"
-            disabled={publishDisabled}
-            aria-label="Publier les modifications"
-            onClick={onPublishChanges}
-          >
-            <Send />
-          </Button>
-
-          <Button
-            type="button"
-            className="hidden sm:inline-flex"
-            disabled={publishDisabled}
-            onClick={onPublishChanges}
-          >
-            <Send />
-
-            {isPublishing ? "Publication..." : "Publier les modifications"}
-          </Button>
-        </>
+        <AccommodationEditorHeaderActionButton
+          icon={Send}
+          label="Publier les modifications"
+          pendingLabel="Publication..."
+          pending={isPublishing}
+          disabled={publishDisabled}
+          onClick={onPublishChanges}
+        />
       ) : null}
 
       {!canSaveDraft ? (

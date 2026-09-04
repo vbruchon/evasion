@@ -1,10 +1,9 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useMemo, useState } from "react";
-import { useForm, useWatch } from "react-hook-form";
+import { useCallback, useMemo } from "react";
+import { useForm } from "react-hook-form";
 
-import { updateAccommodationStatus } from "~/app/admin/logements/action";
 import {
   accommodationUpdateSchema,
   type AccommodationUpdateFormValues,
@@ -13,13 +12,13 @@ import {
 import { useAccommodationDraftAutosave } from "@/hooks/use-accommodation-draft-autosave";
 import { useAccommodationEditorSubmit } from "@/hooks/use-accommodation-editor-submit";
 import { useAccommodationImages } from "@/hooks/use-accommodation-images";
+import { useAccommodationStatus } from "@/hooks/use-accommodation-status";
+import { haveAccommodationImagesChanged } from "@/lib/admin/accommodation/accommodation-image-state";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 
 export const useAccommodationEditor = (
   accommodation: AccommodationUpdateData,
 ) => {
-  const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
-
   const canSaveDraft = accommodation.status === "PUBLISHED";
 
   const form = useForm<AccommodationUpdateFormValues>({
@@ -41,12 +40,17 @@ export const useAccommodationEditor = (
     mode: "onSubmit",
   });
 
-  const status = useWatch({
-    control: form.control,
-    name: "status",
+  const {
+    status,
+    statusChanged,
+    isUpdatingStatus,
+    handleStatusChange,
+    handleSaveStatus,
+  } = useAccommodationStatus({
+    accommodationId: accommodation.id,
+    initialStatus: accommodation.status,
+    form,
   });
-
-  const statusChanged = status !== accommodation.status;
 
   const {
     images,
@@ -61,31 +65,16 @@ export const useAccommodationEditor = (
     initialImages: accommodation.images,
   });
 
-  const initialImagesSignature = useMemo(
+  const imagesChanged = useMemo(
     () =>
-      JSON.stringify(
-        accommodation.images.map((image) => ({
-          id: image.id,
-          isCover: image.isCover,
-          isPresentation: image.isPresentation ?? false,
-        })),
+      haveAccommodationImagesChanged(
+        accommodation.images,
+        images,
+        coverImageId,
+        presentationImageId,
       ),
-    [accommodation.images],
+    [accommodation.images, coverImageId, images, presentationImageId],
   );
-
-  const currentImagesSignature = useMemo(
-    () =>
-      JSON.stringify(
-        images.map((image) => ({
-          id: image.id,
-          isCover: image.id === coverImageId,
-          isPresentation: image.id === presentationImageId,
-        })),
-      ),
-    [coverImageId, images, presentationImageId],
-  );
-
-  const imagesChanged = currentImagesSignature !== initialImagesSignature;
 
   const hasCurrentChanges = form.formState.isDirty || imagesChanged;
 
@@ -136,37 +125,6 @@ export const useAccommodationEditor = (
     cancelPendingAutosave();
     void submitPublishChanges();
   }, [cancelPendingAutosave, submitPublishChanges]);
-
-  const handleStatusChange = useCallback(
-    (nextStatus: AccommodationUpdateFormValues["status"]) => {
-      form.setValue("status", nextStatus, {
-        shouldDirty: true,
-        shouldValidate: true,
-      });
-    },
-    [form],
-  );
-
-  const handleSaveStatus = useCallback(async () => {
-    if (!statusChanged) {
-      return;
-    }
-
-    form.clearErrors("root");
-    setIsUpdatingStatus(true);
-
-    try {
-      await updateAccommodationStatus(accommodation.id, status);
-
-      window.location.reload();
-    } catch {
-      form.setError("root", {
-        message: "Une erreur est survenue pendant la modification du statut.",
-      });
-    } finally {
-      setIsUpdatingStatus(false);
-    }
-  }, [accommodation.id, form, status, statusChanged]);
 
   return {
     form,

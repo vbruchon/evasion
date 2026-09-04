@@ -1,22 +1,18 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
-import { useWatch } from "react-hook-form";
 
 import { saveAccommodationDraft } from "~/app/admin/logements/action";
 import {
   accommodationUpdateSchema,
-  type AccommodationDraftContent,
   type AccommodationUpdateFormValues,
   type AccommodationUpdateImageInput,
 } from "~/app/admin/logements/schema";
 
+import { useAccommodationDraftSnapshot } from "@/hooks/use-accommodation-draft-snapshot";
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
-import {
-  ACCOMMODATION_DRAFT_VALUE_FIELDS,
-  getAccommodationDraftSignature,
-} from "@/lib/admin/accommodation/accommodation-draft";
+import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
 
 const AUTOSAVE_DELAY = 2500;
@@ -53,47 +49,8 @@ export const useAccommodationDraftAutosave = ({
   initialHasDraft,
   syncPreparedImages,
 }: UseAccommodationDraftAutosaveOptions) => {
-  const watchedDraftValues = useWatch({
-    control: form.control,
-    name: ACCOMMODATION_DRAFT_VALUE_FIELDS,
-  });
-
-  const highlights = useWatch({
-    control: form.control,
-    name: "highlights",
-  });
-
-  const values = useMemo<AccommodationDraftContent["values"]>(() => {
-    const [
-      name,
-      type,
-      subtitle,
-      shortDescription,
-      description,
-      guestCapacity,
-      bedrooms,
-      beds,
-      bathrooms,
-      surface,
-    ] = watchedDraftValues;
-
-    return {
-      name,
-      type,
-      subtitle,
-      shortDescription,
-      description,
-      guestCapacity,
-      bedrooms,
-      beds,
-      bathrooms,
-      surface,
-    };
-  }, [watchedDraftValues]);
-
-  const signature = getAccommodationDraftSignature({
-    values,
-    highlights,
+  const { values, highlights, signature } = useAccommodationDraftSnapshot({
+    form,
     images,
     coverImageId,
     presentationImageId,
@@ -101,30 +58,12 @@ export const useAccommodationDraftAutosave = ({
 
   const lastSavedSignatureRef = useRef(signature);
   const failedSignatureRef = useRef<string | null>(null);
-  const timeoutRef = useRef<number | null>(null);
 
   const [status, setStatus] =
     useState<AccommodationDraftAutosaveStatus>("idle");
 
   const [isAutosaving, setIsAutosaving] = useState(false);
   const [hasDraft, setHasDraft] = useState(initialHasDraft);
-
-  const clearPendingAutosave = useCallback(() => {
-    if (timeoutRef.current === null) {
-      return;
-    }
-
-    window.clearTimeout(timeoutRef.current);
-    timeoutRef.current = null;
-  }, []);
-
-  const cancelPendingAutosave = useCallback(() => {
-    clearPendingAutosave();
-
-    setStatus((currentStatus) =>
-      currentStatus === "pending" ? "idle" : currentStatus,
-    );
-  }, [clearPendingAutosave]);
 
   const saveDraft = useCallback(async () => {
     const parsedValues = accommodationUpdateSchema.safeParse({
@@ -180,13 +119,26 @@ export const useAccommodationDraftAutosave = ({
   }, [
     accommodationId,
     coverImageId,
-    presentationImageId,
     highlights,
     images,
+    presentationImageId,
     signature,
     syncPreparedImages,
     values,
   ]);
+
+  const { schedule: scheduleAutosave, cancel: cancelAutosave } =
+    useDebouncedCallback(() => {
+      void saveDraft();
+    }, AUTOSAVE_DELAY);
+
+  const cancelPendingAutosave = useCallback(() => {
+    cancelAutosave();
+
+    setStatus((currentStatus) =>
+      currentStatus === "pending" ? "idle" : currentStatus,
+    );
+  }, [cancelAutosave]);
 
   useEffect(() => {
     if (!enabled || isAutosaving) {
@@ -209,16 +161,10 @@ export const useAccommodationDraftAutosave = ({
     }
 
     setStatus("pending");
+    scheduleAutosave();
 
-    clearPendingAutosave();
-
-    timeoutRef.current = window.setTimeout(() => {
-      timeoutRef.current = null;
-      void saveDraft();
-    }, AUTOSAVE_DELAY);
-
-    return clearPendingAutosave;
-  }, [clearPendingAutosave, enabled, isAutosaving, saveDraft, signature]);
+    return cancelAutosave;
+  }, [cancelAutosave, enabled, isAutosaving, scheduleAutosave, signature]);
 
   return {
     hasDraft,

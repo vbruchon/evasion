@@ -132,7 +132,10 @@ export const publishAccommodationDraftAdmin = async (
 
   await deleteUploadThingFiles(removedImages.map((image) => image.fileKey));
 
-  revalidateAccommodation();
+  revalidateAccommodation({
+    slug: accommodation.slug,
+    id: accommodation.id,
+  });
 
   return {
     success: true as const,

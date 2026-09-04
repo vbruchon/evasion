@@ -12,7 +12,10 @@ export const updateAccommodationStatusAdmin = async (
     where: {
       id,
     },
+
     select: {
+      id: true,
+      slug: true,
       publishedAt: true,
     },
   });
@@ -25,8 +28,10 @@ export const updateAccommodationStatusAdmin = async (
     where: {
       id,
     },
+
     data: {
       status,
+
       publishedAt:
         status === "PUBLISHED"
           ? (accommodation.publishedAt ?? new Date())
@@ -34,5 +39,8 @@ export const updateAccommodationStatusAdmin = async (
     },
   });
 
-  revalidateAccommodation();
+  revalidateAccommodation({
+    id: accommodation.id,
+    slug: accommodation.slug,
+  });
 };

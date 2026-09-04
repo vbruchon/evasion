@@ -8,8 +8,12 @@ export const deleteAccommodationAdmin = async (id: string) => {
     where: {
       id,
     },
+
     select: {
+      id: true,
+      slug: true,
       position: true,
+
       images: {
         select: {
           fileKey: true,
@@ -37,6 +41,7 @@ export const deleteAccommodationAdmin = async (id: string) => {
           gt: accommodation.position,
         },
       },
+
       data: {
         position: {
           decrement: 1,
@@ -47,5 +52,8 @@ export const deleteAccommodationAdmin = async (id: string) => {
 
   await deleteUploadThingFiles(fileKeys);
 
-  revalidateAccommodation();
+  revalidateAccommodation({
+    id: accommodation.id,
+    slug: accommodation.slug,
+  });
 };

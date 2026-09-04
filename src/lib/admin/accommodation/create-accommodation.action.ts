@@ -118,7 +118,10 @@ export const createAccommodationAdmin = async (
       });
     });
 
-    revalidateAccommodation();
+    revalidateAccommodation({
+      slug: accommodation.slug,
+      id: accommodation.id,
+    });
 
     return {
       success: true,

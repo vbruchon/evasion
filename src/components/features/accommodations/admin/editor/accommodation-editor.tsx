@@ -1,23 +1,15 @@
 "use client";
 
-import { useState } from "react";
 import { FormProvider } from "react-hook-form";
 
 import { useAccommodationEditor } from "@/hooks/use-accommodation-editor";
-import type {
-  AccommodationEditorSection,
-  AccommodationHeroEditorSection,
-  AccommodationPresentationEditorSection,
-} from "@/lib/admin/accommodation/editor-sections";
+import { useAccommodationEditorNavigation } from "@/hooks/use-accommodation-editor-navigation";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 import { cn } from "@/lib/utils";
 
 import { AccommodationEditorDraftBanner } from "./accommodation-editor-draft-banner";
 import { AccommodationEditorHeader } from "./accommodation-editor-header";
-import {
-  AccommodationEditorMobileNavigation,
-  type AccommodationEditorMobileView,
-} from "./accommodation-editor-mobile-navigation";
+import { AccommodationEditorMobileNavigation } from "./accommodation-editor-mobile-navigation";
 import { AccommodationEditorPreview } from "./accommodation-editor-preview";
 import { AccommodationEditorSidebar } from "./accommodation-editor-sidebar";
 
@@ -28,17 +20,16 @@ type AccommodationEditorProps = {
 export const AccommodationEditor = ({
   accommodation,
 }: AccommodationEditorProps) => {
-  const [activeSection, setActiveSection] =
-    useState<AccommodationEditorSection>("hero");
-
-  const [activeHeroSection, setActiveHeroSection] =
-    useState<AccommodationHeroEditorSection>("general");
-
-  const [activePresentationSection, setActivePresentationSection] =
-    useState<AccommodationPresentationEditorSection>("content");
-
-  const [mobileView, setMobileView] =
-    useState<AccommodationEditorMobileView>("preview");
+  const {
+    activeSection,
+    activeHeroSection,
+    activePresentationSection,
+    mobileView,
+    setMobileView,
+    handleSectionChange,
+    handleHeroSectionChange,
+    handlePresentationSectionChange,
+  } = useAccommodationEditorNavigation();
 
   const {
     form,
@@ -75,21 +66,6 @@ export const AccommodationEditor = ({
     isDiscardingDraft,
     isUpdatingStatus,
   } = useAccommodationEditor(accommodation);
-
-  const handleSectionChange = (section: AccommodationEditorSection) => {
-    setActiveSection(section);
-    setMobileView("editor");
-  };
-
-  const handleHeroSectionChange = (section: AccommodationHeroEditorSection) => {
-    setActiveHeroSection(section);
-  };
-
-  const handlePresentationSectionChange = (
-    section: AccommodationPresentationEditorSection,
-  ) => {
-    setActivePresentationSection(section);
-  };
 
   return (
     <FormProvider {...form}>

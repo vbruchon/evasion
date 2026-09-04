@@ -5,52 +5,23 @@ import { useCallback, useState } from "react";
 import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
 
 import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
+import {
+  createAccommodationPreviewImages,
+  getAccommodationPreviewFileSelection,
+  syncAccommodationPreparedImages,
+  type AccommodationInitialImage,
+  type AccommodationPreviewImage,
+} from "@/lib/admin/accommodation/accommodation-image-previews";
 
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
-
-export type AccommodationInitialImage = {
-  id: string;
-  url: string;
-  fileKey: string;
-  alt?: string | null;
-  isCover: boolean;
-  isPresentation?: boolean;
-  isExisting?: boolean;
-};
-
-export type AccommodationPreviewImage = {
-  id: string;
-  url: string;
-  alt?: string | null;
-  file?: File;
-  fileKey?: string;
-  isExisting: boolean;
-};
+export type {
+  AccommodationInitialImage,
+  AccommodationPreviewImage,
+} from "@/lib/admin/accommodation/accommodation-image-previews";
 
 type UseAccommodationImagesOptions = {
   initialImages?: AccommodationInitialImage[];
   onFilesChange?: (files: File[], coverImageIndex: number) => void;
 };
-
-const readFileAsDataUrl = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        resolve(reader.result);
-        return;
-      }
-
-      reject(new Error("Impossible de lire l’image."));
-    };
-
-    reader.onerror = () => {
-      reject(new Error("Impossible de lire l’image."));
-    };
-
-    reader.readAsDataURL(file);
-  });
 
 export const useAccommodationImages = ({
   initialImages = [],
@@ -86,21 +57,12 @@ export const useAccommodationImages = ({
         return;
       }
 
-      const newImages = nextImages.filter(
-        (
-          image,
-        ): image is AccommodationPreviewImage & {
-          file: File;
-        } => Boolean(image.file),
+      const { files, coverImageIndex } = getAccommodationPreviewFileSelection(
+        nextImages,
+        nextCoverImageId,
       );
 
-      const files = newImages.map((image) => image.file);
-
-      const coverImageIndex = newImages.findIndex(
-        (image) => image.id === nextCoverImageId,
-      );
-
-      onFilesChange(files, coverImageIndex >= 0 ? coverImageIndex : 0);
+      onFilesChange(files, coverImageIndex);
     },
     [onFilesChange],
   );
@@ -113,22 +75,14 @@ export const useAccommodationImages = ({
         return;
       }
 
-      const acceptedFiles = files
-        .filter((file) => ACCEPTED_IMAGE_TYPES.includes(file.type))
-        .slice(0, availableSlots);
+      const newImages = await createAccommodationPreviewImages(
+        files,
+        availableSlots,
+      );
 
-      if (acceptedFiles.length === 0) {
+      if (newImages.length === 0) {
         return;
       }
-
-      const newImages = await Promise.all(
-        acceptedFiles.map(async (file) => ({
-          id: crypto.randomUUID(),
-          file,
-          url: await readFileAsDataUrl(file),
-          isExisting: false,
-        })),
-      );
 
       const nextImages = [...images, ...newImages];
 
@@ -139,7 +93,7 @@ export const useAccommodationImages = ({
 
       notifyFilesChange(nextImages, nextCoverImageId);
     },
-    [images, coverImageId, notifyFilesChange],
+    [coverImageId, images, notifyFilesChange],
   );
 
   const removeImage = useCallback(
@@ -158,19 +112,16 @@ export const useAccommodationImages = ({
 
       notifyFilesChange(nextImages, nextCoverImageId);
     },
-    [images, coverImageId, presentationImageId, notifyFilesChange],
+    [coverImageId, images, notifyFilesChange, presentationImageId],
   );
 
   const setCoverImage = useCallback(
     (imageId: string) => {
-      const imageExists = images.some((image) => image.id === imageId);
-
-      if (!imageExists) {
+      if (!images.some((image) => image.id === imageId)) {
         return;
       }
 
       setCoverImageId(imageId);
-
       notifyFilesChange(images, imageId);
     },
     [images, notifyFilesChange],
@@ -178,9 +129,7 @@ export const useAccommodationImages = ({
 
   const setPresentationImage = useCallback(
     (imageId: string) => {
-      const imageExists = images.some((image) => image.id === imageId);
-
-      if (!imageExists) {
+      if (!images.some((image) => image.id === imageId)) {
         return;
       }
 
@@ -194,37 +143,12 @@ export const useAccommodationImages = ({
       sourceImages: AccommodationPreviewImage[],
       preparedImages: AccommodationUpdateImageInput[],
     ) => {
-      const preparedImagesById = new Map(
-        sourceImages.flatMap((image, index) => {
-          if (image.isExisting) {
-            return [];
-          }
-
-          const preparedImage = preparedImages[index];
-
-          if (!preparedImage || "id" in preparedImage) {
-            return [];
-          }
-
-          return [[image.id, preparedImage] as const];
-        }),
-      );
-
       setImages((currentImages) =>
-        currentImages.map((image) => {
-          const preparedImage = preparedImagesById.get(image.id);
-
-          if (!preparedImage) {
-            return image;
-          }
-
-          return {
-            ...image,
-            url: preparedImage.url,
-            fileKey: preparedImage.fileKey,
-            file: undefined,
-          };
-        }),
+        syncAccommodationPreparedImages(
+          currentImages,
+          sourceImages,
+          preparedImages,
+        ),
       );
     },
     [],
@@ -234,6 +158,7 @@ export const useAccommodationImages = ({
     images,
     coverImageId,
     presentationImageId,
+
     addFiles,
     removeImage,
     setCoverImage,
