@@ -29,10 +29,12 @@ export const AccommodationGalleryEditor = ({
 
     <AccommodationImageGallery
       images={images}
-      coverImageId={coverImageId}
+      selectedImageId={coverImageId}
+      selectedLabel="Couverture"
+      selectionLabel="Définir comme couverture"
       disabled={disabled}
       compact
-      onSetCover={onSetCover}
+      onSelect={onSetCover}
       onRemove={onRemoveImage}
     />
   </AccommodationEditorSectionContent>

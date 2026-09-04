@@ -21,6 +21,7 @@ import { AccommodationEditorSection as EditorSection } from "./accommodation-edi
 type AccommodationEditorPreviewProps = {
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
+  presentationImageId: string | null;
   activeSection: AccommodationEditorSection;
   activeHeroSection: AccommodationHeroEditorSection;
   onSectionChange: (section: AccommodationEditorSection) => void;
@@ -30,6 +31,7 @@ type AccommodationEditorPreviewProps = {
 export const AccommodationEditorPreview = ({
   images,
   coverImageId,
+  presentationImageId,
   activeSection,
   activeHeroSection,
   onSectionChange,
@@ -88,6 +90,7 @@ export const AccommodationEditorPreview = ({
   const { coverImage, presentationImage } = getAccommodationDisplayImages(
     previewImages,
     coverImageId,
+    presentationImageId,
   );
 
   const handleHeroClick = (event: MouseEvent<HTMLDivElement>) => {

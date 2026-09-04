@@ -40,6 +40,20 @@ export const accommodationHeroEditorSections = [
 export type AccommodationHeroEditorSection =
   (typeof accommodationHeroEditorSections)[number]["id"];
 
+export const accommodationPresentationEditorSections = [
+  {
+    id: "content",
+    label: "Contenu",
+  },
+  {
+    id: "image",
+    label: "Image",
+  },
+] as const;
+
+export type AccommodationPresentationEditorSection =
+  (typeof accommodationPresentationEditorSections)[number]["id"];
+
 export const getAccommodationEditorSection = (id: AccommodationEditorSection) =>
   accommodationEditorSections.find((section) => section.id === id);
 

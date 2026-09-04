@@ -5,11 +5,15 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useForm } from "react-hook-form";
 
 import { saveAccommodationDraft } from "~/app/admin/logements/action";
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type {
+  AccommodationUpdateFormValues,
+  AccommodationUpdateImageInput,
+} from "~/app/admin/logements/schema";
 
 import { useAccommodationDraftAutosave } from "@/hooks/use-accommodation-draft-autosave";
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
+
 import { createAccommodationUpdateValues } from "../helpers/accommodation-values";
 
 vi.mock("~/app/admin/logements/action", () => ({
@@ -54,30 +58,51 @@ const initialValues = createAccommodationUpdateValues({
   status: "PUBLISHED",
 });
 
-const renderAutosaveHook = () => {
-  const images: AccommodationPreviewImage[] = [];
+type RenderAutosaveHookOptions = {
+  images?: AccommodationPreviewImage[];
+  coverImageId?: string | null;
+  presentationImageId?: string | null;
+};
+
+const renderAutosaveHook = ({
+  images = [],
+  coverImageId = null,
+  presentationImageId = null,
+}: RenderAutosaveHookOptions = {}) => {
   const syncPreparedImages = vi.fn();
 
-  const hook = renderHook(() => {
-    const form = useForm<AccommodationUpdateFormValues>({
-      defaultValues: initialValues,
-    });
+  const hook = renderHook(
+    ({
+      currentPresentationImageId,
+    }: {
+      currentPresentationImageId: string | null;
+    }) => {
+      const form = useForm<AccommodationUpdateFormValues>({
+        defaultValues: initialValues,
+      });
 
-    const autosave = useAccommodationDraftAutosave({
-      accommodationId: "accommodation-1",
-      form,
-      images,
-      coverImageId: null,
-      enabled: true,
-      initialHasDraft: false,
-      syncPreparedImages,
-    });
+      const autosave = useAccommodationDraftAutosave({
+        accommodationId: "accommodation-1",
+        form,
+        images,
+        coverImageId,
+        presentationImageId: currentPresentationImageId,
+        enabled: true,
+        initialHasDraft: false,
+        syncPreparedImages,
+      });
 
-    return {
-      form,
-      ...autosave,
-    };
-  });
+      return {
+        form,
+        ...autosave,
+      };
+    },
+    {
+      initialProps: {
+        currentPresentationImageId: presentationImageId,
+      },
+    },
+  );
 
   return {
     ...hook,
@@ -305,6 +330,74 @@ describe("useAccommodationDraftAutosave", () => {
           icon: "Waves",
         },
       ],
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
+  });
+
+  it("autosaves when the presentation image changes", async () => {
+    const images: AccommodationPreviewImage[] = [
+      {
+        id: "image-1",
+        url: "https://example.com/image-1.webp",
+        fileKey: "image-1",
+        isExisting: true,
+      },
+      {
+        id: "image-2",
+        url: "https://example.com/image-2.webp",
+        fileKey: "image-2",
+        isExisting: true,
+      },
+    ];
+
+    const preparedImages: AccommodationUpdateImageInput[] = [
+      {
+        id: "image-1",
+        isCover: true,
+        isPresentation: false,
+      },
+      {
+        id: "image-2",
+        isCover: false,
+        isPresentation: true,
+      },
+    ];
+
+    mockedPrepareAccommodationUpdateImages.mockResolvedValue(preparedImages);
+
+    const { result, rerender } = renderAutosaveHook({
+      images,
+      coverImageId: "image-1",
+      presentationImageId: "image-1",
+    });
+
+    rerender({
+      currentPresentationImageId: "image-2",
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedPrepareAccommodationUpdateImages).toHaveBeenCalledWith(
+      images,
+      "image-1",
+      "image-2",
+    );
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        name: "Le Chalet",
+      }),
+      preparedImages,
+      initialValues.highlights,
     );
 
     expect(result.current.hasDraft).toBe(true);

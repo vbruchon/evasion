@@ -33,6 +33,7 @@ type UseAccommodationDraftAutosaveOptions = {
   form: UseFormReturn<AccommodationUpdateFormValues>;
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
+  presentationImageId: string | null;
   enabled: boolean;
   initialHasDraft: boolean;
 
@@ -47,6 +48,7 @@ export const useAccommodationDraftAutosave = ({
   form,
   images,
   coverImageId,
+  presentationImageId,
   enabled,
   initialHasDraft,
   syncPreparedImages,
@@ -94,6 +96,7 @@ export const useAccommodationDraftAutosave = ({
     highlights,
     images,
     coverImageId,
+    presentationImageId,
   });
 
   const lastSavedSignatureRef = useRef(signature);
@@ -127,6 +130,7 @@ export const useAccommodationDraftAutosave = ({
       const preparedImages = await prepareAccommodationUpdateImages(
         sourceImages,
         coverImageId,
+        presentationImageId,
       );
 
       const result = await saveAccommodationDraft(
@@ -158,6 +162,7 @@ export const useAccommodationDraftAutosave = ({
   }, [
     accommodationId,
     coverImageId,
+    presentationImageId,
     highlights,
     images,
     signature,

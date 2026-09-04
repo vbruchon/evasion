@@ -24,6 +24,7 @@ const isUploadedDraftImage = (
 export const prepareAccommodationUpdateImages = async (
   images: AccommodationPreviewImage[],
   coverImageId: string | null,
+  presentationImageId: string | null,
 ): Promise<AccommodationUpdateImageInput[]> => {
   const newImages = images.filter(isNewImage);
 
@@ -37,11 +38,13 @@ export const prepareAccommodationUpdateImages = async (
 
   return images.map((image) => {
     const isCover = image.id === coverImageId;
+    const isPresentation = image.id === presentationImageId;
 
     if (image.isExisting) {
       return {
         id: image.id,
         isCover,
+        isPresentation,
       };
     }
 
@@ -50,6 +53,7 @@ export const prepareAccommodationUpdateImages = async (
         url: image.url,
         fileKey: image.fileKey,
         isCover,
+        isPresentation,
       };
     }
 
@@ -63,6 +67,7 @@ export const prepareAccommodationUpdateImages = async (
       url: uploadedImage.url,
       fileKey: uploadedImage.fileKey,
       isCover,
+      isPresentation,
     };
   });
 };

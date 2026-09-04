@@ -51,9 +51,11 @@ export const useAccommodationEditor = (
   const {
     images,
     coverImageId,
+    presentationImageId,
     addFiles,
     removeImage,
     setCoverImage,
+    setPresentationImage,
     syncPreparedImages,
   } = useAccommodationImages({
     initialImages: accommodation.images,
@@ -72,6 +74,7 @@ export const useAccommodationEditor = (
     form,
     images,
     coverImageId,
+    presentationImageId,
   });
 
   const manualActionPending =
@@ -87,6 +90,7 @@ export const useAccommodationEditor = (
       form,
       images,
       coverImageId,
+      presentationImageId,
       enabled: canSaveDraft && !manualActionPending,
       initialHasDraft: accommodation.hasDraft,
       syncPreparedImages,
@@ -136,9 +140,11 @@ export const useAccommodationEditor = (
 
     images,
     coverImageId,
+    presentationImageId,
     addFiles,
     removeImage,
     setCoverImage,
+    setPresentationImage,
 
     status,
     statusChanged,

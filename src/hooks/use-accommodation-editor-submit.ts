@@ -20,6 +20,7 @@ type UseAccommodationEditorSubmitOptions = {
   form: UseFormReturn<AccommodationUpdateFormValues>;
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
+  presentationImageId: string | null;
 };
 
 export const useAccommodationEditorSubmit = ({
@@ -27,6 +28,7 @@ export const useAccommodationEditorSubmit = ({
   form,
   images,
   coverImageId,
+  presentationImageId,
 }: UseAccommodationEditorSubmitOptions) => {
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
@@ -48,6 +50,7 @@ export const useAccommodationEditorSubmit = ({
       const preparedImages = await prepareAccommodationUpdateImages(
         images,
         coverImageId,
+        presentationImageId,
       );
 
       const result = await updateAccommodation(
@@ -85,6 +88,7 @@ export const useAccommodationEditorSubmit = ({
       const preparedImages = await prepareAccommodationUpdateImages(
         images,
         coverImageId,
+        presentationImageId,
       );
 
       const result = await saveAccommodationDraft(

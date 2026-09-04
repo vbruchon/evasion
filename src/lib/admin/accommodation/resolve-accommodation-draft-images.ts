@@ -6,6 +6,7 @@ type AccommodationImage = {
   fileKey: string;
   alt: string | null;
   isCover: boolean;
+  isPresentation: boolean;
 };
 
 export const resolveAccommodationDraftImages = (
@@ -28,6 +29,7 @@ export const resolveAccommodationDraftImages = (
         fileKey: accommodationImage.fileKey,
         alt: accommodationImage.alt,
         isCover: draftImage.isCover,
+        isPresentation: draftImage.isPresentation ?? false,
         isExisting: true,
       };
     }
@@ -38,6 +40,7 @@ export const resolveAccommodationDraftImages = (
       fileKey: draftImage.fileKey,
       alt: null,
       isCover: draftImage.isCover,
+      isPresentation: draftImage.isPresentation ?? false,
       isExisting: false,
     };
   });

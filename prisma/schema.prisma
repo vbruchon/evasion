@@ -117,13 +117,14 @@ model Accommodation {
 }
 
 model AccommodationImage {
-  id       String  @id @default(cuid())
-  url      String
-  fileKey  String  @unique
-  alt      String?
-  caption  String?
-  position Int     @default(0)
-  isCover  Boolean @default(false)
+  id             String  @id @default(cuid())
+  url            String
+  fileKey        String  @unique
+  alt            String?
+  caption        String?
+  position       Int     @default(0)
+  isCover        Boolean @default(false)
+  isPresentation Boolean @default(false)
 
   accommodationId String
   accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)

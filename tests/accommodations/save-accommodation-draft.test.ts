@@ -9,32 +9,11 @@ import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-acco
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";
 
+import { createAccommodationDraftValues } from "../helpers/accommodation-values";
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
 import { resetAccommodationDatabase } from "../helpers/database";
-import { createAccommodationDraftValues } from "../helpers/accommodation-values";
 
-type DraftValues = AccommodationDraftContent["values"];
 type DraftHighlights = AccommodationDraftContent["highlights"];
-
-const createDraftValues = (
-  overrides: Partial<DraftValues> = {},
-): DraftValues => ({
-  name: "Le Chalet modifié",
-  type: "Chalet premium",
-  subtitle: "Un nouveau sous-titre",
-  shortDescription:
-    "Une nouvelle description courte enregistrée dans le brouillon.",
-  description:
-    "Une nouvelle description complète enregistrée uniquement dans le brouillon.",
-
-  guestCapacity: 4,
-  bedrooms: 2,
-  beds: 3,
-  bathrooms: 2,
-  surface: 72.5,
-
-  ...overrides,
-});
 
 describe("saveAccommodationDraftAdmin", () => {
   beforeEach(async () => {
@@ -69,6 +48,7 @@ describe("saveAccommodationDraftAdmin", () => {
           fileKey: "published-cover",
           url: "https://example.com/published-cover.webp",
           isCover: true,
+          isPresentation: false,
         },
       ],
 
@@ -105,11 +85,13 @@ describe("saveAccommodationDraftAdmin", () => {
         {
           id: existingImage.id,
           isCover: false,
+          isPresentation: false,
         },
         {
           url: "https://example.com/draft-image.webp",
           fileKey: "draft-image",
           isCover: true,
+          isPresentation: true,
         },
       ],
       draftHighlights,
@@ -187,11 +169,13 @@ describe("saveAccommodationDraftAdmin", () => {
         {
           id: existingImage.id,
           isCover: false,
+          isPresentation: false,
         },
         {
           url: "https://example.com/draft-image.webp",
           fileKey: "draft-image",
           isCover: true,
+          isPresentation: true,
         },
       ],
 
@@ -206,7 +190,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues({
+      createAccommodationDraftValues({
         name: "First draft",
       }),
       [],
@@ -221,7 +205,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues({
+      createAccommodationDraftValues({
         name: "Second draft",
       }),
       [],
@@ -431,7 +415,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues({
+      createAccommodationDraftValues({
         name: "Updated draft",
       }),
       [
@@ -491,7 +475,7 @@ describe("saveAccommodationDraftAdmin", () => {
 
     const result = await saveAccommodationDraftAdmin(
       accommodation.id,
-      createDraftValues({
+      createAccommodationDraftValues({
         name: "",
       }),
       [

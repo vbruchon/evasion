@@ -53,11 +53,13 @@ const createImages = (): AccommodationImageInput[] => [
     url: "https://example.com/chalet-cover.webp",
     fileKey: "chalet-cover",
     isCover: true,
+    isPresentation: false,
   },
   {
     url: "https://example.com/chalet-bedroom.webp",
     fileKey: "chalet-bedroom",
     isCover: false,
+    isPresentation: true,
   },
 ];
 
@@ -155,15 +157,18 @@ describe("createAccommodationAdmin", () => {
       accommodation?.images.map((image) => ({
         fileKey: image.fileKey,
         isCover: image.isCover,
+        isPresentation: image.isPresentation,
       })),
     ).toEqual([
       {
         fileKey: "chalet-cover",
         isCover: true,
+        isPresentation: false,
       },
       {
         fileKey: "chalet-bedroom",
         isCover: false,
+        isPresentation: true,
       },
     ]);
   });

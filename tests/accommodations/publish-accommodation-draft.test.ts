@@ -282,4 +282,97 @@ describe("publishAccommodationDraftAdmin", () => {
 
     expect(persistedAccommodation.draft).not.toBeNull();
   });
+
+  it("publishes the presentation image from the draft", async () => {
+    const accommodation = await createAccommodationFixture({
+      status: "PUBLISHED",
+      images: [
+        {
+          fileKey: "cover-image",
+          isCover: true,
+          isPresentation: false,
+        },
+        {
+          fileKey: "old-presentation",
+          isCover: false,
+          isPresentation: true,
+        },
+        {
+          fileKey: "new-presentation",
+          isCover: false,
+          isPresentation: false,
+        },
+      ],
+    });
+
+    const cover = accommodation.images.find(
+      (image) => image.fileKey === "cover-image",
+    )!;
+
+    const oldPresentation = accommodation.images.find(
+      (image) => image.fileKey === "old-presentation",
+    )!;
+
+    const newPresentation = accommodation.images.find(
+      (image) => image.fileKey === "new-presentation",
+    )!;
+
+    await saveAccommodationDraftAdmin(
+      accommodation.id,
+      createAccommodationDraftValues(),
+      [
+        {
+          id: cover.id,
+          isCover: true,
+          isPresentation: false,
+        },
+        {
+          id: oldPresentation.id,
+          isCover: false,
+          isPresentation: false,
+        },
+        {
+          id: newPresentation.id,
+          isCover: false,
+          isPresentation: true,
+        },
+      ],
+      [],
+    );
+
+    const result = await publishAccommodationDraftAdmin(accommodation.id);
+
+    expect(result).toEqual({
+      success: true,
+    });
+
+    const images = await prisma.accommodationImage.findMany({
+      where: {
+        accommodationId: accommodation.id,
+      },
+      orderBy: {
+        position: "asc",
+      },
+    });
+
+    expect(
+      images.map((image) => ({
+        fileKey: image.fileKey,
+        isPresentation: image.isPresentation,
+      })),
+    ).toEqual([
+      {
+        fileKey: "cover-image",
+        isPresentation: false,
+      },
+      {
+        fileKey: "old-presentation",
+        isPresentation: false,
+      },
+      {
+        fileKey: "new-presentation",
+        isPresentation: true,
+      },
+    ]);
+  });
 });

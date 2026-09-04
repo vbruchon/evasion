@@ -68,6 +68,7 @@ export const syncAccommodationImages = async (
         data: {
           position,
           isCover: image.isCover,
+          isPresentation: image.isPresentation ?? false,
         },
       });
 
@@ -83,6 +84,7 @@ export const syncAccommodationImages = async (
         caption: null,
         position,
         isCover: image.isCover,
+        isPresentation: image.isPresentation ?? false,
       },
     });
   }

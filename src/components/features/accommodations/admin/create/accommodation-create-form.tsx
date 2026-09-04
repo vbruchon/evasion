@@ -11,15 +11,16 @@ import {
   type AccommodationCreateFormValues,
 } from "~/app/admin/logements/schema";
 
-import { uploadAccommodationImages } from "@/lib/admin/uploadthing/upload-accommodation-images";
-import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
-import { AccommodationPublicationSection } from "../form/accommodation-publication-section";
-import { AccommodationInformationSection } from "../form/accommodation-information-section";
-import { useAccommodationImages } from "@/hooks/use-accommodation-images";
-import { AccommodationImagesSection } from "../form/accommodation-images-section";
 import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
+import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
+import { useAccommodationImages } from "@/hooks/use-accommodation-images";
+import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
+import { uploadAccommodationImages } from "@/lib/admin/uploadthing/upload-accommodation-images";
 
 import { AccommodationHighlightsField } from "../form/accommodation-highlights-field";
+import { AccommodationImagesSection } from "../form/accommodation-images-section";
+import { AccommodationInformationSection } from "../form/accommodation-information-section";
+import { AccommodationPublicationSection } from "../form/accommodation-publication-section";
 
 const defaultValues: AccommodationCreateFormValues = {
   name: "",
@@ -43,13 +44,20 @@ export const AccommodationCreateForm = () => {
   const [imageFiles, setImageFiles] = useState<File[]>([]);
   const [coverImageIndex, setCoverImageIndex] = useState(0);
 
-  const { images, coverImageId, addFiles, removeImage, setCoverImage } =
-    useAccommodationImages({
-      onFilesChange: (files, coverIndex) => {
-        setImageFiles(files);
-        setCoverImageIndex(coverIndex);
-      },
-    });
+  const {
+    images,
+    coverImageId,
+    presentationImageId,
+    addFiles,
+    removeImage,
+    setCoverImage,
+    setPresentationImage,
+  } = useAccommodationImages({
+    onFilesChange: (files, coverIndex) => {
+      setImageFiles(files);
+      setCoverImageIndex(coverIndex);
+    },
+  });
 
   const form = useForm<AccommodationCreateFormValues>({
     resolver: zodResolver(accommodationCreateSchema),
@@ -66,7 +74,22 @@ export const AccommodationCreateForm = () => {
         coverImageIndex,
       );
 
-      const result = await createAccommodation(values, uploadedImages);
+      const { presentationImage } = getAccommodationDisplayImages(
+        images,
+        coverImageId,
+        presentationImageId,
+      );
+
+      const presentationImageIndex = images.findIndex(
+        (image) => image.id === presentationImage?.id,
+      );
+
+      const preparedImages = uploadedImages.map((image, index) => ({
+        ...image,
+        isPresentation: index === presentationImageIndex,
+      }));
+
+      const result = await createAccommodation(values, preparedImages);
 
       if (!result.success) {
         if (result.field) {
@@ -124,9 +147,11 @@ export const AccommodationCreateForm = () => {
         <AccommodationImagesSection
           images={images}
           coverImageId={coverImageId}
+          presentationImageId={presentationImageId}
           disabled={isSubmitting}
           onFilesSelected={addFiles}
           onSetCover={setCoverImage}
+          onSetPresentation={setPresentationImage}
           onRemove={removeImage}
         />
 

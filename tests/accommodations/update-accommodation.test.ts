@@ -93,18 +93,21 @@ describe("updateAccommodationAdmin", () => {
           url: "https://example.com/existing-cover.webp",
           position: 0,
           isCover: true,
+          isPresentation: false,
         },
         {
           fileKey: "existing-second",
           url: "https://example.com/existing-second.webp",
           position: 1,
           isCover: false,
+          isPresentation: true,
         },
         {
-          fileKey: "image-to-remove",
-          url: "https://example.com/remove.webp",
+          fileKey: "existing-third",
+          url: "https://example.com/existing-third.webp",
           position: 2,
           isCover: false,
+          isPresentation: false,
         },
       ],
     });
@@ -121,15 +124,18 @@ describe("updateAccommodationAdmin", () => {
       {
         id: second.id,
         isCover: false,
+        isPresentation: false,
       },
       {
         url: "https://example.com/new-image.webp",
         fileKey: "new-image",
         isCover: true,
+        isPresentation: true,
       },
       {
         id: cover.id,
         isCover: false,
+        isPresentation: false,
       },
     ];
 
@@ -161,34 +167,38 @@ describe("updateAccommodationAdmin", () => {
         fileKey: image.fileKey,
         position: image.position,
         isCover: image.isCover,
+        isPresentation: image.isPresentation,
       })),
     ).toEqual([
       {
         fileKey: "existing-second",
         position: 0,
         isCover: false,
+        isPresentation: false,
       },
       {
         fileKey: "new-image",
         position: 1,
         isCover: true,
+        isPresentation: true,
       },
       {
         fileKey: "existing-cover",
         position: 2,
         isCover: false,
+        isPresentation: false,
       },
     ]);
 
     expect(
       await prisma.accommodationImage.findFirst({
         where: {
-          fileKey: "image-to-remove",
+          fileKey: "existing-third",
         },
       }),
     ).toBeNull();
 
-    expect(deleteUploadThingFiles).toHaveBeenCalledWith(["image-to-remove"]);
+    expect(deleteUploadThingFiles).toHaveBeenCalledWith(["existing-third"]);
   });
 
   it("updates, creates, removes and reorders highlights", async () => {

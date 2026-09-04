@@ -11,6 +11,7 @@ type AccommodationFixtureImage = {
   caption?: string | null;
   position?: number;
   isCover?: boolean;
+  isPresentation?: boolean;
 };
 
 type AccommodationFixtureHighlight = {
@@ -92,6 +93,7 @@ export const createAccommodationFixture = async (
           caption: image.caption ?? null,
           position: image.position ?? index,
           isCover: image.isCover ?? index === 0,
+          isPresentation: image.isPresentation ?? false,
         })),
       },
 

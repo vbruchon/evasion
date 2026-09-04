@@ -1,9 +1,10 @@
 "use client";
 
-import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 import { useCallback, useState } from "react";
 
 import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
+
+import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
@@ -13,6 +14,7 @@ export type AccommodationInitialImage = {
   fileKey: string;
   alt?: string | null;
   isCover: boolean;
+  isPresentation?: boolean;
   isExisting?: boolean;
 };
 
@@ -69,6 +71,10 @@ export const useAccommodationImages = ({
       initialImages.find((image) => image.isCover)?.id ??
       initialImages[0]?.id ??
       null,
+  );
+
+  const [presentationImageId, setPresentationImageId] = useState<string | null>(
+    () => initialImages.find((image) => image.isPresentation)?.id ?? null,
   );
 
   const notifyFilesChange = useCallback(
@@ -143,12 +149,16 @@ export const useAccommodationImages = ({
       const nextCoverImageId =
         coverImageId === imageId ? (nextImages[0]?.id ?? null) : coverImageId;
 
+      const nextPresentationImageId =
+        presentationImageId === imageId ? null : presentationImageId;
+
       setImages(nextImages);
       setCoverImageId(nextCoverImageId);
+      setPresentationImageId(nextPresentationImageId);
 
       notifyFilesChange(nextImages, nextCoverImageId);
     },
-    [images, coverImageId, notifyFilesChange],
+    [images, coverImageId, presentationImageId, notifyFilesChange],
   );
 
   const setCoverImage = useCallback(
@@ -164,6 +174,19 @@ export const useAccommodationImages = ({
       notifyFilesChange(images, imageId);
     },
     [images, notifyFilesChange],
+  );
+
+  const setPresentationImage = useCallback(
+    (imageId: string) => {
+      const imageExists = images.some((image) => image.id === imageId);
+
+      if (!imageExists) {
+        return;
+      }
+
+      setPresentationImageId(imageId);
+    },
+    [images],
   );
 
   const syncPreparedImages = useCallback(
@@ -210,9 +233,11 @@ export const useAccommodationImages = ({
   return {
     images,
     coverImageId,
+    presentationImageId,
     addFiles,
     removeImage,
     setCoverImage,
+    setPresentationImage,
     syncPreparedImages,
   };
 };

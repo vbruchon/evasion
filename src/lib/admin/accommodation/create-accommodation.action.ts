@@ -1,13 +1,14 @@
-import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
-import { prisma } from "@/lib/prisma";
-
-import { revalidateAccommodation } from "./revalidate-accommodation";
 import {
   AccommodationCreateFormValues,
   AccommodationImageInput,
   accommodationCreateSchema,
   accommodationImagesSchema,
 } from "~/app/admin/logements/schema";
+
+import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
+import { prisma } from "@/lib/prisma";
+
+import { revalidateAccommodation } from "./revalidate-accommodation";
 
 type CreateAccommodationResult =
   | {
@@ -49,6 +50,7 @@ export const createAccommodationAdmin = async (
     where: {
       slug: data.slug,
     },
+
     select: {
       id: true,
     },
@@ -80,13 +82,16 @@ export const createAccommodationAdmin = async (
           subtitle: data.subtitle || null,
           shortDescription: data.shortDescription || null,
           description: data.description || null,
+
           status: data.status,
           position: (highestPosition._max.position ?? 0) + 1,
+
           guestCapacity: data.guestCapacity,
           bedrooms: data.bedrooms ?? null,
           beds: data.beds ?? null,
           bathrooms: data.bathrooms ?? null,
           surface: data.surface ?? null,
+
           publishedAt: data.status === "PUBLISHED" ? new Date() : null,
 
           images: {
@@ -97,8 +102,10 @@ export const createAccommodationAdmin = async (
               caption: null,
               position: index,
               isCover: image.isCover,
+              isPresentation: image.isPresentation ?? false,
             })),
           },
+
           highlights: {
             create: data.highlights.map((highlight, position) => ({
               title: highlight.title,

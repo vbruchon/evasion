@@ -27,13 +27,13 @@ export const getAccommodationForUpdate = async (id: string) => {
         orderBy: {
           position: "asc",
         },
-
         select: {
           id: true,
           url: true,
           fileKey: true,
           alt: true,
           isCover: true,
+          isPresentation: true,
         },
       },
 
