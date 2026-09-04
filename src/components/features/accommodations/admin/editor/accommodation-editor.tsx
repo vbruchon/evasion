@@ -39,6 +39,7 @@ export const AccommodationEditor = ({
     presentationImageId,
     addFiles,
     removeImage,
+    reorderImages,
     setCoverImage,
     setPresentationImage,
 
@@ -150,6 +151,7 @@ export const AccommodationEditor = ({
               onSetCover={setCoverImage}
               onSetPresentationImage={setPresentationImage}
               onRemoveImage={removeImage}
+              onReorderImages={reorderImages}
             />
           </div>
         </div>

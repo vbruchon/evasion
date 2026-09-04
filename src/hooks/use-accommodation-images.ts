@@ -154,6 +154,30 @@ export const useAccommodationImages = ({
     [],
   );
 
+  const reorderImages = useCallback(
+    (fromIndex: number, toIndex: number) => {
+      if (
+        fromIndex === toIndex ||
+        fromIndex < 0 ||
+        toIndex < 0 ||
+        fromIndex >= images.length ||
+        toIndex >= images.length
+      ) {
+        return;
+      }
+
+      const nextImages = [...images];
+      const [movedImage] = nextImages.splice(fromIndex, 1);
+
+      nextImages.splice(toIndex, 0, movedImage);
+
+      setImages(nextImages);
+
+      notifyFilesChange(nextImages, coverImageId);
+    },
+    [coverImageId, images, notifyFilesChange],
+  );
+
   return {
     images,
     coverImageId,
@@ -161,6 +185,7 @@ export const useAccommodationImages = ({
 
     addFiles,
     removeImage,
+    reorderImages,
     setCoverImage,
     setPresentationImage,
     syncPreparedImages,

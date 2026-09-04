@@ -1,17 +1,21 @@
 "use client";
 
-import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 import { ImagePlus, Upload } from "lucide-react";
 import { type ChangeEvent, type DragEvent, useRef } from "react";
+
+import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
+import { cn } from "@/lib/utils";
 
 type AccommodationImageDropzoneProps = {
   onFilesSelected: (files: File[]) => void;
   disabled?: boolean;
+  compact?: boolean;
 };
 
 export const AccommodationImageDropzone = ({
   onFilesSelected,
   disabled = false,
+  compact = false,
 }: AccommodationImageDropzoneProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -56,11 +60,13 @@ export const AccommodationImageDropzone = ({
       <div
         role="button"
         tabIndex={disabled ? -1 : 0}
-        className={`flex min-h-56 flex-col items-center justify-center border border-dashed border-border/80 px-6 text-center transition-colors ${
+        className={cn(
+          "flex flex-col items-center justify-center border border-dashed border-border/80 text-center transition-colors",
+          compact ? "min-h-36 px-5 py-5" : "min-h-56 px-6",
           disabled
             ? "cursor-not-allowed opacity-60"
-            : "cursor-pointer hover:border-primary/50 hover:bg-primary/2"
-        }`}
+            : "cursor-pointer hover:border-primary/50 hover:bg-primary/2",
+        )}
         onClick={handleOpenFilePicker}
         onKeyDown={(event) => {
           if (!disabled && (event.key === "Enter" || event.key === " ")) {
@@ -71,22 +77,37 @@ export const AccommodationImageDropzone = ({
         onDragOver={(event) => event.preventDefault()}
         onDrop={handleDrop}
       >
-        <Upload className="size-8 text-muted-foreground" />
+        <Upload
+          className={cn("text-muted-foreground", compact ? "size-6" : "size-8")}
+        />
 
-        <p className="mt-4 font-medium">Glissez-déposez vos images ici</p>
-
-        <p className="mt-1 text-sm text-muted-foreground">
-          ou cliquez pour sélectionner des fichiers
+        <p className={cn("font-medium", compact ? "mt-3 text-sm" : "mt-4")}>
+          Glissez-déposez vos images ici
         </p>
 
-        <div className="mt-5 inline-flex items-center gap-2 border border-border px-4 py-2 text-sm">
+        {!compact ? (
+          <p className="mt-1 text-sm text-muted-foreground">
+            ou cliquez pour sélectionner des fichiers
+          </p>
+        ) : null}
+
+        <div
+          className={cn(
+            "inline-flex items-center gap-2 border border-border text-sm",
+            compact ? "mt-3 px-3 py-1.5" : "mt-5 px-4 py-2",
+          )}
+        >
           <ImagePlus className="size-4" />
-          Sélectionner des images
+          Ajouter des images
         </div>
 
-        <p className="mt-4 text-xs text-muted-foreground">
-          PNG, JPG, AVIF ou WEBP · 8 Mo maximum · {MAX_ACCOMMODATION_IMAGES}{" "}
-          images maximum
+        <p
+          className={cn(
+            "text-xs text-muted-foreground",
+            compact ? "mt-3" : "mt-4",
+          )}
+        >
+          PNG, JPG, AVIF ou WEBP · 8 Mo · {MAX_ACCOMMODATION_IMAGES} images max.
         </p>
       </div>
     </>

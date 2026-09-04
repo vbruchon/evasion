@@ -29,9 +29,9 @@ type AccommodationEditorSidebarProps = {
     section: AccommodationPresentationEditorSection,
   ) => void;
   onFilesSelected: (files: File[]) => void;
-  onSetCover: (id: string) => void;
   onSetPresentationImage: (id: string) => void;
   onRemoveImage: (id: string) => void;
+  onReorderImages: (fromIndex: number, toIndex: number) => void;
 };
 
 export const AccommodationEditorSidebar = ({
@@ -45,9 +45,9 @@ export const AccommodationEditorSidebar = ({
   onHeroSectionChange,
   onPresentationSectionChange,
   onFilesSelected,
-  onSetCover,
   onSetPresentationImage,
   onRemoveImage,
+  onReorderImages,
 }: AccommodationEditorSidebarProps) => {
   const currentSection = getAccommodationEditorSection(activeSection);
 
@@ -117,10 +117,11 @@ export const AccommodationEditorSidebar = ({
           <AccommodationGalleryEditor
             images={images}
             coverImageId={coverImageId}
+            presentationImageId={presentationImageId}
             disabled={disabled}
             onFilesSelected={onFilesSelected}
-            onSetCover={onSetCover}
             onRemoveImage={onRemoveImage}
+            onReorderImages={onReorderImages}
           />
         ) : null}
       </div>

@@ -58,6 +58,7 @@ export const useAccommodationEditor = (
     presentationImageId,
     addFiles,
     removeImage,
+    reorderImages,
     setCoverImage,
     setPresentationImage,
     syncPreparedImages,
@@ -132,8 +133,10 @@ export const useAccommodationEditor = (
     images,
     coverImageId,
     presentationImageId,
+
     addFiles,
     removeImage,
+    reorderImages,
     setCoverImage,
     setPresentationImage,
 

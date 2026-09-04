@@ -14,8 +14,7 @@ export const accommodationEditorSections = [
   {
     id: "gallery",
     label: "Galerie",
-    description:
-      "Gérez les photos du logement et choisissez son image de couverture.",
+    description: "Ajoutez, supprimez et organisez les photos du logement.",
   },
 ] as const;
 

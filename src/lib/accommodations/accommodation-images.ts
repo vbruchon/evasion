@@ -18,18 +18,18 @@ export const getAccommodationDisplayImages = <
       ? images.find((image) => image.id === coverImageId)
       : images.find((image) => image.isCover)) ?? images[0];
 
-  const galleryImages = images.filter((image) => image.id !== coverImage?.id);
+  const nonCoverImages = images.filter((image) => image.id !== coverImage?.id);
 
   const presentationImage =
     (presentationImageId
       ? images.find((image) => image.id === presentationImageId)
       : images.find((image) => image.isPresentation)) ??
-    galleryImages[0] ??
+    nonCoverImages[0] ??
     coverImage;
 
   return {
     coverImage,
-    galleryImages,
     presentationImage,
+    galleryImages: images,
   };
 };

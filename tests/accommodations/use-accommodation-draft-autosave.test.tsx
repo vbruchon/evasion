@@ -64,6 +64,12 @@ type RenderAutosaveHookOptions = {
   presentationImageId?: string | null;
 };
 
+type RenderAutosaveHookProps = {
+  currentImages: AccommodationPreviewImage[];
+  currentCoverImageId: string | null;
+  currentPresentationImageId: string | null;
+};
+
 const renderAutosaveHook = ({
   images = [],
   coverImageId = null,
@@ -73,10 +79,10 @@ const renderAutosaveHook = ({
 
   const hook = renderHook(
     ({
+      currentImages,
+      currentCoverImageId,
       currentPresentationImageId,
-    }: {
-      currentPresentationImageId: string | null;
-    }) => {
+    }: RenderAutosaveHookProps) => {
       const form = useForm<AccommodationUpdateFormValues>({
         defaultValues: initialValues,
       });
@@ -84,8 +90,8 @@ const renderAutosaveHook = ({
       const autosave = useAccommodationDraftAutosave({
         accommodationId: "accommodation-1",
         form,
-        images,
-        coverImageId,
+        images: currentImages,
+        coverImageId: currentCoverImageId,
         presentationImageId: currentPresentationImageId,
         enabled: true,
         initialHasDraft: false,
@@ -99,6 +105,8 @@ const renderAutosaveHook = ({
     },
     {
       initialProps: {
+        currentImages: images,
+        currentCoverImageId: coverImageId,
         currentPresentationImageId: presentationImageId,
       },
     },
@@ -113,6 +121,7 @@ const renderAutosaveHook = ({
 describe("useAccommodationDraftAutosave", () => {
   beforeEach(() => {
     vi.useFakeTimers();
+    vi.clearAllMocks();
 
     mockedPrepareAccommodationUpdateImages.mockResolvedValue([]);
 
@@ -374,6 +383,8 @@ describe("useAccommodationDraftAutosave", () => {
     });
 
     rerender({
+      currentImages: images,
+      currentCoverImageId: "image-1",
       currentPresentationImageId: "image-2",
     });
 
@@ -403,6 +414,94 @@ describe("useAccommodationDraftAutosave", () => {
     expect(result.current.hasDraft).toBe(true);
     expect(result.current.autosaveStatus).toBe("saved");
   });
+
+  it("autosaves when the image order changes", async () => {
+    const initialImages: AccommodationPreviewImage[] = [
+      {
+        id: "image-1",
+        url: "https://example.com/image-1.webp",
+        fileKey: "image-1",
+        isExisting: true,
+      },
+      {
+        id: "image-2",
+        url: "https://example.com/image-2.webp",
+        fileKey: "image-2",
+        isExisting: true,
+      },
+      {
+        id: "image-3",
+        url: "https://example.com/image-3.webp",
+        fileKey: "image-3",
+        isExisting: true,
+      },
+    ];
+
+    const reorderedImages = [
+      initialImages[1],
+      initialImages[2],
+      initialImages[0],
+    ];
+
+    const preparedImages: AccommodationUpdateImageInput[] = [
+      {
+        id: "image-2",
+        isCover: false,
+        isPresentation: true,
+      },
+      {
+        id: "image-3",
+        isCover: false,
+        isPresentation: false,
+      },
+      {
+        id: "image-1",
+        isCover: true,
+        isPresentation: false,
+      },
+    ];
+
+    mockedPrepareAccommodationUpdateImages.mockResolvedValue(preparedImages);
+
+    const { result, rerender } = renderAutosaveHook({
+      images: initialImages,
+      coverImageId: "image-1",
+      presentationImageId: "image-2",
+    });
+
+    rerender({
+      currentImages: reorderedImages,
+      currentCoverImageId: "image-1",
+      currentPresentationImageId: "image-2",
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedPrepareAccommodationUpdateImages).toHaveBeenCalledWith(
+      reorderedImages,
+      "image-1",
+      "image-2",
+    );
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        name: "Le Chalet",
+      }),
+      preparedImages,
+      initialValues.highlights,
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
+  });
+
   it("cancels a pending autosave", async () => {
     const { result } = renderAutosaveHook();
 
