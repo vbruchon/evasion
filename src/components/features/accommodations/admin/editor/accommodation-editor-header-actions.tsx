@@ -14,6 +14,7 @@ type AccommodationEditorHeaderActionsProps = {
   statusChanged: boolean;
   canSaveDraft: boolean;
   hasDraft: boolean;
+  hasCurrentChanges: boolean;
   disabled: boolean;
   statusSaveDisabled: boolean;
   publishDisabled: boolean;
@@ -23,7 +24,7 @@ type AccommodationEditorHeaderActionsProps = {
   onStatusChange: (status: AccommodationUpdateFormValues["status"]) => void;
   onSaveStatus: () => void;
   onSaveDraft: () => void;
-  onPublishDraft: () => void;
+  onPublishChanges: () => void;
 };
 
 export const AccommodationEditorHeaderActions = ({
@@ -31,6 +32,7 @@ export const AccommodationEditorHeaderActions = ({
   statusChanged,
   canSaveDraft,
   hasDraft,
+  hasCurrentChanges,
   disabled,
   statusSaveDisabled,
   publishDisabled,
@@ -40,8 +42,10 @@ export const AccommodationEditorHeaderActions = ({
   onStatusChange,
   onSaveStatus,
   onSaveDraft,
-  onPublishDraft,
+  onPublishChanges,
 }: AccommodationEditorHeaderActionsProps) => {
+  const canPublishChanges = canSaveDraft && (hasDraft || hasCurrentChanges);
+
   return (
     <div className="flex shrink-0 items-center gap-2 lg:gap-3">
       <AccommodationStatusDropdown
@@ -107,12 +111,13 @@ export const AccommodationEditorHeaderActions = ({
             onClick={onSaveDraft}
           >
             <FileClock />
+
             {isSavingDraft ? "Sauvegarde..." : "Sauvegarder en brouillon"}
           </Button>
         </>
       ) : null}
 
-      {hasDraft && canSaveDraft ? (
+      {canPublishChanges ? (
         <>
           <Button
             type="button"
@@ -120,7 +125,7 @@ export const AccommodationEditorHeaderActions = ({
             className="sm:hidden"
             disabled={publishDisabled}
             aria-label="Publier les modifications"
-            onClick={onPublishDraft}
+            onClick={onPublishChanges}
           >
             <Send />
           </Button>
@@ -129,9 +134,10 @@ export const AccommodationEditorHeaderActions = ({
             type="button"
             className="hidden sm:inline-flex"
             disabled={publishDisabled}
-            onClick={onPublishDraft}
+            onClick={onPublishChanges}
           >
             <Send />
+
             {isPublishing ? "Publication..." : "Publier les modifications"}
           </Button>
         </>

@@ -403,4 +403,28 @@ describe("useAccommodationDraftAutosave", () => {
     expect(result.current.hasDraft).toBe(true);
     expect(result.current.autosaveStatus).toBe("saved");
   });
+  it("cancels a pending autosave", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue("name", "Le Chalet modifié", {
+        shouldDirty: true,
+      });
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    act(() => {
+      result.current.cancelPendingAutosave();
+    });
+
+    expect(result.current.autosaveStatus).toBe("idle");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedPrepareAccommodationUpdateImages).not.toHaveBeenCalled();
+    expect(mockedSaveAccommodationDraft).not.toHaveBeenCalled();
+  });
 });

@@ -101,12 +101,30 @@ export const useAccommodationDraftAutosave = ({
 
   const lastSavedSignatureRef = useRef(signature);
   const failedSignatureRef = useRef<string | null>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   const [status, setStatus] =
     useState<AccommodationDraftAutosaveStatus>("idle");
 
   const [isAutosaving, setIsAutosaving] = useState(false);
   const [hasDraft, setHasDraft] = useState(initialHasDraft);
+
+  const clearPendingAutosave = useCallback(() => {
+    if (timeoutRef.current === null) {
+      return;
+    }
+
+    window.clearTimeout(timeoutRef.current);
+    timeoutRef.current = null;
+  }, []);
+
+  const cancelPendingAutosave = useCallback(() => {
+    clearPendingAutosave();
+
+    setStatus((currentStatus) =>
+      currentStatus === "pending" ? "idle" : currentStatus,
+    );
+  }, [clearPendingAutosave]);
 
   const saveDraft = useCallback(async () => {
     const parsedValues = accommodationUpdateSchema.safeParse({
@@ -192,18 +210,20 @@ export const useAccommodationDraftAutosave = ({
 
     setStatus("pending");
 
-    const timeout = window.setTimeout(() => {
+    clearPendingAutosave();
+
+    timeoutRef.current = window.setTimeout(() => {
+      timeoutRef.current = null;
       void saveDraft();
     }, AUTOSAVE_DELAY);
 
-    return () => {
-      window.clearTimeout(timeout);
-    };
-  }, [enabled, isAutosaving, saveDraft, signature]);
+    return clearPendingAutosave;
+  }, [clearPendingAutosave, enabled, isAutosaving, saveDraft, signature]);
 
   return {
     hasDraft,
     isAutosaving,
     autosaveStatus: status,
+    cancelPendingAutosave,
   };
 };

@@ -17,6 +17,7 @@ type AccommodationEditorHeaderProps = {
   statusChanged: boolean;
   canSaveDraft: boolean;
   hasDraft: boolean;
+  hasCurrentChanges: boolean;
   disabled: boolean;
   statusSaveDisabled: boolean;
   publishDisabled: boolean;
@@ -24,10 +25,11 @@ type AccommodationEditorHeaderProps = {
   isPublishing: boolean;
   isUpdatingStatus: boolean;
   autosaveStatus: AccommodationDraftAutosaveStatus;
+
   onStatusChange: (status: AccommodationUpdateFormValues["status"]) => void;
   onSaveStatus: () => void;
   onSaveDraft: () => void;
-  onPublishDraft: () => void;
+  onPublishChanges: () => void;
 };
 
 export const AccommodationEditorHeader = ({
@@ -35,6 +37,7 @@ export const AccommodationEditorHeader = ({
   statusChanged,
   canSaveDraft,
   hasDraft,
+  hasCurrentChanges,
   disabled,
   statusSaveDisabled,
   publishDisabled,
@@ -45,7 +48,7 @@ export const AccommodationEditorHeader = ({
   onStatusChange,
   onSaveStatus,
   onSaveDraft,
-  onPublishDraft,
+  onPublishChanges,
 }: AccommodationEditorHeaderProps) => {
   const { control } = useFormContext<AccommodationUpdateFormValues>();
 
@@ -115,6 +118,7 @@ export const AccommodationEditorHeader = ({
         statusChanged={statusChanged}
         canSaveDraft={canSaveDraft}
         hasDraft={hasDraft}
+        hasCurrentChanges={hasCurrentChanges}
         disabled={disabled}
         statusSaveDisabled={statusSaveDisabled}
         publishDisabled={publishDisabled}
@@ -124,7 +128,7 @@ export const AccommodationEditorHeader = ({
         onStatusChange={onStatusChange}
         onSaveStatus={onSaveStatus}
         onSaveDraft={onSaveDraft}
-        onPublishDraft={onPublishDraft}
+        onPublishChanges={onPublishChanges}
       />
     </header>
   );

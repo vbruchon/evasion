@@ -42,6 +42,7 @@ export const AccommodationEditor = ({
 
   const {
     form,
+
     images,
     coverImageId,
     presentationImageId,
@@ -49,21 +50,26 @@ export const AccommodationEditor = ({
     removeImage,
     setCoverImage,
     setPresentationImage,
+
     status,
     statusChanged,
     canSaveDraft,
     hasDraft,
+    hasCurrentChanges,
     autosaveStatus,
+
     disabled,
     draftActionDisabled,
     publishDisabled,
     statusSaveDisabled,
+
     handleSubmit,
     handleSaveDraft,
-    handlePublishDraft,
+    handlePublishChanges,
     handleDiscardDraft,
     handleStatusChange,
     handleSaveStatus,
+
     isSavingDraft,
     isPublishing,
     isDiscardingDraft,
@@ -96,6 +102,7 @@ export const AccommodationEditor = ({
           statusChanged={statusChanged}
           canSaveDraft={canSaveDraft}
           hasDraft={hasDraft}
+          hasCurrentChanges={hasCurrentChanges}
           disabled={disabled}
           statusSaveDisabled={statusSaveDisabled}
           publishDisabled={publishDisabled}
@@ -106,7 +113,7 @@ export const AccommodationEditor = ({
           onStatusChange={handleStatusChange}
           onSaveStatus={handleSaveStatus}
           onSaveDraft={handleSaveDraft}
-          onPublishDraft={handlePublishDraft}
+          onPublishChanges={handlePublishChanges}
         />
 
         {hasDraft ? (

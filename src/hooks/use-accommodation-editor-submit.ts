@@ -5,7 +5,6 @@ import type { UseFormReturn } from "react-hook-form";
 
 import {
   discardAccommodationDraft,
-  publishAccommodationDraft,
   saveAccommodationDraft,
   updateAccommodation,
 } from "~/app/admin/logements/action";
@@ -43,42 +42,64 @@ export const useAccommodationEditorSubmit = ({
     [form],
   );
 
-  const handleSubmit = form.handleSubmit(async (values) => {
-    form.clearErrors("root");
+  const saveCurrentAccommodation = useCallback(
+    async (values: AccommodationUpdateFormValues) => {
+      form.clearErrors("root");
 
-    try {
-      const preparedImages = await prepareAccommodationUpdateImages(
-        images,
-        coverImageId,
-        presentationImageId,
-      );
+      try {
+        const preparedImages = await prepareAccommodationUpdateImages(
+          images,
+          coverImageId,
+          presentationImageId,
+        );
 
-      const result = await updateAccommodation(
-        accommodationId,
-        values,
-        preparedImages,
-      );
+        const result = await updateAccommodation(
+          accommodationId,
+          values,
+          preparedImages,
+        );
 
-      if (!result.success) {
-        if ("field" in result && result.field) {
-          form.setError(result.field, {
-            message: result.message,
-          });
+        if (!result.success) {
+          if ("field" in result && result.field) {
+            form.setError(result.field, {
+              message: result.message,
+            });
 
+            return;
+          }
+
+          setRootError(result.message);
           return;
         }
 
-        setRootError(result.message);
-        return;
+        window.location.reload();
+      } catch {
+        setRootError(
+          "Une erreur est survenue pendant l’enregistrement du logement.",
+        );
       }
+    },
+    [
+      accommodationId,
+      coverImageId,
+      form,
+      images,
+      presentationImageId,
+      setRootError,
+    ],
+  );
 
-      window.location.reload();
-    } catch {
-      setRootError(
-        "Une erreur est survenue pendant l’enregistrement du logement.",
-      );
+  const handleSubmit = form.handleSubmit(saveCurrentAccommodation);
+
+  const handlePublishChanges = useCallback(async () => {
+    setIsPublishing(true);
+
+    try {
+      await handleSubmit();
+    } finally {
+      setIsPublishing(false);
     }
-  });
+  }, [handleSubmit]);
 
   const handleSaveDraft = form.handleSubmit(async (values) => {
     form.clearErrors("root");
@@ -113,28 +134,6 @@ export const useAccommodationEditorSubmit = ({
     }
   });
 
-  const handlePublishDraft = useCallback(async () => {
-    form.clearErrors("root");
-    setIsPublishing(true);
-
-    try {
-      const result = await publishAccommodationDraft(accommodationId);
-
-      if (!result.success) {
-        setRootError(result.message);
-        return;
-      }
-
-      window.location.reload();
-    } catch {
-      setRootError(
-        "Une erreur est survenue pendant la publication du brouillon.",
-      );
-    } finally {
-      setIsPublishing(false);
-    }
-  }, [accommodationId, form, setRootError]);
-
   const handleDiscardDraft = useCallback(async () => {
     form.clearErrors("root");
     setIsDiscardingDraft(true);
@@ -160,7 +159,7 @@ export const useAccommodationEditorSubmit = ({
   return {
     handleSubmit,
     handleSaveDraft,
-    handlePublishDraft,
+    handlePublishChanges,
     handleDiscardDraft,
 
     isSavingDraft,

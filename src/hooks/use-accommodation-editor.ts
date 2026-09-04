@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 import { updateAccommodationStatus } from "~/app/admin/logements/action";
@@ -61,10 +61,38 @@ export const useAccommodationEditor = (
     initialImages: accommodation.images,
   });
 
+  const initialImagesSignature = useMemo(
+    () =>
+      JSON.stringify(
+        accommodation.images.map((image) => ({
+          id: image.id,
+          isCover: image.isCover,
+          isPresentation: image.isPresentation ?? false,
+        })),
+      ),
+    [accommodation.images],
+  );
+
+  const currentImagesSignature = useMemo(
+    () =>
+      JSON.stringify(
+        images.map((image) => ({
+          id: image.id,
+          isCover: image.id === coverImageId,
+          isPresentation: image.id === presentationImageId,
+        })),
+      ),
+    [coverImageId, images, presentationImageId],
+  );
+
+  const imagesChanged = currentImagesSignature !== initialImagesSignature;
+
+  const hasCurrentChanges = form.formState.isDirty || imagesChanged;
+
   const {
     handleSubmit,
     handleSaveDraft,
-    handlePublishDraft,
+    handlePublishChanges: submitPublishChanges,
     handleDiscardDraft,
     isSavingDraft,
     isPublishing,
@@ -84,7 +112,7 @@ export const useAccommodationEditor = (
     isDiscardingDraft ||
     isUpdatingStatus;
 
-  const { hasDraft, isAutosaving, autosaveStatus } =
+  const { hasDraft, isAutosaving, autosaveStatus, cancelPendingAutosave } =
     useAccommodationDraftAutosave({
       accommodationId: accommodation.id,
       form,
@@ -100,9 +128,14 @@ export const useAccommodationEditor = (
 
   const draftActionDisabled = disabled || autosaveStatus === "pending";
 
-  const publishDisabled = draftActionDisabled || statusChanged;
+  const publishDisabled = disabled || statusChanged;
 
   const statusSaveDisabled = draftActionDisabled;
+
+  const handlePublishChanges = useCallback(() => {
+    cancelPendingAutosave();
+    void submitPublishChanges();
+  }, [cancelPendingAutosave, submitPublishChanges]);
 
   const handleStatusChange = useCallback(
     (nextStatus: AccommodationUpdateFormValues["status"]) => {
@@ -150,6 +183,7 @@ export const useAccommodationEditor = (
     statusChanged,
     canSaveDraft,
     hasDraft,
+    hasCurrentChanges,
     autosaveStatus,
 
     disabled,
@@ -159,7 +193,7 @@ export const useAccommodationEditor = (
 
     handleSubmit,
     handleSaveDraft,
-    handlePublishDraft,
+    handlePublishChanges,
     handleDiscardDraft,
     handleStatusChange,
     handleSaveStatus,
