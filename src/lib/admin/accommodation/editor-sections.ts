@@ -34,6 +34,10 @@ export const accommodationHeroEditorSections = [
     id: "highlights",
     label: "Points forts",
   },
+  {
+    id: "image",
+    label: "Image",
+  },
 ] as const;
 
 export type AccommodationHeroEditorSection =

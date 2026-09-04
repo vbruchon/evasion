@@ -10,11 +10,11 @@ import {
   type AccommodationPresentationEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
 
+import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsection-nav";
 import { AccommodationGalleryEditor } from "./section/accommodation-gallery-editor";
 import { AccommodationHeroEditor } from "./section/accommodation-hero-editor";
 import { AccommodationHighlightsEditor } from "./section/accommodation-highlights-editor";
 import { AccommodationPresentationEditor } from "./section/accommodation-presentation-editor";
-import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsection-nav";
 
 type AccommodationEditorSidebarProps = {
   activeSection: AccommodationEditorSection;
@@ -24,11 +24,15 @@ type AccommodationEditorSidebarProps = {
   coverImageId: string | null;
   presentationImageId: string | null;
   disabled: boolean;
+
   onHeroSectionChange: (section: AccommodationHeroEditorSection) => void;
+
   onPresentationSectionChange: (
     section: AccommodationPresentationEditorSection,
   ) => void;
+
   onFilesSelected: (files: File[]) => void;
+  onSetCover: (id: string) => void;
   onSetPresentationImage: (id: string) => void;
   onRemoveImage: (id: string) => void;
   onReorderImages: (fromIndex: number, toIndex: number) => void;
@@ -45,6 +49,7 @@ export const AccommodationEditorSidebar = ({
   onHeroSectionChange,
   onPresentationSectionChange,
   onFilesSelected,
+  onSetCover,
   onSetPresentationImage,
   onRemoveImage,
   onReorderImages,
@@ -69,7 +74,7 @@ export const AccommodationEditorSidebar = ({
         <AccommodationEditorSubsectionNav
           sections={accommodationHeroEditorSections}
           activeSection={activeHeroSection}
-          columns={3}
+          columns={4}
           ariaLabel="Sections du hero"
           onSectionChange={onHeroSectionChange}
         />
@@ -98,6 +103,16 @@ export const AccommodationEditorSidebar = ({
 
             {activeHeroSection === "highlights" ? (
               <AccommodationHighlightsEditor disabled={disabled} />
+            ) : null}
+
+            {activeHeroSection === "image" ? (
+              <AccommodationHeroEditor
+                section="image"
+                images={images}
+                coverImageId={coverImageId}
+                disabled={disabled}
+                onSetCover={onSetCover}
+              />
             ) : null}
           </>
         ) : null}

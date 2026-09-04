@@ -1,15 +1,26 @@
 import { Bath, BedDouble, DoorOpen, Ruler, Users } from "lucide-react";
 
+import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+
+import { AccommodationImageGallery } from "../../form/accommodation-image-gallery";
 import { AccommodationNumberField } from "../../form/accommodation-number-field";
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
 
 type AccommodationHeroEditorProps = {
-  section: "general" | "key-details";
+  section: "general" | "key-details" | "image";
+  images?: AccommodationPreviewImage[];
+  coverImageId?: string | null;
+  disabled?: boolean;
+  onSetCover?: (id: string) => void;
 };
 
 export const AccommodationHeroEditor = ({
   section,
+  images = [],
+  coverImageId = null,
+  disabled = false,
+  onSetCover,
 }: AccommodationHeroEditorProps) => {
   if (section === "general") {
     return (
@@ -35,6 +46,36 @@ export const AccommodationHeroEditor = ({
           multiline
           variant="editor"
         />
+      </AccommodationEditorSectionContent>
+    );
+  }
+
+  if (section === "image") {
+    return (
+      <AccommodationEditorSectionContent>
+        <div>
+          <p className="text-sm font-medium">Image de couverture</p>
+
+          <p className="mt-1 text-sm leading-5 text-muted-foreground">
+            Choisissez la photo affichée en arrière-plan du hero.
+          </p>
+        </div>
+
+        {images.length > 0 && onSetCover ? (
+          <AccommodationImageGallery
+            images={images}
+            selectedImageId={coverImageId}
+            selectedLabel="Couverture"
+            selectionLabel="Définir comme couverture"
+            disabled={disabled}
+            compact
+            onSelect={onSetCover}
+          />
+        ) : (
+          <p className="text-sm text-muted-foreground">
+            Ajoutez d’abord des photos depuis la galerie.
+          </p>
+        )}
       </AccommodationEditorSectionContent>
     );
   }
