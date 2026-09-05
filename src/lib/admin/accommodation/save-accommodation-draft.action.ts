@@ -11,20 +11,24 @@ import {
   getAccommodationDraftFileKeys,
   parseAccommodationDraftContent,
 } from "./accommodation-draft";
+import { hasForeignAccommodationHighlight } from "./sync-accommodation-highlights";
 import {
   getAccommodationUpdateImageFileKeys,
   hasForeignAccommodationImage,
 } from "./sync-accommodation-images";
-import { hasForeignAccommodationHighlight } from "./sync-accommodation-highlights";
 
 type AccommodationDraftValues = AccommodationDraftContent["values"];
+
 type AccommodationDraftHighlights = AccommodationDraftContent["highlights"];
+
+type AccommodationDraftAmenities = AccommodationDraftContent["amenities"];
 
 export const saveAccommodationDraftAdmin = async (
   accommodationId: string,
   values: AccommodationDraftValues,
   images: AccommodationUpdateImageInput[],
   highlights: AccommodationDraftHighlights,
+  amenities: AccommodationDraftAmenities,
 ) => {
   const incomingFileKeys = getAccommodationUpdateImageFileKeys(images);
 
@@ -80,6 +84,7 @@ export const saveAccommodationDraftAdmin = async (
     values,
     images,
     highlights,
+    amenities,
   });
 
   if (!contentResult.success) {

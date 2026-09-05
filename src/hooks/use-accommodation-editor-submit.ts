@@ -117,6 +117,7 @@ export const useAccommodationEditorSubmit = ({
         getAccommodationDraftValues(values),
         preparedImages,
         values.highlights,
+        values.amenities,
       );
 
       if (!result.success) {

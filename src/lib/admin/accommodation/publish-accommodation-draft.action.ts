@@ -3,15 +3,16 @@ import { prisma } from "@/lib/prisma";
 
 import { parseAccommodationDraftContent } from "./accommodation-draft";
 import { revalidateAccommodation } from "./revalidate-accommodation";
+import { syncAccommodationAmenities } from "./sync-accommodation-amenities";
+import {
+  hasForeignAccommodationHighlight,
+  syncAccommodationHighlights,
+} from "./sync-accommodation-highlights";
 import {
   getRemovedAccommodationImages,
   hasForeignAccommodationImage,
   syncAccommodationImages,
 } from "./sync-accommodation-images";
-import {
-  hasForeignAccommodationHighlight,
-  syncAccommodationHighlights,
-} from "./sync-accommodation-highlights";
 
 export const publishAccommodationDraftAdmin = async (
   accommodationId: string,
@@ -122,6 +123,8 @@ export const publishAccommodationDraftAdmin = async (
     await syncAccommodationImages(tx, accommodationId, draft.images);
 
     await syncAccommodationHighlights(tx, accommodationId, draft.highlights);
+
+    await syncAccommodationAmenities(tx, accommodationId, draft.amenities);
 
     await tx.accommodationDraft.delete({
       where: {

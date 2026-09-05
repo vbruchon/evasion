@@ -63,6 +63,8 @@ const initialValues = createAccommodationUpdateValues({
     },
   ],
 
+  amenities: [],
+
   status: "PUBLISHED",
 });
 
@@ -225,6 +227,7 @@ describe("useAccommodationDraftAutosave", () => {
       },
       [],
       initialValues.highlights,
+      initialValues.amenities,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -268,6 +271,7 @@ describe("useAccommodationDraftAutosave", () => {
         surface: 65,
 
         highlights: initialValues.highlights,
+        amenities: initialValues.amenities,
         status: "DRAFT",
       },
       [],
@@ -299,6 +303,7 @@ describe("useAccommodationDraftAutosave", () => {
       "accommodation-1",
       expect.objectContaining({
         subtitle: "Nouveau sous-titre",
+        amenities: initialValues.amenities,
         status: "ARCHIVED",
       }),
       [],
@@ -391,6 +396,7 @@ describe("useAccommodationDraftAutosave", () => {
       },
       [],
       initialValues.highlights,
+      initialValues.amenities,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -425,6 +431,7 @@ describe("useAccommodationDraftAutosave", () => {
       }),
       [],
       initialValues.highlights,
+      initialValues.amenities,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -463,6 +470,52 @@ describe("useAccommodationDraftAutosave", () => {
           title: "Spa privatif modifié",
           description: "Jacuzzi rien que pour vous",
           icon: "Waves",
+        },
+      ],
+      initialValues.amenities,
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
+  });
+
+  it("autosaves when an amenity changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue(
+        "amenities",
+        [
+          {
+            key: "coffee-maker",
+            details: "Nespresso",
+          },
+        ],
+        {
+          shouldDirty: true,
+        },
+      );
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        name: "Le Chalet",
+      }),
+      [],
+      initialValues.highlights,
+      [
+        {
+          key: "coffee-maker",
+          details: "Nespresso",
         },
       ],
     );
@@ -535,6 +588,7 @@ describe("useAccommodationDraftAutosave", () => {
       }),
       preparedImages,
       initialValues.highlights,
+      initialValues.amenities,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -622,6 +676,7 @@ describe("useAccommodationDraftAutosave", () => {
       }),
       preparedImages,
       initialValues.highlights,
+      initialValues.amenities,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -691,6 +746,7 @@ describe("useAccommodationDraftAutosave", () => {
     expect(mockedUpdateAccommodation).toHaveBeenCalledWith(
       "accommodation-1",
       expect.objectContaining({
+        amenities: initialValues.amenities,
         status: "DRAFT",
       }),
       preparedImages,

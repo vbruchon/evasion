@@ -29,6 +29,7 @@ type AccommodationDraftSignatureImage = {
 type AccommodationDraftSignatureOptions = {
   values: AccommodationDraftContent["values"];
   highlights: AccommodationDraftContent["highlights"];
+  amenities: AccommodationDraftContent["amenities"];
   images: AccommodationDraftSignatureImage[];
   coverImageId: string | null;
   presentationImageId: string | null;
@@ -75,6 +76,7 @@ export const getAccommodationDraftExistingImageIds = (
 export const getAccommodationDraftSignature = ({
   values,
   highlights,
+  amenities,
   images,
   coverImageId,
   presentationImageId,
@@ -82,6 +84,7 @@ export const getAccommodationDraftSignature = ({
   JSON.stringify({
     values,
     highlights,
+    amenities,
 
     images: images.map((image) => ({
       id: image.id,

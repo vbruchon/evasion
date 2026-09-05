@@ -11,6 +11,7 @@ import { resetAccommodationDatabase } from "../helpers/database";
 import { createAccommodationDraftValues } from "../helpers/accommodation-values";
 
 type DraftValues = AccommodationDraftContent["values"];
+type DraftAmenities = AccommodationDraftContent["amenities"];
 
 const createDraftValues = (
   overrides: Partial<DraftValues> = {},
@@ -39,7 +40,7 @@ describe("publishAccommodationDraftAdmin", () => {
     await prisma.$disconnect();
   });
 
-  it("publishes the draft and synchronizes highlights", async () => {
+  it("publishes the draft and synchronizes highlights and amenities", async () => {
     const accommodation = await createAccommodationFixture({
       name: "Le Chalet public",
       status: "PUBLISHED",
@@ -66,6 +67,23 @@ describe("publishAccommodationDraftAdmin", () => {
       ],
     });
 
+    await prisma.accommodationAmenity.createMany({
+      data: [
+        {
+          accommodationId: accommodation.id,
+          key: "heating",
+          details: "Ancien chauffage",
+          position: 0,
+        },
+        {
+          accommodationId: accommodation.id,
+          key: "television",
+          details: "Ancienne télévision",
+          position: 1,
+        },
+      ],
+    });
+
     const spa = accommodation.highlights.find(
       (highlight) => highlight.title === "Spa privatif",
     )!;
@@ -73,6 +91,21 @@ describe("publishAccommodationDraftAdmin", () => {
     const mountain = accommodation.highlights.find(
       (highlight) => highlight.title === "Vue montagne",
     )!;
+
+    const draftAmenities: DraftAmenities = [
+      {
+        key: "wifi",
+        details: "",
+      },
+      {
+        key: "coffee-maker",
+        details: "Nespresso",
+      },
+      {
+        key: "jacuzzi",
+        details: "Privatif",
+      },
+    ];
 
     const saveResult = await saveAccommodationDraftAdmin(
       accommodation.id,
@@ -99,25 +132,40 @@ describe("publishAccommodationDraftAdmin", () => {
           icon: "Waves",
         },
       ],
+      draftAmenities,
     );
 
     expect(saveResult).toEqual({
       success: true,
     });
 
-    const beforePublication = await prisma.accommodationHighlight.findMany({
+    const beforePublication = await prisma.accommodation.findUniqueOrThrow({
       where: {
-        accommodationId: accommodation.id,
+        id: accommodation.id,
       },
-      orderBy: {
-        position: "asc",
+
+      include: {
+        highlights: {
+          orderBy: {
+            position: "asc",
+          },
+        },
+
+        amenities: {
+          orderBy: {
+            position: "asc",
+          },
+        },
       },
     });
 
-    expect(beforePublication.map((highlight) => highlight.title)).toEqual([
-      "Spa privatif",
-      "Vue montagne",
-      "Point supprimé",
+    expect(
+      beforePublication.highlights.map((highlight) => highlight.title),
+    ).toEqual(["Spa privatif", "Vue montagne", "Point supprimé"]);
+
+    expect(beforePublication.amenities.map((amenity) => amenity.key)).toEqual([
+      "heating",
+      "television",
     ]);
 
     const result = await publishAccommodationDraftAdmin(accommodation.id);
@@ -136,6 +184,12 @@ describe("publishAccommodationDraftAdmin", () => {
           draft: true,
 
           highlights: {
+            orderBy: {
+              position: "asc",
+            },
+          },
+
+          amenities: {
             orderBy: {
               position: "asc",
             },
@@ -197,6 +251,42 @@ describe("publishAccommodationDraftAdmin", () => {
         (highlight) => highlight.title === "Point supprimé",
       ),
     ).toBe(false);
+
+    expect(
+      publishedAccommodation.amenities.map((amenity) => ({
+        key: amenity.key,
+        details: amenity.details,
+        position: amenity.position,
+      })),
+    ).toEqual([
+      {
+        key: "wifi",
+        details: null,
+        position: 0,
+      },
+      {
+        key: "coffee-maker",
+        details: "Nespresso",
+        position: 1,
+      },
+      {
+        key: "jacuzzi",
+        details: "Privatif",
+        position: 2,
+      },
+    ]);
+
+    expect(
+      publishedAccommodation.amenities.some(
+        (amenity) => amenity.key === "heating",
+      ),
+    ).toBe(false);
+
+    expect(
+      publishedAccommodation.amenities.some(
+        (amenity) => amenity.key === "television",
+      ),
+    ).toBe(false);
   });
 
   it("rejects a draft containing a highlight from another accommodation", async () => {
@@ -248,6 +338,8 @@ describe("publishAccommodationDraftAdmin", () => {
               icon: foreignHighlight.icon,
             },
           ],
+
+          amenities: [],
         },
       },
     });
@@ -338,6 +430,7 @@ describe("publishAccommodationDraftAdmin", () => {
         },
       ],
       [],
+      [],
     );
 
     const result = await publishAccommodationDraftAdmin(accommodation.id);
@@ -350,6 +443,7 @@ describe("publishAccommodationDraftAdmin", () => {
       where: {
         accommodationId: accommodation.id,
       },
+
       orderBy: {
         position: "asc",
       },

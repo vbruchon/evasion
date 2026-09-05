@@ -5,6 +5,7 @@ import type {
 
 import { prisma } from "@/lib/prisma";
 
+import { syncAccommodationAmenities } from "./sync-accommodation-amenities";
 import { syncAccommodationHighlights } from "./sync-accommodation-highlights";
 import { syncAccommodationImages } from "./sync-accommodation-images";
 
@@ -50,6 +51,8 @@ export const persistAccommodationUpdate = async ({
     await syncAccommodationImages(tx, accommodationId, images);
 
     await syncAccommodationHighlights(tx, accommodationId, data.highlights);
+
+    await syncAccommodationAmenities(tx, accommodationId, data.amenities);
 
     await tx.accommodationDraft.deleteMany({
       where: {

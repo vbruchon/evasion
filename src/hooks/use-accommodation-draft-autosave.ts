@@ -71,12 +71,13 @@ export const useAccommodationDraftAutosave = ({
   syncPreparedImages,
   syncPersistedImages,
 }: UseAccommodationDraftAutosaveOptions) => {
-  const { values, highlights, signature } = useAccommodationDraftSnapshot({
-    form,
-    images,
-    coverImageId,
-    presentationImageId,
-  });
+  const { values, highlights, amenities, signature } =
+    useAccommodationDraftSnapshot({
+      form,
+      images,
+      coverImageId,
+      presentationImageId,
+    });
 
   const lastSavedSignatureRef = useRef(signature);
   const failedSignatureRef = useRef<string | null>(null);
@@ -85,6 +86,7 @@ export const useAccommodationDraftAutosave = ({
     useState<AccommodationDraftAutosaveStatus>("idle");
 
   const [isAutosaving, setIsAutosaving] = useState(false);
+
   const [hasDraft, setHasDraft] = useState(
     saveAsDraft ? initialHasDraft : false,
   );
@@ -93,6 +95,7 @@ export const useAccommodationDraftAutosave = ({
     const updateValues: AccommodationUpdateFormValues = {
       ...values,
       highlights,
+      amenities,
       status: persistedStatus,
     };
 
@@ -122,6 +125,7 @@ export const useAccommodationDraftAutosave = ({
           values,
           preparedImages,
           highlights,
+          amenities,
         );
 
         if (!result.success) {
@@ -158,6 +162,7 @@ export const useAccommodationDraftAutosave = ({
       lastSavedSignatureRef.current = getAccommodationDraftSignature({
         values,
         highlights,
+        amenities,
         images: syncedImages.images,
         coverImageId: syncedImages.coverImageId,
         presentationImageId: syncedImages.presentationImageId,
@@ -175,6 +180,7 @@ export const useAccommodationDraftAutosave = ({
     }
   }, [
     accommodationId,
+    amenities,
     coverImageId,
     highlights,
     images,

@@ -4,13 +4,12 @@ import type { AccommodationStatus } from "@/generated/prisma/client";
 
 import { createAccommodationAdmin } from "@/lib/admin/accommodation/create-accommodation.action";
 import { deleteAccommodationAdmin } from "@/lib/admin/accommodation/delete-accommodation.action";
+import { discardAccommodationDraftAdmin } from "@/lib/admin/accommodation/discard-accommodation-draft.action";
 import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/publish-accommodation-draft.action";
 import { reorderAccommodationsAdmin } from "@/lib/admin/accommodation/reorder-accommodations.action";
 import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";
 import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accommodation.action";
 import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/update-accommodation-status.action";
-import { discardAccommodationDraftAdmin } from "@/lib/admin/accommodation/discard-accommodation-draft.action";
-
 import { requireAdmin } from "@/lib/admin/require-admin";
 
 import type {
@@ -69,6 +68,7 @@ export const saveAccommodationDraft = async (
   values: AccommodationDraftContent["values"],
   images: AccommodationUpdateImageInput[],
   highlights: AccommodationDraftContent["highlights"],
+  amenities: AccommodationDraftContent["amenities"],
 ) => {
   await requireAdmin();
 
@@ -77,6 +77,7 @@ export const saveAccommodationDraft = async (
     values,
     images,
     highlights,
+    amenities,
   );
 };
 

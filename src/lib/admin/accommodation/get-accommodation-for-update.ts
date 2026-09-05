@@ -1,3 +1,5 @@
+import { accommodationAmenitiesSchema } from "~/app/admin/logements/schema";
+
 import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/accommodation-draft";
 import { resolveAccommodationDraftImages } from "@/lib/admin/accommodation/resolve-accommodation-draft-images";
 import { prisma } from "@/lib/prisma";
@@ -27,6 +29,7 @@ export const getAccommodationForUpdate = async (id: string) => {
         orderBy: {
           position: "asc",
         },
+
         select: {
           id: true,
           url: true,
@@ -47,6 +50,17 @@ export const getAccommodationForUpdate = async (id: string) => {
           title: true,
           description: true,
           icon: true,
+        },
+      },
+
+      amenities: {
+        orderBy: {
+          position: "asc",
+        },
+
+        select: {
+          key: true,
+          details: true,
         },
       },
 
@@ -89,6 +103,15 @@ export const getAccommodationForUpdate = async (id: string) => {
 
   const highlights = draft ? draft.highlights : accommodation.highlights;
 
+  const amenities = draft
+    ? draft.amenities
+    : accommodationAmenitiesSchema.parse(
+        accommodation.amenities.map((amenity) => ({
+          key: amenity.key,
+          details: amenity.details ?? "",
+        })),
+      );
+
   return {
     id: accommodation.id,
     slug: accommodation.slug,
@@ -107,6 +130,7 @@ export const getAccommodationForUpdate = async (id: string) => {
     surface: values.surface,
 
     highlights,
+    amenities,
 
     images,
 

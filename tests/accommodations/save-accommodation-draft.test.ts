@@ -14,6 +14,7 @@ import { createAccommodationFixture } from "../helpers/create-accommodation-fixt
 import { resetAccommodationDatabase } from "../helpers/database";
 
 type DraftHighlights = AccommodationDraftContent["highlights"];
+type DraftAmenities = AccommodationDraftContent["amenities"];
 
 describe("saveAccommodationDraftAdmin", () => {
   beforeEach(async () => {
@@ -61,6 +62,15 @@ describe("saveAccommodationDraftAdmin", () => {
       ],
     });
 
+    await prisma.accommodationAmenity.create({
+      data: {
+        accommodationId: accommodation.id,
+        key: "heating",
+        details: "Chauffage public",
+        position: 0,
+      },
+    });
+
     const existingImage = accommodation.images[0];
     const existingHighlight = accommodation.highlights[0];
 
@@ -75,6 +85,17 @@ describe("saveAccommodationDraftAdmin", () => {
         title: "Vue montagne",
         description: "Panorama sur le Vercors",
         icon: "Mountain",
+      },
+    ];
+
+    const draftAmenities: DraftAmenities = [
+      {
+        key: "wifi",
+        details: "",
+      },
+      {
+        key: "coffee-maker",
+        details: "Nespresso",
       },
     ];
 
@@ -95,6 +116,7 @@ describe("saveAccommodationDraftAdmin", () => {
         },
       ],
       draftHighlights,
+      draftAmenities,
     );
 
     expect(result).toEqual({
@@ -110,6 +132,7 @@ describe("saveAccommodationDraftAdmin", () => {
         include: {
           images: true,
           highlights: true,
+          amenities: true,
           draft: true,
         },
       },
@@ -142,6 +165,13 @@ describe("saveAccommodationDraftAdmin", () => {
       title: "Spa public",
       description: "Description publique",
       icon: "Waves",
+    });
+
+    expect(persistedAccommodation.amenities).toHaveLength(1);
+
+    expect(persistedAccommodation.amenities[0]).toMatchObject({
+      key: "heating",
+      details: "Chauffage public",
     });
 
     expect(persistedAccommodation.draft).not.toBeNull();
@@ -180,6 +210,8 @@ describe("saveAccommodationDraftAdmin", () => {
       ],
 
       highlights: draftHighlights,
+
+      amenities: draftAmenities,
     });
   });
 
@@ -193,6 +225,7 @@ describe("saveAccommodationDraftAdmin", () => {
       createAccommodationDraftValues({
         name: "First draft",
       }),
+      [],
       [],
       [],
     );
@@ -214,6 +247,16 @@ describe("saveAccommodationDraftAdmin", () => {
           title: "Nouveau point fort",
           description: "Description",
           icon: "Sparkles",
+        },
+      ],
+      [
+        {
+          key: "wifi",
+          details: "",
+        },
+        {
+          key: "coffee-maker",
+          details: "Nespresso",
         },
       ],
     );
@@ -241,6 +284,17 @@ describe("saveAccommodationDraftAdmin", () => {
           icon: "Sparkles",
         },
       ],
+
+      amenities: [
+        {
+          key: "wifi",
+          details: "",
+        },
+        {
+          key: "coffee-maker",
+          details: "Nespresso",
+        },
+      ],
     });
   });
 
@@ -261,6 +315,7 @@ describe("saveAccommodationDraftAdmin", () => {
       accommodation.id,
       createAccommodationDraftValues(),
       images,
+      [],
       [],
     );
 
@@ -320,6 +375,7 @@ describe("saveAccommodationDraftAdmin", () => {
         },
       ],
       [],
+      [],
     );
 
     expect(result).toEqual({
@@ -374,6 +430,7 @@ describe("saveAccommodationDraftAdmin", () => {
           icon: foreignHighlight.icon,
         },
       ],
+      [],
     );
 
     expect(result).toEqual({
@@ -411,6 +468,7 @@ describe("saveAccommodationDraftAdmin", () => {
         },
       ],
       [],
+      [],
     );
 
     await saveAccommodationDraftAdmin(
@@ -430,6 +488,7 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: false,
         },
       ],
+      [],
       [],
     );
 
@@ -469,6 +528,7 @@ describe("saveAccommodationDraftAdmin", () => {
         },
       ],
       [],
+      [],
     );
 
     vi.mocked(deleteUploadThingFiles).mockClear();
@@ -490,6 +550,7 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: false,
         },
       ],
+      [],
       [],
     );
 
@@ -535,6 +596,7 @@ describe("saveAccommodationDraftAdmin", () => {
             isCover: true,
           },
         ],
+        [],
         [],
       ),
     ).rejects.toThrow("Logement introuvable");

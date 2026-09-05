@@ -31,6 +31,7 @@ const updateValues = (
   surface: 72.5,
 
   highlights: [],
+  amenities: [],
 
   status: "PUBLISHED",
   ...overrides,

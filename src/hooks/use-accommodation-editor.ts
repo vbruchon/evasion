@@ -23,6 +23,7 @@ export const useAccommodationEditor = (
 
   const form = useForm<AccommodationUpdateFormValues>({
     resolver: zodResolver(accommodationUpdateSchema),
+
     defaultValues: {
       name: accommodation.name,
       type: accommodation.type,
@@ -36,7 +37,9 @@ export const useAccommodationEditor = (
       bathrooms: accommodation.bathrooms,
       surface: accommodation.surface,
       highlights: accommodation.highlights,
+      amenities: accommodation.amenities,
     },
+
     mode: "onSubmit",
   });
 

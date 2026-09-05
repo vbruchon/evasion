@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { accommodationAmenitiesSchema } from "./schemas/accommodation-amenity.schema";
 import { accommodationHighlightsSchema } from "./schemas/accommodation-highlight.schema";
 import { accommodationUpdateImagesSchema } from "./schemas/accommodation-image.schema";
 
@@ -86,6 +87,7 @@ export const accommodationCreateSchema = z.object({
 export const accommodationUpdateSchema = accommodationFieldsSchema.extend({
   status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
   highlights: accommodationHighlightsSchema,
+  amenities: accommodationAmenitiesSchema,
 });
 
 export const accommodationDraftContentSchema = z.object({
@@ -93,7 +95,15 @@ export const accommodationDraftContentSchema = z.object({
   values: accommodationDraftValuesSchema,
   images: accommodationUpdateImagesSchema,
   highlights: accommodationHighlightsSchema.default([]),
+
+  // default([]) garde les anciens brouillons compatibles.
+  amenities: accommodationAmenitiesSchema.default([]),
 });
+
+export {
+  accommodationAmenitySchema,
+  accommodationAmenitiesSchema,
+} from "./schemas/accommodation-amenity.schema";
 
 export {
   accommodationHighlightSchema,
@@ -106,6 +116,11 @@ export {
   accommodationUpdateImageSchema,
   accommodationUpdateImagesSchema,
 } from "./schemas/accommodation-image.schema";
+
+export type {
+  AccommodationAmenityInput,
+  AccommodationAmenitiesInput,
+} from "./schemas/accommodation-amenity.schema";
 
 export type {
   AccommodationHighlightInput,
