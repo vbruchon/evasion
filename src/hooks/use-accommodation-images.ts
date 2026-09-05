@@ -85,7 +85,6 @@ export const useAccommodationImages = ({
       }
 
       const nextImages = [...images, ...newImages];
-
       const nextCoverImageId = coverImageId ?? nextImages[0]?.id ?? null;
 
       setImages(nextImages);
@@ -154,6 +153,39 @@ export const useAccommodationImages = ({
     [],
   );
 
+  const syncPersistedImages = useCallback(
+    (persistedImages: AccommodationInitialImage[]) => {
+      const nextImages: AccommodationPreviewImage[] = persistedImages.map(
+        (image) => ({
+          id: image.id,
+          url: image.url,
+          fileKey: image.fileKey,
+          alt: image.alt,
+          isExisting: true,
+        }),
+      );
+
+      const nextCoverImageId =
+        persistedImages.find((image) => image.isCover)?.id ??
+        persistedImages[0]?.id ??
+        null;
+
+      const nextPresentationImageId =
+        persistedImages.find((image) => image.isPresentation)?.id ?? null;
+
+      setImages(nextImages);
+      setCoverImageId(nextCoverImageId);
+      setPresentationImageId(nextPresentationImageId);
+
+      return {
+        images: nextImages,
+        coverImageId: nextCoverImageId,
+        presentationImageId: nextPresentationImageId,
+      };
+    },
+    [],
+  );
+
   const reorderImages = useCallback(
     (fromIndex: number, toIndex: number) => {
       if (
@@ -189,5 +221,6 @@ export const useAccommodationImages = ({
     setCoverImage,
     setPresentationImage,
     syncPreparedImages,
+    syncPersistedImages,
   };
 };

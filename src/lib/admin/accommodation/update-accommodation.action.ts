@@ -110,8 +110,10 @@ export const updateAccommodationAdmin = async (
     (fileKey) => !submittedFileKeySet.has(fileKey),
   );
 
+  let persistedImages;
+
   try {
-    await persistAccommodationUpdate({
+    persistedImages = await persistAccommodationUpdate({
       accommodationId: id,
       publishedAt: accommodation.publishedAt,
       data,
@@ -142,5 +144,6 @@ export const updateAccommodationAdmin = async (
 
   return {
     success: true as const,
+    images: persistedImages,
   };
 };

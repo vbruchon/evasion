@@ -62,6 +62,7 @@ export const useAccommodationEditor = (
     setCoverImage,
     setPresentationImage,
     syncPreparedImages,
+    syncPersistedImages,
   } = useAccommodationImages({
     initialImages: accommodation.images,
   });
@@ -109,9 +110,12 @@ export const useAccommodationEditor = (
       images,
       coverImageId,
       presentationImageId,
-      enabled: canSaveDraft && !manualActionPending,
+      enabled: !manualActionPending,
+      saveAsDraft: canSaveDraft,
+      persistedStatus: accommodation.status,
       initialHasDraft: accommodation.hasDraft,
       syncPreparedImages,
+      syncPersistedImages,
     });
 
   const disabled = manualActionPending || isAutosaving;

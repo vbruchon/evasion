@@ -5,8 +5,8 @@ import type {
 
 import { prisma } from "@/lib/prisma";
 
-import { syncAccommodationImages } from "./sync-accommodation-images";
 import { syncAccommodationHighlights } from "./sync-accommodation-highlights";
+import { syncAccommodationImages } from "./sync-accommodation-images";
 
 type PersistAccommodationUpdateOptions = {
   accommodationId: string;
@@ -21,7 +21,7 @@ export const persistAccommodationUpdate = async ({
   data,
   images,
 }: PersistAccommodationUpdateOptions) => {
-  await prisma.$transaction(async (tx) => {
+  return prisma.$transaction(async (tx) => {
     await tx.accommodation.update({
       where: {
         id: accommodationId,
@@ -54,6 +54,25 @@ export const persistAccommodationUpdate = async ({
     await tx.accommodationDraft.deleteMany({
       where: {
         accommodationId,
+      },
+    });
+
+    return tx.accommodationImage.findMany({
+      where: {
+        accommodationId,
+      },
+
+      orderBy: {
+        position: "asc",
+      },
+
+      select: {
+        id: true,
+        url: true,
+        fileKey: true,
+        alt: true,
+        isCover: true,
+        isPresentation: true,
       },
     });
   });

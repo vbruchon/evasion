@@ -94,7 +94,7 @@ export const AccommodationEditorHeader = ({
           </Badge>
         ) : null}
 
-        {canSaveDraft && autosaveStatus !== "idle" ? (
+        {autosaveStatus !== "idle" ? (
           <span
             className={`hidden text-xs xl:inline ${
               autosaveStatus === "error"
@@ -107,7 +107,9 @@ export const AccommodationEditorHeader = ({
               : autosaveStatus === "saving"
                 ? "Sauvegarde auto..."
                 : autosaveStatus === "saved"
-                  ? "Brouillon enregistré"
+                  ? canSaveDraft
+                    ? "Brouillon enregistré"
+                    : "Modifications enregistrées"
                   : "Échec de la sauvegarde auto"}
           </span>
         ) : null}

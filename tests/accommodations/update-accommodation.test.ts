@@ -57,7 +57,7 @@ describe("updateAccommodationAdmin", () => {
       [],
     );
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       success: true,
     });
 
@@ -147,9 +147,37 @@ describe("updateAccommodationAdmin", () => {
       images,
     );
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       success: true,
     });
+
+    if (!result.success) {
+      throw new Error("Accommodation update failed.");
+    }
+
+    expect(
+      result.images.map((image) => ({
+        fileKey: image.fileKey,
+        isCover: image.isCover,
+        isPresentation: image.isPresentation,
+      })),
+    ).toEqual([
+      {
+        fileKey: "existing-second",
+        isCover: false,
+        isPresentation: false,
+      },
+      {
+        fileKey: "new-image",
+        isCover: true,
+        isPresentation: true,
+      },
+      {
+        fileKey: "existing-cover",
+        isCover: false,
+        isPresentation: false,
+      },
+    ]);
 
     const persistedImages = await prisma.accommodationImage.findMany({
       where: {
@@ -259,7 +287,7 @@ describe("updateAccommodationAdmin", () => {
       [],
     );
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       success: true,
     });
 
@@ -481,9 +509,18 @@ describe("updateAccommodationAdmin", () => {
       ],
     );
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       success: true,
     });
+
+    if (!result.success) {
+      throw new Error("Accommodation update failed.");
+    }
+
+    expect(result.images.map((image) => image.fileKey)).toEqual([
+      "published-image",
+      "draft-kept",
+    ]);
 
     const updatedAccommodation = await prisma.accommodation.findUniqueOrThrow({
       where: {
