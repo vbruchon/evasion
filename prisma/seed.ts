@@ -2,23 +2,58 @@ import "dotenv/config";
 
 import { prisma } from "../src/lib/prisma";
 
-const accommodations = [
+const localAccommodations = [
   {
-    name: "Le Container",
-    slug: "le-container",
-    type: "Container avec spa",
+    name: "La Cabane",
+    slug: "la-cabane",
+    type: "Cabane avec spa",
     subtitle:
-      "Un cocon insolite pour deux, avec jacuzzi privatif et vue panoramique sur le Vercors",
+      "Une cabane chaleureuse avec spa privatif et vue panoramique sur le Vercors",
     shortDescription:
-      "Un cocon insolite avec jacuzzi privatif et vue panoramique sur le Vercors.",
+      "Une cabane chaleureuse avec spa privatif et vue dégagée sur le Vercors.",
     description:
-      "Offrez-vous une parenthèse dépaysante dans ce container maritime entièrement transformé en studio confortable et tout équipé pour deux personnes.\n\nPensé comme un véritable cocon, ce logement insolite réunit calme, intimité et vue panoramique sur le Vercors, dans une atmosphère chaleureuse et romantique.\n\nÀ la tombée de la nuit, détendez-vous dans le jacuzzi privatif et profitez du ciel étoilé pour vivre un moment hors du temps, en couple ou entre amis.",
+      "Offrez-vous une parenthèse au calme dans cette cabane chaleureuse, pensée pour deux personnes et nichée dans un environnement naturel avec vue sur le Vercors.\n\nEntre bois, lumière douce et ambiance cocooning, le logement invite à ralentir et à profiter pleinement du moment. Installez-vous sur la terrasse, détendez-vous dans le spa privatif et laissez-vous séduire par le paysage qui s’étend devant vous.\n\nUne escapade idéale pour un séjour romantique, une occasion particulière ou simplement quelques jours à deux loin du quotidien.",
 
     guestCapacity: 2,
     bedrooms: 1,
     beds: 1,
     bathrooms: 1,
-    surface: null,
+    surface: 28,
+
+    city: null,
+    region: null,
+    status: "PUBLISHED" as const,
+    position: 3,
+    publishedAt: new Date(),
+
+    images: {
+      create: [
+        {
+          url: "/images/accommodations/cabane/hero.png",
+          fileKey: "seed-local-cabane-hero",
+          alt: "Vue extérieure de La Cabane",
+          position: 0,
+          isCover: true,
+          isPresentation: false,
+        },
+        {
+          url: "/images/accommodations/cabane/gallery-01.png",
+          fileKey: "seed-local-cabane-gallery-01",
+          alt: "Intérieur chaleureux de La Cabane",
+          position: 1,
+          isCover: false,
+          isPresentation: true,
+        },
+        {
+          url: "/images/accommodations/cabane/gallery-02.png",
+          fileKey: "seed-local-cabane-gallery-02",
+          alt: "Terrasse et spa privatif de La Cabane",
+          position: 2,
+          isCover: false,
+          isPresentation: false,
+        },
+      ],
+    },
 
     highlights: {
       create: [
@@ -35,234 +70,303 @@ const accommodations = [
           position: 1,
         },
         {
-          title: "Logement insolite",
-          description: "Un container transformé en cocon",
-          icon: "Sparkles",
+          title: "Ambiance cocooning",
+          description: "Bois, douceur et intimité",
+          icon: "Heart",
           position: 2,
-        },
-        {
-          title: "Terrasse privative",
-          description: "Un espace ouvert sur le paysage",
-          icon: "Sun",
-          position: 3,
-        },
-      ],
-    },
-
-    city: "Valence",
-    region: "Drôme",
-    status: "PUBLISHED" as const,
-    position: 1,
-    publishedAt: new Date(),
-
-    images: {
-      create: [
-        {
-          url: "/images/accommodations/container/hero.avif",
-          fileKey: "seed-container-hero",
-          alt: "Vue principale du Container",
-          position: 0,
-          isCover: true,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/container/gallery-01.avif",
-          fileKey: "seed-container-gallery-01",
-          alt: "Jacuzzi extérieur du Container",
-          position: 1,
-          isCover: false,
-          isPresentation: true,
-        },
-        {
-          url: "/images/accommodations/container/gallery-02.avif",
-          fileKey: "seed-container-gallery-02",
-          alt: "Espace intérieur du Container",
-          position: 2,
-          isCover: false,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/container/gallery-03.avif",
-          fileKey: "seed-container-gallery-03",
-          alt: "Vue panoramique depuis le Container",
-          position: 3,
-          isCover: false,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/container/gallery-04.avif",
-          fileKey: "seed-container-gallery-04",
-          alt: "Espace extérieur du Container",
-          position: 4,
-          isCover: false,
-          isPresentation: false,
         },
       ],
     },
   },
 
   {
-    name: "Le Dôme",
-    slug: "le-dome",
-    type: "Dôme panoramique",
-    subtitle:
-      "Spa privatif, cinéma sous les étoiles et vue imprenable sur le Vercors",
+    name: "Le Chalet",
+    slug: "le-chalet",
+    type: "Chalet de montagne",
+    subtitle: "Bois, sommets enneigés et bain chaud face aux montagnes",
     shortDescription:
-      "Une parenthèse romantique entre spa privatif, cinéma et vue sur le Vercors.",
+      "Un refuge alpin en bois, entre bain chaud extérieur et horizons enneigés.",
     description:
-      "Offrez-vous une parenthèse hors du temps dans ce dôme haut de gamme, pensé pour accueillir deux personnes dans une atmosphère intime et dépaysante.\n\nEntièrement climatisé et chauffé, il vous garantit un confort optimal en toute saison. Depuis votre lit, profitez d’une soirée cinéma sur écran géant, détendez-vous dans le spa privatif couvert ou laissez-vous simplement séduire par la vue imprenable sur le Vercors.\n\nUn lieu idéal pour célébrer une occasion particulière, partager un séjour romantique ou simplement prendre le temps de se retrouver à deux.",
+      "Perché au cœur d’un paysage de montagne, Le Chalet invite à retrouver le plaisir d’un séjour simple, confortable et profondément dépaysant.\n\nÀ l’intérieur, le bois omniprésent, les lumières douces et l’esprit montagnard créent une ambiance enveloppante, idéale après une journée passée au grand air. Depuis la chambre comme depuis la terrasse, les sommets accompagnent chaque moment du séjour.\n\nÀ l’extérieur, le bain chaud devient le point de rendez-vous incontournable : quelques degrés sous zéro, la vapeur qui s’élève et les montagnes face à vous. Une adresse faite pour profiter de l’hiver, ralentir et savourer pleinement le décor.",
 
-    guestCapacity: 2,
-    bedrooms: 1,
-    beds: 1,
+    guestCapacity: 4,
+    bedrooms: 2,
+    beds: 3,
     bathrooms: 1,
-    surface: null,
+    surface: 65,
 
-    highlights: {
-      create: [
-        {
-          title: "Spa privatif",
-          description: "Un spa couvert rien que pour vous",
-          icon: "Waves",
-          position: 0,
-        },
-        {
-          title: "Cinéma privé",
-          description: "Grand écran depuis votre cocon",
-          icon: "Film",
-          position: 1,
-        },
-        {
-          title: "Vue sur le Vercors",
-          description: "Panorama sur les reliefs du Vercors",
-          icon: "Mountain",
-          position: 2,
-        },
-        {
-          title: "Expérience insolite",
-          description: "Une nuit hors du commun à deux",
-          icon: "Sparkles",
-          position: 3,
-        },
-      ],
-    },
-
-    city: "Valence",
-    region: "Drôme",
+    city: null,
+    region: null,
     status: "PUBLISHED" as const,
-    position: 2,
+    position: 4,
     publishedAt: new Date(),
 
     images: {
       create: [
         {
-          url: "/images/accommodations/dome/hero.avif",
-          fileKey: "seed-dome-hero",
-          alt: "Vue principale du Dôme",
+          url: "/images/accommodations/chalet/hero.png",
+          fileKey: "seed-local-chalet-hero",
+          alt: "Chalet en bois au cœur des montagnes enneigées",
           position: 0,
           isCover: true,
           isPresentation: false,
         },
         {
-          url: "/images/accommodations/dome/gallery-01.webp",
-          fileKey: "seed-dome-gallery-01",
-          alt: "Spa privatif du Dôme",
+          url: "/images/accommodations/chalet/gallery-01.png",
+          fileKey: "seed-local-chalet-gallery-01",
+          alt: "Chambre chaleureuse du Chalet avec vue sur les montagnes",
           position: 1,
           isCover: false,
           isPresentation: true,
         },
         {
-          url: "/images/accommodations/dome/gallery-02.avif",
-          fileKey: "seed-dome-gallery-02",
-          alt: "Vue intérieure du Dôme",
+          url: "/images/accommodations/chalet/gallery-02.png",
+          fileKey: "seed-local-chalet-gallery-02",
+          alt: "Bain chaud extérieur du Chalet face aux sommets",
           position: 2,
           isCover: false,
           isPresentation: false,
         },
+      ],
+    },
+
+    highlights: {
+      create: [
         {
-          url: "/images/accommodations/dome/gallery-03.avif",
-          fileKey: "seed-dome-gallery-03",
-          alt: "Espace cinéma du Dôme",
+          title: "Bain chaud extérieur",
+          description: "Face aux sommets enneigés",
+          icon: "Waves",
+          position: 0,
+        },
+        {
+          title: "Vue montagne",
+          description: "Panorama depuis le chalet",
+          icon: "Mountain",
+          position: 1,
+        },
+        {
+          title: "Esprit chalet",
+          description: "Bois et ambiance chaleureuse",
+          icon: "Flame",
+          position: 2,
+        },
+        {
+          title: "Pleine nature",
+          description: "Calme et déconnexion",
+          icon: "Trees",
           position: 3,
-          isCover: false,
+        },
+      ],
+    },
+  },
+
+  {
+    name: "Le Jet",
+    slug: "le-jet",
+    type: "Jet privé aménagé",
+    subtitle:
+      "Dormez à bord d’un véritable jet privé transformé en suite d’exception",
+    shortDescription:
+      "Une nuit hors du commun à bord d’un jet privé entièrement réinventé en hébergement.",
+    description:
+      "Passez la nuit dans un lieu que l’on associe habituellement au voyage plutôt qu’au séjour : un véritable jet privé réaménagé en hébergement d’exception.\n\nLa cabine conserve les codes emblématiques de l’aviation privée tout en accueillant désormais une chambre élégante, un espace salon et tout le confort nécessaire pour profiter des lieux sans jamais quitter le sol. Hublots, volumes atypiques et détails issus de l’appareil participent pleinement à l’expérience.\n\nPlus qu’une simple nuitée, Le Jet propose de vivre quelques heures dans un univers habituellement inaccessible. Une adresse singulière pour marquer une occasion, surprendre ou simplement découvrir une façon totalement différente de séjourner.",
+
+    guestCapacity: 2,
+    bedrooms: 1,
+    beds: 1,
+    bathrooms: 1,
+    surface: 40,
+
+    city: null,
+    region: null,
+    status: "PUBLISHED" as const,
+    position: 5,
+    publishedAt: new Date(),
+
+    images: {
+      create: [
+        {
+          url: "/images/accommodations/jet/hero.png",
+          fileKey: "seed-local-jet-hero",
+          alt: "Jet privé aménagé au coucher du soleil",
+          position: 0,
+          isCover: true,
           isPresentation: false,
         },
         {
-          url: "/images/accommodations/dome/gallery-04.webp",
-          fileKey: "seed-dome-gallery-04",
-          alt: "Espace extérieur du Dôme",
+          url: "/images/accommodations/jet/gallery-01.png",
+          fileKey: "seed-local-jet-gallery-01",
+          alt: "Chambre aménagée à l’intérieur du Jet",
+          position: 1,
+          isCover: false,
+          isPresentation: true,
+        },
+        {
+          url: "/images/accommodations/jet/gallery-02.png",
+          fileKey: "seed-local-jet-gallery-02",
+          alt: "Salon et espace repas du Jet",
+          position: 2,
+          isCover: false,
+          isPresentation: false,
+        },
+      ],
+    },
+
+    highlights: {
+      create: [
+        {
+          title: "Expérience unique",
+          description: "Une nuit à bord d’un véritable jet privé",
+          icon: "Sparkles",
+          position: 0,
+        },
+        {
+          title: "Cabine préservée",
+          description: "Hublots et détails d’origine",
+          icon: "Plane",
+          position: 1,
+        },
+        {
+          title: "Suite privative",
+          description: "Une chambre directement à bord",
+          icon: "BedDouble",
+          position: 2,
+        },
+        {
+          title: "Espace salon",
+          description: "Un salon installé dans la cabine",
+          icon: "Armchair",
+          position: 3,
+        },
+        {
+          title: "Séjour insolite",
+          description: "Une expérience vraiment hors du commun",
+          icon: "Star",
           position: 4,
-          isCover: false,
+        },
+      ],
+    },
+  },
+
+  {
+    name: "L’Écrin Nature",
+    slug: "lecrin-nature",
+    type: "Habitat intégré à la nature",
+    subtitle: "Un refuge végétalisé qui disparaît presque au cœur de la forêt",
+    shortDescription:
+      "Un habitat organique fondu dans la forêt pour vivre au plus près de la nature.",
+    description:
+      "À première vue, L’Écrin Nature semble presque disparaître dans le paysage. Sa toiture végétalisée, ses lignes organiques et son implantation au milieu des arbres ont été pensées pour prolonger la forêt plutôt que s’en détacher.\n\nÀ l’intérieur, les matières naturelles et les larges ouvertures maintiennent un lien permanent avec l’extérieur. La lumière traverse les feuillages, les arbres deviennent le décor principal et le silence prend peu à peu la place du rythme quotidien.\n\nLa terrasse et le point d’eau prolongent cette immersion jusque dehors. Ici, l’expérience repose moins sur l’accumulation d’équipements que sur une idée simple : disposer d’un lieu confortable où la nature reste présente à chaque instant.",
+
+    guestCapacity: 2,
+    bedrooms: 1,
+    beds: 1,
+    bathrooms: 1,
+    surface: 32,
+
+    city: null,
+    region: null,
+    status: "PUBLISHED" as const,
+    position: 6,
+    publishedAt: new Date(),
+
+    images: {
+      create: [
+        {
+          url: "/images/accommodations/nature/hero.png",
+          fileKey: "seed-local-nature-hero",
+          alt: "Refuge végétalisé intégré au cœur de la forêt",
+          position: 0,
+          isCover: true,
           isPresentation: false,
         },
         {
-          url: "/images/accommodations/dome/gallery-05.avif",
-          fileKey: "seed-dome-gallery-05",
-          alt: "Ambiance intérieure du Dôme",
+          url: "/images/accommodations/nature/gallery-01.png",
+          fileKey: "seed-local-nature-gallery-01",
+          alt: "Intérieur naturel et chaleureux de L’Écrin Nature",
+          position: 1,
+          isCover: false,
+          isPresentation: true,
+        },
+        {
+          url: "/images/accommodations/nature/gallery-02.png",
+          fileKey: "seed-local-nature-gallery-02",
+          alt: "Terrasse de L’Écrin Nature ouverte sur la forêt",
+          position: 2,
+          isCover: false,
+          isPresentation: false,
+        },
+      ],
+    },
+
+    highlights: {
+      create: [
+        {
+          title: "Immersion en forêt",
+          description: "Au plus près de la nature",
+          icon: "Trees",
+          position: 0,
+        },
+        {
+          title: "Architecture organique",
+          description: "Fondue dans le paysage",
+          icon: "Leaf",
+          position: 1,
+        },
+        {
+          title: "Toiture végétalisée",
+          description: "Une extension de la forêt",
+          icon: "Sprout",
+          position: 2,
+        },
+        {
+          title: "Grandes ouvertures",
+          description: "La forêt comme décor",
+          icon: "Sun",
+          position: 3,
+        },
+        {
+          title: "Terrasse privative",
+          description: "Ouverte sur la nature",
+          icon: "Coffee",
+          position: 4,
+        },
+        {
+          title: "Calme absolu",
+          description: "Loin du rythme quotidien",
+          icon: "Moon",
           position: 5,
-          isCover: false,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/dome/gallery-06.avif",
-          fileKey: "seed-dome-gallery-06",
-          alt: "Vue sur le Vercors depuis le Dôme",
-          position: 6,
-          isCover: false,
-          isPresentation: false,
         },
       ],
     },
   },
 ];
 
+const localSlugs = localAccommodations.map(
+  (accommodation) => accommodation.slug,
+);
+
 const main = async () => {
-  for (const accommodation of accommodations) {
-    await prisma.accommodation.upsert({
-      where: {
-        slug: accommodation.slug,
+  await prisma.accommodation.deleteMany({
+    where: {
+      slug: {
+        in: localSlugs,
       },
+    },
+  });
 
-      update: {
-        name: accommodation.name,
-        type: accommodation.type,
-        subtitle: accommodation.subtitle,
-        shortDescription: accommodation.shortDescription,
-        description: accommodation.description,
-
-        guestCapacity: accommodation.guestCapacity,
-        bedrooms: accommodation.bedrooms,
-        beds: accommodation.beds,
-        bathrooms: accommodation.bathrooms,
-        surface: accommodation.surface,
-
-        city: accommodation.city,
-        region: accommodation.region,
-        status: accommodation.status,
-        position: accommodation.position,
-        publishedAt: accommodation.publishedAt,
-
-        images: {
-          deleteMany: {},
-          create: accommodation.images.create,
-        },
-
-        highlights: {
-          deleteMany: {},
-          create: accommodation.highlights.create,
-        },
-      },
-
-      create: accommodation,
+  for (const accommodation of localAccommodations) {
+    await prisma.accommodation.create({
+      data: accommodation,
     });
   }
 
-  console.log("Seed terminé : logements créés.");
+  console.log("Seed local terminé : 4 logements de test créés.");
 };
 
 main()
   .catch((error) => {
-    console.error("Erreur pendant le seed :", error);
+    console.error("Erreur pendant le seed local :", error);
     process.exitCode = 1;
   })
   .finally(async () => {
