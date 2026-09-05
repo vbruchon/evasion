@@ -1,12 +1,13 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import type { ReactNode } from "react";
 
 import { isAdminEmail } from "@/lib/admin";
 import { auth } from "@/lib/auth";
 
-type AdminLayoutProps = Readonly<{
-  children: React.ReactNode;
-}>;
+type AdminLayoutProps = {
+  children: ReactNode;
+};
 
 export default async function AdminLayout({ children }: AdminLayoutProps) {
   const session = await auth.api.getSession({
@@ -21,5 +22,5 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
     redirect("/connexion?error=unauthorized");
   }
 
-  return <>{children}</>;
+  return children;
 }

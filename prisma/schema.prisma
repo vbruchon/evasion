@@ -12,12 +12,6 @@ datasource db {
   provider = "postgresql"
 }
 
-model Test {
-  id        String   @id @default(cuid())
-  title     String
-  createdAt DateTime @default(now())
-}
-
 model User {
   id            String    @id
   name          String
@@ -79,4 +73,97 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+enum AccommodationStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+model Accommodation {
+  id String @id @default(cuid())
+
+  name             String
+  slug             String  @unique
+  type             String?
+  subtitle         String?
+  shortDescription String? @db.Text
+  description      String? @db.Text
+
+  guestCapacity Int?
+  bedrooms      Int?
+  beds          Int?
+  bathrooms     Int?
+  surface       Float?
+
+  highlights AccommodationHighlight[]
+
+  city   String?
+  region String?
+
+  status      AccommodationStatus @default(DRAFT)
+  position    Int                 @default(0)
+  publishedAt DateTime?
+
+  images AccommodationImage[]
+
+  createdAt DateTime            @default(now())
+  updatedAt DateTime            @updatedAt
+  draft     AccommodationDraft?
+
+  @@index([status, position])
+  @@map("accommodations")
+}
+
+model AccommodationImage {
+  id             String  @id @default(cuid())
+  url            String
+  fileKey        String  @unique
+  alt            String?
+  caption        String?
+  position       Int     @default(0)
+  isCover        Boolean @default(false)
+  isPresentation Boolean @default(false)
+
+  accommodationId String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([accommodationId, position])
+  @@map("accommodation_images")
+}
+
+model AccommodationDraft {
+  id String @id @default(cuid())
+
+  content Json
+
+  accommodationId String        @unique
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("accommodation_drafts")
+}
+
+model AccommodationHighlight {
+  id String @id @default(cuid())
+
+  title       String
+  description String?
+  icon        String
+  position    Int     @default(0)
+
+  accommodationId String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([accommodationId, position])
+  @@map("accommodation_highlights")
 }
