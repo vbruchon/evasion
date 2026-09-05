@@ -1,8 +1,21 @@
 import "dotenv/config";
 
+import type { AccommodationAmenityKey } from "../src/lib/accommodations/accommodation-amenities";
 import { prisma } from "../src/lib/prisma";
 
-const localAccommodations = [
+type SeedAmenity = {
+  key: AccommodationAmenityKey;
+  details?: string;
+};
+
+const createAmenities = (amenities: SeedAmenity[]) => ({
+  create: amenities.map((amenity, position) => ({
+    ...amenity,
+    position,
+  })),
+});
+
+const accommodations = [
   {
     name: "La Cabane",
     slug: "la-cabane",
@@ -22,38 +35,10 @@ const localAccommodations = [
 
     city: null,
     region: null,
+
     status: "PUBLISHED" as const,
     position: 3,
     publishedAt: new Date(),
-
-    images: {
-      create: [
-        {
-          url: "/images/accommodations/cabane/hero.png",
-          fileKey: "seed-local-cabane-hero",
-          alt: "Vue extérieure de La Cabane",
-          position: 0,
-          isCover: true,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/cabane/gallery-01.png",
-          fileKey: "seed-local-cabane-gallery-01",
-          alt: "Intérieur chaleureux de La Cabane",
-          position: 1,
-          isCover: false,
-          isPresentation: true,
-        },
-        {
-          url: "/images/accommodations/cabane/gallery-02.png",
-          fileKey: "seed-local-cabane-gallery-02",
-          alt: "Terrasse et spa privatif de La Cabane",
-          position: 2,
-          isCover: false,
-          isPresentation: false,
-        },
-      ],
-    },
 
     highlights: {
       create: [
@@ -77,6 +62,53 @@ const localAccommodations = [
         },
       ],
     },
+
+    amenities: createAmenities([
+      { key: "mountain-view" },
+      { key: "hair-dryer" },
+      { key: "shampoo" },
+      { key: "hot-water" },
+      { key: "essentials" },
+      { key: "bed-linen" },
+      { key: "wifi" },
+      { key: "heating" },
+      { key: "kitchen" },
+      { key: "refrigerator" },
+      { key: "coffee-maker" },
+      { key: "outdoor-furniture" },
+      { key: "outdoor-dining" },
+      { key: "jacuzzi", details: "Privatif" },
+      { key: "free-parking-on-premises" },
+    ]),
+
+    images: {
+      create: [
+        {
+          url: "/images/accommodations/cabane/hero.png",
+          fileKey: "seed-demo-cabane-hero",
+          alt: "Vue extérieure de La Cabane",
+          position: 0,
+          isCover: true,
+          isPresentation: false,
+        },
+        {
+          url: "/images/accommodations/cabane/gallery-01.png",
+          fileKey: "seed-demo-cabane-gallery-01",
+          alt: "Intérieur chaleureux de La Cabane",
+          position: 1,
+          isCover: false,
+          isPresentation: true,
+        },
+        {
+          url: "/images/accommodations/cabane/gallery-02.png",
+          fileKey: "seed-demo-cabane-gallery-02",
+          alt: "Terrasse et spa privatif de La Cabane",
+          position: 2,
+          isCover: false,
+          isPresentation: false,
+        },
+      ],
+    },
   },
 
   {
@@ -97,38 +129,10 @@ const localAccommodations = [
 
     city: null,
     region: null,
+
     status: "PUBLISHED" as const,
     position: 4,
     publishedAt: new Date(),
-
-    images: {
-      create: [
-        {
-          url: "/images/accommodations/chalet/hero.png",
-          fileKey: "seed-local-chalet-hero",
-          alt: "Chalet en bois au cœur des montagnes enneigées",
-          position: 0,
-          isCover: true,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/chalet/gallery-01.png",
-          fileKey: "seed-local-chalet-gallery-01",
-          alt: "Chambre chaleureuse du Chalet avec vue sur les montagnes",
-          position: 1,
-          isCover: false,
-          isPresentation: true,
-        },
-        {
-          url: "/images/accommodations/chalet/gallery-02.png",
-          fileKey: "seed-local-chalet-gallery-02",
-          alt: "Bain chaud extérieur du Chalet face aux sommets",
-          position: 2,
-          isCover: false,
-          isPresentation: false,
-        },
-      ],
-    },
 
     highlights: {
       create: [
@@ -158,6 +162,53 @@ const localAccommodations = [
         },
       ],
     },
+
+    amenities: createAmenities([
+      { key: "mountain-view" },
+      { key: "hair-dryer" },
+      { key: "hot-water" },
+      { key: "essentials" },
+      { key: "bed-linen" },
+      { key: "wifi" },
+      { key: "heating" },
+      { key: "kitchen" },
+      { key: "refrigerator" },
+      { key: "freezer" },
+      { key: "coffee-maker" },
+      { key: "dining-table" },
+      { key: "outdoor-furniture" },
+      { key: "jacuzzi", details: "Bain chaud extérieur" },
+      { key: "free-parking-on-premises" },
+    ]),
+
+    images: {
+      create: [
+        {
+          url: "/images/accommodations/chalet/hero.png",
+          fileKey: "seed-demo-chalet-hero",
+          alt: "Chalet en bois au cœur des montagnes enneigées",
+          position: 0,
+          isCover: true,
+          isPresentation: false,
+        },
+        {
+          url: "/images/accommodations/chalet/gallery-01.png",
+          fileKey: "seed-demo-chalet-gallery-01",
+          alt: "Chambre chaleureuse du Chalet avec vue sur les montagnes",
+          position: 1,
+          isCover: false,
+          isPresentation: true,
+        },
+        {
+          url: "/images/accommodations/chalet/gallery-02.png",
+          fileKey: "seed-demo-chalet-gallery-02",
+          alt: "Bain chaud extérieur du Chalet face aux sommets",
+          position: 2,
+          isCover: false,
+          isPresentation: false,
+        },
+      ],
+    },
   },
 
   {
@@ -179,38 +230,10 @@ const localAccommodations = [
 
     city: null,
     region: null,
+
     status: "PUBLISHED" as const,
     position: 5,
     publishedAt: new Date(),
-
-    images: {
-      create: [
-        {
-          url: "/images/accommodations/jet/hero.png",
-          fileKey: "seed-local-jet-hero",
-          alt: "Jet privé aménagé au coucher du soleil",
-          position: 0,
-          isCover: true,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/jet/gallery-01.png",
-          fileKey: "seed-local-jet-gallery-01",
-          alt: "Chambre aménagée à l’intérieur du Jet",
-          position: 1,
-          isCover: false,
-          isPresentation: true,
-        },
-        {
-          url: "/images/accommodations/jet/gallery-02.png",
-          fileKey: "seed-local-jet-gallery-02",
-          alt: "Salon et espace repas du Jet",
-          position: 2,
-          isCover: false,
-          isPresentation: false,
-        },
-      ],
-    },
 
     highlights: {
       create: [
@@ -246,6 +269,51 @@ const localAccommodations = [
         },
       ],
     },
+
+    amenities: createAmenities([
+      { key: "hair-dryer" },
+      { key: "hot-water" },
+      { key: "essentials" },
+      { key: "bed-linen" },
+      { key: "television" },
+      { key: "audio-system" },
+      { key: "air-conditioning" },
+      { key: "heating" },
+      { key: "wifi" },
+      { key: "kitchen" },
+      { key: "coffee-maker" },
+      { key: "dining-table" },
+      { key: "free-parking-on-premises" },
+    ]),
+
+    images: {
+      create: [
+        {
+          url: "/images/accommodations/jet/hero.png",
+          fileKey: "seed-demo-jet-hero",
+          alt: "Jet privé aménagé au coucher du soleil",
+          position: 0,
+          isCover: true,
+          isPresentation: false,
+        },
+        {
+          url: "/images/accommodations/jet/gallery-01.png",
+          fileKey: "seed-demo-jet-gallery-01",
+          alt: "Chambre aménagée à l’intérieur du Jet",
+          position: 1,
+          isCover: false,
+          isPresentation: true,
+        },
+        {
+          url: "/images/accommodations/jet/gallery-02.png",
+          fileKey: "seed-demo-jet-gallery-02",
+          alt: "Salon et espace repas du Jet",
+          position: 2,
+          isCover: false,
+          isPresentation: false,
+        },
+      ],
+    },
   },
 
   {
@@ -266,38 +334,10 @@ const localAccommodations = [
 
     city: null,
     region: null,
+
     status: "PUBLISHED" as const,
     position: 6,
     publishedAt: new Date(),
-
-    images: {
-      create: [
-        {
-          url: "/images/accommodations/nature/hero.png",
-          fileKey: "seed-local-nature-hero",
-          alt: "Refuge végétalisé intégré au cœur de la forêt",
-          position: 0,
-          isCover: true,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/nature/gallery-01.png",
-          fileKey: "seed-local-nature-gallery-01",
-          alt: "Intérieur naturel et chaleureux de L’Écrin Nature",
-          position: 1,
-          isCover: false,
-          isPresentation: true,
-        },
-        {
-          url: "/images/accommodations/nature/gallery-02.png",
-          fileKey: "seed-local-nature-gallery-02",
-          alt: "Terrasse de L’Écrin Nature ouverte sur la forêt",
-          position: 2,
-          isCover: false,
-          isPresentation: false,
-        },
-      ],
-    },
 
     highlights: {
       create: [
@@ -339,34 +379,90 @@ const localAccommodations = [
         },
       ],
     },
+
+    amenities: createAmenities([
+      { key: "hair-dryer" },
+      { key: "hot-water" },
+      { key: "essentials" },
+      { key: "bed-linen" },
+      { key: "heating" },
+      { key: "kitchen" },
+      { key: "refrigerator" },
+      { key: "coffee-maker" },
+      { key: "outdoor-furniture" },
+      { key: "outdoor-dining" },
+      { key: "free-parking-on-premises" },
+    ]),
+
+    images: {
+      create: [
+        {
+          url: "/images/accommodations/nature/hero.png",
+          fileKey: "seed-demo-nature-hero",
+          alt: "Refuge végétalisé intégré au cœur de la forêt",
+          position: 0,
+          isCover: true,
+          isPresentation: false,
+        },
+        {
+          url: "/images/accommodations/nature/gallery-01.png",
+          fileKey: "seed-demo-nature-gallery-01",
+          alt: "Intérieur naturel et chaleureux de L’Écrin Nature",
+          position: 1,
+          isCover: false,
+          isPresentation: true,
+        },
+        {
+          url: "/images/accommodations/nature/gallery-02.png",
+          fileKey: "seed-demo-nature-gallery-02",
+          alt: "Terrasse de L’Écrin Nature ouverte sur la forêt",
+          position: 2,
+          isCover: false,
+          isPresentation: false,
+        },
+      ],
+    },
   },
 ];
 
-const localSlugs = localAccommodations.map(
-  (accommodation) => accommodation.slug,
-);
-
 const main = async () => {
-  await prisma.accommodation.deleteMany({
-    where: {
-      slug: {
-        in: localSlugs,
-      },
-    },
-  });
+  for (const accommodation of accommodations) {
+    const { images, highlights, amenities, ...values } = accommodation;
 
-  for (const accommodation of localAccommodations) {
-    await prisma.accommodation.create({
-      data: accommodation,
+    await prisma.accommodation.upsert({
+      where: {
+        slug: accommodation.slug,
+      },
+
+      update: {
+        ...values,
+
+        images: {
+          deleteMany: {},
+          create: images.create,
+        },
+
+        highlights: {
+          deleteMany: {},
+          create: highlights.create,
+        },
+
+        amenities: {
+          deleteMany: {},
+          create: amenities.create,
+        },
+      },
+
+      create: accommodation,
     });
   }
 
-  console.log("Seed local terminé : 4 logements de test créés.");
+  console.log("Seed terminé : 4 logements de démonstration créés.");
 };
 
 main()
   .catch((error) => {
-    console.error("Erreur pendant le seed local :", error);
+    console.error("Erreur pendant le seed :", error);
     process.exitCode = 1;
   })
   .finally(async () => {
