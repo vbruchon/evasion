@@ -4,7 +4,7 @@ import { Minus, Plus, type LucideIcon } from "lucide-react";
 import { useId } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
-import type { AccommodationCreateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
 
 import {
   Field,
@@ -47,7 +47,7 @@ export const AccommodationNumberField = ({
   step = 1,
   controls = false,
 }: AccommodationNumberFieldProps) => {
-  const form = useFormContext<AccommodationCreateFormValues>();
+  const form = useFormContext<AccommodationUpdateFormValues>();
   const inputId = useId();
 
   return (

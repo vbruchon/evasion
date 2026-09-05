@@ -12,17 +12,20 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import type { AccommodationDisplayImage } from "@/lib/accommodations/accommodation-types";
+import { ACCOMMODATION_PREVIEW_PLACEHOLDERS } from "@/lib/accommodations/accommodation-preview-placeholders";
 
 import { AccommodationGalleryLightbox } from "./accommodation-gallery-lightbox";
 
 type AccommodationGalleryProps = {
   accommodationName: string;
   images: AccommodationDisplayImage[];
+  editorPreview?: boolean;
 };
 
 export const AccommodationGallery = ({
   accommodationName,
   images,
+  editorPreview = false,
 }: AccommodationGalleryProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
@@ -50,7 +53,7 @@ export const AccommodationGallery = ({
     };
   }, [carouselApi]);
 
-  if (images.length === 0) {
+  if (images.length === 0 && !editorPreview) {
     return null;
   }
 
@@ -67,76 +70,86 @@ export const AccommodationGallery = ({
             Découvrez {accommodationName}
           </h2>
 
-          <div className="relative mt-5">
-            <Carousel
-              setApi={setCarouselApi}
-              opts={{
-                align: "start",
-                containScroll: "trimSnaps",
-              }}
-            >
-              <CarouselContent className="-ml-3">
-                {images.map((image, index) => (
-                  <CarouselItem
-                    key={image.id}
-                    className="basis-1/2 pl-3 sm:basis-1/3 lg:basis-1/5"
-                  >
-                    <button
-                      type="button"
-                      onClick={() => setSelectedIndex(index)}
-                      aria-label={`Agrandir l’image ${index + 1} de ${accommodationName}`}
-                      className="group relative block aspect-video w-full cursor-zoom-in overflow-hidden rounded-sm bg-card"
+          {images.length > 0 ? (
+            <div className="relative mt-5">
+              <Carousel
+                setApi={setCarouselApi}
+                opts={{
+                  align: "start",
+                  containScroll: "trimSnaps",
+                }}
+              >
+                <CarouselContent className="-ml-3">
+                  {images.map((image, index) => (
+                    <CarouselItem
+                      key={image.id}
+                      className="basis-1/2 pl-3 sm:basis-1/3 lg:basis-1/5"
                     >
-                      <Image
-                        src={image.url}
-                        alt={image.alt ?? accommodationName}
-                        fill
-                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                        className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                      />
+                      <button
+                        type="button"
+                        onClick={() => setSelectedIndex(index)}
+                        aria-label={`Agrandir l’image ${index + 1} de ${accommodationName}`}
+                        className="group relative block aspect-video w-full cursor-zoom-in overflow-hidden rounded-sm bg-card"
+                      >
+                        <Image
+                          src={image.url}
+                          alt={image.alt ?? accommodationName}
+                          fill
+                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                        />
 
-                      <div className="absolute inset-0 bg-black/20 transition-colors duration-500 group-hover:bg-black/5" />
-                    </button>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
+                        <div className="absolute inset-0 bg-black/20 transition-colors duration-500 group-hover:bg-black/5" />
+                      </button>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+              </Carousel>
 
-            {canScrollPrevious ? (
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => carouselApi?.scrollPrev()}
-                aria-label="Faire défiler la galerie vers la gauche"
-                className="absolute left-2 top-1/2 z-10 -translate-y-1/2 border-white/20 bg-black/65 text-white backdrop-blur-sm hover:border-primary hover:bg-black/65 hover:text-primary"
-              >
-                <ChevronLeft className="size-5" />
-              </Button>
-            ) : null}
+              {canScrollPrevious ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => carouselApi?.scrollPrev()}
+                  aria-label="Faire défiler la galerie vers la gauche"
+                  className="absolute left-2 top-1/2 z-10 -translate-y-1/2 border-white/20 bg-black/65 text-white backdrop-blur-sm hover:border-primary hover:bg-black/65 hover:text-primary"
+                >
+                  <ChevronLeft className="size-5" />
+                </Button>
+              ) : null}
 
-            {canScrollNext ? (
-              <Button
-                type="button"
-                variant="outline"
-                size="icon"
-                onClick={() => carouselApi?.scrollNext()}
-                aria-label="Faire défiler la galerie vers la droite"
-                className="absolute right-2 top-1/2 z-10 -translate-y-1/2 border-white/20 bg-black/65 text-white backdrop-blur-sm hover:border-primary hover:bg-black/65 hover:text-primary"
-              >
-                <ChevronRight className="size-5" />
-              </Button>
-            ) : null}
-          </div>
+              {canScrollNext ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon"
+                  onClick={() => carouselApi?.scrollNext()}
+                  aria-label="Faire défiler la galerie vers la droite"
+                  className="absolute right-2 top-1/2 z-10 -translate-y-1/2 border-white/20 bg-black/65 text-white backdrop-blur-sm hover:border-primary hover:bg-black/65 hover:text-primary"
+                >
+                  <ChevronRight className="size-5" />
+                </Button>
+              ) : null}
+            </div>
+          ) : (
+            <div className="mt-5 flex min-h-36 items-center justify-center border border-dashed border-border/60 bg-card/20 px-6 text-center">
+              <p className="max-w-sm text-sm leading-6 text-muted-foreground/60">
+                {ACCOMMODATION_PREVIEW_PLACEHOLDERS.gallery.empty}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
-      <AccommodationGalleryLightbox
-        accommodationName={accommodationName}
-        images={images}
-        selectedIndex={selectedIndex}
-        onSelectedIndexChange={setSelectedIndex}
-      />
+      {images.length > 0 ? (
+        <AccommodationGalleryLightbox
+          accommodationName={accommodationName}
+          images={images}
+          selectedIndex={selectedIndex}
+          onSelectedIndexChange={setSelectedIndex}
+        />
+      ) : null}
     </>
   );
 };

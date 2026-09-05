@@ -3,17 +3,21 @@ import { z } from "zod";
 import { accommodationHighlightsSchema } from "./schemas/accommodation-highlight.schema";
 import { accommodationUpdateImagesSchema } from "./schemas/accommodation-image.schema";
 
-const accommodationFieldsSchema = z.object({
-  name: z
-    .string()
-    .trim()
-    .min(1, "Le nom du logement est obligatoire.")
-    .max(100, "Le nom ne peut pas dépasser 100 caractères."),
+const accommodationNameSchema = z
+  .string()
+  .trim()
+  .min(1, "Le nom du logement est obligatoire.")
+  .max(100, "Le nom ne peut pas dépasser 100 caractères.");
 
-  type: z
-    .string()
-    .trim()
-    .max(100, "Le type ne peut pas dépasser 100 caractères."),
+const accommodationTypeSchema = z
+  .string()
+  .trim()
+  .max(100, "Le type ne peut pas dépasser 100 caractères.");
+
+const accommodationFieldsSchema = z.object({
+  name: accommodationNameSchema,
+
+  type: accommodationTypeSchema,
 
   subtitle: z
     .string()
@@ -58,16 +62,6 @@ const accommodationFieldsSchema = z.object({
     .nullable(),
 });
 
-const accommodationSlugSchema = z
-  .string()
-  .trim()
-  .min(1, "Le slug est obligatoire.")
-  .max(100, "Le slug ne peut pas dépasser 100 caractères.")
-  .regex(
-    /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
-    "Le slug doit contenir uniquement des lettres minuscules, chiffres et tirets.",
-  );
-
 const accommodationDraftValuesSchema = z.preprocess((value) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     return value;
@@ -83,10 +77,10 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
   };
 }, accommodationFieldsSchema);
 
-export const accommodationCreateSchema = accommodationFieldsSchema.extend({
-  slug: accommodationSlugSchema,
-  status: z.enum(["DRAFT", "PUBLISHED"]),
-  highlights: accommodationHighlightsSchema,
+export const accommodationCreateSchema = z.object({
+  name: accommodationNameSchema,
+
+  type: accommodationTypeSchema.min(1, "Le type de logement est obligatoire."),
 });
 
 export const accommodationUpdateSchema = accommodationFieldsSchema.extend({
@@ -136,6 +130,6 @@ export type AccommodationDraftContent = z.infer<
 >;
 
 export type AccommodationTextFormValues = Pick<
-  AccommodationCreateFormValues,
-  "name" | "slug" | "type" | "subtitle" | "shortDescription" | "description"
+  AccommodationUpdateFormValues,
+  "name" | "type" | "subtitle" | "shortDescription" | "description"
 >;

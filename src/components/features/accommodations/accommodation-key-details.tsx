@@ -4,6 +4,7 @@ import type { AccommodationKeyDetailsData } from "@/lib/accommodations/accommoda
 
 type AccommodationKeyDetailsProps = {
   accommodationDetails: AccommodationKeyDetailsData;
+  editorPreview?: boolean;
 };
 
 const DETAILS = [
@@ -41,13 +42,14 @@ const DETAILS = [
 
 export const AccommodationKeyDetails = ({
   accommodationDetails,
+  editorPreview = false,
 }: AccommodationKeyDetailsProps) => {
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4 md:flex md:flex-wrap md:items-center md:gap-x-8 lg:gap-x-10 xl:gap-x-12">
       {DETAILS.map(({ id, icon: Icon, singular, plural }) => {
         const value = accommodationDetails[id];
 
-        if (value == null) {
+        if (value == null && !editorPreview) {
           return null;
         }
 
@@ -58,8 +60,22 @@ export const AccommodationKeyDetails = ({
             <Icon className="size-6 shrink-0 text-primary" strokeWidth={1.5} />
 
             <span className="text-base lg:text-lg">
-              <span className="font-medium text-foreground">{value}</span>{" "}
-              <span className="text-foreground/75">{label}</span>
+              <span
+                className={
+                  value == null
+                    ? "font-medium text-foreground/45"
+                    : "font-medium text-foreground"
+                }
+              >
+                {value ?? "—"}
+              </span>{" "}
+              <span
+                className={
+                  value == null ? "text-foreground/45" : "text-foreground/75"
+                }
+              >
+                {label}
+              </span>
             </span>
           </div>
         );

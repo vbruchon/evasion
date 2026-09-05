@@ -16,18 +16,16 @@ import { requireAdmin } from "@/lib/admin/require-admin";
 import type {
   AccommodationCreateFormValues,
   AccommodationDraftContent,
-  AccommodationImageInput,
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
 } from "./schema";
 
 export const createAccommodation = async (
   values: AccommodationCreateFormValues,
-  images: AccommodationImageInput[],
 ) => {
   await requireAdmin();
 
-  return createAccommodationAdmin(values, images);
+  return createAccommodationAdmin(values);
 };
 
 export const updateAccommodation = async (

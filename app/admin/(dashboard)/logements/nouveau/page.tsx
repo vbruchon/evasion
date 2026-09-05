@@ -1,8 +1,8 @@
 import { HousePlus } from "lucide-react";
 import Link from "next/link";
 
-import { Button } from "@/components/ui/button";
 import { AccommodationCreateForm } from "@/components/features/accommodations/admin/create/accommodation-create-form";
+import { Button } from "@/components/ui/button";
 import { AdminPageHeader } from "@/components/layout/admin/admin-page-header";
 
 export default function CreateAccommodationPage() {
@@ -11,7 +11,7 @@ export default function CreateAccommodationPage() {
       <AdminPageHeader
         icon={HousePlus}
         title="Créer un logement"
-        description="Ajoutez un nouveau logement à votre collection."
+        description="Créez votre logement puis personnalisez son contenu dans l’éditeur."
         actions={
           <Button
             nativeButton={false}

@@ -23,9 +23,9 @@ export const AccommodationEditorRegion = ({
         activeRegion &&
           "cursor-pointer ring-inset transition-[box-shadow,background-color]",
         activeRegion === region
-          ? "ring-1 ring-primary bg-primary/[0.04]"
+          ? "ring-1 ring-primary bg-primary/4"
           : activeRegion &&
-              "hover:ring-1 hover:ring-primary/40 hover:bg-primary/[0.02]",
+              "hover:ring-1 hover:ring-primary/40 hover:bg-primary/2",
         className,
       )}
     >

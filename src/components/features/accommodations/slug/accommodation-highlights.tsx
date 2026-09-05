@@ -3,16 +3,27 @@ import {
   ACCOMMODATION_HIGHLIGHT_ICON_MAP,
   DEFAULT_ACCOMMODATION_HIGHLIGHT_ICON,
 } from "@/lib/accommodations/accommodation-highlights";
+import { ACCOMMODATION_PREVIEW_PLACEHOLDERS } from "@/lib/accommodations/accommodation-preview-placeholders";
 
 type AccommodationHighlightsProps = {
   highlights: AccommodationHighlightDisplay[];
+  editorPreview?: boolean;
 };
 
 export const AccommodationHighlights = ({
   highlights,
+  editorPreview = false,
 }: AccommodationHighlightsProps) => {
   const DefaultIcon =
     ACCOMMODATION_HIGHLIGHT_ICON_MAP[DEFAULT_ACCOMMODATION_HIGHLIGHT_ICON];
+
+  if (highlights.length === 0 && editorPreview) {
+    return (
+      <div className="px-6 py-5 text-sm text-white/50">
+        {ACCOMMODATION_PREVIEW_PLACEHOLDERS.hero.highlights}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-none lg:grid-flow-col lg:auto-cols-fr">

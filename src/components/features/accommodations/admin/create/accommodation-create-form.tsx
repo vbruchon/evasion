@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 import { createAccommodation } from "~/app/admin/logements/action";
@@ -11,53 +10,18 @@ import {
   type AccommodationCreateFormValues,
 } from "~/app/admin/logements/schema";
 
+import { AccommodationTextField } from "@/components/features/accommodations/admin/form/accommodation-text-field";
 import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
 import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
-import { useAccommodationImages } from "@/hooks/use-accommodation-images";
-import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
-import { uploadAccommodationImages } from "@/lib/admin/uploadthing/upload-accommodation-images";
-
-import { AccommodationHighlightsField } from "../form/accommodation-highlights-field";
-import { AccommodationImagesSection } from "../form/accommodation-images-section";
-import { AccommodationInformationSection } from "../form/accommodation-information-section";
-import { AccommodationPublicationSection } from "../form/accommodation-publication-section";
+import { FieldGroup } from "@/components/ui/field";
 
 const defaultValues: AccommodationCreateFormValues = {
   name: "",
-  slug: "",
   type: "",
-  subtitle: "",
-  shortDescription: "",
-  description: "",
-  status: "DRAFT",
-  guestCapacity: null,
-  bedrooms: null,
-  beds: null,
-  bathrooms: null,
-  surface: null,
-  highlights: [],
 };
 
 export const AccommodationCreateForm = () => {
   const router = useRouter();
-
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [coverImageIndex, setCoverImageIndex] = useState(0);
-
-  const {
-    images,
-    coverImageId,
-    presentationImageId,
-    addFiles,
-    removeImage,
-    setCoverImage,
-    setPresentationImage,
-  } = useAccommodationImages({
-    onFilesChange: (files, coverIndex) => {
-      setImageFiles(files);
-      setCoverImageIndex(coverIndex);
-    },
-  });
 
   const form = useForm<AccommodationCreateFormValues>({
     resolver: zodResolver(accommodationCreateSchema),
@@ -69,27 +33,7 @@ export const AccommodationCreateForm = () => {
     form.clearErrors("root");
 
     try {
-      const uploadedImages = await uploadAccommodationImages(
-        imageFiles,
-        coverImageIndex,
-      );
-
-      const { presentationImage } = getAccommodationDisplayImages(
-        images,
-        coverImageId,
-        presentationImageId,
-      );
-
-      const presentationImageIndex = images.findIndex(
-        (image) => image.id === presentationImage?.id,
-      );
-
-      const preparedImages = uploadedImages.map((image, index) => ({
-        ...image,
-        isPresentation: index === presentationImageIndex,
-      }));
-
-      const result = await createAccommodation(values, preparedImages);
+      const result = await createAccommodation(values);
 
       if (!result.success) {
         if (result.field) {
@@ -109,7 +53,7 @@ export const AccommodationCreateForm = () => {
         return;
       }
 
-      router.push("/admin/logements");
+      router.push(`/admin/logements/${result.id}/modifier`);
       router.refresh();
     } catch (error) {
       form.setError("root", {
@@ -122,8 +66,6 @@ export const AccommodationCreateForm = () => {
     }
   });
 
-  const isSubmitting = form.formState.isSubmitting;
-
   return (
     <FormProvider {...form}>
       <form className="mt-8 space-y-6" onSubmit={handleSubmit} noValidate>
@@ -135,31 +77,30 @@ export const AccommodationCreateForm = () => {
           </div>
         ) : null}
 
-        <AccommodationInformationSection mode="create" />
-
         <AdminFormSection
-          title="Points forts"
-          description="Mettez en avant les principaux atouts du logement."
+          title="Informations principales"
+          description="Donnez une identité au logement. Vous pourrez ensuite compléter son contenu dans l’éditeur."
         >
-          <AccommodationHighlightsField />
+          <FieldGroup>
+            <div className="grid gap-6 lg:grid-cols-2">
+              <AccommodationTextField
+                name="name"
+                label="Nom du logement"
+                placeholder="Ex : Le Dôme"
+              />
+
+              <AccommodationTextField
+                name="type"
+                label="Type de logement"
+                placeholder="Ex : Dôme panoramique"
+              />
+            </div>
+          </FieldGroup>
         </AdminFormSection>
-
-        <AccommodationImagesSection
-          images={images}
-          coverImageId={coverImageId}
-          presentationImageId={presentationImageId}
-          disabled={isSubmitting}
-          onFilesSelected={addFiles}
-          onSetCover={setCoverImage}
-          onSetPresentation={setPresentationImage}
-          onRemove={removeImage}
-        />
-
-        <AccommodationPublicationSection mode="create" />
 
         <div className="flex justify-end border-t border-border/60 pt-6">
           <AdminFormSubmitButton
-            label="Créer le logement"
+            label="Créer et personnaliser"
             pendingLabel="Création..."
           />
         </div>

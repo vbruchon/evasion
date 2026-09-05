@@ -101,7 +101,6 @@ export const AccommodationEditorPreview = ({
     }
 
     const region = target.closest<HTMLElement>("[data-editor-region]");
-
     const regionId = region?.dataset.editorRegion;
 
     if (!regionId || !isAccommodationHeroEditorSection(regionId)) {
@@ -132,6 +131,7 @@ export const AccommodationEditorPreview = ({
             activeEditorRegion={
               activeSection === "hero" ? activeHeroSection : undefined
             }
+            editorPreview
           />
         </div>
       </EditorSection>
@@ -144,6 +144,7 @@ export const AccommodationEditorPreview = ({
         <AccommodationPresentation
           accommodation={accommodation}
           image={presentationImage}
+          editorPreview
         />
       </EditorSection>
 
@@ -152,7 +153,11 @@ export const AccommodationEditorPreview = ({
         active={activeSection === "gallery"}
         onSelect={() => onSectionChange("gallery")}
       >
-        <AccommodationGallery accommodationName={name} images={previewImages} />
+        <AccommodationGallery
+          accommodationName={name}
+          images={previewImages}
+          editorPreview
+        />
       </EditorSection>
     </div>
   );
