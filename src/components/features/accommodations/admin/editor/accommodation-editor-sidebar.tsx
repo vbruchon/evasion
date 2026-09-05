@@ -11,6 +11,7 @@ import {
 } from "@/lib/admin/accommodation/editor-sections";
 
 import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsection-nav";
+import { AccommodationAmenitiesEditor } from "./section/accommodation-amenities-editor";
 import { AccommodationGalleryEditor } from "./section/accommodation-gallery-editor";
 import { AccommodationHeroEditor } from "./section/accommodation-hero-editor";
 import { AccommodationHighlightsEditor } from "./section/accommodation-highlights-editor";
@@ -129,6 +130,10 @@ export const AccommodationEditorSidebar = ({
             disabled={disabled}
             onSetPresentationImage={onSetPresentationImage}
           />
+        ) : null}
+
+        {activeSection === "amenities" ? (
+          <AccommodationAmenitiesEditor disabled={disabled} />
         ) : null}
 
         {activeSection === "gallery" ? (

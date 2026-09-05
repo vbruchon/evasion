@@ -12,6 +12,12 @@ export const accommodationEditorSections = [
       "Présentez l’expérience et l’univers proposés par ce logement.",
   },
   {
+    id: "amenities",
+    label: "Équipements",
+    description:
+      "Sélectionnez les équipements et services disponibles dans ce logement.",
+  },
+  {
     id: "gallery",
     label: "Galerie",
     description: "Ajoutez, supprimez et organisez les photos du logement.",

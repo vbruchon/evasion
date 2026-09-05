@@ -322,14 +322,14 @@ export const accommodationAmenities = [
   // Parking et installations
   {
     key: "free-parking-on-premises",
-    label: "Stationnement gratuit sur place",
     category: "parking-facilities",
+    label: "Stationnement gratuit",
     icon: "CircleParking",
   },
   {
     key: "free-street-parking",
-    label: "Stationnement gratuit dans la rue",
     category: "parking-facilities",
+    label: "Stationnement gratuit",
     icon: "Car",
   },
   {

@@ -78,7 +78,7 @@ const accommodations = [
       { key: "outdoor-furniture" },
       { key: "outdoor-dining" },
       { key: "jacuzzi", details: "Privatif" },
-      { key: "free-parking-on-premises" },
+      { key: "free-parking-on-premises", details: "Sur place" },
     ]),
 
     images: {
@@ -178,7 +178,7 @@ const accommodations = [
       { key: "dining-table" },
       { key: "outdoor-furniture" },
       { key: "jacuzzi", details: "Bain chaud extérieur" },
-      { key: "free-parking-on-premises" },
+      { key: "free-parking-on-premises", details: "Sur place" },
     ]),
 
     images: {
@@ -283,7 +283,7 @@ const accommodations = [
       { key: "kitchen" },
       { key: "coffee-maker" },
       { key: "dining-table" },
-      { key: "free-parking-on-premises" },
+      { key: "free-parking-on-premises", details: "Sur place" },
     ]),
 
     images: {
@@ -391,7 +391,7 @@ const accommodations = [
       { key: "coffee-maker" },
       { key: "outdoor-furniture" },
       { key: "outdoor-dining" },
-      { key: "free-parking-on-premises" },
+      { key: "free-parking-on-premises", details: "Sur place" },
     ]),
 
     images: {

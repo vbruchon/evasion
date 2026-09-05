@@ -1,21 +1,16 @@
 "use client";
 
-import type { MouseEvent } from "react";
-import { useFormContext, useWatch } from "react-hook-form";
-
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
-
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
-import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
-import {
-  isAccommodationHeroEditorSection,
-  type AccommodationEditorSection,
-  type AccommodationHeroEditorSection,
+import type {
+  AccommodationEditorSection,
+  AccommodationHeroEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import { useAccommodationEditorPreviewData } from "@/hooks/use-accommodation-editor-preview-data";
 
+import { AccommodationAmenities } from "../../slug/accommodation-amenities";
 import { AccommodationGallery } from "../../slug/accommodation-gallery";
-import { AccommodationHero } from "../../slug/accommodation-hero";
 import { AccommodationPresentation } from "../../slug/accommodation-presentation";
+import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
 
 type AccommodationEditorPreviewProps = {
@@ -37,104 +32,32 @@ export const AccommodationEditorPreview = ({
   onSectionChange,
   onHeroSectionChange,
 }: AccommodationEditorPreviewProps) => {
-  const { control } = useFormContext<AccommodationUpdateFormValues>();
-
-  const [
-    name,
-    type,
-    subtitle,
-    shortDescription,
-    description,
-    guestCapacity,
-    bedrooms,
-    beds,
-    bathrooms,
-    surface,
+  const {
+    accommodation,
+    amenities,
+    coverImage,
     highlights,
-  ] = useWatch({
-    control,
-    name: [
-      "name",
-      "type",
-      "subtitle",
-      "shortDescription",
-      "description",
-      "guestCapacity",
-      "bedrooms",
-      "beds",
-      "bathrooms",
-      "surface",
-      "highlights",
-    ],
-  });
-
-  const accommodation = {
     name,
-    type,
-    subtitle,
-    shortDescription,
-    description,
-    guestCapacity,
-    bedrooms,
-    beds,
-    bathrooms,
-    surface,
-  };
-
-  const previewImages = images.map((image) => ({
-    id: image.id,
-    url: image.url,
-    alt: image.alt ?? null,
-  }));
-
-  const { coverImage, presentationImage } = getAccommodationDisplayImages(
+    presentationImage,
     previewImages,
+  } = useAccommodationEditorPreviewData({
+    images,
     coverImageId,
     presentationImageId,
-  );
-
-  const handleHeroClick = (event: MouseEvent<HTMLDivElement>) => {
-    const target = event.target;
-
-    if (!(target instanceof Element)) {
-      return;
-    }
-
-    const region = target.closest<HTMLElement>("[data-editor-region]");
-    const regionId = region?.dataset.editorRegion;
-
-    if (!regionId || !isAccommodationHeroEditorSection(regionId)) {
-      return;
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    onHeroSectionChange(regionId);
-    onSectionChange("hero");
-  };
+  });
 
   return (
     <div className="min-w-0 bg-background p-2 sm:p-4">
-      <EditorSection
-        label="Hero"
-        active={activeSection === "hero"}
-        interactiveChildren
-        onSelect={() => onSectionChange("hero")}
-      >
-        <div onClick={handleHeroClick}>
-          <AccommodationHero
-            accommodation={accommodation}
-            coverImage={coverImage}
-            hasGallery={previewImages.length > 0}
-            highlights={highlights}
-            activeEditorRegion={
-              activeSection === "hero" ? activeHeroSection : undefined
-            }
-            editorPreview
-          />
-        </div>
-      </EditorSection>
+      <AccommodationEditorPreviewHero
+        accommodation={accommodation}
+        coverImage={coverImage}
+        highlights={highlights}
+        hasGallery={previewImages.length > 0}
+        activeSection={activeSection}
+        activeHeroSection={activeHeroSection}
+        onSectionChange={onSectionChange}
+        onHeroSectionChange={onHeroSectionChange}
+      />
 
       <EditorSection
         label="Présentation"
@@ -146,6 +69,14 @@ export const AccommodationEditorPreview = ({
           image={presentationImage}
           editorPreview
         />
+      </EditorSection>
+
+      <EditorSection
+        label="Équipements"
+        active={activeSection === "amenities"}
+        onSelect={() => onSectionChange("amenities")}
+      >
+        <AccommodationAmenities amenities={amenities} editorPreview />
       </EditorSection>
 
       <EditorSection

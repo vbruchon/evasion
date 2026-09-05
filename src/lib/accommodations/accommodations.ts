@@ -5,15 +5,18 @@ export const getPublishedAccommodations = async () => {
     where: {
       status: "PUBLISHED",
     },
+
     orderBy: {
       position: "asc",
     },
+
     include: {
       images: {
         orderBy: {
           position: "asc",
         },
       },
+
       highlights: {
         orderBy: {
           position: "asc",
@@ -29,13 +32,21 @@ export const getPublishedAccommodationBySlug = async (slug: string) => {
       slug,
       status: "PUBLISHED",
     },
+
     include: {
       images: {
         orderBy: {
           position: "asc",
         },
       },
+
       highlights: {
+        orderBy: {
+          position: "asc",
+        },
+      },
+
+      amenities: {
         orderBy: {
           position: "asc",
         },
