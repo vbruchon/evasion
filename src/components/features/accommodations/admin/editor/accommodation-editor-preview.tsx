@@ -3,6 +3,7 @@
 import type {
   AccommodationEditorSection,
   AccommodationHeroEditorSection,
+  AccommodationLocationEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import { useAccommodationEditorPreviewData } from "@/hooks/use-accommodation-editor-preview-data";
@@ -12,6 +13,8 @@ import { AccommodationGallery } from "../../slug/accommodation-gallery";
 import { AccommodationPresentation } from "../../slug/accommodation-presentation";
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
+import { AccommodationLocation } from "../../slug/accommodation-location";
+import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
 
 type AccommodationEditorPreviewProps = {
   images: AccommodationPreviewImage[];
@@ -19,8 +22,12 @@ type AccommodationEditorPreviewProps = {
   presentationImageId: string | null;
   activeSection: AccommodationEditorSection;
   activeHeroSection: AccommodationHeroEditorSection;
+  activeLocationSection: AccommodationLocationEditorSection;
   onSectionChange: (section: AccommodationEditorSection) => void;
   onHeroSectionChange: (section: AccommodationHeroEditorSection) => void;
+  onLocationSectionChange: (
+    section: AccommodationLocationEditorSection,
+  ) => void;
 };
 
 export const AccommodationEditorPreview = ({
@@ -29,11 +36,14 @@ export const AccommodationEditorPreview = ({
   presentationImageId,
   activeSection,
   activeHeroSection,
+  activeLocationSection,
   onSectionChange,
   onHeroSectionChange,
+  onLocationSectionChange,
 }: AccommodationEditorPreviewProps) => {
   const {
     accommodation,
+    accesses,
     amenities,
     coverImage,
     highlights,
@@ -78,6 +88,15 @@ export const AccommodationEditorPreview = ({
       >
         <AccommodationAmenities amenities={amenities} editorPreview />
       </EditorSection>
+
+      <AccommodationEditorPreviewLocation
+        accommodation={accommodation}
+        accesses={accesses}
+        activeSection={activeSection}
+        activeLocationSection={activeLocationSection}
+        onSectionChange={onSectionChange}
+        onLocationSectionChange={onLocationSectionChange}
+      />
 
       <EditorSection
         label="Galerie"

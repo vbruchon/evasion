@@ -22,6 +22,12 @@ export const accommodationEditorSections = [
     label: "Galerie",
     description: "Ajoutez, supprimez et organisez les photos du logement.",
   },
+  {
+    id: "location",
+    label: "Localisation",
+    description:
+      "Présentez la localisation approximative et les informations d’accès au logement.",
+  },
 ] as const;
 
 export type AccommodationEditorSection =
@@ -63,6 +69,24 @@ export const accommodationPresentationEditorSections = [
 export type AccommodationPresentationEditorSection =
   (typeof accommodationPresentationEditorSections)[number]["id"];
 
+export const accommodationLocationEditorSections = [
+  {
+    id: "content",
+    label: "Contenu",
+  },
+  {
+    id: "map",
+    label: "Carte",
+  },
+  {
+    id: "access",
+    label: "Accès",
+  },
+] as const;
+
+export type AccommodationLocationEditorSection =
+  (typeof accommodationLocationEditorSections)[number]["id"];
+
 export const getAccommodationEditorSection = (id: AccommodationEditorSection) =>
   accommodationEditorSections.find((section) => section.id === id);
 
@@ -70,3 +94,8 @@ export const isAccommodationHeroEditorSection = (
   id: string,
 ): id is AccommodationHeroEditorSection =>
   accommodationHeroEditorSections.some((section) => section.id === id);
+
+export const isAccommodationLocationEditorSection = (
+  id: string,
+): id is AccommodationLocationEditorSection =>
+  accommodationLocationEditorSections.some((section) => section.id === id);

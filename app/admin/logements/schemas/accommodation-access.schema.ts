@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import {
   accommodationAccesses,
+  MAX_ACCOMMODATION_ACCESSES,
   type AccommodationAccessKey,
 } from "@/lib/accommodations/accommodation-accesses";
 
@@ -21,8 +22,8 @@ export const accommodationAccessSchema = z.object({
 export const accommodationAccessesSchema = z
   .array(accommodationAccessSchema)
   .max(
-    accommodationAccesses.length,
-    "Le nombre d’accès sélectionnés est invalide.",
+    MAX_ACCOMMODATION_ACCESSES,
+    `Vous pouvez sélectionner jusqu’à ${MAX_ACCOMMODATION_ACCESSES} accès.`,
   )
   .superRefine((accesses, context) => {
     const seenKeys = new Set<AccommodationAccessKey>();

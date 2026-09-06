@@ -29,8 +29,14 @@ export const useAccommodationEditorPreviewData = ({
     beds,
     bathrooms,
     surface,
+    locationTitle,
+    locationDescription,
+    locationLatitude,
+    locationLongitude,
+    locationRadiusMeters,
     highlights,
     amenities,
+    accesses,
   ] = useWatch({
     control,
     name: [
@@ -44,8 +50,14 @@ export const useAccommodationEditorPreviewData = ({
       "beds",
       "bathrooms",
       "surface",
+      "locationTitle",
+      "locationDescription",
+      "locationLatitude",
+      "locationLongitude",
+      "locationRadiusMeters",
       "highlights",
       "amenities",
+      "accesses",
     ],
   });
 
@@ -55,11 +67,18 @@ export const useAccommodationEditorPreviewData = ({
     subtitle,
     shortDescription,
     description,
+
     guestCapacity,
     bedrooms,
     beds,
     bathrooms,
     surface,
+
+    locationTitle,
+    locationDescription,
+    locationLatitude,
+    locationLongitude,
+    locationRadiusMeters,
   };
 
   const previewImages = images.map((image) => ({
@@ -76,6 +95,7 @@ export const useAccommodationEditorPreviewData = ({
 
   return {
     accommodation,
+    accesses,
     amenities,
     coverImage,
     highlights,

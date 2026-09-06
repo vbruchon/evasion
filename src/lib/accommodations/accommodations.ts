@@ -51,6 +51,8 @@ export const getPublishedAccommodationBySlug = async (slug: string) => {
           position: "asc",
         },
       },
+
+      accesses: true,
     },
   });
 };

@@ -231,5 +231,11 @@ export type AccommodationDraftContent = z.infer<
 
 export type AccommodationTextFormValues = Pick<
   AccommodationUpdateFormValues,
-  "name" | "type" | "subtitle" | "shortDescription" | "description"
+  | "name"
+  | "type"
+  | "subtitle"
+  | "shortDescription"
+  | "description"
+  | "locationTitle"
+  | "locationDescription"
 >;

@@ -49,3 +49,5 @@ export type AccommodationAccessDefinition =
 
 export const getAccommodationAccess = (key: string) =>
   accommodationAccesses.find((access) => access.key === key);
+
+export const MAX_ACCOMMODATION_ACCESSES = 4;

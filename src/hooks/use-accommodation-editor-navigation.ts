@@ -5,6 +5,7 @@ import { useState } from "react";
 import type {
   AccommodationEditorSection,
   AccommodationHeroEditorSection,
+  AccommodationLocationEditorSection,
   AccommodationPresentationEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
 
@@ -19,6 +20,9 @@ export const useAccommodationEditorNavigation = () => {
 
   const [activePresentationSection, setActivePresentationSection] =
     useState<AccommodationPresentationEditorSection>("content");
+
+  const [activeLocationSection, setActiveLocationSection] =
+    useState<AccommodationLocationEditorSection>("content");
 
   const [mobileView, setMobileView] =
     useState<AccommodationEditorMobileView>("preview");
@@ -38,10 +42,17 @@ export const useAccommodationEditorNavigation = () => {
     setActivePresentationSection(section);
   };
 
+  const handleLocationSectionChange = (
+    section: AccommodationLocationEditorSection,
+  ) => {
+    setActiveLocationSection(section);
+  };
+
   return {
     activeSection,
     activeHeroSection,
     activePresentationSection,
+    activeLocationSection,
     mobileView,
 
     setMobileView,
@@ -49,5 +60,6 @@ export const useAccommodationEditorNavigation = () => {
     handleSectionChange,
     handleHeroSectionChange,
     handlePresentationSectionChange,
+    handleLocationSectionChange,
   };
 };
