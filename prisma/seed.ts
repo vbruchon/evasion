@@ -1,5 +1,6 @@
 import "dotenv/config";
 
+import type { AccommodationAccessKey } from "../src/lib/accommodations/accommodation-accesses";
 import type { AccommodationAmenityKey } from "../src/lib/accommodations/accommodation-amenities";
 import { prisma } from "../src/lib/prisma";
 
@@ -8,11 +9,20 @@ type SeedAmenity = {
   details?: string;
 };
 
+type SeedAccess = {
+  key: AccommodationAccessKey;
+  details?: string;
+};
+
 const createAmenities = (amenities: SeedAmenity[]) => ({
   create: amenities.map((amenity, position) => ({
     ...amenity,
     position,
   })),
+});
+
+const createAccesses = (accesses: SeedAccess[]) => ({
+  create: accesses,
 });
 
 const accommodations = [
@@ -33,8 +43,12 @@ const accommodations = [
     bathrooms: 1,
     surface: 28,
 
-    city: null,
-    region: null,
+    locationTitle: "Un refuge confidentiel au cœur du Vercors",
+    locationDescription:
+      "La Cabane se niche dans un environnement préservé, entre forêts et reliefs du Vercors. Un cadre idéal pour ralentir, profiter du calme et retrouver la nature à quelques kilomètres seulement des villages de montagne.",
+    locationLatitude: 45.069,
+    locationLongitude: 5.55,
+    locationRadiusMeters: 5000,
 
     status: "PUBLISHED" as const,
     position: 3,
@@ -79,6 +93,25 @@ const accommodations = [
       { key: "outdoor-dining" },
       { key: "jacuzzi", details: "Privatif" },
       { key: "free-parking-on-premises", details: "Sur place" },
+    ]),
+
+    accesses: createAccesses([
+      {
+        key: "car-access",
+        details: "Route goudronnée jusqu’au logement",
+      },
+      {
+        key: "parking",
+        details: "Stationnement privé et gratuit sur place",
+      },
+      {
+        key: "walk-to-accommodation",
+        details: "Quelques mètres à pied depuis le stationnement",
+      },
+      {
+        key: "single-level",
+        details: "Accès sans escalier au logement",
+      },
     ]),
 
     images: {
@@ -127,8 +160,12 @@ const accommodations = [
     bathrooms: 1,
     surface: 65,
 
-    city: null,
-    region: null,
+    locationTitle: "Face aux sommets de Haute-Savoie",
+    locationDescription:
+      "Le Chalet profite d’un emplacement privilégié au pied des massifs alpins, dans un secteur calme entouré de forêts et de montagnes. L’environnement offre une véritable sensation de déconnexion tout en restant facilement accessible.",
+    locationLatitude: 45.923,
+    locationLongitude: 6.869,
+    locationRadiusMeters: 6000,
 
     status: "PUBLISHED" as const,
     position: 4,
@@ -181,6 +218,21 @@ const accommodations = [
       { key: "free-parking-on-premises", details: "Sur place" },
     ]),
 
+    accesses: createAccesses([
+      {
+        key: "car-access",
+        details: "Accessible en voiture toute l’année",
+      },
+      {
+        key: "parking",
+        details: "Deux places privées devant le chalet",
+      },
+      {
+        key: "stairs",
+        details: "Quelques marches pour rejoindre l’entrée",
+      },
+    ]),
+
     images: {
       create: [
         {
@@ -228,8 +280,12 @@ const accommodations = [
     bathrooms: 1,
     surface: 40,
 
-    city: null,
-    region: null,
+    locationTitle: "Une adresse insolite aux portes de Lyon",
+    locationDescription:
+      "Le Jet se trouve dans un secteur paisible de la métropole lyonnaise, suffisamment à l’écart pour profiter pleinement de l’expérience tout en restant proche des grands axes et des principales attractions de la région.",
+    locationLatitude: 45.73,
+    locationLongitude: 4.94,
+    locationRadiusMeters: 8000,
 
     status: "PUBLISHED" as const,
     position: 5,
@@ -286,6 +342,25 @@ const accommodations = [
       { key: "free-parking-on-premises", details: "Sur place" },
     ]),
 
+    accesses: createAccesses([
+      {
+        key: "car-access",
+        details: "Accès direct depuis les grands axes",
+      },
+      {
+        key: "parking",
+        details: "Stationnement privé à proximité immédiate",
+      },
+      {
+        key: "walk-to-accommodation",
+        details: "Accès au Jet en quelques mètres à pied",
+      },
+      {
+        key: "single-level",
+        details: "Accès principal sans escalier",
+      },
+    ]),
+
     images: {
       create: [
         {
@@ -332,8 +407,12 @@ const accommodations = [
     bathrooms: 1,
     surface: 32,
 
-    city: null,
-    region: null,
+    locationTitle: "Une immersion au cœur de l’Ardèche",
+    locationDescription:
+      "L’Écrin Nature se cache dans un environnement boisé et préservé du sud de l’Ardèche. Ici, les chemins, les reliefs et la végétation composent un décor naturel où le logement semble presque disparaître.",
+    locationLatitude: 44.407,
+    locationLongitude: 4.394,
+    locationRadiusMeters: 7000,
 
     status: "PUBLISHED" as const,
     position: 6,
@@ -394,6 +473,25 @@ const accommodations = [
       { key: "free-parking-on-premises", details: "Sur place" },
     ]),
 
+    accesses: createAccesses([
+      {
+        key: "car-access",
+        details: "Derniers kilomètres par une petite route de campagne",
+      },
+      {
+        key: "parking",
+        details: "Stationnement privé à l’entrée du domaine",
+      },
+      {
+        key: "walk-to-accommodation",
+        details: "Environ 100 mètres à pied depuis le parking",
+      },
+      {
+        key: "stairs",
+        details: "Quelques marches naturelles sur le chemin d’accès",
+      },
+    ]),
+
     images: {
       create: [
         {
@@ -427,7 +525,8 @@ const accommodations = [
 
 const main = async () => {
   for (const accommodation of accommodations) {
-    const { images, highlights, amenities, ...values } = accommodation;
+    const { images, highlights, amenities, accesses, ...values } =
+      accommodation;
 
     await prisma.accommodation.upsert({
       where: {
@@ -450,6 +549,11 @@ const main = async () => {
         amenities: {
           deleteMany: {},
           create: amenities.create,
+        },
+
+        accesses: {
+          deleteMany: {},
+          create: accesses.create,
         },
       },
 

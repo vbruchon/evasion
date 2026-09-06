@@ -97,11 +97,15 @@ model Accommodation {
   bathrooms     Int?
   surface       Float?
 
+  locationTitle        String?
+  locationDescription  String? @db.Text
+  locationLatitude     Float?
+  locationLongitude    Float?
+  locationRadiusMeters Int?
+
   highlights AccommodationHighlight[]
   amenities  AccommodationAmenity[]
-
-  city   String?
-  region String?
+  accesses   AccommodationAccess[]
 
   status      AccommodationStatus @default(DRAFT)
   position    Int                 @default(0)
@@ -185,4 +189,21 @@ model AccommodationAmenity {
   @@unique([accommodationId, key])
   @@index([accommodationId, position])
   @@map("accommodation_amenities")
+}
+
+model AccommodationAccess {
+  id String @id @default(cuid())
+
+  key     String
+  details String?
+
+  accommodationId String
+  accommodation   Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([accommodationId, key])
+  @@index([accommodationId])
+  @@map("accommodation_accesses")
 }

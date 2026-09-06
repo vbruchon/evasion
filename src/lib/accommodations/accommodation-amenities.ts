@@ -347,12 +347,6 @@ export const accommodationAmenities = [
 
   // Services
   {
-    key: "self-check-in",
-    label: "Arrivée autonome",
-    category: "services",
-    icon: "KeyRound",
-  },
-  {
     key: "lockbox",
     label: "Boîte à clé sécurisée",
     category: "services",

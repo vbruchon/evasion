@@ -25,7 +25,6 @@ const amenityPriority: AccommodationAmenityKey[] = [
   "kitchen",
   "coffee-maker",
   "free-parking-on-premises",
-  "self-check-in",
   "outdoor-furniture",
   "barbecue",
   "dedicated-workspace",
