@@ -31,13 +31,22 @@ export const useAccommodationEditor = (
       shortDescription: accommodation.shortDescription,
       description: accommodation.description,
       status: accommodation.status,
+
       guestCapacity: accommodation.guestCapacity,
       bedrooms: accommodation.bedrooms,
       beds: accommodation.beds,
       bathrooms: accommodation.bathrooms,
       surface: accommodation.surface,
+
+      locationTitle: accommodation.locationTitle,
+      locationDescription: accommodation.locationDescription,
+      locationLatitude: accommodation.locationLatitude,
+      locationLongitude: accommodation.locationLongitude,
+      locationRadiusMeters: accommodation.locationRadiusMeters,
+
       highlights: accommodation.highlights,
       amenities: accommodation.amenities,
+      accesses: accommodation.accesses,
     },
 
     mode: "onSubmit",

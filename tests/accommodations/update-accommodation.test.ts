@@ -1,9 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 
-import type {
-  AccommodationUpdateFormValues,
-  AccommodationUpdateImageInput,
-} from "~/app/admin/logements/schema";
+import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
 
 import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accommodation.action";
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
@@ -12,30 +9,6 @@ import { prisma } from "@/lib/prisma";
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
 import { resetAccommodationDatabase } from "../helpers/database";
 import { createAccommodationUpdateValues } from "../helpers/accommodation-values";
-
-const updateValues = (
-  overrides: Partial<AccommodationUpdateFormValues> = {},
-): AccommodationUpdateFormValues => ({
-  name: "Le Chalet Modifié",
-  type: "Chalet premium",
-  subtitle: "Un nouveau sous-titre",
-  shortDescription:
-    "Une nouvelle description courte après modification du logement.",
-  description:
-    "La nouvelle description complète enregistrée par l'éditeur visuel.",
-
-  guestCapacity: 4,
-  bedrooms: 2,
-  beds: 3,
-  bathrooms: 2,
-  surface: 72.5,
-
-  highlights: [],
-  amenities: [],
-
-  status: "PUBLISHED",
-  ...overrides,
-});
 
 describe("updateAccommodationAdmin", () => {
   beforeEach(async () => {
@@ -46,15 +19,45 @@ describe("updateAccommodationAdmin", () => {
     await prisma.$disconnect();
   });
 
-  it("updates the accommodation content without changing its slug", async () => {
+  it("updates the accommodation content, location and accesses without changing its slug", async () => {
     const accommodation = await createAccommodationFixture({
       slug: "le-chalet-immuable",
       status: "DRAFT",
     });
 
+    await prisma.accommodationAccess.create({
+      data: {
+        accommodationId: accommodation.id,
+        key: "parking",
+        details: "Ancien stationnement",
+      },
+    });
+
     const result = await updateAccommodationAdmin(
       accommodation.id,
-      createAccommodationUpdateValues(),
+      createAccommodationUpdateValues({
+        locationTitle: "Aux portes du Vercors",
+        locationDescription:
+          "Un emplacement calme entre la Drôme et les premiers reliefs du Vercors.",
+        locationLatitude: 45.03,
+        locationLongitude: 5.09,
+        locationRadiusMeters: 6000,
+
+        accesses: [
+          {
+            key: "car-access",
+            details: "Accès direct en voiture jusqu’au logement",
+          },
+          {
+            key: "secure-parking",
+            details: "Stationnement sécurisé devant le logement",
+          },
+          {
+            key: "single-level",
+            details: "Logement entièrement de plain-pied",
+          },
+        ],
+      }),
       [],
     );
 
@@ -65,6 +68,10 @@ describe("updateAccommodationAdmin", () => {
     const updatedAccommodation = await prisma.accommodation.findUniqueOrThrow({
       where: {
         id: accommodation.id,
+      },
+
+      include: {
+        accesses: true,
       },
     });
 
@@ -80,8 +87,41 @@ describe("updateAccommodationAdmin", () => {
       bathrooms: 2,
       surface: 72.5,
 
+      locationTitle: "Aux portes du Vercors",
+      locationDescription:
+        "Un emplacement calme entre la Drôme et les premiers reliefs du Vercors.",
+      locationLatitude: 45.03,
+      locationLongitude: 5.09,
+      locationRadiusMeters: 6000,
+
       status: "PUBLISHED",
     });
+
+    expect(
+      updatedAccommodation.accesses
+        .map((access) => ({
+          key: access.key,
+          details: access.details,
+        }))
+        .sort((a, b) => a.key.localeCompare(b.key)),
+    ).toEqual([
+      {
+        key: "car-access",
+        details: "Accès direct en voiture jusqu’au logement",
+      },
+      {
+        key: "secure-parking",
+        details: "Stationnement sécurisé devant le logement",
+      },
+      {
+        key: "single-level",
+        details: "Logement entièrement de plain-pied",
+      },
+    ]);
+
+    expect(
+      updatedAccommodation.accesses.some((access) => access.key === "parking"),
+    ).toBe(false);
 
     expect(updatedAccommodation.publishedAt).not.toBeNull();
   });
@@ -142,7 +182,7 @@ describe("updateAccommodationAdmin", () => {
 
     const result = await updateAccommodationAdmin(
       accommodation.id,
-      updateValues({
+      createAccommodationUpdateValues({
         status: "DRAFT",
       }),
       images,
@@ -264,7 +304,7 @@ describe("updateAccommodationAdmin", () => {
 
     const result = await updateAccommodationAdmin(
       accommodation.id,
-      updateValues({
+      createAccommodationUpdateValues({
         highlights: [
           {
             id: mountain.id,
@@ -362,7 +402,7 @@ describe("updateAccommodationAdmin", () => {
 
     const result = await updateAccommodationAdmin(
       accommodation.id,
-      updateValues({
+      createAccommodationUpdateValues({
         highlights: [
           {
             id: foreignHighlight.id,
@@ -493,7 +533,7 @@ describe("updateAccommodationAdmin", () => {
 
     const result = await updateAccommodationAdmin(
       accommodation.id,
-      updateValues({
+      createAccommodationUpdateValues({
         name: "Directly saved chalet",
         status: "PUBLISHED",
       }),
@@ -583,7 +623,7 @@ describe("updateAccommodationAdmin", () => {
 
     const result = await updateAccommodationAdmin(
       accommodation.id,
-      updateValues({
+      createAccommodationUpdateValues({
         name: "",
       }),
       [
@@ -637,7 +677,7 @@ describe("updateAccommodationAdmin", () => {
 
     await updateAccommodationAdmin(
       accommodation.id,
-      updateValues({
+      createAccommodationUpdateValues({
         status: "PUBLISHED",
       }),
       [],
@@ -659,7 +699,7 @@ describe("updateAccommodationAdmin", () => {
 
     await updateAccommodationAdmin(
       accommodation.id,
-      updateValues({
+      createAccommodationUpdateValues({
         status: "DRAFT",
       }),
       [],

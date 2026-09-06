@@ -10,26 +10,8 @@ import { createAccommodationFixture } from "../helpers/create-accommodation-fixt
 import { resetAccommodationDatabase } from "../helpers/database";
 import { createAccommodationDraftValues } from "../helpers/accommodation-values";
 
-type DraftValues = AccommodationDraftContent["values"];
 type DraftAmenities = AccommodationDraftContent["amenities"];
-
-const createDraftValues = (
-  overrides: Partial<DraftValues> = {},
-): DraftValues => ({
-  name: "Le Chalet modifié",
-  type: "Chalet premium",
-  subtitle: "Une nouvelle version",
-  shortDescription: "Nouvelle description courte",
-  description: "Nouvelle description complète",
-
-  guestCapacity: 4,
-  bedrooms: 2,
-  beds: 3,
-  bathrooms: 2,
-  surface: 72.5,
-
-  ...overrides,
-});
+type DraftAccesses = AccommodationDraftContent["accesses"];
 
 describe("publishAccommodationDraftAdmin", () => {
   beforeEach(async () => {
@@ -40,7 +22,7 @@ describe("publishAccommodationDraftAdmin", () => {
     await prisma.$disconnect();
   });
 
-  it("publishes the draft and synchronizes highlights and amenities", async () => {
+  it("publishes the draft and synchronizes location, highlights, amenities and accesses", async () => {
     const accommodation = await createAccommodationFixture({
       name: "Le Chalet public",
       status: "PUBLISHED",
@@ -67,6 +49,20 @@ describe("publishAccommodationDraftAdmin", () => {
       ],
     });
 
+    await prisma.accommodation.update({
+      where: {
+        id: accommodation.id,
+      },
+
+      data: {
+        locationTitle: "Ancienne localisation",
+        locationDescription: "Ancienne description de localisation",
+        locationLatitude: 45,
+        locationLongitude: 5,
+        locationRadiusMeters: 3000,
+      },
+    });
+
     await prisma.accommodationAmenity.createMany({
       data: [
         {
@@ -80,6 +76,21 @@ describe("publishAccommodationDraftAdmin", () => {
           key: "television",
           details: "Ancienne télévision",
           position: 1,
+        },
+      ],
+    });
+
+    await prisma.accommodationAccess.createMany({
+      data: [
+        {
+          accommodationId: accommodation.id,
+          key: "parking",
+          details: "Ancien stationnement",
+        },
+        {
+          accommodationId: accommodation.id,
+          key: "self-check-in",
+          details: "Ancienne arrivée autonome",
         },
       ],
     });
@@ -107,10 +118,32 @@ describe("publishAccommodationDraftAdmin", () => {
       },
     ];
 
+    const draftAccesses: DraftAccesses = [
+      {
+        key: "car-access",
+        details: "Accès direct en voiture jusqu’au logement",
+      },
+      {
+        key: "secure-parking",
+        details: "Stationnement sécurisé devant le logement",
+      },
+      {
+        key: "single-level",
+        details: "Logement entièrement de plain-pied",
+      },
+    ];
+
     const saveResult = await saveAccommodationDraftAdmin(
       accommodation.id,
       createAccommodationDraftValues({
         subtitle: "Une nouvelle version",
+
+        locationTitle: "Aux portes du Vercors",
+        locationDescription:
+          "Un emplacement calme entre la Drôme et les premiers reliefs du Vercors.",
+        locationLatitude: 45.03,
+        locationLongitude: 5.09,
+        locationRadiusMeters: 6000,
       }),
       [],
       [
@@ -133,6 +166,7 @@ describe("publishAccommodationDraftAdmin", () => {
         },
       ],
       draftAmenities,
+      draftAccesses,
     );
 
     expect(saveResult).toEqual({
@@ -156,8 +190,15 @@ describe("publishAccommodationDraftAdmin", () => {
             position: "asc",
           },
         },
+
+        accesses: true,
       },
     });
+
+    expect(beforePublication.locationTitle).toBe("Ancienne localisation");
+    expect(beforePublication.locationLatitude).toBe(45);
+    expect(beforePublication.locationLongitude).toBe(5);
+    expect(beforePublication.locationRadiusMeters).toBe(3000);
 
     expect(
       beforePublication.highlights.map((highlight) => highlight.title),
@@ -167,6 +208,12 @@ describe("publishAccommodationDraftAdmin", () => {
       "heating",
       "television",
     ]);
+
+    expect(
+      beforePublication.accesses
+        .map((access) => access.key)
+        .sort((a, b) => a.localeCompare(b)),
+    ).toEqual(["parking", "self-check-in"]);
 
     const result = await publishAccommodationDraftAdmin(accommodation.id);
 
@@ -194,6 +241,8 @@ describe("publishAccommodationDraftAdmin", () => {
               position: "asc",
             },
           },
+
+          accesses: true,
         },
       },
     );
@@ -208,6 +257,13 @@ describe("publishAccommodationDraftAdmin", () => {
       beds: 3,
       bathrooms: 2,
       surface: 72.5,
+
+      locationTitle: "Aux portes du Vercors",
+      locationDescription:
+        "Un emplacement calme entre la Drôme et les premiers reliefs du Vercors.",
+      locationLatitude: 45.03,
+      locationLongitude: 5.09,
+      locationRadiusMeters: 6000,
 
       status: "PUBLISHED",
     });
@@ -287,6 +343,40 @@ describe("publishAccommodationDraftAdmin", () => {
         (amenity) => amenity.key === "television",
       ),
     ).toBe(false);
+
+    expect(
+      publishedAccommodation.accesses
+        .map((access) => ({
+          key: access.key,
+          details: access.details,
+        }))
+        .sort((a, b) => a.key.localeCompare(b.key)),
+    ).toEqual([
+      {
+        key: "car-access",
+        details: "Accès direct en voiture jusqu’au logement",
+      },
+      {
+        key: "secure-parking",
+        details: "Stationnement sécurisé devant le logement",
+      },
+      {
+        key: "single-level",
+        details: "Logement entièrement de plain-pied",
+      },
+    ]);
+
+    expect(
+      publishedAccommodation.accesses.some(
+        (access) => access.key === "parking",
+      ),
+    ).toBe(false);
+
+    expect(
+      publishedAccommodation.accesses.some(
+        (access) => access.key === "self-check-in",
+      ),
+    ).toBe(false);
   });
 
   it("rejects a draft containing a highlight from another accommodation", async () => {
@@ -324,7 +414,7 @@ describe("publishAccommodationDraftAdmin", () => {
         content: {
           version: 1,
 
-          values: createDraftValues({
+          values: createAccommodationDraftValues({
             name: "Modification interdite",
           }),
 
@@ -429,6 +519,7 @@ describe("publishAccommodationDraftAdmin", () => {
           isPresentation: true,
         },
       ],
+      [],
       [],
       [],
     );

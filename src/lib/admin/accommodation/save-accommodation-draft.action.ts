@@ -23,12 +23,15 @@ type AccommodationDraftHighlights = AccommodationDraftContent["highlights"];
 
 type AccommodationDraftAmenities = AccommodationDraftContent["amenities"];
 
+type AccommodationDraftAccesses = AccommodationDraftContent["accesses"];
+
 export const saveAccommodationDraftAdmin = async (
   accommodationId: string,
   values: AccommodationDraftValues,
   images: AccommodationUpdateImageInput[],
   highlights: AccommodationDraftHighlights,
   amenities: AccommodationDraftAmenities,
+  accesses: AccommodationDraftAccesses,
 ) => {
   const incomingFileKeys = getAccommodationUpdateImageFileKeys(images);
 
@@ -85,6 +88,7 @@ export const saveAccommodationDraftAdmin = async (
     images,
     highlights,
     amenities,
+    accesses,
   });
 
   if (!contentResult.success) {

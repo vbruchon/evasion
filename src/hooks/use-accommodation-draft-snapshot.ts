@@ -43,6 +43,11 @@ export const useAccommodationDraftSnapshot = ({
     name: "amenities",
   });
 
+  const accesses = useWatch({
+    control: form.control,
+    name: "accesses",
+  });
+
   const values = useMemo<AccommodationDraftContent["values"]>(() => {
     const [
       name,
@@ -55,6 +60,11 @@ export const useAccommodationDraftSnapshot = ({
       beds,
       bathrooms,
       surface,
+      locationTitle,
+      locationDescription,
+      locationLatitude,
+      locationLongitude,
+      locationRadiusMeters,
     ] = watchedDraftValues;
 
     return {
@@ -68,6 +78,11 @@ export const useAccommodationDraftSnapshot = ({
       beds,
       bathrooms,
       surface,
+      locationTitle,
+      locationDescription,
+      locationLatitude,
+      locationLongitude,
+      locationRadiusMeters,
     };
   }, [watchedDraftValues]);
 
@@ -77,17 +92,27 @@ export const useAccommodationDraftSnapshot = ({
         values,
         highlights,
         amenities,
+        accesses,
         images,
         coverImageId,
         presentationImageId,
       }),
-    [amenities, coverImageId, highlights, images, presentationImageId, values],
+    [
+      accesses,
+      amenities,
+      coverImageId,
+      highlights,
+      images,
+      presentationImageId,
+      values,
+    ],
   );
 
   return {
     values,
     highlights,
     amenities,
+    accesses,
     signature,
   };
 };

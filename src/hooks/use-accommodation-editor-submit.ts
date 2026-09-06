@@ -118,6 +118,7 @@ export const useAccommodationEditorSubmit = ({
         preparedImages,
         values.highlights,
         values.amenities,
+        values.accesses,
       );
 
       if (!result.success) {

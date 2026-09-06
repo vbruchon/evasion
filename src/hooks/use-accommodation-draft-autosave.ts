@@ -71,7 +71,7 @@ export const useAccommodationDraftAutosave = ({
   syncPreparedImages,
   syncPersistedImages,
 }: UseAccommodationDraftAutosaveOptions) => {
-  const { values, highlights, amenities, signature } =
+  const { values, highlights, amenities, accesses, signature } =
     useAccommodationDraftSnapshot({
       form,
       images,
@@ -96,6 +96,7 @@ export const useAccommodationDraftAutosave = ({
       ...values,
       highlights,
       amenities,
+      accesses,
       status: persistedStatus,
     };
 
@@ -126,6 +127,7 @@ export const useAccommodationDraftAutosave = ({
           preparedImages,
           highlights,
           amenities,
+          accesses,
         );
 
         if (!result.success) {
@@ -163,6 +165,7 @@ export const useAccommodationDraftAutosave = ({
         values,
         highlights,
         amenities,
+        accesses,
         images: syncedImages.images,
         coverImageId: syncedImages.coverImageId,
         presentationImageId: syncedImages.presentationImageId,
@@ -180,6 +183,7 @@ export const useAccommodationDraftAutosave = ({
     }
   }, [
     accommodationId,
+    accesses,
     amenities,
     coverImageId,
     highlights,

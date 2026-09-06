@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { accommodationAccessesSchema } from "./schemas/accommodation-access.schema";
 import { accommodationAmenitiesSchema } from "./schemas/accommodation-amenity.schema";
 import { accommodationHighlightsSchema } from "./schemas/accommodation-highlight.schema";
 import { accommodationUpdateImagesSchema } from "./schemas/accommodation-image.schema";
@@ -15,7 +16,7 @@ const accommodationTypeSchema = z
   .trim()
   .max(100, "Le type ne peut pas dépasser 100 caractères.");
 
-const accommodationFieldsSchema = z.object({
+const accommodationBaseFieldsSchema = z.object({
   name: accommodationNameSchema,
 
   type: accommodationTypeSchema,
@@ -61,7 +62,70 @@ const accommodationFieldsSchema = z.object({
     .positive("La surface doit être supérieure à 0.")
     .max(10000, "La surface ne peut pas dépasser 10 000 m².")
     .nullable(),
+
+  locationTitle: z
+    .string()
+    .trim()
+    .max(200, "Le titre de localisation ne peut pas dépasser 200 caractères."),
+
+  locationDescription: z
+    .string()
+    .trim()
+    .max(
+      1000,
+      "La description de localisation ne peut pas dépasser 1 000 caractères.",
+    ),
+
+  locationLatitude: z.number().min(-90).max(90).nullable(),
+
+  locationLongitude: z.number().min(-180).max(180).nullable(),
+
+  locationRadiusMeters: z
+    .int()
+    .min(100, "Le rayon doit être d’au moins 100 mètres.")
+    .max(50000, "Le rayon ne peut pas dépasser 50 kilomètres.")
+    .nullable(),
 });
+
+type AccommodationLocationValues = Pick<
+  z.infer<typeof accommodationBaseFieldsSchema>,
+  "locationLatitude" | "locationLongitude" | "locationRadiusMeters"
+>;
+
+const validateAccommodationLocation = (
+  values: AccommodationLocationValues,
+  context: z.RefinementCtx,
+) => {
+  const hasLatitude = values.locationLatitude !== null;
+  const hasLongitude = values.locationLongitude !== null;
+
+  if (hasLatitude !== hasLongitude) {
+    context.addIssue({
+      code: "custom",
+      path: ["locationLatitude"],
+      message: "La latitude et la longitude doivent être renseignées ensemble.",
+    });
+
+    context.addIssue({
+      code: "custom",
+      path: ["locationLongitude"],
+      message: "La latitude et la longitude doivent être renseignées ensemble.",
+    });
+  }
+
+  if (values.locationRadiusMeters !== null && (!hasLatitude || !hasLongitude)) {
+    context.addIssue({
+      code: "custom",
+      path: ["locationRadiusMeters"],
+      message:
+        "Une localisation doit être définie avant de renseigner un rayon.",
+    });
+  }
+};
+
+const accommodationFieldsSchema = accommodationBaseFieldsSchema.superRefine(
+  validateAccommodationLocation,
+);
 
 const accommodationDraftValuesSchema = z.preprocess((value) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -74,6 +138,13 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
     beds: null,
     bathrooms: null,
     surface: null,
+
+    locationTitle: "",
+    locationDescription: "",
+    locationLatitude: null,
+    locationLongitude: null,
+    locationRadiusMeters: null,
+
     ...(value as Record<string, unknown>),
   };
 }, accommodationFieldsSchema);
@@ -84,11 +155,14 @@ export const accommodationCreateSchema = z.object({
   type: accommodationTypeSchema.min(1, "Le type de logement est obligatoire."),
 });
 
-export const accommodationUpdateSchema = accommodationFieldsSchema.extend({
-  status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
-  highlights: accommodationHighlightsSchema,
-  amenities: accommodationAmenitiesSchema,
-});
+export const accommodationUpdateSchema = accommodationBaseFieldsSchema
+  .extend({
+    status: z.enum(["DRAFT", "PUBLISHED", "ARCHIVED"]),
+    highlights: accommodationHighlightsSchema,
+    amenities: accommodationAmenitiesSchema,
+    accesses: accommodationAccessesSchema,
+  })
+  .superRefine(validateAccommodationLocation);
 
 export const accommodationDraftContentSchema = z.object({
   version: z.literal(1),
@@ -96,9 +170,15 @@ export const accommodationDraftContentSchema = z.object({
   images: accommodationUpdateImagesSchema,
   highlights: accommodationHighlightsSchema.default([]),
 
-  // default([]) garde les anciens brouillons compatibles.
   amenities: accommodationAmenitiesSchema.default([]),
+
+  accesses: accommodationAccessesSchema.default([]),
 });
+
+export {
+  accommodationAccessSchema,
+  accommodationAccessesSchema,
+} from "./schemas/accommodation-access.schema";
 
 export {
   accommodationAmenitySchema,
@@ -116,6 +196,11 @@ export {
   accommodationUpdateImageSchema,
   accommodationUpdateImagesSchema,
 } from "./schemas/accommodation-image.schema";
+
+export type {
+  AccommodationAccessInput,
+  AccommodationAccessesInput,
+} from "./schemas/accommodation-access.schema";
 
 export type {
   AccommodationAmenityInput,

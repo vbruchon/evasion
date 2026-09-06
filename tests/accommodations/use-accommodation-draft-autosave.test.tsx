@@ -9,6 +9,7 @@ import {
   updateAccommodation,
 } from "~/app/admin/logements/action";
 import type {
+  AccommodationDraftContent,
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
 } from "~/app/admin/logements/schema";
@@ -63,10 +64,28 @@ const initialValues = createAccommodationUpdateValues({
     },
   ],
 
-  amenities: [],
-
   status: "PUBLISHED",
 });
+
+const initialDraftValues: AccommodationDraftContent["values"] = {
+  name: initialValues.name,
+  type: initialValues.type,
+  subtitle: initialValues.subtitle,
+  shortDescription: initialValues.shortDescription,
+  description: initialValues.description,
+
+  guestCapacity: initialValues.guestCapacity,
+  bedrooms: initialValues.bedrooms,
+  beds: initialValues.beds,
+  bathrooms: initialValues.bathrooms,
+  surface: initialValues.surface,
+
+  locationTitle: initialValues.locationTitle,
+  locationDescription: initialValues.locationDescription,
+  locationLatitude: initialValues.locationLatitude,
+  locationLongitude: initialValues.locationLongitude,
+  locationRadiusMeters: initialValues.locationRadiusMeters,
+};
 
 type RenderAutosaveHookOptions = {
   images?: AccommodationPreviewImage[];
@@ -213,21 +232,13 @@ describe("useAccommodationDraftAutosave", () => {
     expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
       "accommodation-1",
       {
+        ...initialDraftValues,
         name: "Le Chalet modifié",
-        type: "Chalet",
-        subtitle: "Sous-titre",
-        shortDescription: "Description courte",
-        description: "Description complète",
-
-        guestCapacity: 4,
-        bedrooms: 2,
-        beds: 3,
-        bathrooms: 1,
-        surface: 65,
       },
       [],
       initialValues.highlights,
       initialValues.amenities,
+      initialValues.accesses,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -258,20 +269,13 @@ describe("useAccommodationDraftAutosave", () => {
     expect(mockedUpdateAccommodation).toHaveBeenCalledWith(
       "accommodation-1",
       {
+        ...initialDraftValues,
         name: "Le Chalet modifié",
-        type: "Chalet",
-        subtitle: "Sous-titre",
-        shortDescription: "Description courte",
-        description: "Description complète",
-
-        guestCapacity: 4,
-        bedrooms: 2,
-        beds: 3,
-        bathrooms: 1,
-        surface: 65,
 
         highlights: initialValues.highlights,
         amenities: initialValues.amenities,
+        accesses: initialValues.accesses,
+
         status: "DRAFT",
       },
       [],
@@ -303,7 +307,6 @@ describe("useAccommodationDraftAutosave", () => {
       "accommodation-1",
       expect.objectContaining({
         subtitle: "Nouveau sous-titre",
-        amenities: initialValues.amenities,
         status: "ARCHIVED",
       }),
       [],
@@ -382,21 +385,13 @@ describe("useAccommodationDraftAutosave", () => {
     expect(mockedSaveAccommodationDraft).toHaveBeenLastCalledWith(
       "accommodation-1",
       {
+        ...initialDraftValues,
         name: "Deuxième modification",
-        type: "Chalet",
-        subtitle: "Sous-titre",
-        shortDescription: "Description courte",
-        description: "Description complète",
-
-        guestCapacity: 4,
-        bedrooms: 2,
-        beds: 3,
-        bathrooms: 1,
-        surface: 65,
       },
       [],
       initialValues.highlights,
       initialValues.amenities,
+      initialValues.accesses,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -432,9 +427,57 @@ describe("useAccommodationDraftAutosave", () => {
       [],
       initialValues.highlights,
       initialValues.amenities,
+      initialValues.accesses,
     );
 
     expect(result.current.hasDraft).toBe(true);
+  });
+
+  it("autosaves when a location changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue("locationTitle", "Aux portes du Vercors", {
+        shouldDirty: true,
+      });
+
+      result.current.form.setValue("locationLatitude", 45.03, {
+        shouldDirty: true,
+      });
+
+      result.current.form.setValue("locationLongitude", 5.09, {
+        shouldDirty: true,
+      });
+
+      result.current.form.setValue("locationRadiusMeters", 6000, {
+        shouldDirty: true,
+      });
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        locationTitle: "Aux portes du Vercors",
+        locationLatitude: 45.03,
+        locationLongitude: 5.09,
+        locationRadiusMeters: 6000,
+      }),
+      [],
+      initialValues.highlights,
+      initialValues.amenities,
+      initialValues.accesses,
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
   });
 
   it("autosaves when a highlight changes", async () => {
@@ -473,6 +516,7 @@ describe("useAccommodationDraftAutosave", () => {
         },
       ],
       initialValues.amenities,
+      initialValues.accesses,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -482,19 +526,21 @@ describe("useAccommodationDraftAutosave", () => {
   it("autosaves when an amenity changes", async () => {
     const { result } = renderAutosaveHook();
 
+    const amenities: AccommodationUpdateFormValues["amenities"] = [
+      {
+        key: "wifi",
+        details: "",
+      },
+      {
+        key: "coffee-maker",
+        details: "Nespresso",
+      },
+    ];
+
     act(() => {
-      result.current.form.setValue(
-        "amenities",
-        [
-          {
-            key: "coffee-maker",
-            details: "Nespresso",
-          },
-        ],
-        {
-          shouldDirty: true,
-        },
-      );
+      result.current.form.setValue("amenities", amenities, {
+        shouldDirty: true,
+      });
     });
 
     expect(result.current.autosaveStatus).toBe("pending");
@@ -512,12 +558,51 @@ describe("useAccommodationDraftAutosave", () => {
       }),
       [],
       initialValues.highlights,
-      [
-        {
-          key: "coffee-maker",
-          details: "Nespresso",
-        },
-      ],
+      amenities,
+      initialValues.accesses,
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
+  });
+
+  it("autosaves when an access changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    const accesses: AccommodationUpdateFormValues["accesses"] = [
+      {
+        key: "car-access",
+        details: "Accès direct en voiture jusqu’au logement",
+      },
+      {
+        key: "secure-parking",
+        details: "Stationnement sécurisé devant le logement",
+      },
+    ];
+
+    act(() => {
+      result.current.form.setValue("accesses", accesses, {
+        shouldDirty: true,
+      });
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        name: "Le Chalet",
+      }),
+      [],
+      initialValues.highlights,
+      initialValues.amenities,
+      accesses,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -589,6 +674,7 @@ describe("useAccommodationDraftAutosave", () => {
       preparedImages,
       initialValues.highlights,
       initialValues.amenities,
+      initialValues.accesses,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -677,6 +763,7 @@ describe("useAccommodationDraftAutosave", () => {
       preparedImages,
       initialValues.highlights,
       initialValues.amenities,
+      initialValues.accesses,
     );
 
     expect(result.current.hasDraft).toBe(true);
@@ -746,7 +833,6 @@ describe("useAccommodationDraftAutosave", () => {
     expect(mockedUpdateAccommodation).toHaveBeenCalledWith(
       "accommodation-1",
       expect.objectContaining({
-        amenities: initialValues.amenities,
         status: "DRAFT",
       }),
       preparedImages,

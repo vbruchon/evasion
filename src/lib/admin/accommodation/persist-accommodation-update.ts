@@ -5,6 +5,7 @@ import type {
 
 import { prisma } from "@/lib/prisma";
 
+import { syncAccommodationAccesses } from "./sync-accommodation-accesses";
 import { syncAccommodationAmenities } from "./sync-accommodation-amenities";
 import { syncAccommodationHighlights } from "./sync-accommodation-highlights";
 import { syncAccommodationImages } from "./sync-accommodation-images";
@@ -41,6 +42,12 @@ export const persistAccommodationUpdate = async ({
         bathrooms: data.bathrooms,
         surface: data.surface,
 
+        locationTitle: data.locationTitle || null,
+        locationDescription: data.locationDescription || null,
+        locationLatitude: data.locationLatitude,
+        locationLongitude: data.locationLongitude,
+        locationRadiusMeters: data.locationRadiusMeters,
+
         status: data.status,
 
         publishedAt:
@@ -53,6 +60,8 @@ export const persistAccommodationUpdate = async ({
     await syncAccommodationHighlights(tx, accommodationId, data.highlights);
 
     await syncAccommodationAmenities(tx, accommodationId, data.amenities);
+
+    await syncAccommodationAccesses(tx, accommodationId, data.accesses);
 
     await tx.accommodationDraft.deleteMany({
       where: {

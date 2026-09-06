@@ -69,6 +69,7 @@ export const saveAccommodationDraft = async (
   images: AccommodationUpdateImageInput[],
   highlights: AccommodationDraftContent["highlights"],
   amenities: AccommodationDraftContent["amenities"],
+  accesses: AccommodationDraftContent["accesses"],
 ) => {
   await requireAdmin();
 
@@ -78,6 +79,7 @@ export const saveAccommodationDraft = async (
     images,
     highlights,
     amenities,
+    accesses,
   );
 };
 

@@ -32,8 +32,15 @@ export const createAccommodationUpdateValues = (
   bathrooms: 2,
   surface: 72.5,
 
+  locationTitle: "",
+  locationDescription: "",
+  locationLatitude: null,
+  locationLongitude: null,
+  locationRadiusMeters: null,
+
   highlights: [],
   amenities: [],
+  accesses: [],
 
   status: "PUBLISHED",
 
@@ -56,6 +63,12 @@ export const createAccommodationDraftValues = (
   beds: 3,
   bathrooms: 2,
   surface: 72.5,
+
+  locationTitle: "",
+  locationDescription: "",
+  locationLatitude: null,
+  locationLongitude: null,
+  locationRadiusMeters: null,
 
   ...overrides,
 });

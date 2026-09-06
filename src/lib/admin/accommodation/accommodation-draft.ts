@@ -15,6 +15,11 @@ export const ACCOMMODATION_DRAFT_VALUE_FIELDS = [
   "beds",
   "bathrooms",
   "surface",
+  "locationTitle",
+  "locationDescription",
+  "locationLatitude",
+  "locationLongitude",
+  "locationRadiusMeters",
 ] as const satisfies readonly (keyof AccommodationDraftContent["values"])[];
 
 type AccommodationDraftValueSource = Pick<
@@ -30,6 +35,7 @@ type AccommodationDraftSignatureOptions = {
   values: AccommodationDraftContent["values"];
   highlights: AccommodationDraftContent["highlights"];
   amenities: AccommodationDraftContent["amenities"];
+  accesses: AccommodationDraftContent["accesses"];
   images: AccommodationDraftSignatureImage[];
   coverImageId: string | null;
   presentationImageId: string | null;
@@ -60,6 +66,11 @@ export const getAccommodationDraftValues = (
   beds: values.beds,
   bathrooms: values.bathrooms,
   surface: values.surface,
+  locationTitle: values.locationTitle,
+  locationDescription: values.locationDescription,
+  locationLatitude: values.locationLatitude,
+  locationLongitude: values.locationLongitude,
+  locationRadiusMeters: values.locationRadiusMeters,
 });
 
 export const getAccommodationDraftFileKeys = (
@@ -77,6 +88,7 @@ export const getAccommodationDraftSignature = ({
   values,
   highlights,
   amenities,
+  accesses,
   images,
   coverImageId,
   presentationImageId,
@@ -85,6 +97,7 @@ export const getAccommodationDraftSignature = ({
     values,
     highlights,
     amenities,
+    accesses,
 
     images: images.map((image) => ({
       id: image.id,

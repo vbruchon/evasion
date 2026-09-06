@@ -1,7 +1,11 @@
-import { accommodationAmenitiesSchema } from "~/app/admin/logements/schema";
+import {
+  accommodationAccessesSchema,
+  accommodationAmenitiesSchema,
+} from "~/app/admin/logements/schema";
 
 import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/accommodation-draft";
 import { resolveAccommodationDraftImages } from "@/lib/admin/accommodation/resolve-accommodation-draft-images";
+import { accommodationAccesses } from "@/lib/accommodations/accommodation-accesses";
 import { prisma } from "@/lib/prisma";
 
 export const getAccommodationForUpdate = async (id: string) => {
@@ -19,11 +23,18 @@ export const getAccommodationForUpdate = async (id: string) => {
       shortDescription: true,
       description: true,
       status: true,
+
       guestCapacity: true,
       bedrooms: true,
       beds: true,
       bathrooms: true,
       surface: true,
+
+      locationTitle: true,
+      locationDescription: true,
+      locationLatitude: true,
+      locationLongitude: true,
+      locationRadiusMeters: true,
 
       images: {
         orderBy: {
@@ -64,6 +75,13 @@ export const getAccommodationForUpdate = async (id: string) => {
         },
       },
 
+      accesses: {
+        select: {
+          key: true,
+          details: true,
+        },
+      },
+
       draft: {
         select: {
           content: true,
@@ -87,11 +105,18 @@ export const getAccommodationForUpdate = async (id: string) => {
     subtitle: accommodation.subtitle ?? "",
     shortDescription: accommodation.shortDescription ?? "",
     description: accommodation.description ?? "",
+
     guestCapacity: accommodation.guestCapacity,
     bedrooms: accommodation.bedrooms,
     beds: accommodation.beds,
     bathrooms: accommodation.bathrooms,
     surface: accommodation.surface,
+
+    locationTitle: accommodation.locationTitle ?? "",
+    locationDescription: accommodation.locationDescription ?? "",
+    locationLatitude: accommodation.locationLatitude,
+    locationLongitude: accommodation.locationLongitude,
+    locationRadiusMeters: accommodation.locationRadiusMeters,
   };
 
   const images = draft
@@ -112,6 +137,25 @@ export const getAccommodationForUpdate = async (id: string) => {
         })),
       );
 
+  const accessOrder = new Map(
+    accommodationAccesses.map((access, index) => [access.key, index]),
+  );
+
+  const accesses = draft
+    ? draft.accesses
+    : accommodationAccessesSchema
+        .parse(
+          accommodation.accesses.map((access) => ({
+            key: access.key,
+            details: access.details ?? "",
+          })),
+        )
+        .sort(
+          (a, b) =>
+            (accessOrder.get(a.key) ?? Number.MAX_SAFE_INTEGER) -
+            (accessOrder.get(b.key) ?? Number.MAX_SAFE_INTEGER),
+        );
+
   return {
     id: accommodation.id,
     slug: accommodation.slug,
@@ -129,8 +173,15 @@ export const getAccommodationForUpdate = async (id: string) => {
     bathrooms: values.bathrooms,
     surface: values.surface,
 
+    locationTitle: values.locationTitle,
+    locationDescription: values.locationDescription,
+    locationLatitude: values.locationLatitude,
+    locationLongitude: values.locationLongitude,
+    locationRadiusMeters: values.locationRadiusMeters,
+
     highlights,
     amenities,
+    accesses,
 
     images,
 

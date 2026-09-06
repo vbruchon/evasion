@@ -15,6 +15,7 @@ import { resetAccommodationDatabase } from "../helpers/database";
 
 type DraftHighlights = AccommodationDraftContent["highlights"];
 type DraftAmenities = AccommodationDraftContent["amenities"];
+type DraftAccesses = AccommodationDraftContent["accesses"];
 
 describe("saveAccommodationDraftAdmin", () => {
   beforeEach(async () => {
@@ -99,6 +100,17 @@ describe("saveAccommodationDraftAdmin", () => {
       },
     ];
 
+    const draftAccesses: DraftAccesses = [
+      {
+        key: "car-access",
+        details: "Accès direct en voiture jusqu’au logement",
+      },
+      {
+        key: "secure-parking",
+        details: "Stationnement sécurisé devant le logement",
+      },
+    ];
+
     const result = await saveAccommodationDraftAdmin(
       accommodation.id,
       createAccommodationDraftValues(),
@@ -117,6 +129,7 @@ describe("saveAccommodationDraftAdmin", () => {
       ],
       draftHighlights,
       draftAmenities,
+      draftAccesses,
     );
 
     expect(result).toEqual({
@@ -193,6 +206,12 @@ describe("saveAccommodationDraftAdmin", () => {
         beds: 3,
         bathrooms: 2,
         surface: 72.5,
+
+        locationTitle: "",
+        locationDescription: "",
+        locationLatitude: null,
+        locationLongitude: null,
+        locationRadiusMeters: null,
       },
 
       images: [
@@ -210,8 +229,8 @@ describe("saveAccommodationDraftAdmin", () => {
       ],
 
       highlights: draftHighlights,
-
       amenities: draftAmenities,
+      accesses: draftAccesses,
     });
   });
 
@@ -225,6 +244,7 @@ describe("saveAccommodationDraftAdmin", () => {
       createAccommodationDraftValues({
         name: "First draft",
       }),
+      [],
       [],
       [],
       [],
@@ -257,6 +277,12 @@ describe("saveAccommodationDraftAdmin", () => {
         {
           key: "coffee-maker",
           details: "Nespresso",
+        },
+      ],
+      [
+        {
+          key: "single-level",
+          details: "Logement entièrement de plain-pied",
         },
       ],
     );
@@ -295,6 +321,13 @@ describe("saveAccommodationDraftAdmin", () => {
           details: "Nespresso",
         },
       ],
+
+      accesses: [
+        {
+          key: "single-level",
+          details: "Logement entièrement de plain-pied",
+        },
+      ],
     });
   });
 
@@ -315,6 +348,7 @@ describe("saveAccommodationDraftAdmin", () => {
       accommodation.id,
       createAccommodationDraftValues(),
       images,
+      [],
       [],
       [],
     );
@@ -376,6 +410,7 @@ describe("saveAccommodationDraftAdmin", () => {
       ],
       [],
       [],
+      [],
     );
 
     expect(result).toEqual({
@@ -431,6 +466,7 @@ describe("saveAccommodationDraftAdmin", () => {
         },
       ],
       [],
+      [],
     );
 
     expect(result).toEqual({
@@ -469,6 +505,7 @@ describe("saveAccommodationDraftAdmin", () => {
       ],
       [],
       [],
+      [],
     );
 
     await saveAccommodationDraftAdmin(
@@ -488,6 +525,7 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: false,
         },
       ],
+      [],
       [],
       [],
     );
@@ -529,6 +567,7 @@ describe("saveAccommodationDraftAdmin", () => {
       ],
       [],
       [],
+      [],
     );
 
     vi.mocked(deleteUploadThingFiles).mockClear();
@@ -550,6 +589,7 @@ describe("saveAccommodationDraftAdmin", () => {
           isCover: false,
         },
       ],
+      [],
       [],
       [],
     );
@@ -596,6 +636,7 @@ describe("saveAccommodationDraftAdmin", () => {
             isCover: true,
           },
         ],
+        [],
         [],
         [],
       ),

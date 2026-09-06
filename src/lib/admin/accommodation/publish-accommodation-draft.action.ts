@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 
 import { parseAccommodationDraftContent } from "./accommodation-draft";
 import { revalidateAccommodation } from "./revalidate-accommodation";
+import { syncAccommodationAccesses } from "./sync-accommodation-accesses";
 import { syncAccommodationAmenities } from "./sync-accommodation-amenities";
 import {
   hasForeignAccommodationHighlight,
@@ -108,15 +109,22 @@ export const publishAccommodationDraftAdmin = async (
 
       data: {
         name: draft.values.name,
-        type: draft.values.type,
-        subtitle: draft.values.subtitle,
-        shortDescription: draft.values.shortDescription,
-        description: draft.values.description,
+        type: draft.values.type || null,
+        subtitle: draft.values.subtitle || null,
+        shortDescription: draft.values.shortDescription || null,
+        description: draft.values.description || null,
+
         guestCapacity: draft.values.guestCapacity,
         bedrooms: draft.values.bedrooms,
         beds: draft.values.beds,
         bathrooms: draft.values.bathrooms,
         surface: draft.values.surface,
+
+        locationTitle: draft.values.locationTitle || null,
+        locationDescription: draft.values.locationDescription || null,
+        locationLatitude: draft.values.locationLatitude,
+        locationLongitude: draft.values.locationLongitude,
+        locationRadiusMeters: draft.values.locationRadiusMeters,
       },
     });
 
@@ -125,6 +133,8 @@ export const publishAccommodationDraftAdmin = async (
     await syncAccommodationHighlights(tx, accommodationId, draft.highlights);
 
     await syncAccommodationAmenities(tx, accommodationId, draft.amenities);
+
+    await syncAccommodationAccesses(tx, accommodationId, draft.accesses);
 
     await tx.accommodationDraft.delete({
       where: {
