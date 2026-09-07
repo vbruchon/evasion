@@ -8,12 +8,11 @@ import type {
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import { useAccommodationEditorPreviewData } from "@/hooks/use-accommodation-editor-preview-data";
 
-import { AccommodationAmenities } from "../../slug/accommodation-amenities";
+import { AccommodationAmenities } from "../../slug/amenities/accommodation-amenities";
 import { AccommodationGallery } from "../../slug/accommodation-gallery";
 import { AccommodationPresentation } from "../../slug/accommodation-presentation";
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
-import { AccommodationLocation } from "../../slug/accommodation-location";
 import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
 
 type AccommodationEditorPreviewProps = {

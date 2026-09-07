@@ -4,7 +4,7 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 import { useAccommodationLocationMap } from "@/hooks/use-accommodation-location-map";
-import { AccommodationLocationMapEmptyState } from "../../admin/editor/section/location/accommodation-location-map-empty-state";
+import { AccommodationLocationMapEmptyState } from "../../../admin/editor/section/location/accommodation-location-map-empty-state";
 import { AccommodationLocationMapControls } from "./accommodation-location-map-controls";
 import { AccommodationLocationMapDialog } from "./accommodation-location-map-dialog";
 

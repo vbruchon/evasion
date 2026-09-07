@@ -5,12 +5,11 @@ import {
   accommodationAmenities,
   type AccommodationAmenityKey,
 } from "@/lib/accommodations/accommodation-amenities";
-
-import type {
+import {
   AccommodationAmenityData,
   AccommodationAmenityDisplay,
   AccommodationAmenityDisplayCategory,
-} from "./accommodation-amenities.types";
+} from "@/components/features/accommodations/slug/amenities/accommodation-amenities.types";
 
 const AMENITY_PREVIEW_LIMIT = 15;
 

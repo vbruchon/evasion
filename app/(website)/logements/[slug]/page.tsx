@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
 import { getPublishedAccommodationBySlug } from "@/lib/accommodations/accommodations";
 
-import { AccommodationAmenities } from "@/components/features/accommodations/slug/accommodation-amenities";
+import { AccommodationAmenities } from "@/components/features/accommodations/slug/amenities/accommodation-amenities";
 import { AccommodationGallery } from "@/components/features/accommodations/slug/accommodation-gallery";
 import { AccommodationHero } from "@/components/features/accommodations/slug/accommodation-hero";
 import { AccommodationPresentation } from "@/components/features/accommodations/slug/accommodation-presentation";

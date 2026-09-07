@@ -7,7 +7,7 @@ import {
 } from "@/lib/accommodations/accommodation-accesses";
 
 import { AccommodationAccessIcon } from "./accommodation-access-icon";
-import type { AccommodationAccessData } from "./accommodation-location.types";
+import type { AccommodationAccessData } from "../accommodation-location.types";
 
 type AccommodationLocationAccessPanelProps = {
   accesses: AccommodationAccessData[];

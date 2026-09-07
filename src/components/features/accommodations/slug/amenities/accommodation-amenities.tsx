@@ -1,10 +1,10 @@
 "use client";
 
+import { useAccommodationAmenities } from "@/hooks/use-accommodation-amenities";
 import { AccommodationAmenitiesCategories } from "./accommodation-amenities-categories";
 import { AccommodationAmenitiesGrid } from "./accommodation-amenities-grid";
 import { AccommodationAmenitiesToggle } from "./accommodation-amenities-toggle";
 import type { AccommodationAmenityData } from "./accommodation-amenities.types";
-import { useAccommodationAmenities } from "./use-accommodation-amenities";
 
 type AccommodationAmenitiesProps = {
   amenities: AccommodationAmenityData[];

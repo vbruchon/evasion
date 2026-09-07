@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 
 import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
 import { AccommodationLocationSearchResults } from "./accommodation-location-search-results";
-import { AccommodationLocationMap } from "@/components/features/accommodations/slug/location/accommodation-location-map";
+import { AccommodationLocationMap } from "@/components/features/accommodations/slug/location/map/accommodation-location-map";
 import { useAccommodationLocationMapEditor } from "@/hooks/use-accommodation-location-map-editor";
 
 type AccommodationLocationMapEditorProps = {
