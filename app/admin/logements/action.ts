@@ -11,6 +11,7 @@ import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-acco
 import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accommodation.action";
 import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/update-accommodation-status.action";
 import { requireAdmin } from "@/lib/admin/require-admin";
+import { searchAccommodationLocationsAdmin } from "@/lib/admin/accommodation/search-accommodation-locations.action";
 
 import type {
   AccommodationCreateFormValues,
@@ -93,4 +94,8 @@ export const discardAccommodationDraft = async (accommodationId: string) => {
   await requireAdmin();
 
   return discardAccommodationDraftAdmin(accommodationId);
+};
+
+export const searchAccommodationLocations = async (query: string) => {
+  return searchAccommodationLocationsAdmin(query);
 };

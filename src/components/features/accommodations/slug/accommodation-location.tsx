@@ -2,13 +2,13 @@ import { getAccommodationAccess } from "@/lib/accommodations/accommodation-acces
 
 import { AccommodationLocationAccessPanel } from "./location/accommodation-location-access-panel";
 import { AccommodationLocationContent } from "./location/accommodation-location-content";
-import { AccommodationLocationMapPlaceholder } from "./location/accommodation-location-map-placeholder";
-import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor-sections";
 
+import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import type {
   AccommodationAccessData,
   AccommodationLocationData,
 } from "./location/accommodation-location.types";
+import { AccommodationLocationMap } from "./location/accommodation-location-map";
 
 type AccommodationLocationProps = {
   accommodation: AccommodationLocationData;
@@ -47,14 +47,17 @@ export const AccommodationLocation = ({
           active={activeEditorRegion === "content"}
         />
 
-        <div className="overflow-hidden rounded-xl border border-border/60 bg-card/10 xl:grid xl:grid-cols-[260px_minmax(0,1fr)]">
+        <div className="grid overflow-hidden rounded-xl border border-border/60 bg-card/10 xl:grid-cols-[260px_minmax(0,1fr)]">
           <AccommodationLocationAccessPanel
             accesses={accesses}
             editorPreview={editorPreview}
             active={activeEditorRegion === "access"}
           />
 
-          <AccommodationLocationMapPlaceholder
+          <AccommodationLocationMap
+            latitude={accommodation.locationLatitude}
+            longitude={accommodation.locationLongitude}
+            radiusMeters={accommodation.locationRadiusMeters}
             editorPreview={editorPreview}
             active={activeEditorRegion === "map"}
           />

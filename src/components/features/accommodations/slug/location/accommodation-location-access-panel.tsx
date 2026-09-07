@@ -49,7 +49,7 @@ export const AccommodationLocationAccessPanel = ({
     <div
       data-editor-region={editorPreview ? "access" : undefined}
       className={cn(
-        "flex min-h-full flex-col border-b border-border/60 bg-card/25 px-6 py-6 xl:border-r xl:border-b-0",
+        "flex flex-col border-b border-border/60 bg-card/25 px-6 py-6 xl:border-r xl:border-b-0",
         editorPreview &&
           "cursor-pointer transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/60",
         editorPreview && active && "ring-1 ring-inset ring-primary",

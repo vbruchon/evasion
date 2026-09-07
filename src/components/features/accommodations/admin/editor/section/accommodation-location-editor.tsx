@@ -5,6 +5,7 @@ import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodati
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationAccessesEditor } from "./accesses/accommodation-accesses-editor";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
+import { AccommodationLocationMapEditor } from "./location/accommodation-location-map-editor";
 
 type AccommodationLocationEditorProps = {
   section: AccommodationLocationEditorSection;
@@ -37,17 +38,7 @@ export const AccommodationLocationEditor = ({
   }
 
   if (section === "map") {
-    return (
-      <AccommodationEditorSectionContent>
-        <div className="border border-dashed border-border/60 px-4 py-10 text-center">
-          <p className="text-sm font-medium">Carte de localisation</p>
-
-          <p className="mt-1 text-xs leading-5 text-muted-foreground">
-            La sélection de la zone approximative sera ajoutée prochainement.
-          </p>
-        </div>
-      </AccommodationEditorSectionContent>
-    );
+    return <AccommodationLocationMapEditor disabled={disabled} />;
   }
 
   if (section === "access") {
