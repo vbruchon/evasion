@@ -28,6 +28,12 @@ export const accommodationEditorSections = [
     description:
       "Présentez la localisation approximative et les informations d’accès au logement.",
   },
+  {
+    id: "availability",
+    label: "Disponibilités",
+    description:
+      "Configurez le calendrier iCal utilisé pour afficher les disponibilités du logement.",
+  },
 ] as const;
 
 export type AccommodationEditorSection =

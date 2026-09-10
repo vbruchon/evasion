@@ -19,6 +19,7 @@ import { AccommodationHeroEditor } from "./section/accommodation-hero-editor";
 import { AccommodationHighlightsEditor } from "./section/accommodation-highlights-editor";
 import { AccommodationLocationEditor } from "./section/accommodation-location-editor";
 import { AccommodationPresentationEditor } from "./section/accommodation-presentation-editor";
+import { AccommodationAvailabilityEditor } from "./section/accommodation-availability-editor";
 
 type AccommodationEditorSidebarProps = {
   activeSection: AccommodationEditorSection;
@@ -162,6 +163,10 @@ export const AccommodationEditorSidebar = ({
             section={activeLocationSection}
             disabled={disabled}
           />
+        ) : null}
+
+        {activeSection === "availability" ? (
+          <AccommodationAvailabilityEditor />
         ) : null}
 
         {activeSection === "gallery" ? (

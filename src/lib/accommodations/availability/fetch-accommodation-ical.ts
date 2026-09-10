@@ -20,7 +20,9 @@ export const fetchAccommodationIcal = async (url: string): Promise<string> => {
 
   try {
     response = await fetch(calendarUrl, {
-      cache: "no-store",
+      next: {
+        revalidate: 300,
+      },
     });
   } catch {
     throw new Error(ICAL_FETCH_ERROR_MESSAGE);

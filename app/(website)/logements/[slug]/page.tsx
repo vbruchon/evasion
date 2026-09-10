@@ -1,13 +1,17 @@
 import { notFound } from "next/navigation";
 
+import { getAccommodationAvailability } from "@/lib/accommodations/availability/get-accommodation-availability";
+import { serializeAccommodationUnavailablePeriods } from "@/lib/accommodations/availability/serialize-accommodation-unavailable-periods";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
 import { getPublishedAccommodationBySlug } from "@/lib/accommodations/accommodations";
+import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 
 import { AccommodationAmenities } from "@/components/features/accommodations/slug/amenities/accommodation-amenities";
+import { AccommodationAvailability } from "@/components/features/accommodations/slug/availability/accommodation-availability";
 import { AccommodationGallery } from "@/components/features/accommodations/slug/accommodation-gallery";
 import { AccommodationHero } from "@/components/features/accommodations/slug/accommodation-hero";
-import { AccommodationPresentation } from "@/components/features/accommodations/slug/accommodation-presentation";
 import { AccommodationLocation } from "@/components/features/accommodations/slug/accommodation-location";
+import { AccommodationPresentation } from "@/components/features/accommodations/slug/accommodation-presentation";
 
 type AccommodationPageProps = {
   params: Promise<{
@@ -29,6 +33,26 @@ export default async function AccommodationPage({
   const { coverImage, galleryImages, presentationImage } =
     getAccommodationDisplayImages(accommodation.images);
 
+  const hasAvailabilityCalendar = Boolean(
+    accommodation.availabilityCalendarUrl,
+  );
+
+  let unavailablePeriods: AccommodationUnavailablePeriodData[] = [];
+  let availabilityError: string | null = null;
+
+  if (accommodation.availabilityCalendarUrl) {
+    try {
+      const periods = await getAccommodationAvailability(
+        accommodation.availabilityCalendarUrl,
+      );
+
+      unavailablePeriods = serializeAccommodationUnavailablePeriods(periods);
+    } catch {
+      availabilityError =
+        "Impossible de récupérer les disponibilités du logement.";
+    }
+  }
+
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <AccommodationHero
@@ -48,6 +72,12 @@ export default async function AccommodationPage({
       <AccommodationLocation
         accommodation={accommodation}
         accesses={accommodation.accesses}
+      />
+
+      <AccommodationAvailability
+        unavailablePeriods={unavailablePeriods}
+        hasCalendar={hasAvailabilityCalendar}
+        error={availabilityError}
       />
 
       <AccommodationGallery

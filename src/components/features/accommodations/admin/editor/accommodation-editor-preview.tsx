@@ -14,6 +14,11 @@ import { AccommodationPresentation } from "../../slug/accommodation-presentation
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
 import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
+import { useFormContext, useWatch } from "react-hook-form";
+import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import { useAccommodationAvailabilityPreview } from "@/hooks/use-accommodation-availability-preview";
+import { AccommodationAvailability } from "../../slug/availability/accommodation-availability";
+import { CalendarDays } from "lucide-react";
 
 type AccommodationEditorPreviewProps = {
   images: AccommodationPreviewImage[];
@@ -40,6 +45,19 @@ export const AccommodationEditorPreview = ({
   onHeroSectionChange,
   onLocationSectionChange,
 }: AccommodationEditorPreviewProps) => {
+  const { control } = useFormContext<AccommodationUpdateFormValues>();
+
+  const availabilityCalendarUrl = useWatch({
+    control,
+    name: "availabilityCalendarUrl",
+    defaultValue: "",
+  });
+
+  const {
+    unavailablePeriods,
+    loading: availabilityLoading,
+    error: availabilityError,
+  } = useAccommodationAvailabilityPreview(availabilityCalendarUrl);
   const {
     accommodation,
     accesses,
@@ -96,6 +114,20 @@ export const AccommodationEditorPreview = ({
         onSectionChange={onSectionChange}
         onLocationSectionChange={onLocationSectionChange}
       />
+
+      <EditorSection
+        label="Disponibilités"
+        active={activeSection === "availability"}
+        onSelect={() => onSectionChange("availability")}
+      >
+        <AccommodationAvailability
+          unavailablePeriods={unavailablePeriods}
+          hasCalendar={Boolean(availabilityCalendarUrl.trim())}
+          loading={availabilityLoading}
+          error={availabilityError}
+          editorPreview
+        />
+      </EditorSection>
 
       <EditorSection
         label="Galerie"

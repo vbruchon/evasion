@@ -12,6 +12,7 @@ import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accom
 import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/update-accommodation-status.action";
 import { requireAdmin } from "@/lib/admin/require-admin";
 import { searchAccommodationLocationsAdmin } from "@/lib/admin/accommodation/search-accommodation-locations.action";
+import { checkAccommodationAvailabilityCalendarAdmin } from "@/lib/admin/accommodation/check-accommodation-availability-calendar.action";
 
 import type {
   AccommodationCreateFormValues,
@@ -98,4 +99,12 @@ export const discardAccommodationDraft = async (accommodationId: string) => {
 
 export const searchAccommodationLocations = async (query: string) => {
   return searchAccommodationLocationsAdmin(query);
+};
+
+export const checkAccommodationAvailabilityCalendar = async (
+  calendarUrl: string,
+) => {
+  await requireAdmin();
+
+  return checkAccommodationAvailabilityCalendarAdmin(calendarUrl);
 };

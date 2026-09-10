@@ -245,4 +245,5 @@ export type AccommodationTextFormValues = Pick<
   | "description"
   | "locationTitle"
   | "locationDescription"
+  | "availabilityCalendarUrl"
 >;
