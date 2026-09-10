@@ -87,6 +87,9 @@ const initialDraftValues: AccommodationDraftContent["values"] = {
   locationRadiusMeters: initialValues.locationRadiusMeters,
   availabilityCalendarUrl: initialValues.availabilityCalendarUrl,
   bookingUrl: initialValues.bookingUrl,
+  availabilityTitle: initialValues.availabilityTitle,
+  availabilityDescription: initialValues.availabilityDescription,
+  bookingButtonLabel: initialValues.bookingButtonLabel,
 };
 
 type RenderAutosaveHookOptions = {
@@ -967,5 +970,60 @@ describe("useAccommodationDraftAutosave", () => {
     expect(mockedPrepareAccommodationUpdateImages).not.toHaveBeenCalled();
     expect(mockedSaveAccommodationDraft).not.toHaveBeenCalled();
     expect(mockedUpdateAccommodation).not.toHaveBeenCalled();
+  });
+
+  it("autosaves when the availability content changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue(
+        "availabilityTitle",
+        "Choisissez vos dates",
+        {
+          shouldDirty: true,
+        },
+      );
+
+      result.current.form.setValue(
+        "availabilityDescription",
+        "Découvrez les prochaines dates disponibles pour votre séjour.",
+        {
+          shouldDirty: true,
+        },
+      );
+
+      result.current.form.setValue(
+        "bookingButtonLabel",
+        "Voir les disponibilités sur Airbnb",
+        {
+          shouldDirty: true,
+        },
+      );
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        availabilityTitle: "Choisissez vos dates",
+        availabilityDescription:
+          "Découvrez les prochaines dates disponibles pour votre séjour.",
+        bookingButtonLabel: "Voir les disponibilités sur Airbnb",
+      }),
+      [],
+      initialValues.highlights,
+      initialValues.amenities,
+      initialValues.accesses,
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
   });
 });

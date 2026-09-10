@@ -51,6 +51,10 @@ export const persistAccommodationUpdate = async ({
         availabilityCalendarUrl: data.availabilityCalendarUrl || null,
         bookingUrl: data.bookingUrl || null,
 
+        availabilityTitle: data.availabilityTitle,
+        availabilityDescription: data.availabilityDescription,
+        bookingButtonLabel: data.bookingButtonLabel,
+
         status: data.status,
 
         publishedAt:

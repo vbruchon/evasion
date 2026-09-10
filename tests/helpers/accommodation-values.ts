@@ -40,6 +40,10 @@ export const createAccommodationUpdateValues = (
 
   availabilityCalendarUrl: "",
   bookingUrl: "",
+  availabilityTitle: "Planifiez votre séjour",
+  availabilityDescription:
+    "Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.",
+  bookingButtonLabel: "Continuer sur Airbnb",
 
   highlights: [],
   amenities: [],
@@ -75,6 +79,11 @@ export const createAccommodationDraftValues = (
 
   availabilityCalendarUrl: "",
   bookingUrl: "",
+
+  availabilityTitle: "Planifiez votre séjour",
+  availabilityDescription:
+    "Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.",
+  bookingButtonLabel: "Continuer sur Airbnb",
 
   ...overrides,
 });

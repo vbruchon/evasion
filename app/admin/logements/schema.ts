@@ -95,6 +95,33 @@ const accommodationBaseFieldsSchema = z.object({
     .string()
     .trim()
     .max(2048, "Le lien de réservation est trop long."),
+
+  availabilityTitle: z
+    .string()
+    .trim()
+    .min(1, "Le titre des disponibilités est obligatoire.")
+    .max(
+      200,
+      "Le titre des disponibilités ne peut pas dépasser 200 caractères.",
+    ),
+
+  availabilityDescription: z
+    .string()
+    .trim()
+    .min(1, "La description des disponibilités est obligatoire.")
+    .max(
+      1000,
+      "La description des disponibilités ne peut pas dépasser 1 000 caractères.",
+    ),
+
+  bookingButtonLabel: z
+    .string()
+    .trim()
+    .min(1, "Le libellé du bouton de réservation est obligatoire.")
+    .max(
+      100,
+      "Le libellé du bouton de réservation ne peut pas dépasser 100 caractères.",
+    ),
 });
 
 type AccommodationLocationValues = Pick<
@@ -157,6 +184,11 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
 
     availabilityCalendarUrl: "",
     bookingUrl: "",
+
+    availabilityTitle: "Planifiez votre séjour",
+    availabilityDescription:
+      "Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.",
+    bookingButtonLabel: "Continuer sur Airbnb",
 
     ...(value as Record<string, unknown>),
   };
@@ -253,4 +285,7 @@ export type AccommodationTextFormValues = Pick<
   | "locationDescription"
   | "availabilityCalendarUrl"
   | "bookingUrl"
+  | "availabilityTitle"
+  | "availabilityDescription"
+  | "bookingButtonLabel"
 >;

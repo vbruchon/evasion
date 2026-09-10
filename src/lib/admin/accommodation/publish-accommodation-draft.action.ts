@@ -128,6 +128,10 @@ export const publishAccommodationDraftAdmin = async (
 
         availabilityCalendarUrl: draft.values.availabilityCalendarUrl || null,
         bookingUrl: draft.values.bookingUrl || null,
+
+        availabilityTitle: draft.values.availabilityTitle,
+        availabilityDescription: draft.values.availabilityDescription,
+        bookingButtonLabel: draft.values.bookingButtonLabel,
       },
     });
 

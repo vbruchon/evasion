@@ -3,7 +3,6 @@ import { ArrowUpRight, RotateCcw } from "lucide-react";
 import {
   buildAccommodationBookingUrl,
   getAccommodationBookingNights,
-  isAirbnbBookingUrl,
 } from "@/lib/accommodations/booking/accommodation-booking";
 
 import { Button } from "@/components/ui/button";
@@ -41,10 +40,6 @@ export const AccommodationAvailabilityBooking = ({
     checkIn && checkOut
       ? buildAccommodationBookingUrl(bookingUrl, checkIn, checkOut)
       : null;
-
-  const isAirbnb = isAirbnbBookingUrl(bookingUrl);
-
-  const bookingLabel = isAirbnb ? "Réserver sur Airbnb" : "Réserver ce séjour";
 
   return (
     <div className="border-t border-border/40 px-5 py-5 sm:px-7">

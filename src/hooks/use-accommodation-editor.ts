@@ -47,6 +47,10 @@ export const useAccommodationEditor = (
       availabilityCalendarUrl: accommodation.availabilityCalendarUrl,
       bookingUrl: accommodation.bookingUrl,
 
+      availabilityTitle: accommodation.availabilityTitle,
+      availabilityDescription: accommodation.availabilityDescription,
+      bookingButtonLabel: accommodation.bookingButtonLabel,
+
       highlights: accommodation.highlights,
       amenities: accommodation.amenities,
       accesses: accommodation.accesses,

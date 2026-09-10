@@ -38,6 +38,9 @@ export const getAccommodationForUpdate = async (id: string) => {
 
       availabilityCalendarUrl: true,
       bookingUrl: true,
+      availabilityTitle: true,
+      availabilityDescription: true,
+      bookingButtonLabel: true,
 
       images: {
         orderBy: {
@@ -120,8 +123,13 @@ export const getAccommodationForUpdate = async (id: string) => {
     locationLatitude: accommodation.locationLatitude,
     locationLongitude: accommodation.locationLongitude,
     locationRadiusMeters: accommodation.locationRadiusMeters,
+
     availabilityCalendarUrl: accommodation.availabilityCalendarUrl ?? "",
     bookingUrl: accommodation.bookingUrl ?? "",
+
+    availabilityTitle: accommodation.availabilityTitle,
+    availabilityDescription: accommodation.availabilityDescription,
+    bookingButtonLabel: accommodation.bookingButtonLabel,
   };
 
   const images = draft
@@ -186,6 +194,10 @@ export const getAccommodationForUpdate = async (id: string) => {
 
     availabilityCalendarUrl: values.availabilityCalendarUrl,
     bookingUrl: values.bookingUrl,
+
+    availabilityTitle: values.availabilityTitle,
+    availabilityDescription: values.availabilityDescription,
+    bookingButtonLabel: values.bookingButtonLabel,
 
     highlights,
     amenities,

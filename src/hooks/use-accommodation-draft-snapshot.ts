@@ -67,6 +67,9 @@ export const useAccommodationDraftSnapshot = ({
       locationRadiusMeters,
       availabilityCalendarUrl,
       bookingUrl,
+      availabilityTitle,
+      availabilityDescription,
+      bookingButtonLabel,
     ] = watchedDraftValues;
 
     return {
@@ -87,6 +90,9 @@ export const useAccommodationDraftSnapshot = ({
       locationRadiusMeters,
       availabilityCalendarUrl,
       bookingUrl,
+      availabilityTitle,
+      availabilityDescription,
+      bookingButtonLabel,
     };
   }, [watchedDraftValues]);
 

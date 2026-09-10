@@ -215,6 +215,11 @@ describe("saveAccommodationDraftAdmin", () => {
 
         availabilityCalendarUrl: "",
         bookingUrl: "",
+
+        availabilityTitle: "Planifiez votre séjour",
+        availabilityDescription:
+          "Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.",
+        bookingButtonLabel: "Continuer sur Airbnb",
       },
 
       images: [
