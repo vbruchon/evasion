@@ -106,6 +106,10 @@ model Accommodation {
   availabilityCalendarUrl String?
   bookingUrl              String?
 
+  availabilityTitle       String @default("Planifiez votre séjour")
+  availabilityDescription String @default("Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.")
+  bookingButtonLabel      String @default("Continuer sur Airbnb")
+
   highlights AccommodationHighlight[]
   amenities  AccommodationAmenity[]
   accesses   AccommodationAccess[]
