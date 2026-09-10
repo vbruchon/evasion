@@ -104,6 +104,7 @@ model Accommodation {
   locationRadiusMeters Int?
 
   availabilityCalendarUrl String?
+  bookingUrl              String?
 
   highlights AccommodationHighlight[]
   amenities  AccommodationAmenity[]
