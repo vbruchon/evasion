@@ -1,5 +1,7 @@
 import { AlertCircle, Loader2 } from "lucide-react";
 
+import { AccommodationEditorRegion } from "@/components/features/accommodations/admin/editor/accommodation-editor-region";
+import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 
 import { AccommodationAvailabilityCalendar } from "./accommodation-availability-calendar";
@@ -7,7 +9,11 @@ import { AccommodationAvailabilityCalendar } from "./accommodation-availability-
 type AccommodationAvailabilityProps = {
   unavailablePeriods: AccommodationUnavailablePeriodData[];
   hasCalendar: boolean;
+  availabilityTitle: string;
+  availabilityDescription: string;
+  bookingButtonLabel: string;
   bookingUrl?: string | null;
+  activeEditorRegion?: AccommodationAvailabilityEditorSection;
   editorPreview?: boolean;
   loading?: boolean;
   error?: string | null;
@@ -16,7 +22,11 @@ type AccommodationAvailabilityProps = {
 export const AccommodationAvailability = ({
   unavailablePeriods,
   hasCalendar,
+  availabilityTitle,
+  availabilityDescription,
+  bookingButtonLabel,
   bookingUrl = null,
+  activeEditorRegion,
   editorPreview = false,
   loading = false,
   error = null,
@@ -34,14 +44,19 @@ export const AccommodationAvailability = ({
         <div className="xl:pt-4">
           <p className="section-eyebrow text-primary/85">Disponibilités</p>
 
-          <h2 className="mt-4 max-w-lg font-heading text-4xl leading-[1.03] tracking-[-0.035em] md:text-5xl xl:text-[3.4rem]">
-            Planifiez votre séjour
-          </h2>
+          <AccommodationEditorRegion
+            region="content"
+            activeRegion={activeEditorRegion}
+            className="-m-3 mt-1 p-3"
+          >
+            <h2 className="mt-4 max-w-lg font-heading text-4xl leading-[1.03] tracking-[-0.035em] md:text-5xl xl:text-[3.4rem]">
+              {availabilityTitle}
+            </h2>
 
-          <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground">
-            Consultez les prochaines disponibilités du logement et choisissez
-            les dates qui vous conviennent.
-          </p>
+            <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground">
+              {availabilityDescription}
+            </p>
+          </AccommodationEditorRegion>
 
           <div className="mt-8 h-px w-12 bg-primary/60" />
 
@@ -52,7 +67,11 @@ export const AccommodationAvailability = ({
           ) : null}
         </div>
 
-        <div className="min-w-0">
+        <AccommodationEditorRegion
+          region="calendar"
+          activeRegion={activeEditorRegion}
+          className="min-w-0"
+        >
           {!hasCalendar ? (
             <div className="flex min-h-64 items-center justify-center border-y border-dashed border-border/50 px-6 text-center">
               <p className="max-w-sm text-sm leading-6 text-muted-foreground/60">
@@ -96,10 +115,11 @@ export const AccommodationAvailability = ({
             <AccommodationAvailabilityCalendar
               unavailablePeriods={unavailablePeriods}
               bookingUrl={bookingUrl}
+              bookingButtonLabel={bookingButtonLabel}
               editorPreview={editorPreview}
             />
           ) : null}
-        </div>
+        </AccommodationEditorRegion>
       </div>
     </section>
   );

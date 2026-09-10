@@ -1,23 +1,22 @@
 "use client";
 
+import { useAccommodationEditorPreviewData } from "@/hooks/use-accommodation-editor-preview-data";
+import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import type {
+  AccommodationAvailabilityEditorSection,
   AccommodationEditorSection,
   AccommodationHeroEditorSection,
   AccommodationLocationEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
-import { useAccommodationEditorPreviewData } from "@/hooks/use-accommodation-editor-preview-data";
 
 import { AccommodationAmenities } from "../../slug/amenities/accommodation-amenities";
 import { AccommodationGallery } from "../../slug/accommodation-gallery";
 import { AccommodationPresentation } from "../../slug/accommodation-presentation";
+import { AccommodationEditorPreviewAvailability } from "./accommodation-editor-preview-availability";
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
-import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
 import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
-import { useFormContext, useWatch } from "react-hook-form";
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
-import { useAccommodationAvailabilityPreview } from "@/hooks/use-accommodation-availability-preview";
-import { AccommodationAvailability } from "../../slug/availability/accommodation-availability";
+import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
+import { useAccommodationEditorAvailabilityData } from "@/hooks/use-accommodation-editor-availability-data";
 
 type AccommodationEditorPreviewProps = {
   images: AccommodationPreviewImage[];
@@ -26,10 +25,14 @@ type AccommodationEditorPreviewProps = {
   activeSection: AccommodationEditorSection;
   activeHeroSection: AccommodationHeroEditorSection;
   activeLocationSection: AccommodationLocationEditorSection;
+  activeAvailabilitySection: AccommodationAvailabilityEditorSection;
   onSectionChange: (section: AccommodationEditorSection) => void;
   onHeroSectionChange: (section: AccommodationHeroEditorSection) => void;
   onLocationSectionChange: (
     section: AccommodationLocationEditorSection,
+  ) => void;
+  onAvailabilitySectionChange: (
+    section: AccommodationAvailabilityEditorSection,
   ) => void;
 };
 
@@ -40,29 +43,23 @@ export const AccommodationEditorPreview = ({
   activeSection,
   activeHeroSection,
   activeLocationSection,
+  activeAvailabilitySection,
   onSectionChange,
   onHeroSectionChange,
   onLocationSectionChange,
+  onAvailabilitySectionChange,
 }: AccommodationEditorPreviewProps) => {
-  const { control } = useFormContext<AccommodationUpdateFormValues>();
-
-  const availabilityCalendarUrl = useWatch({
-    control,
-    name: "availabilityCalendarUrl",
-    defaultValue: "",
-  });
-
-  const bookingUrl = useWatch({
-    control,
-    name: "bookingUrl",
-    defaultValue: "",
-  });
-
   const {
+    availabilityCalendarUrl,
+    bookingUrl,
+    availabilityTitle,
+    availabilityDescription,
+    bookingButtonLabel,
     unavailablePeriods,
     loading: availabilityLoading,
     error: availabilityError,
-  } = useAccommodationAvailabilityPreview(availabilityCalendarUrl);
+  } = useAccommodationEditorAvailabilityData();
+
   const {
     accommodation,
     accesses,
@@ -120,20 +117,20 @@ export const AccommodationEditorPreview = ({
         onLocationSectionChange={onLocationSectionChange}
       />
 
-      <EditorSection
-        label="Disponibilités"
-        active={activeSection === "availability"}
-        onSelect={() => onSectionChange("availability")}
-      >
-        <AccommodationAvailability
-          unavailablePeriods={unavailablePeriods}
-          hasCalendar={Boolean(availabilityCalendarUrl.trim())}
-          bookingUrl={bookingUrl.trim() || null}
-          loading={availabilityLoading}
-          error={availabilityError}
-          editorPreview
-        />
-      </EditorSection>
+      <AccommodationEditorPreviewAvailability
+        unavailablePeriods={unavailablePeriods}
+        availabilityCalendarUrl={availabilityCalendarUrl}
+        bookingUrl={bookingUrl}
+        availabilityTitle={availabilityTitle}
+        availabilityDescription={availabilityDescription}
+        bookingButtonLabel={bookingButtonLabel}
+        loading={availabilityLoading}
+        error={availabilityError}
+        activeSection={activeSection}
+        activeAvailabilitySection={activeAvailabilitySection}
+        onSectionChange={onSectionChange}
+        onAvailabilitySectionChange={onAvailabilitySectionChange}
+      />
 
       <EditorSection
         label="Galerie"

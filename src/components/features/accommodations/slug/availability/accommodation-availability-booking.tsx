@@ -1,14 +1,14 @@
 import { ArrowUpRight, RotateCcw } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
 import {
   buildAccommodationBookingUrl,
   getAccommodationBookingNights,
 } from "@/lib/accommodations/booking/accommodation-booking";
 
-import { Button } from "@/components/ui/button";
-
 type AccommodationAvailabilityBookingProps = {
   bookingUrl: string;
+  bookingButtonLabel: string;
   checkIn: string | null;
   checkOut: string | null;
   editorPreview?: boolean;
@@ -26,6 +26,7 @@ const formatBookingDate = (date: string) => {
 
 export const AccommodationAvailabilityBooking = ({
   bookingUrl,
+  bookingButtonLabel,
   checkIn,
   checkOut,
   editorPreview = false,
@@ -86,19 +87,25 @@ export const AccommodationAvailabilityBooking = ({
               size="icon"
               aria-label="Effacer les dates sélectionnées"
               onClick={onReset}
+              className="border border-border/50 text-muted-foreground transition-colors hover:border-primary/30 hover:bg-primary/5 hover:text-primary"
             >
               <RotateCcw className="size-4" />
             </Button>
           ) : null}
 
-          {bookingHref && !editorPreview ? (
+          {editorPreview ? (
+            <div className="inline-flex h-10 items-center justify-center gap-2 border border-input bg-background px-5 text-xs font-medium uppercase tracking-[0.12em] text-muted-foreground">
+              {bookingButtonLabel}
+              <ArrowUpRight className="size-3.5" />
+            </div>
+          ) : bookingHref ? (
             <a
               href={bookingHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-10 items-center justify-center gap-2 border border-primary/60 bg-primary/5 px-5 text-xs font-medium uppercase tracking-[0.12em] text-primary transition-colors hover:border-primary hover:bg-primary/10"
+              className="inline-flex h-10 items-center justify-center gap-2 border border-primary bg-primary px-6 text-xs font-medium uppercase tracking-[0.12em] text-primary-foreground shadow-[0_6px_24px_-10px_rgba(184,134,55,0.55)] transition-[background-color,transform] duration-200 hover:bg-primary/90 active:translate-y-px"
             >
-              Continuer sur Airbnb
+              {bookingButtonLabel}
               <ArrowUpRight className="size-3.5" />
             </a>
           ) : (
@@ -108,7 +115,7 @@ export const AccommodationAvailabilityBooking = ({
               disabled
               className="h-10 px-5 text-xs font-medium uppercase tracking-[0.12em]"
             >
-              Continuer sur Airbnb
+              {bookingButtonLabel}
               <ArrowUpRight className="size-3.5" />
             </Button>
           )}

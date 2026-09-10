@@ -78,6 +78,9 @@ export default async function AccommodationPage({
         unavailablePeriods={unavailablePeriods}
         hasCalendar={hasAvailabilityCalendar}
         bookingUrl={accommodation.bookingUrl}
+        availabilityTitle={accommodation.availabilityTitle}
+        availabilityDescription={accommodation.availabilityDescription}
+        bookingButtonLabel={accommodation.bookingButtonLabel}
         error={availabilityError}
       />
 

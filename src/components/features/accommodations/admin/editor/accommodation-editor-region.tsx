@@ -1,21 +1,20 @@
 import type { ReactNode } from "react";
 
-import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import { cn } from "@/lib/utils";
 
-type AccommodationEditorRegionProps = {
-  region: AccommodationHeroEditorSection;
-  activeRegion?: AccommodationHeroEditorSection;
+type AccommodationEditorRegionProps<TRegion extends string> = {
+  region: TRegion;
+  activeRegion?: TRegion;
   className?: string;
   children: ReactNode;
 };
 
-export const AccommodationEditorRegion = ({
+export const AccommodationEditorRegion = <TRegion extends string>({
   region,
   activeRegion,
   className,
   children,
-}: AccommodationEditorRegionProps) => {
+}: AccommodationEditorRegionProps<TRegion>) => {
   return (
     <div
       data-editor-region={region}

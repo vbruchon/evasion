@@ -18,12 +18,14 @@ import { AccommodationAvailabilityMonth } from "./accommodation-availability-mon
 type AccommodationAvailabilityCalendarProps = {
   unavailablePeriods: AccommodationUnavailablePeriodData[];
   bookingUrl?: string | null;
+  bookingButtonLabel: string;
   editorPreview?: boolean;
 };
 
 export const AccommodationAvailabilityCalendar = ({
   unavailablePeriods,
-  bookingUrl = null,
+  bookingUrl,
+  bookingButtonLabel,
   editorPreview = false,
 }: AccommodationAvailabilityCalendarProps) => {
   const [initialMonth] = useState(() => getCurrentCalendarMonth());
@@ -59,7 +61,7 @@ export const AccommodationAvailabilityCalendar = ({
   };
 
   return (
-    <>
+    <div className="relative isolate">
       <div className="mb-3 flex justify-end gap-2">
         <button
           type="button"
@@ -92,9 +94,9 @@ export const AccommodationAvailabilityCalendar = ({
         </button>
       </div>
 
-      <div className="relative overflow-hidden rounded-xl border border-border/40 bg-card/20">
-        <div className="pointer-events-none absolute left-0 top-0 z-10 h-px w-24 bg-primary/70" />
+      <div className="pointer-events-none absolute inset-x-6 bottom-2 top-14 -z-10 bg-primary/[0.035] blur-3xl" />
 
+      <div className="relative overflow-hidden rounded-xl border border-primary/30 bg-card shadow-[0_0_55px_rgba(184,134,55,0.22),0_18px_55px_-24px_rgba(0,0,0,0.95)]">
         <div className="grid px-4 py-7 sm:px-6 md:grid-cols-2 md:divide-x md:divide-border/40">
           <AccommodationAvailabilityMonth
             month={visibleMonth}
@@ -120,6 +122,7 @@ export const AccommodationAvailabilityCalendar = ({
         {bookingUrl ? (
           <AccommodationAvailabilityBooking
             bookingUrl={bookingUrl}
+            bookingButtonLabel={bookingButtonLabel}
             checkIn={checkIn}
             checkOut={checkOut}
             editorPreview={editorPreview}
@@ -127,6 +130,6 @@ export const AccommodationAvailabilityCalendar = ({
           />
         ) : null}
       </div>
-    </>
+    </div>
   );
 };

@@ -26,11 +26,13 @@ export const AccommodationEditor = ({
     activePresentationSection,
     activeLocationSection,
     mobileView,
+    activeAvailabilitySection,
     setMobileView,
     handleSectionChange,
     handleHeroSectionChange,
     handlePresentationSectionChange,
     handleLocationSectionChange,
+    handleAvailabilitySectionChange,
   } = useAccommodationEditorNavigation();
 
   const {
@@ -129,9 +131,11 @@ export const AccommodationEditor = ({
               activeSection={activeSection}
               activeHeroSection={activeHeroSection}
               activeLocationSection={activeLocationSection}
+              activeAvailabilitySection={activeAvailabilitySection}
               onSectionChange={handleSectionChange}
               onHeroSectionChange={handleHeroSectionChange}
               onLocationSectionChange={handleLocationSectionChange}
+              onAvailabilitySectionChange={handleAvailabilitySectionChange}
             />
           </div>
 
@@ -146,6 +150,7 @@ export const AccommodationEditor = ({
               activeHeroSection={activeHeroSection}
               activePresentationSection={activePresentationSection}
               activeLocationSection={activeLocationSection}
+              activeAvailabilitySection={activeAvailabilitySection}
               images={images}
               coverImageId={coverImageId}
               presentationImageId={presentationImageId}
@@ -154,6 +159,7 @@ export const AccommodationEditor = ({
               onHeroSectionChange={handleHeroSectionChange}
               onPresentationSectionChange={handlePresentationSectionChange}
               onLocationSectionChange={handleLocationSectionChange}
+              onAvailabilitySectionChange={handleAvailabilitySectionChange}
               onFilesSelected={addFiles}
               onSetCover={setCoverImage}
               onSetPresentationImage={setPresentationImage}

@@ -1,9 +1,37 @@
 "use client";
 
+import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
+
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
 
-export const AccommodationAvailabilityEditor = () => {
+type AccommodationAvailabilityEditorProps = {
+  section: AccommodationAvailabilityEditorSection;
+};
+
+export const AccommodationAvailabilityEditor = ({
+  section,
+}: AccommodationAvailabilityEditorProps) => {
+  if (section === "content") {
+    return (
+      <AccommodationEditorSectionContent>
+        <AccommodationTextField
+          name="availabilityTitle"
+          label="Titre"
+          placeholder="Planifiez votre séjour"
+          variant="editor"
+        />
+
+        <AccommodationTextField
+          name="availabilityDescription"
+          label="Description"
+          placeholder="Consultez les prochaines disponibilités du logement..."
+          variant="editor"
+        />
+      </AccommodationEditorSectionContent>
+    );
+  }
+
   return (
     <AccommodationEditorSectionContent>
       <div>
@@ -32,6 +60,15 @@ export const AccommodationAvailabilityEditor = () => {
           Le visiteur sera redirigé vers cette annonce après avoir sélectionné
           ses dates.
         </p>
+      </div>
+
+      <div className="border-t border-border/60 pt-6">
+        <AccommodationTextField
+          name="bookingButtonLabel"
+          label="Texte du bouton"
+          placeholder="Continuer sur Airbnb"
+          variant="editor"
+        />
       </div>
     </AccommodationEditorSectionContent>
   );

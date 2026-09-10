@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import type {
+  AccommodationAvailabilityEditorSection,
   AccommodationEditorSection,
   AccommodationHeroEditorSection,
   AccommodationLocationEditorSection,
@@ -23,6 +24,9 @@ export const useAccommodationEditorNavigation = () => {
 
   const [activeLocationSection, setActiveLocationSection] =
     useState<AccommodationLocationEditorSection>("content");
+
+  const [activeAvailabilitySection, setActiveAvailabilitySection] =
+    useState<AccommodationAvailabilityEditorSection>("content");
 
   const [mobileView, setMobileView] =
     useState<AccommodationEditorMobileView>("preview");
@@ -48,11 +52,18 @@ export const useAccommodationEditorNavigation = () => {
     setActiveLocationSection(section);
   };
 
+  const handleAvailabilitySectionChange = (
+    section: AccommodationAvailabilityEditorSection,
+  ) => {
+    setActiveAvailabilitySection(section);
+  };
+
   return {
     activeSection,
     activeHeroSection,
     activePresentationSection,
     activeLocationSection,
+    activeAvailabilitySection,
     mobileView,
 
     setMobileView,
@@ -61,5 +72,6 @@ export const useAccommodationEditorNavigation = () => {
     handleHeroSectionChange,
     handlePresentationSectionChange,
     handleLocationSectionChange,
+    handleAvailabilitySectionChange,
   };
 };

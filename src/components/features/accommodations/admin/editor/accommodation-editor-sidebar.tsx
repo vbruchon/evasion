@@ -2,10 +2,12 @@
 
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import {
+  accommodationAvailabilityEditorSections,
   accommodationHeroEditorSections,
   accommodationLocationEditorSections,
   accommodationPresentationEditorSections,
   getAccommodationEditorSection,
+  type AccommodationAvailabilityEditorSection,
   type AccommodationEditorSection,
   type AccommodationHeroEditorSection,
   type AccommodationLocationEditorSection,
@@ -14,18 +16,19 @@ import {
 
 import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsection-nav";
 import { AccommodationAmenitiesEditor } from "./section/accommodation-amenities-editor";
+import { AccommodationAvailabilityEditor } from "./section/accommodation-availability-editor";
 import { AccommodationGalleryEditor } from "./section/accommodation-gallery-editor";
 import { AccommodationHeroEditor } from "./section/accommodation-hero-editor";
 import { AccommodationHighlightsEditor } from "./section/accommodation-highlights-editor";
 import { AccommodationLocationEditor } from "./section/accommodation-location-editor";
 import { AccommodationPresentationEditor } from "./section/accommodation-presentation-editor";
-import { AccommodationAvailabilityEditor } from "./section/accommodation-availability-editor";
 
 type AccommodationEditorSidebarProps = {
   activeSection: AccommodationEditorSection;
   activeHeroSection: AccommodationHeroEditorSection;
   activePresentationSection: AccommodationPresentationEditorSection;
   activeLocationSection: AccommodationLocationEditorSection;
+  activeAvailabilitySection: AccommodationAvailabilityEditorSection;
 
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
@@ -43,6 +46,10 @@ type AccommodationEditorSidebarProps = {
     section: AccommodationLocationEditorSection,
   ) => void;
 
+  onAvailabilitySectionChange: (
+    section: AccommodationAvailabilityEditorSection,
+  ) => void;
+
   onFilesSelected: (files: File[]) => void;
   onSetCover: (id: string) => void;
   onSetPresentationImage: (id: string) => void;
@@ -55,6 +62,7 @@ export const AccommodationEditorSidebar = ({
   activeHeroSection,
   activePresentationSection,
   activeLocationSection,
+  activeAvailabilitySection,
   images,
   coverImageId,
   presentationImageId,
@@ -63,6 +71,7 @@ export const AccommodationEditorSidebar = ({
   onHeroSectionChange,
   onPresentationSectionChange,
   onLocationSectionChange,
+  onAvailabilitySectionChange,
   onFilesSelected,
   onSetCover,
   onSetPresentationImage,
@@ -112,6 +121,16 @@ export const AccommodationEditorSidebar = ({
           columns={3}
           ariaLabel="Sections de la localisation"
           onSectionChange={onLocationSectionChange}
+        />
+      ) : null}
+
+      {activeSection === "availability" ? (
+        <AccommodationEditorSubsectionNav
+          sections={accommodationAvailabilityEditorSections}
+          activeSection={activeAvailabilitySection}
+          columns={2}
+          ariaLabel="Sections des disponibilités"
+          onSectionChange={onAvailabilitySectionChange}
         />
       ) : null}
 
@@ -166,7 +185,9 @@ export const AccommodationEditorSidebar = ({
         ) : null}
 
         {activeSection === "availability" ? (
-          <AccommodationAvailabilityEditor />
+          <AccommodationAvailabilityEditor
+            section={activeAvailabilitySection}
+          />
         ) : null}
 
         {activeSection === "gallery" ? (

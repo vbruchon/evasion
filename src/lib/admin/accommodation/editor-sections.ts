@@ -32,7 +32,7 @@ export const accommodationEditorSections = [
     id: "availability",
     label: "Disponibilités",
     description:
-      "Configurez le calendrier iCal utilisé pour afficher les disponibilités du logement.",
+      "Personnalisez la présentation des disponibilités et configurez la réservation du logement.",
   },
 ] as const;
 
@@ -93,6 +93,20 @@ export const accommodationLocationEditorSections = [
 export type AccommodationLocationEditorSection =
   (typeof accommodationLocationEditorSections)[number]["id"];
 
+export const accommodationAvailabilityEditorSections = [
+  {
+    id: "content",
+    label: "Contenu",
+  },
+  {
+    id: "calendar",
+    label: "Calendrier",
+  },
+] as const;
+
+export type AccommodationAvailabilityEditorSection =
+  (typeof accommodationAvailabilityEditorSections)[number]["id"];
+
 export const getAccommodationEditorSection = (id: AccommodationEditorSection) =>
   accommodationEditorSections.find((section) => section.id === id);
 
@@ -105,3 +119,8 @@ export const isAccommodationLocationEditorSection = (
   id: string,
 ): id is AccommodationLocationEditorSection =>
   accommodationLocationEditorSections.some((section) => section.id === id);
+
+export const isAccommodationAvailabilityEditorSection = (
+  id: string,
+): id is AccommodationAvailabilityEditorSection =>
+  accommodationAvailabilityEditorSections.some((section) => section.id === id);
