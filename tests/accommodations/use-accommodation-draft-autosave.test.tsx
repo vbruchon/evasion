@@ -85,6 +85,7 @@ const initialDraftValues: AccommodationDraftContent["values"] = {
   locationLatitude: initialValues.locationLatitude,
   locationLongitude: initialValues.locationLongitude,
   locationRadiusMeters: initialValues.locationRadiusMeters,
+  availabilityCalendarUrl: initialValues.availabilityCalendarUrl,
 };
 
 type RenderAutosaveHookOptions = {
@@ -469,6 +470,43 @@ describe("useAccommodationDraftAutosave", () => {
         locationLatitude: 45.03,
         locationLongitude: 5.09,
         locationRadiusMeters: 6000,
+      }),
+      [],
+      initialValues.highlights,
+      initialValues.amenities,
+      initialValues.accesses,
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
+  });
+
+  it("autosaves when the availability calendar URL changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue(
+        "availabilityCalendarUrl",
+        "https://www.airbnb.com/calendar/ical/123456789.ics?s=test-secret",
+        {
+          shouldDirty: true,
+        },
+      );
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        availabilityCalendarUrl:
+          "https://www.airbnb.com/calendar/ical/123456789.ics?s=test-secret",
       }),
       [],
       initialValues.highlights,

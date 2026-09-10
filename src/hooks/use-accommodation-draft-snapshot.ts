@@ -65,6 +65,7 @@ export const useAccommodationDraftSnapshot = ({
       locationLatitude,
       locationLongitude,
       locationRadiusMeters,
+      availabilityCalendarUrl,
     ] = watchedDraftValues;
 
     return {
@@ -83,6 +84,7 @@ export const useAccommodationDraftSnapshot = ({
       locationLatitude,
       locationLongitude,
       locationRadiusMeters,
+      availabilityCalendarUrl,
     };
   }, [watchedDraftValues]);
 

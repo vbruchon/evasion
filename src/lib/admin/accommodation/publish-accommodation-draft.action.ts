@@ -125,6 +125,8 @@ export const publishAccommodationDraftAdmin = async (
         locationLatitude: draft.values.locationLatitude,
         locationLongitude: draft.values.locationLongitude,
         locationRadiusMeters: draft.values.locationRadiusMeters,
+
+        availabilityCalendarUrl: draft.values.availabilityCalendarUrl || null,
       },
     });
 

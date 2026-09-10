@@ -48,6 +48,8 @@ export const persistAccommodationUpdate = async ({
         locationLongitude: data.locationLongitude,
         locationRadiusMeters: data.locationRadiusMeters,
 
+        availabilityCalendarUrl: data.availabilityCalendarUrl || null,
+
         status: data.status,
 
         publishedAt:

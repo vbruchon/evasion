@@ -85,6 +85,11 @@ const accommodationBaseFieldsSchema = z.object({
     .min(100, "Le rayon doit être d’au moins 100 mètres.")
     .max(50000, "Le rayon ne peut pas dépasser 50 kilomètres.")
     .nullable(),
+
+  availabilityCalendarUrl: z
+    .string()
+    .trim()
+    .max(2048, "Le lien du calendrier est trop long."),
 });
 
 type AccommodationLocationValues = Pick<
@@ -144,6 +149,8 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
     locationLatitude: null,
     locationLongitude: null,
     locationRadiusMeters: null,
+
+    availabilityCalendarUrl: "",
 
     ...(value as Record<string, unknown>),
   };

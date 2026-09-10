@@ -38,6 +38,8 @@ export const createAccommodationUpdateValues = (
   locationLongitude: null,
   locationRadiusMeters: null,
 
+  availabilityCalendarUrl: "",
+
   highlights: [],
   amenities: [],
   accesses: [],
@@ -69,6 +71,8 @@ export const createAccommodationDraftValues = (
   locationLatitude: null,
   locationLongitude: null,
   locationRadiusMeters: null,
+
+  availabilityCalendarUrl: "",
 
   ...overrides,
 });
