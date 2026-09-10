@@ -103,6 +103,8 @@ model Accommodation {
   locationLongitude    Float?
   locationRadiusMeters Int?
 
+  availabilityCalendarUrl String?
+
   highlights AccommodationHighlight[]
   amenities  AccommodationAmenity[]
   accesses   AccommodationAccess[]
