@@ -42,3 +42,57 @@ export const getCalendarMonthCells = (month: Date) => {
     return day >= 1 && day <= daysInMonth ? day : null;
   });
 };
+
+type GetCalendarDayStateOptions = {
+  date: string;
+  index: number;
+  today: string;
+  checkIn: string | null;
+  checkOut: string | null;
+  unavailablePeriods: AccommodationUnavailablePeriodData[];
+  interactive: boolean;
+};
+
+export const getCalendarDayState = ({
+  date,
+  index,
+  today,
+  checkIn,
+  checkOut,
+  unavailablePeriods,
+  interactive,
+}: GetCalendarDayStateOptions) => {
+  const unavailable = isCalendarDateUnavailable(date, unavailablePeriods);
+
+  const isToday = date === today;
+  const isPast = date < today;
+
+  const isCheckIn = date === checkIn;
+  const isCheckOut = date === checkOut;
+
+  const isInSelectedRange =
+    Boolean(checkIn) &&
+    Boolean(checkOut) &&
+    date > checkIn! &&
+    date < checkOut!;
+
+  const isSelectedRange = isCheckIn || isCheckOut || isInSelectedRange;
+
+  const isFirstColumn = index % 7 === 0;
+  const isLastColumn = index % 7 === 6;
+
+  const selectable = interactive && !isPast && !unavailable;
+
+  return {
+    unavailable,
+    isToday,
+    isPast,
+    isCheckIn,
+    isCheckOut,
+    isInSelectedRange,
+    isSelectedRange,
+    isFirstColumn,
+    isLastColumn,
+    selectable,
+  };
+};

@@ -52,6 +52,12 @@ export const AccommodationEditorPreview = ({
     defaultValue: "",
   });
 
+  const bookingUrl = useWatch({
+    control,
+    name: "bookingUrl",
+    defaultValue: "",
+  });
+
   const {
     unavailablePeriods,
     loading: availabilityLoading,
@@ -122,6 +128,7 @@ export const AccommodationEditorPreview = ({
         <AccommodationAvailability
           unavailablePeriods={unavailablePeriods}
           hasCalendar={Boolean(availabilityCalendarUrl.trim())}
+          bookingUrl={bookingUrl.trim() || null}
           loading={availabilityLoading}
           error={availabilityError}
           editorPreview

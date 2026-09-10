@@ -7,6 +7,7 @@ import { AccommodationAvailabilityCalendar } from "./accommodation-availability-
 type AccommodationAvailabilityProps = {
   unavailablePeriods: AccommodationUnavailablePeriodData[];
   hasCalendar: boolean;
+  bookingUrl?: string | null;
   editorPreview?: boolean;
   loading?: boolean;
   error?: string | null;
@@ -15,6 +16,7 @@ type AccommodationAvailabilityProps = {
 export const AccommodationAvailability = ({
   unavailablePeriods,
   hasCalendar,
+  bookingUrl = null,
   editorPreview = false,
   loading = false,
   error = null,
@@ -32,7 +34,7 @@ export const AccommodationAvailability = ({
         <div className="xl:pt-4">
           <p className="section-eyebrow text-primary/85">Disponibilités</p>
 
-          <h2 className="mt-2 max-w-md font-heading text-3xl leading-tight tracking-[-0.02em] md:text-[2.5rem]">
+          <h2 className="mt-4 max-w-lg font-heading text-4xl leading-[1.03] tracking-[-0.035em] md:text-5xl xl:text-[3.4rem]">
             Planifiez votre séjour
           </h2>
 
@@ -93,6 +95,7 @@ export const AccommodationAvailability = ({
           {hasCalendar && !loading && !error ? (
             <AccommodationAvailabilityCalendar
               unavailablePeriods={unavailablePeriods}
+              bookingUrl={bookingUrl}
               editorPreview={editorPreview}
             />
           ) : null}

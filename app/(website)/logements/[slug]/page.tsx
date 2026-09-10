@@ -77,6 +77,7 @@ export default async function AccommodationPage({
       <AccommodationAvailability
         unavailablePeriods={unavailablePeriods}
         hasCalendar={hasAvailabilityCalendar}
+        bookingUrl={accommodation.bookingUrl}
         error={availabilityError}
       />
 

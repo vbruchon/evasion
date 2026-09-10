@@ -1,14 +1,18 @@
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 import {
   formatCalendarDateKey,
+  getCalendarDayState,
   getCalendarMonthCells,
-  isCalendarDateUnavailable,
 } from "@/lib/accommodations/availability/accommodation-calendar";
 import { cn } from "@/lib/utils";
 
 type AccommodationAvailabilityMonthProps = {
   month: Date;
   unavailablePeriods: AccommodationUnavailablePeriodData[];
+  checkIn?: string | null;
+  checkOut?: string | null;
+  interactive?: boolean;
+  onDateSelect?: (date: string) => void;
 };
 
 const weekDays = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
@@ -16,6 +20,10 @@ const weekDays = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 export const AccommodationAvailabilityMonth = ({
   month,
   unavailablePeriods,
+  checkIn = null,
+  checkOut = null,
+  interactive = false,
+  onDateSelect,
 }: AccommodationAvailabilityMonthProps) => {
   const year = month.getFullYear();
   const monthIndex = month.getMonth();
@@ -61,37 +69,89 @@ export const AccommodationAvailabilityMonth = ({
 
           const dateKey = formatCalendarDateKey(year, monthIndex, day);
 
-          const unavailable = isCalendarDateUnavailable(
-            dateKey,
+          const {
+            unavailable,
+            isToday,
+            isPast,
+            isCheckIn,
+            isCheckOut,
+            isInSelectedRange,
+            isSelectedRange,
+            isFirstColumn,
+            isLastColumn,
+            selectable,
+          } = getCalendarDayState({
+            date: dateKey,
+            index,
+            today: todayKey,
+            checkIn,
+            checkOut,
             unavailablePeriods,
-          );
+            interactive,
+          });
 
-          const isToday = dateKey === todayKey;
-          const isPast = dateKey < todayKey;
+          const dayClassName = cn(
+            "relative z-10 flex size-8 items-center justify-center rounded-full text-sm transition-colors",
+
+            !unavailable && !isPast && !isSelectedRange && "text-foreground/90",
+
+            unavailable &&
+              "text-muted-foreground/60 line-through decoration-muted-foreground/70",
+
+            isPast &&
+              !unavailable &&
+              !isSelectedRange &&
+              "text-muted-foreground/30",
+
+            isToday &&
+              !isSelectedRange &&
+              "ring-1 ring-primary/80 text-foreground",
+
+            isInSelectedRange && "text-foreground",
+
+            (isCheckIn || isCheckOut) && "bg-primary text-primary-foreground",
+
+            selectable &&
+              !isSelectedRange &&
+              "cursor-pointer hover:bg-primary/10 hover:text-primary",
+          );
 
           return (
             <div
               key={dateKey}
-              className="flex h-10 items-center justify-center sm:h-11"
+              className="relative flex h-10 items-center justify-center sm:h-11"
             >
-              <span
-                className={cn(
-                  "flex size-8 items-center justify-center rounded-full text-sm",
+              {checkIn && checkOut && isCheckIn && !isLastColumn ? (
+                <span className="pointer-events-none absolute left-1/2 right-0 h-8 bg-primary/8" />
+              ) : null}
 
-                  !unavailable && !isPast && "text-foreground/90",
+              {checkIn && checkOut && isInSelectedRange ? (
+                <span
+                  className={cn(
+                    "pointer-events-none absolute inset-x-0 h-8 bg-primary/8",
+                    isFirstColumn && "rounded-l-full",
+                    isLastColumn && "rounded-r-full",
+                  )}
+                />
+              ) : null}
 
-                  unavailable &&
-                    "text-muted-foreground/60 line-through decoration-muted-foreground/70",
+              {checkIn && checkOut && isCheckOut && !isFirstColumn ? (
+                <span className="pointer-events-none absolute left-0 right-1/2 h-8 bg-primary/8" />
+              ) : null}
 
-                  isPast && !unavailable && "text-muted-foreground/30",
-
-                  isToday &&
-                    !unavailable &&
-                    "ring-1 ring-primary/80 text-foreground",
-                )}
-              >
-                {day}
-              </span>
+              {interactive ? (
+                <button
+                  type="button"
+                  disabled={!selectable}
+                  aria-label={`${day} ${monthLabel} ${year}`}
+                  onClick={() => onDateSelect?.(dateKey)}
+                  className={dayClassName}
+                >
+                  {day}
+                </button>
+              ) : (
+                <span className={dayClassName}>{day}</span>
+              )}
             </div>
           );
         })}

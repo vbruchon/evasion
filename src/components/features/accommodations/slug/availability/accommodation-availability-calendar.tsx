@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import { useAccommodationBookingSelection } from "@/hooks/use-accommodation-booking-selection";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 import {
   getCalendarMonth,
@@ -11,20 +12,30 @@ import {
 } from "@/lib/accommodations/availability/accommodation-calendar";
 import { cn } from "@/lib/utils";
 
+import { AccommodationAvailabilityBooking } from "./accommodation-availability-booking";
 import { AccommodationAvailabilityMonth } from "./accommodation-availability-month";
 
 type AccommodationAvailabilityCalendarProps = {
   unavailablePeriods: AccommodationUnavailablePeriodData[];
+  bookingUrl?: string | null;
   editorPreview?: boolean;
 };
 
 export const AccommodationAvailabilityCalendar = ({
   unavailablePeriods,
+  bookingUrl = null,
   editorPreview = false,
 }: AccommodationAvailabilityCalendarProps) => {
   const [initialMonth] = useState(() => getCurrentCalendarMonth());
-
   const [visibleMonth, setVisibleMonth] = useState(initialMonth);
+
+  const bookingEnabled = Boolean(bookingUrl) && !editorPreview;
+
+  const { checkIn, checkOut, handleDateSelect, resetSelection } =
+    useAccommodationBookingSelection({
+      unavailablePeriods,
+      enabled: bookingEnabled,
+    });
 
   const canGoPrevious = !isSameCalendarMonth(visibleMonth, initialMonth);
 
@@ -81,22 +92,40 @@ export const AccommodationAvailabilityCalendar = ({
         </button>
       </div>
 
-      <div className="relative overflow-hidden rounded-xl border border-border/40 bg-card/20 px-4 py-7 sm:px-6">
-        <div className="pointer-events-none absolute left-0 top-0 h-px w-24 bg-primary/70" />
+      <div className="relative overflow-hidden rounded-xl border border-border/40 bg-card/20">
+        <div className="pointer-events-none absolute left-0 top-0 z-10 h-px w-24 bg-primary/70" />
 
-        <div className="grid md:grid-cols-2 md:divide-x md:divide-border/40">
+        <div className="grid px-4 py-7 sm:px-6 md:grid-cols-2 md:divide-x md:divide-border/40">
           <AccommodationAvailabilityMonth
             month={visibleMonth}
             unavailablePeriods={unavailablePeriods}
+            checkIn={checkIn}
+            checkOut={checkOut}
+            interactive={bookingEnabled}
+            onDateSelect={handleDateSelect}
           />
 
           <div className="hidden md:block">
             <AccommodationAvailabilityMonth
               month={getCalendarMonth(visibleMonth, 1)}
               unavailablePeriods={unavailablePeriods}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              interactive={bookingEnabled}
+              onDateSelect={handleDateSelect}
             />
           </div>
         </div>
+
+        {bookingUrl ? (
+          <AccommodationAvailabilityBooking
+            bookingUrl={bookingUrl}
+            checkIn={checkIn}
+            checkOut={checkOut}
+            editorPreview={editorPreview}
+            onReset={resetSelection}
+          />
+        ) : null}
       </div>
     </>
   );
