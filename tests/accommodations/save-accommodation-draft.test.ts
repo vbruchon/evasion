@@ -214,6 +214,7 @@ describe("saveAccommodationDraftAdmin", () => {
         locationRadiusMeters: null,
 
         availabilityCalendarUrl: "",
+        bookingUrl: "",
       },
 
       images: [

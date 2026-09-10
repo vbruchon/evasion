@@ -18,7 +18,6 @@ import { useFormContext, useWatch } from "react-hook-form";
 import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
 import { useAccommodationAvailabilityPreview } from "@/hooks/use-accommodation-availability-preview";
 import { AccommodationAvailability } from "../../slug/availability/accommodation-availability";
-import { CalendarDays } from "lucide-react";
 
 type AccommodationEditorPreviewProps = {
   images: AccommodationPreviewImage[];

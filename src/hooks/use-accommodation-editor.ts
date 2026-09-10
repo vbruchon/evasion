@@ -45,6 +45,7 @@ export const useAccommodationEditor = (
       locationRadiusMeters: accommodation.locationRadiusMeters,
 
       availabilityCalendarUrl: accommodation.availabilityCalendarUrl,
+      bookingUrl: accommodation.bookingUrl,
 
       highlights: accommodation.highlights,
       amenities: accommodation.amenities,

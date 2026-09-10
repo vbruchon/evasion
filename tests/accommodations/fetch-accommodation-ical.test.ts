@@ -31,7 +31,9 @@ END:VCALENDAR
         "https://www.airbnb.com/calendar/ical/123456789.ics?s=test-secret",
       ),
       {
-        cache: "no-store",
+        next: {
+          revalidate: 300,
+        },
       },
     );
   });

@@ -37,6 +37,7 @@ export const getAccommodationForUpdate = async (id: string) => {
       locationRadiusMeters: true,
 
       availabilityCalendarUrl: true,
+      bookingUrl: true,
 
       images: {
         orderBy: {
@@ -120,6 +121,7 @@ export const getAccommodationForUpdate = async (id: string) => {
     locationLongitude: accommodation.locationLongitude,
     locationRadiusMeters: accommodation.locationRadiusMeters,
     availabilityCalendarUrl: accommodation.availabilityCalendarUrl ?? "",
+    bookingUrl: accommodation.bookingUrl ?? "",
   };
 
   const images = draft
@@ -183,6 +185,7 @@ export const getAccommodationForUpdate = async (id: string) => {
     locationRadiusMeters: values.locationRadiusMeters,
 
     availabilityCalendarUrl: values.availabilityCalendarUrl,
+    bookingUrl: values.bookingUrl,
 
     highlights,
     amenities,

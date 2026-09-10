@@ -90,6 +90,11 @@ const accommodationBaseFieldsSchema = z.object({
     .string()
     .trim()
     .max(2048, "Le lien du calendrier est trop long."),
+
+  bookingUrl: z
+    .string()
+    .trim()
+    .max(2048, "Le lien de réservation est trop long."),
 });
 
 type AccommodationLocationValues = Pick<
@@ -151,6 +156,7 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
     locationRadiusMeters: null,
 
     availabilityCalendarUrl: "",
+    bookingUrl: "",
 
     ...(value as Record<string, unknown>),
   };
@@ -246,4 +252,5 @@ export type AccommodationTextFormValues = Pick<
   | "locationTitle"
   | "locationDescription"
   | "availabilityCalendarUrl"
+  | "bookingUrl"
 >;

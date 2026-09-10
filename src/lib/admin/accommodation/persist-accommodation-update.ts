@@ -49,6 +49,7 @@ export const persistAccommodationUpdate = async ({
         locationRadiusMeters: data.locationRadiusMeters,
 
         availabilityCalendarUrl: data.availabilityCalendarUrl || null,
+        bookingUrl: data.bookingUrl || null,
 
         status: data.status,
 
