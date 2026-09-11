@@ -110,8 +110,10 @@ model Accommodation {
   availabilityDescription String @default("Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.")
   bookingButtonLabel      String @default("Continuer sur Airbnb")
 
-  reviews             AccommodationReview[]
+  reviewsTitle        String                @default("Leurs moments, leurs mots")
+  reviewsDescription  String                @default("Découvrez les impressions laissées par les voyageurs après leur séjour.")
   lastReviewsImportAt DateTime?
+  reviews             AccommodationReview[]
 
   highlights AccommodationHighlight[]
   amenities  AccommodationAmenity[]
