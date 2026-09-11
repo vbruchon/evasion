@@ -8,6 +8,7 @@ import type {
   AccommodationEditorSection,
   AccommodationHeroEditorSection,
   AccommodationLocationEditorSection,
+  AccommodationReviewsEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 
@@ -31,6 +32,7 @@ type AccommodationEditorPreviewProps = {
   activeHeroSection: AccommodationHeroEditorSection;
   activeLocationSection: AccommodationLocationEditorSection;
   activeAvailabilitySection: AccommodationAvailabilityEditorSection;
+  activeReviewsSection: AccommodationReviewsEditorSection;
 
   onSectionChange: (section: AccommodationEditorSection) => void;
 
@@ -43,6 +45,8 @@ type AccommodationEditorPreviewProps = {
   onAvailabilitySectionChange: (
     section: AccommodationAvailabilityEditorSection,
   ) => void;
+
+  onReviewsSectionChange: (section: AccommodationReviewsEditorSection) => void;
 };
 
 export const AccommodationEditorPreview = ({
@@ -54,10 +58,12 @@ export const AccommodationEditorPreview = ({
   activeHeroSection,
   activeLocationSection,
   activeAvailabilitySection,
+  activeReviewsSection,
   onSectionChange,
   onHeroSectionChange,
   onLocationSectionChange,
   onAvailabilitySectionChange,
+  onReviewsSectionChange,
 }: AccommodationEditorPreviewProps) => {
   const {
     availabilityCalendarUrl,
@@ -144,7 +150,10 @@ export const AccommodationEditorPreview = ({
 
       <AccommodationEditorPreviewReviews
         reviews={reviews}
+        activeSection={activeSection}
+        activeReviewsSection={activeReviewsSection}
         onSectionChange={onSectionChange}
+        onReviewsSectionChange={onReviewsSectionChange}
       />
 
       <EditorSection

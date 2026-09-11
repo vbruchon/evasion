@@ -85,7 +85,11 @@ export default async function AccommodationPage({
         error={availabilityError}
       />
 
-      <AccommodationReviews reviews={accommodation.reviews} />
+      <AccommodationReviews
+        reviews={accommodation.reviews}
+        title={accommodation.reviewsTitle}
+        description={accommodation.reviewsDescription}
+      />
 
       <AccommodationGallery
         accommodationName={accommodation.name}

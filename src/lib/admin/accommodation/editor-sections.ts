@@ -37,7 +37,8 @@ export const accommodationEditorSections = [
   {
     id: "reviews",
     label: "Avis",
-    description: "Importez et consultez les avis associés à ce logement.",
+    description:
+      "Personnalisez la présentation et gérez les avis associés à ce logement.",
   },
 ] as const;
 
@@ -112,6 +113,20 @@ export const accommodationAvailabilityEditorSections = [
 export type AccommodationAvailabilityEditorSection =
   (typeof accommodationAvailabilityEditorSections)[number]["id"];
 
+export const accommodationReviewsEditorSections = [
+  {
+    id: "content",
+    label: "Contenu",
+  },
+  {
+    id: "management",
+    label: "Gestion",
+  },
+] as const;
+
+export type AccommodationReviewsEditorSection =
+  (typeof accommodationReviewsEditorSections)[number]["id"];
+
 export const getAccommodationEditorSection = (id: AccommodationEditorSection) =>
   accommodationEditorSections.find((section) => section.id === id);
 
@@ -129,3 +144,8 @@ export const isAccommodationAvailabilityEditorSection = (
   id: string,
 ): id is AccommodationAvailabilityEditorSection =>
   accommodationAvailabilityEditorSections.some((section) => section.id === id);
+
+export const isAccommodationReviewsEditorSection = (
+  id: string,
+): id is AccommodationReviewsEditorSection =>
+  accommodationReviewsEditorSections.some((section) => section.id === id);

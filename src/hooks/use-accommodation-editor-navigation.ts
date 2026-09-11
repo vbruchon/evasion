@@ -8,6 +8,7 @@ import type {
   AccommodationHeroEditorSection,
   AccommodationLocationEditorSection,
   AccommodationPresentationEditorSection,
+  AccommodationReviewsEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
 
 export type AccommodationEditorMobileView = "preview" | "editor";
@@ -27,6 +28,9 @@ export const useAccommodationEditorNavigation = () => {
 
   const [activeAvailabilitySection, setActiveAvailabilitySection] =
     useState<AccommodationAvailabilityEditorSection>("content");
+
+  const [activeReviewsSection, setActiveReviewsSection] =
+    useState<AccommodationReviewsEditorSection>("content");
 
   const [mobileView, setMobileView] =
     useState<AccommodationEditorMobileView>("preview");
@@ -58,12 +62,19 @@ export const useAccommodationEditorNavigation = () => {
     setActiveAvailabilitySection(section);
   };
 
+  const handleReviewsSectionChange = (
+    section: AccommodationReviewsEditorSection,
+  ) => {
+    setActiveReviewsSection(section);
+  };
+
   return {
     activeSection,
     activeHeroSection,
     activePresentationSection,
     activeLocationSection,
     activeAvailabilitySection,
+    activeReviewsSection,
     mobileView,
 
     setMobileView,
@@ -73,5 +84,6 @@ export const useAccommodationEditorNavigation = () => {
     handlePresentationSectionChange,
     handleLocationSectionChange,
     handleAvailabilitySectionChange,
+    handleReviewsSectionChange,
   };
 };

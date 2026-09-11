@@ -8,12 +8,14 @@ import {
   accommodationHeroEditorSections,
   accommodationLocationEditorSections,
   accommodationPresentationEditorSections,
+  accommodationReviewsEditorSections,
   getAccommodationEditorSection,
   type AccommodationAvailabilityEditorSection,
   type AccommodationEditorSection,
   type AccommodationHeroEditorSection,
   type AccommodationLocationEditorSection,
   type AccommodationPresentationEditorSection,
+  type AccommodationReviewsEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
 
 import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsection-nav";
@@ -32,6 +34,7 @@ type AccommodationEditorSidebarProps = {
   activePresentationSection: AccommodationPresentationEditorSection;
   activeLocationSection: AccommodationLocationEditorSection;
   activeAvailabilitySection: AccommodationAvailabilityEditorSection;
+  activeReviewsSection: AccommodationReviewsEditorSection;
 
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
@@ -57,6 +60,8 @@ type AccommodationEditorSidebarProps = {
     section: AccommodationAvailabilityEditorSection,
   ) => void;
 
+  onReviewsSectionChange: (section: AccommodationReviewsEditorSection) => void;
+
   onFilesSelected: (files: File[]) => void;
   onSetCover: (id: string) => void;
   onSetPresentationImage: (id: string) => void;
@@ -70,6 +75,7 @@ export const AccommodationEditorSidebar = ({
   activePresentationSection,
   activeLocationSection,
   activeAvailabilitySection,
+  activeReviewsSection,
   images,
   coverImageId,
   presentationImageId,
@@ -82,6 +88,7 @@ export const AccommodationEditorSidebar = ({
   onPresentationSectionChange,
   onLocationSectionChange,
   onAvailabilitySectionChange,
+  onReviewsSectionChange,
   onFilesSelected,
   onSetCover,
   onSetPresentationImage,
@@ -144,6 +151,16 @@ export const AccommodationEditorSidebar = ({
         />
       ) : null}
 
+      {activeSection === "reviews" ? (
+        <AccommodationEditorSubsectionNav
+          sections={accommodationReviewsEditorSections}
+          activeSection={activeReviewsSection}
+          columns={2}
+          ariaLabel="Sections des avis"
+          onSectionChange={onReviewsSectionChange}
+        />
+      ) : null}
+
       <div className="min-h-0 flex-1 overflow-y-auto">
         {activeSection === "hero" ? (
           <>
@@ -202,6 +219,7 @@ export const AccommodationEditorSidebar = ({
 
         {activeSection === "reviews" ? (
           <AccommodationReviewsEditor
+            section={activeReviewsSection}
             accommodationId={accommodationId}
             reviews={reviews}
             lastReviewsImportAt={lastReviewsImportAt}

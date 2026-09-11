@@ -25,14 +25,16 @@ export const AccommodationEditor = ({
     activeHeroSection,
     activePresentationSection,
     activeLocationSection,
-    mobileView,
     activeAvailabilitySection,
+    activeReviewsSection,
+    mobileView,
     setMobileView,
     handleSectionChange,
     handleHeroSectionChange,
     handlePresentationSectionChange,
     handleLocationSectionChange,
     handleAvailabilitySectionChange,
+    handleReviewsSectionChange,
   } = useAccommodationEditorNavigation();
 
   const {
@@ -125,18 +127,20 @@ export const AccommodationEditor = ({
             )}
           >
             <AccommodationEditorPreview
-              reviews={accommodation.reviews}
               images={images}
               coverImageId={coverImageId}
               presentationImageId={presentationImageId}
+              reviews={accommodation.reviews}
               activeSection={activeSection}
               activeHeroSection={activeHeroSection}
               activeLocationSection={activeLocationSection}
               activeAvailabilitySection={activeAvailabilitySection}
+              activeReviewsSection={activeReviewsSection}
               onSectionChange={handleSectionChange}
               onHeroSectionChange={handleHeroSectionChange}
               onLocationSectionChange={handleLocationSectionChange}
               onAvailabilitySectionChange={handleAvailabilitySectionChange}
+              onReviewsSectionChange={handleReviewsSectionChange}
             />
           </div>
 
@@ -152,6 +156,7 @@ export const AccommodationEditor = ({
               activePresentationSection={activePresentationSection}
               activeLocationSection={activeLocationSection}
               activeAvailabilitySection={activeAvailabilitySection}
+              activeReviewsSection={activeReviewsSection}
               accommodationId={accommodation.id}
               reviews={accommodation.reviews}
               lastReviewsImportAt={accommodation.lastReviewsImportAt}
@@ -164,6 +169,7 @@ export const AccommodationEditor = ({
               onPresentationSectionChange={handlePresentationSectionChange}
               onLocationSectionChange={handleLocationSectionChange}
               onAvailabilitySectionChange={handleAvailabilitySectionChange}
+              onReviewsSectionChange={handleReviewsSectionChange}
               onFilesSelected={addFiles}
               onSetCover={setCoverImage}
               onSetPresentationImage={setPresentationImage}

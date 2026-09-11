@@ -12,6 +12,7 @@ import {
 import type { AccommodationReviewData } from "@/lib/accommodations/reviews/accommodation-review.types";
 
 type AccommodationReviewsDialogProps = {
+  title: string;
   reviews: AccommodationReviewData[];
   averageRating: number;
   open: boolean;
@@ -33,6 +34,7 @@ const getAuthorInitials = (name: string) =>
     .join("");
 
 export const AccommodationReviewsDialog = ({
+  title,
   reviews,
   averageRating,
   open,
@@ -78,7 +80,7 @@ export const AccommodationReviewsDialog = ({
             </div>
 
             <p className="mt-2.5 font-heading text-2xl leading-none tracking-tight text-foreground sm:text-3xl">
-              Leurs moments, leurs mots
+              {title}
             </p>
 
             <p className="mt-2 text-[10px] font-medium uppercase tracking-[0.18em] text-muted-foreground">
