@@ -25,6 +25,8 @@ export const ACCOMMODATION_DRAFT_VALUE_FIELDS = [
   "availabilityTitle",
   "availabilityDescription",
   "bookingButtonLabel",
+  "reviewsTitle",
+  "reviewsDescription",
 ] as const satisfies readonly (keyof AccommodationDraftContent["values"])[];
 
 type AccommodationDraftValueSource = Pick<
@@ -81,6 +83,8 @@ export const getAccommodationDraftValues = (
   availabilityTitle: values.availabilityTitle,
   availabilityDescription: values.availabilityDescription,
   bookingButtonLabel: values.bookingButtonLabel,
+  reviewsTitle: values.reviewsTitle,
+  reviewsDescription: values.reviewsDescription,
 });
 
 export const getAccommodationDraftFileKeys = (

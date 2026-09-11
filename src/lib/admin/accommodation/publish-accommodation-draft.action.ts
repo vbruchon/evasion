@@ -132,6 +132,9 @@ export const publishAccommodationDraftAdmin = async (
         availabilityTitle: draft.values.availabilityTitle,
         availabilityDescription: draft.values.availabilityDescription,
         bookingButtonLabel: draft.values.bookingButtonLabel,
+
+        reviewsTitle: draft.values.reviewsTitle,
+        reviewsDescription: draft.values.reviewsDescription,
       },
     });
 

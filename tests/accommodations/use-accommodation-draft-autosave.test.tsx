@@ -90,6 +90,8 @@ const initialDraftValues: AccommodationDraftContent["values"] = {
   availabilityTitle: initialValues.availabilityTitle,
   availabilityDescription: initialValues.availabilityDescription,
   bookingButtonLabel: initialValues.bookingButtonLabel,
+  reviewsTitle: initialValues.reviewsTitle,
+  reviewsDescription: initialValues.reviewsDescription,
 };
 
 type RenderAutosaveHookOptions = {
@@ -1016,6 +1018,79 @@ describe("useAccommodationDraftAutosave", () => {
         availabilityDescription:
           "Découvrez les prochaines dates disponibles pour votre séjour.",
         bookingButtonLabel: "Voir les disponibilités sur Airbnb",
+      }),
+      [],
+      initialValues.highlights,
+      initialValues.amenities,
+      initialValues.accesses,
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
+  });
+
+  it("autosaves when the reviews title changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue(
+        "reviewsTitle",
+        "Vos séjours, vos souvenirs",
+        {
+          shouldDirty: true,
+        },
+      );
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        reviewsTitle: "Vos séjours, vos souvenirs",
+      }),
+      [],
+      initialValues.highlights,
+      initialValues.amenities,
+      initialValues.accesses,
+    );
+
+    expect(result.current.hasDraft).toBe(true);
+    expect(result.current.autosaveStatus).toBe("saved");
+  });
+
+  it("autosaves when the reviews description changes", async () => {
+    const { result } = renderAutosaveHook();
+
+    act(() => {
+      result.current.form.setValue(
+        "reviewsDescription",
+        "Découvrez ce que nos voyageurs ont pensé de leur séjour.",
+        {
+          shouldDirty: true,
+        },
+      );
+    });
+
+    expect(result.current.autosaveStatus).toBe("pending");
+
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(2500);
+    });
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+    expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+      "accommodation-1",
+      expect.objectContaining({
+        reviewsDescription:
+          "Découvrez ce que nos voyageurs ont pensé de leur séjour.",
       }),
       [],
       initialValues.highlights,

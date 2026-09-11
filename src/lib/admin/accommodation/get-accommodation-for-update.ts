@@ -42,6 +42,8 @@ export const getAccommodationForUpdate = async (id: string) => {
       availabilityDescription: true,
       bookingButtonLabel: true,
 
+      reviewsTitle: true,
+      reviewsDescription: true,
       lastReviewsImportAt: true,
 
       reviews: {
@@ -146,6 +148,8 @@ export const getAccommodationForUpdate = async (id: string) => {
     availabilityTitle: accommodation.availabilityTitle,
     availabilityDescription: accommodation.availabilityDescription,
     bookingButtonLabel: accommodation.bookingButtonLabel,
+    reviewsTitle: accommodation.reviewsTitle,
+    reviewsDescription: accommodation.reviewsDescription,
   };
 
   const images = draft
@@ -214,6 +218,9 @@ export const getAccommodationForUpdate = async (id: string) => {
     availabilityTitle: values.availabilityTitle,
     availabilityDescription: values.availabilityDescription,
     bookingButtonLabel: values.bookingButtonLabel,
+
+    reviewsTitle: values.reviewsTitle,
+    reviewsDescription: values.reviewsDescription,
 
     reviews: accommodation.reviews,
     lastReviewsImportAt: accommodation.lastReviewsImportAt,

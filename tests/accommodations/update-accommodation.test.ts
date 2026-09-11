@@ -43,6 +43,10 @@ describe("updateAccommodationAdmin", () => {
         locationLongitude: 5.09,
         locationRadiusMeters: 6000,
 
+        reviewsTitle: "Les mots de nos voyageurs",
+        reviewsDescription:
+          "Découvrez les souvenirs partagés par nos voyageurs.",
+
         accesses: [
           {
             key: "car-access",
@@ -93,6 +97,9 @@ describe("updateAccommodationAdmin", () => {
       locationLatitude: 45.03,
       locationLongitude: 5.09,
       locationRadiusMeters: 6000,
+
+      reviewsTitle: "Les mots de nos voyageurs",
+      reviewsDescription: "Découvrez les souvenirs partagés par nos voyageurs.",
 
       status: "PUBLISHED",
     });

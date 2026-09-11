@@ -122,6 +122,17 @@ const accommodationBaseFieldsSchema = z.object({
       100,
       "Le libellé du bouton de réservation ne peut pas dépasser 100 caractères.",
     ),
+
+  reviewsTitle: z
+    .string()
+    .trim()
+    .min(1, "Le titre des avis est obligatoire.")
+    .max(200, "Le titre des avis ne peut pas dépasser 200 caractères."),
+  reviewsDescription: z
+    .string()
+    .trim()
+    .min(1, "La description des avis est obligatoire.")
+    .max(500, "La description des avis ne peut pas dépasser 500 caractères."),
 });
 
 type AccommodationLocationValues = Pick<
@@ -189,6 +200,10 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
     availabilityDescription:
       "Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.",
     bookingButtonLabel: "Continuer sur Airbnb",
+
+    reviewsTitle: "Leurs moments, leurs mots",
+    reviewsDescription:
+      "Découvrez les impressions laissées par les voyageurs après leur séjour.",
 
     ...(value as Record<string, unknown>),
   };
@@ -288,4 +303,6 @@ export type AccommodationTextFormValues = Pick<
   | "availabilityTitle"
   | "availabilityDescription"
   | "bookingButtonLabel"
+  | "reviewsTitle"
+  | "reviewsDescription"
 >;

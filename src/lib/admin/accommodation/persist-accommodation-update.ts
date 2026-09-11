@@ -54,6 +54,8 @@ export const persistAccommodationUpdate = async ({
         availabilityTitle: data.availabilityTitle,
         availabilityDescription: data.availabilityDescription,
         bookingButtonLabel: data.bookingButtonLabel,
+        reviewsTitle: data.reviewsTitle,
+        reviewsDescription: data.reviewsDescription,
 
         status: data.status,
 

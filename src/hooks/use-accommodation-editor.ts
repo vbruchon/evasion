@@ -50,6 +50,8 @@ export const useAccommodationEditor = (
       availabilityTitle: accommodation.availabilityTitle,
       availabilityDescription: accommodation.availabilityDescription,
       bookingButtonLabel: accommodation.bookingButtonLabel,
+      reviewsTitle: accommodation.reviewsTitle,
+      reviewsDescription: accommodation.reviewsDescription,
 
       highlights: accommodation.highlights,
       amenities: accommodation.amenities,

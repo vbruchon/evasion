@@ -70,6 +70,8 @@ export const useAccommodationDraftSnapshot = ({
       availabilityTitle,
       availabilityDescription,
       bookingButtonLabel,
+      reviewsTitle,
+      reviewsDescription,
     ] = watchedDraftValues;
 
     return {
@@ -93,6 +95,8 @@ export const useAccommodationDraftSnapshot = ({
       availabilityTitle,
       availabilityDescription,
       bookingButtonLabel,
+      reviewsTitle,
+      reviewsDescription,
     };
   }, [watchedDraftValues]);
 

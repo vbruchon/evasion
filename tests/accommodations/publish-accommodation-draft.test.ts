@@ -144,6 +144,9 @@ describe("publishAccommodationDraftAdmin", () => {
         locationLatitude: 45.03,
         locationLongitude: 5.09,
         locationRadiusMeters: 6000,
+
+        reviewsTitle: "Vos séjours, vos souvenirs",
+        reviewsDescription: "Découvrez leurs impressions après leur séjour.",
       }),
       [],
       [
@@ -264,6 +267,9 @@ describe("publishAccommodationDraftAdmin", () => {
       locationLatitude: 45.03,
       locationLongitude: 5.09,
       locationRadiusMeters: 6000,
+
+      reviewsTitle: "Vos séjours, vos souvenirs",
+      reviewsDescription: "Découvrez leurs impressions après leur séjour.",
 
       status: "PUBLISHED",
     });
