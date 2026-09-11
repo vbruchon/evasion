@@ -33,6 +33,7 @@
     "better-auth": "^1.6.25",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "csv-parse": "^7.0.2",
     "embla-carousel-react": "^8.6.0",
     "ical.js": "^2.2.1",
     "leaflet": "^1.9.4",

@@ -110,6 +110,9 @@ model Accommodation {
   availabilityDescription String @default("Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.")
   bookingButtonLabel      String @default("Continuer sur Airbnb")
 
+  reviews             AccommodationReview[]
+  lastReviewsImportAt DateTime?
+
   highlights AccommodationHighlight[]
   amenities  AccommodationAmenity[]
   accesses   AccommodationAccess[]
@@ -213,4 +216,23 @@ model AccommodationAccess {
   @@unique([accommodationId, key])
   @@index([accommodationId])
   @@map("accommodation_accesses")
+}
+
+model AccommodationReview {
+  id              String @id @default(cuid())
+  accommodationId String
+  importKey       String
+
+  authorName String
+  rating     Int
+  comment    String
+  reviewedAt DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  accommodation Accommodation @relation(fields: [accommodationId], references: [id], onDelete: Cascade)
+
+  @@unique([accommodationId, importKey])
+  @@index([accommodationId, reviewedAt])
 }
