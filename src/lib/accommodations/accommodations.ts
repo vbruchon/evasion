@@ -53,6 +53,19 @@ export const getPublishedAccommodationBySlug = async (slug: string) => {
       },
 
       accesses: true,
+
+      reviews: {
+        orderBy: {
+          reviewedAt: "desc",
+        },
+        select: {
+          id: true,
+          authorName: true,
+          rating: true,
+          comment: true,
+          reviewedAt: true,
+        },
+      },
     },
   });
 };

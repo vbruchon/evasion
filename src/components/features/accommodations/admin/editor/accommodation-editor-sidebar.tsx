@@ -1,6 +1,8 @@
 "use client";
 
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
+
 import {
   accommodationAvailabilityEditorSections,
   accommodationHeroEditorSections,
@@ -22,6 +24,7 @@ import { AccommodationHeroEditor } from "./section/accommodation-hero-editor";
 import { AccommodationHighlightsEditor } from "./section/accommodation-highlights-editor";
 import { AccommodationLocationEditor } from "./section/accommodation-location-editor";
 import { AccommodationPresentationEditor } from "./section/accommodation-presentation-editor";
+import { AccommodationReviewsEditor } from "./section/accommodation-reviews-editor";
 
 type AccommodationEditorSidebarProps = {
   activeSection: AccommodationEditorSection;
@@ -34,6 +37,10 @@ type AccommodationEditorSidebarProps = {
   coverImageId: string | null;
   presentationImageId: string | null;
   disabled: boolean;
+
+  accommodationId: string;
+  reviews: AccommodationUpdateData["reviews"];
+  lastReviewsImportAt: AccommodationUpdateData["lastReviewsImportAt"];
 
   onSectionChange: (section: AccommodationEditorSection) => void;
   onHeroSectionChange: (section: AccommodationHeroEditorSection) => void;
@@ -67,6 +74,9 @@ export const AccommodationEditorSidebar = ({
   coverImageId,
   presentationImageId,
   disabled,
+  accommodationId,
+  reviews,
+  lastReviewsImportAt,
   onSectionChange,
   onHeroSectionChange,
   onPresentationSectionChange,
@@ -187,6 +197,14 @@ export const AccommodationEditorSidebar = ({
         {activeSection === "availability" ? (
           <AccommodationAvailabilityEditor
             section={activeAvailabilitySection}
+          />
+        ) : null}
+
+        {activeSection === "reviews" ? (
+          <AccommodationReviewsEditor
+            accommodationId={accommodationId}
+            reviews={reviews}
+            lastReviewsImportAt={lastReviewsImportAt}
           />
         ) : null}
 

@@ -34,6 +34,11 @@ export const accommodationEditorSections = [
     description:
       "Personnalisez la présentation des disponibilités et configurez la réservation du logement.",
   },
+  {
+    id: "reviews",
+    label: "Avis",
+    description: "Importez et consultez les avis associés à ce logement.",
+  },
 ] as const;
 
 export type AccommodationEditorSection =

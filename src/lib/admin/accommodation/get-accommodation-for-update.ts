@@ -42,6 +42,22 @@ export const getAccommodationForUpdate = async (id: string) => {
       availabilityDescription: true,
       bookingButtonLabel: true,
 
+      lastReviewsImportAt: true,
+
+      reviews: {
+        orderBy: {
+          reviewedAt: "desc",
+        },
+
+        select: {
+          id: true,
+          authorName: true,
+          rating: true,
+          comment: true,
+          reviewedAt: true,
+        },
+      },
+
       images: {
         orderBy: {
           position: "asc",
@@ -198,6 +214,9 @@ export const getAccommodationForUpdate = async (id: string) => {
     availabilityTitle: values.availabilityTitle,
     availabilityDescription: values.availabilityDescription,
     bookingButtonLabel: values.bookingButtonLabel,
+
+    reviews: accommodation.reviews,
+    lastReviewsImportAt: accommodation.lastReviewsImportAt,
 
     highlights,
     amenities,

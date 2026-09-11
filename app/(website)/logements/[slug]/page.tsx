@@ -12,6 +12,7 @@ import { AccommodationGallery } from "@/components/features/accommodations/slug/
 import { AccommodationHero } from "@/components/features/accommodations/slug/accommodation-hero";
 import { AccommodationLocation } from "@/components/features/accommodations/slug/accommodation-location";
 import { AccommodationPresentation } from "@/components/features/accommodations/slug/accommodation-presentation";
+import { AccommodationReviews } from "@/components/features/accommodations/slug/reviews/accommodation-reviews";
 
 type AccommodationPageProps = {
   params: Promise<{
@@ -83,6 +84,8 @@ export default async function AccommodationPage({
         bookingButtonLabel={accommodation.bookingButtonLabel}
         error={availabilityError}
       />
+
+      <AccommodationReviews reviews={accommodation.reviews} />
 
       <AccommodationGallery
         accommodationName={accommodation.name}

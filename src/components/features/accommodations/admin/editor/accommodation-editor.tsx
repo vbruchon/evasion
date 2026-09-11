@@ -125,6 +125,7 @@ export const AccommodationEditor = ({
             )}
           >
             <AccommodationEditorPreview
+              reviews={accommodation.reviews}
               images={images}
               coverImageId={coverImageId}
               presentationImageId={presentationImageId}
@@ -151,6 +152,9 @@ export const AccommodationEditor = ({
               activePresentationSection={activePresentationSection}
               activeLocationSection={activeLocationSection}
               activeAvailabilitySection={activeAvailabilitySection}
+              accommodationId={accommodation.id}
+              reviews={accommodation.reviews}
+              lastReviewsImportAt={accommodation.lastReviewsImportAt}
               images={images}
               coverImageId={coverImageId}
               presentationImageId={presentationImageId}

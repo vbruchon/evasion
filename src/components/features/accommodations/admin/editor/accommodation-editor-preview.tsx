@@ -1,5 +1,6 @@
 "use client";
 
+import { useAccommodationEditorAvailabilityData } from "@/hooks/use-accommodation-editor-availability-data";
 import { useAccommodationEditorPreviewData } from "@/hooks/use-accommodation-editor-preview-data";
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import type {
@@ -8,35 +9,44 @@ import type {
   AccommodationHeroEditorSection,
   AccommodationLocationEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 
-import { AccommodationAmenities } from "../../slug/amenities/accommodation-amenities";
 import { AccommodationGallery } from "../../slug/accommodation-gallery";
 import { AccommodationPresentation } from "../../slug/accommodation-presentation";
+import { AccommodationAmenities } from "../../slug/amenities/accommodation-amenities";
 import { AccommodationEditorPreviewAvailability } from "./accommodation-editor-preview-availability";
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
 import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
+import { AccommodationEditorPreviewReviews } from "./accommodation-editor-preview-reviews";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
-import { useAccommodationEditorAvailabilityData } from "@/hooks/use-accommodation-editor-availability-data";
 
 type AccommodationEditorPreviewProps = {
+  reviews: AccommodationUpdateData["reviews"];
+
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
   presentationImageId: string | null;
+
   activeSection: AccommodationEditorSection;
   activeHeroSection: AccommodationHeroEditorSection;
   activeLocationSection: AccommodationLocationEditorSection;
   activeAvailabilitySection: AccommodationAvailabilityEditorSection;
+
   onSectionChange: (section: AccommodationEditorSection) => void;
+
   onHeroSectionChange: (section: AccommodationHeroEditorSection) => void;
+
   onLocationSectionChange: (
     section: AccommodationLocationEditorSection,
   ) => void;
+
   onAvailabilitySectionChange: (
     section: AccommodationAvailabilityEditorSection,
   ) => void;
 };
 
 export const AccommodationEditorPreview = ({
+  reviews,
   images,
   coverImageId,
   presentationImageId,
@@ -130,6 +140,11 @@ export const AccommodationEditorPreview = ({
         activeAvailabilitySection={activeAvailabilitySection}
         onSectionChange={onSectionChange}
         onAvailabilitySectionChange={onAvailabilitySectionChange}
+      />
+
+      <AccommodationEditorPreviewReviews
+        reviews={reviews}
+        onSectionChange={onSectionChange}
       />
 
       <EditorSection
