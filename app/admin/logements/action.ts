@@ -13,6 +13,7 @@ import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/update
 import { requireAdmin } from "@/lib/admin/require-admin";
 import { searchAccommodationLocationsAdmin } from "@/lib/admin/accommodation/search-accommodation-locations.action";
 import { checkAccommodationAvailabilityCalendarAdmin } from "@/lib/admin/accommodation/check-accommodation-availability-calendar.action";
+import { importAccommodationReviewsAdmin } from "@/lib/admin/accommodation/reviews/import-accommodation-reviews.action";
 
 import type {
   AccommodationCreateFormValues,
@@ -107,4 +108,13 @@ export const checkAccommodationAvailabilityCalendar = async (
   await requireAdmin();
 
   return checkAccommodationAvailabilityCalendarAdmin(calendarUrl);
+};
+
+export const importAccommodationReviewsCsv = async (
+  accommodationId: string,
+  file: File,
+) => {
+  await requireAdmin();
+
+  return importAccommodationReviewsAdmin(accommodationId, file);
 };
