@@ -1,8 +1,8 @@
 import { AlertCircle, Loader2 } from "lucide-react";
 
 import { AccommodationEditorRegion } from "@/components/features/accommodations/admin/editor/accommodation-editor-region";
-import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
+import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
 
 import { AccommodationAvailabilityCalendar } from "./accommodation-availability-calendar";
 
@@ -67,48 +67,59 @@ export const AccommodationAvailability = ({
           ) : null}
         </div>
 
-        <AccommodationEditorRegion
-          region="calendar"
-          activeRegion={activeEditorRegion}
-          className="min-w-0"
-        >
+        <div className="min-w-0">
           {!hasCalendar ? (
-            <div className="flex min-h-64 items-center justify-center border-y border-dashed border-border/50 px-6 text-center">
-              <p className="max-w-sm text-sm leading-6 text-muted-foreground/60">
-                Renseignez un calendrier iCal pour afficher les disponibilités
-                du logement.
-              </p>
-            </div>
+            <AccommodationEditorRegion
+              region="calendar"
+              activeRegion={activeEditorRegion}
+            >
+              <div className="flex min-h-64 items-center justify-center border-y border-dashed border-border/50 px-6 text-center">
+                <p className="max-w-sm text-sm leading-6 text-muted-foreground/60">
+                  Renseignez un calendrier iCal pour afficher les disponibilités
+                  du logement.
+                </p>
+              </div>
+            </AccommodationEditorRegion>
           ) : null}
 
           {hasCalendar && loading ? (
-            <div className="flex min-h-64 items-center justify-center border-y border-border/50">
-              <div className="flex flex-col items-center gap-3 text-muted-foreground">
-                <Loader2 className="size-5 animate-spin text-primary" />
+            <AccommodationEditorRegion
+              region="calendar"
+              activeRegion={activeEditorRegion}
+            >
+              <div className="flex min-h-64 items-center justify-center border-y border-border/50">
+                <div className="flex flex-col items-center gap-3 text-muted-foreground">
+                  <Loader2 className="size-5 animate-spin text-primary" />
 
-                <p className="text-sm">Chargement des disponibilités...</p>
+                  <p className="text-sm">Chargement des disponibilités...</p>
+                </div>
               </div>
-            </div>
+            </AccommodationEditorRegion>
           ) : null}
 
           {hasCalendar && !loading && error ? (
-            <div className="flex min-h-64 items-center justify-center border-y border-border/50 px-6">
-              <div className="flex max-w-md gap-3">
-                <AlertCircle className="mt-0.5 size-4 shrink-0 text-destructive" />
+            <AccommodationEditorRegion
+              region="calendar"
+              activeRegion={activeEditorRegion}
+            >
+              <div className="flex min-h-64 items-center justify-center border-y border-border/50 px-6">
+                <div className="flex max-w-md gap-3">
+                  <AlertCircle className="mt-0.5 size-4 shrink-0 text-destructive" />
 
-                <div>
-                  <p className="text-sm font-medium">
-                    Disponibilités indisponibles
-                  </p>
+                  <div>
+                    <p className="text-sm font-medium">
+                      Disponibilités indisponibles
+                    </p>
 
-                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
-                    {editorPreview
-                      ? error
-                      : "Le calendrier est momentanément indisponible. Réessayez un peu plus tard."}
-                  </p>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      {editorPreview
+                        ? error
+                        : "Le calendrier est momentanément indisponible. Réessayez un peu plus tard."}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </AccommodationEditorRegion>
           ) : null}
 
           {hasCalendar && !loading && !error ? (
@@ -116,10 +127,11 @@ export const AccommodationAvailability = ({
               unavailablePeriods={unavailablePeriods}
               bookingUrl={bookingUrl}
               bookingButtonLabel={bookingButtonLabel}
+              activeEditorRegion={activeEditorRegion}
               editorPreview={editorPreview}
             />
           ) : null}
-        </AccommodationEditorRegion>
+        </div>
       </div>
     </section>
   );

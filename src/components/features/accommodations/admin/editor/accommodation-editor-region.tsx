@@ -20,11 +20,11 @@ export const AccommodationEditorRegion = <TRegion extends string>({
       data-editor-region={region}
       className={cn(
         activeRegion &&
-          "cursor-pointer ring-inset transition-[box-shadow,background-color]",
+          "relative cursor-pointer transition-colors after:pointer-events-none after:absolute after:inset-0 after:z-50 after:transition-shadow",
         activeRegion === region
-          ? "ring-1 ring-primary bg-primary/4"
+          ? "bg-primary/4 after:ring-1 after:ring-inset after:ring-primary"
           : activeRegion &&
-              "hover:ring-1 hover:ring-primary/40 hover:bg-primary/2",
+              "hover:bg-primary/2 hover:after:ring-1 hover:after:ring-inset hover:after:ring-primary/40",
         className,
       )}
     >

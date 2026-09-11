@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
+import { AccommodationEditorRegion } from "@/components/features/accommodations/admin/editor/accommodation-editor-region";
 import { useAccommodationBookingSelection } from "@/hooks/use-accommodation-booking-selection";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 import {
@@ -10,6 +11,7 @@ import {
   getCurrentCalendarMonth,
   isSameCalendarMonth,
 } from "@/lib/accommodations/availability/accommodation-calendar";
+import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import { cn } from "@/lib/utils";
 
 import { AccommodationAvailabilityBooking } from "./accommodation-availability-booking";
@@ -19,6 +21,7 @@ type AccommodationAvailabilityCalendarProps = {
   unavailablePeriods: AccommodationUnavailablePeriodData[];
   bookingUrl?: string | null;
   bookingButtonLabel: string;
+  activeEditorRegion?: AccommodationAvailabilityEditorSection;
   editorPreview?: boolean;
 };
 
@@ -26,6 +29,7 @@ export const AccommodationAvailabilityCalendar = ({
   unavailablePeriods,
   bookingUrl,
   bookingButtonLabel,
+  activeEditorRegion,
   editorPreview = false,
 }: AccommodationAvailabilityCalendarProps) => {
   const [initialMonth] = useState(() => getCurrentCalendarMonth());
@@ -96,40 +100,45 @@ export const AccommodationAvailabilityCalendar = ({
 
       <div className="pointer-events-none absolute inset-x-6 bottom-2 top-14 -z-10 bg-primary/[0.035] blur-3xl" />
 
-      <div className="relative overflow-hidden rounded-xl border border-primary/30 bg-card shadow-[0_0_55px_rgba(184,134,55,0.22),0_18px_55px_-24px_rgba(0,0,0,0.95)]">
-        <div className="grid px-4 py-7 sm:px-6 md:grid-cols-2 md:divide-x md:divide-border/40">
-          <AccommodationAvailabilityMonth
-            month={visibleMonth}
-            unavailablePeriods={unavailablePeriods}
-            checkIn={checkIn}
-            checkOut={checkOut}
-            interactive={bookingEnabled}
-            onDateSelect={handleDateSelect}
-          />
-
-          <div className="hidden md:block">
+      <AccommodationEditorRegion
+        region="calendar"
+        activeRegion={activeEditorRegion}
+      >
+        <div className="relative overflow-hidden rounded-xl border border-primary/30 bg-card shadow-[0_0_55px_rgba(184,134,55,0.22),0_18px_55px_-24px_rgba(0,0,0,0.95)]">
+          <div className="grid px-4 py-7 sm:px-6 md:grid-cols-2 md:divide-x md:divide-border/40">
             <AccommodationAvailabilityMonth
-              month={getCalendarMonth(visibleMonth, 1)}
+              month={visibleMonth}
               unavailablePeriods={unavailablePeriods}
               checkIn={checkIn}
               checkOut={checkOut}
               interactive={bookingEnabled}
               onDateSelect={handleDateSelect}
             />
-          </div>
-        </div>
 
-        {bookingUrl ? (
-          <AccommodationAvailabilityBooking
-            bookingUrl={bookingUrl}
-            bookingButtonLabel={bookingButtonLabel}
-            checkIn={checkIn}
-            checkOut={checkOut}
-            editorPreview={editorPreview}
-            onReset={resetSelection}
-          />
-        ) : null}
-      </div>
+            <div className="hidden md:block">
+              <AccommodationAvailabilityMonth
+                month={getCalendarMonth(visibleMonth, 1)}
+                unavailablePeriods={unavailablePeriods}
+                checkIn={checkIn}
+                checkOut={checkOut}
+                interactive={bookingEnabled}
+                onDateSelect={handleDateSelect}
+              />
+            </div>
+          </div>
+
+          {bookingUrl ? (
+            <AccommodationAvailabilityBooking
+              bookingUrl={bookingUrl}
+              bookingButtonLabel={bookingButtonLabel}
+              checkIn={checkIn}
+              checkOut={checkOut}
+              editorPreview={editorPreview}
+              onReset={resetSelection}
+            />
+          ) : null}
+        </div>
+      </AccommodationEditorRegion>
     </div>
   );
 };
