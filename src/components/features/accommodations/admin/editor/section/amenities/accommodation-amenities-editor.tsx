@@ -4,7 +4,7 @@ import { accommodationAmenities } from "@/lib/accommodations/accommodation-ameni
 
 import { AccommodationAmenityCategory } from "./accommodation-amenity-category";
 import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
-import { useAccommodationAmenitiesEditor } from "./use-accommodation-amenities-editor";
+import { useAccommodationAmenitiesEditor } from "@/hooks/accommodations/admin/editor/use-accommodation-amenities-editor";
 import { AccommodationAmenitiesToolbar } from "./accommodation-amenities-toolbar";
 
 type AccommodationAmenitiesEditorProps = {

@@ -3,7 +3,7 @@
 import { GripVertical } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
+import { useAccommodationSortable } from "@/hooks/accommodations/admin/list/use-accommodation-sortable";
 import type { AccommodationAdminListItem } from "@/lib/admin/accommodation/accommodation-admin-types";
 import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
 

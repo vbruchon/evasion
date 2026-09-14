@@ -13,11 +13,11 @@ import {
   type AccommodationUpdateImageInput,
 } from "@/lib/admin/accommodation/schema";
 
-import { useAccommodationDraftSnapshot } from "@/hooks/use-accommodation-draft-snapshot";
+import { useAccommodationDraftSnapshot } from "@/hooks/accommodations/admin/editor/use-accommodation-draft-snapshot";
 import type {
   AccommodationInitialImage,
   AccommodationPreviewImage,
-} from "@/hooks/use-accommodation-images";
+} from "@/lib/admin/accommodation/accommodation-image-previews";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { getAccommodationDraftSignature } from "@/lib/admin/accommodation/accommodation-draft";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";

@@ -1,6 +1,6 @@
 "use client";
 
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 
 import {

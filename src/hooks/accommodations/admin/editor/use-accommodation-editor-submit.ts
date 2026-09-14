@@ -10,7 +10,7 @@ import {
 } from "~/app/admin/logements/action";
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import { getAccommodationDraftValues } from "@/lib/admin/accommodation/accommodation-draft";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
 

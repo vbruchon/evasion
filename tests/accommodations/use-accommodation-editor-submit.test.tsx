@@ -14,8 +14,8 @@ import type {
   AccommodationUpdateImageInput,
 } from "@/lib/admin/accommodation/schema";
 
-import { useAccommodationEditorSubmit } from "@/hooks/use-accommodation-editor-submit";
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import { useAccommodationEditorSubmit } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-submit";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
 
 import { createAccommodationUpdateValues } from "../helpers/accommodation-values";

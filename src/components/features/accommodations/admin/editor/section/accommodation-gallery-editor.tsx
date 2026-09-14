@@ -1,4 +1,4 @@
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 
 import { AccommodationEditorSectionContent } from "../section/accommodation-editor-section-content";
 import { AccommodationImageDropzone } from "../../form/images/accommodation-image-dropzone";

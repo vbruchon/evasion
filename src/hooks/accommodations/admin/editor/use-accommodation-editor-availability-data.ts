@@ -4,7 +4,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
-import { useAccommodationAvailabilityPreview } from "@/hooks/use-accommodation-availability-preview";
+import { useAccommodationAvailabilityPreview } from "@/hooks/accommodations/admin/editor/use-accommodation-availability-preview";
 
 export const useAccommodationEditorAvailabilityData = () => {
   const { control } = useFormContext<AccommodationUpdateFormValues>();

@@ -14,11 +14,11 @@ import type {
   AccommodationUpdateImageInput,
 } from "@/lib/admin/accommodation/schema";
 
-import { useAccommodationDraftAutosave } from "@/hooks/use-accommodation-draft-autosave";
+import { useAccommodationDraftAutosave } from "@/hooks/accommodations/admin/editor/use-accommodation-draft-autosave";
 import type {
   AccommodationInitialImage,
   AccommodationPreviewImage,
-} from "@/hooks/use-accommodation-images";
+} from "@/lib/admin/accommodation/accommodation-image-previews";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
 
 import { createAccommodationUpdateValues } from "../helpers/accommodation-values";

@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
-import { useAccommodationBookingSelection } from "@/hooks/use-accommodation-booking-selection";
+import { useAccommodationBookingSelection } from "@/hooks/accommodations/detail/use-accommodation-booking-selection";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 import {
   getCalendarMonth,

@@ -3,7 +3,7 @@
 import { AlertTriangle, CheckCircle2, FileUp, RefreshCw } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { useAccommodationReviewsImport } from "@/hooks/use-accommodation-reviews-import";
+import { useAccommodationReviewsImport } from "@/hooks/accommodations/admin/editor/use-accommodation-reviews-import";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 
 import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";

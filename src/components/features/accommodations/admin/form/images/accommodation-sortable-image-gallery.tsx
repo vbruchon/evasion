@@ -3,7 +3,7 @@
 import type { DragEvent } from "react";
 import { useState } from "react";
 
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 
 import { AccommodationSortableImageItem } from "./accommodation-sortable-image-item";

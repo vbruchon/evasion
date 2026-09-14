@@ -10,7 +10,7 @@ import { AdminEmptyState } from "@/components/layout/admin/admin-empty-state";
 import { AdminPagination } from "@/components/layout/admin/admin-pagination";
 import { Button } from "@/components/ui/button";
 import type { AccommodationAdminListItem } from "@/lib/admin/accommodation/accommodation-admin-types";
-import { useAccommodationReordering } from "@/hooks/use-accommodation-reordering";
+import { useAccommodationReordering } from "@/hooks/accommodations/admin/list/use-accommodation-reordering";
 
 type AccommodationsAdminTableProps = {
   accommodations: AccommodationAdminListItem[];

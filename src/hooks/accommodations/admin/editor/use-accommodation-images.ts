@@ -13,11 +13,6 @@ import {
   type AccommodationPreviewImage,
 } from "@/lib/admin/accommodation/accommodation-image-previews";
 
-export type {
-  AccommodationInitialImage,
-  AccommodationPreviewImage,
-} from "@/lib/admin/accommodation/accommodation-image-previews";
-
 type UseAccommodationImagesOptions = {
   initialImages?: AccommodationInitialImage[];
   onFilesChange?: (files: File[], coverImageIndex: number) => void;

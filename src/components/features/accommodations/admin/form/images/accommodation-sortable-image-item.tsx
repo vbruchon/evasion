@@ -6,7 +6,7 @@ import type { DragEvent } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import { cn } from "@/lib/utils";
 
 type AccommodationSortableImageItemProps = {

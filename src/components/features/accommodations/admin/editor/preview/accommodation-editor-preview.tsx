@@ -1,8 +1,8 @@
 "use client";
 
-import { useAccommodationEditorAvailabilityData } from "@/hooks/use-accommodation-editor-availability-data";
-import { useAccommodationEditorPreviewData } from "@/hooks/use-accommodation-editor-preview-data";
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import { useAccommodationEditorAvailabilityData } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-availability-data";
+import { useAccommodationEditorPreviewData } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-preview-data";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import type {
   AccommodationAvailabilityEditorSection,
   AccommodationEditorSection,

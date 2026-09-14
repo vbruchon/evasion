@@ -2,7 +2,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
 
 type UseAccommodationEditorPreviewDataOptions = {

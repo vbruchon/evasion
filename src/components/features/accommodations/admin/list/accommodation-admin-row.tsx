@@ -9,7 +9,7 @@ import { AccommodationStatusBadge } from "./accommodation-status-badge";
 
 import { Button } from "@/components/ui/button";
 import { TableCell, TableRow } from "@/components/ui/table";
-import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
+import { useAccommodationSortable } from "@/hooks/accommodations/admin/list/use-accommodation-sortable";
 import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
 import type { AccommodationAdminListItem } from "@/lib/admin/accommodation/accommodation-admin-types";
 

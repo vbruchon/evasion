@@ -2,8 +2,8 @@
 
 import { FormProvider } from "react-hook-form";
 
-import { useAccommodationEditor } from "@/hooks/use-accommodation-editor";
-import { useAccommodationEditorNavigation } from "@/hooks/use-accommodation-editor-navigation";
+import { useAccommodationEditor } from "@/hooks/accommodations/admin/editor/use-accommodation-editor";
+import { useAccommodationEditorNavigation } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-navigation";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 import { cn } from "@/lib/utils";
 

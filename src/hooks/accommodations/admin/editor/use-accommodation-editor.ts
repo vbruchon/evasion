@@ -9,10 +9,10 @@ import {
   type AccommodationUpdateFormValues,
 } from "@/lib/admin/accommodation/schema";
 
-import { useAccommodationDraftAutosave } from "@/hooks/use-accommodation-draft-autosave";
-import { useAccommodationEditorSubmit } from "@/hooks/use-accommodation-editor-submit";
-import { useAccommodationImages } from "@/hooks/use-accommodation-images";
-import { useAccommodationStatus } from "@/hooks/use-accommodation-status";
+import { useAccommodationDraftAutosave } from "@/hooks/accommodations/admin/editor/use-accommodation-draft-autosave";
+import { useAccommodationEditorSubmit } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-submit";
+import { useAccommodationImages } from "@/hooks/accommodations/admin/editor/use-accommodation-images";
+import { useAccommodationStatus } from "@/hooks/accommodations/admin/editor/use-accommodation-status";
 import { haveAccommodationImagesChanged } from "@/lib/admin/accommodation/accommodation-image-state";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 

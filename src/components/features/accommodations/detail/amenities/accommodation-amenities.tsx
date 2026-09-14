@@ -1,6 +1,6 @@
 "use client";
 
-import { useAccommodationAmenities } from "@/hooks/use-accommodation-amenities";
+import { useAccommodationAmenities } from "@/hooks/accommodations/detail/use-accommodation-amenities";
 import { AccommodationAmenitiesCategories } from "./accommodation-amenities-categories";
 import { AccommodationAmenitiesGrid } from "./accommodation-amenities-grid";
 import { AccommodationAmenitiesToggle } from "./accommodation-amenities-toggle";
