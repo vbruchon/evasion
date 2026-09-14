@@ -6,8 +6,8 @@ import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/sc
 
 import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
 
-import { AccommodationStatusDropdown } from "../accommodation-status-dropdown";
 import { AccommodationEditorHeaderActionButton } from "./accommodation-editor-header-action-button";
+import { AccommodationStatusDropdown } from "../list/accommodation-status-dropdown";
 
 type AccommodationEditorHeaderActionsProps = {
   status: AccommodationUpdateFormValues["status"];
