@@ -99,6 +99,8 @@ export const discardAccommodationDraft = async (accommodationId: string) => {
 };
 
 export const searchAccommodationLocations = async (query: string) => {
+  await requireAdmin();
+
   return searchAccommodationLocationsAdmin(query);
 };
 
