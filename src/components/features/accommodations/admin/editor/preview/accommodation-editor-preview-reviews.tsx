@@ -13,7 +13,7 @@ import type {
 import { isAccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 
-import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
+import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
 
 type AccommodationEditorPreviewReviewsProps = {
   reviews: AccommodationUpdateData["reviews"];

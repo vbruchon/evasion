@@ -11,10 +11,10 @@ import {
 import { Button } from "@/components/ui/button";
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 
-import { AccommodationImageGallery } from "../../form/accommodation-image-gallery";
 import { AccommodationNumberField } from "../../form/accommodation-number-field";
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
+import { AccommodationImageGallery } from "../../form/images/accommodation-image-gallery";
 
 type AccommodationHeroEditorProps = {
   section: "general" | "key-details" | "image";

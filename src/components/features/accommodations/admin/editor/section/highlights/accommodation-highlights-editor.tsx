@@ -5,9 +5,8 @@ import { useFieldArray, useFormContext, useWatch } from "react-hook-form";
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import { MAX_ACCOMMODATION_HIGHLIGHTS } from "@/lib/accommodations/accommodation-highlights";
-
-import { AccommodationHighlightFieldCard } from "../../form/accommodation-highlight-field-card";
-import { AccommodationHighlightPresetPicker } from "../../form/accommodation-highlight-preset-picker";
+import { AccommodationHighlightPresetPicker } from "../../../form/highlights/accommodation-highlight-preset-picker";
+import { AccommodationHighlightFieldCard } from "../../../form/highlights/accommodation-highlight-field-card";
 
 type AccommodationHighlightsEditorProps = {
   disabled?: boolean;

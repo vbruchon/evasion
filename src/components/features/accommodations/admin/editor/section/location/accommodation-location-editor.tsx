@@ -2,10 +2,10 @@
 
 import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor-sections";
 
-import { AccommodationTextField } from "../../form/accommodation-text-field";
-import { AccommodationAccessesEditor } from "./accesses/accommodation-accesses-editor";
-import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
-import { AccommodationLocationMapEditor } from "./location/accommodation-location-map-editor";
+import { AccommodationTextField } from "../../../form/accommodation-text-field";
+import { AccommodationAccessesEditor } from "../accesses/accommodation-accesses-editor";
+import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
+import { AccommodationLocationMapEditor } from "./accommodation-location-map-editor";
 
 type AccommodationLocationEditorProps = {
   section: AccommodationLocationEditorSection;

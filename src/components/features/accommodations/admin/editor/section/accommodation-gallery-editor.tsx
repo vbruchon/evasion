@@ -1,8 +1,8 @@
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 
-import { AccommodationImageDropzone } from "../../form/accommodation-image-dropzone";
-import { AccommodationSortableImageGallery } from "../../form/accommodation-sortable-image-gallery";
 import { AccommodationEditorSectionContent } from "../section/accommodation-editor-section-content";
+import { AccommodationImageDropzone } from "../../form/images/accommodation-image-dropzone";
+import { AccommodationSortableImageGallery } from "../../form/images/accommodation-sortable-image-gallery";
 
 type AccommodationGalleryEditorProps = {
   images: AccommodationPreviewImage[];

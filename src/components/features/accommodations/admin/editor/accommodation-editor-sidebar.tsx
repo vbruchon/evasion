@@ -19,14 +19,14 @@ import {
 } from "@/lib/admin/accommodation/editor-sections";
 
 import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsection-nav";
-import { AccommodationAmenitiesEditor } from "./section/accommodation-amenities-editor";
 import { AccommodationAvailabilityEditor } from "./section/accommodation-availability-editor";
 import { AccommodationGalleryEditor } from "./section/accommodation-gallery-editor";
 import { AccommodationHeroEditor } from "./section/accommodation-hero-editor";
-import { AccommodationHighlightsEditor } from "./section/accommodation-highlights-editor";
-import { AccommodationLocationEditor } from "./section/accommodation-location-editor";
+import { AccommodationHighlightsEditor } from "./section/highlights/accommodation-highlights-editor";
 import { AccommodationPresentationEditor } from "./section/accommodation-presentation-editor";
-import { AccommodationReviewsEditor } from "./section/accommodation-reviews-editor";
+import { AccommodationAmenitiesEditor } from "./section/amenities/accommodation-amenities-editor";
+import { AccommodationLocationEditor } from "./section/location/accommodation-location-editor";
+import { AccommodationReviewsEditor } from "./section/reviews/accommodation-reviews-editor";
 
 type AccommodationEditorSidebarProps = {
   activeSection: AccommodationEditorSection;

@@ -16,11 +16,11 @@ import { AccommodationEditorPreviewAvailability } from "./accommodation-editor-p
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
 import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
 import { AccommodationEditorPreviewReviews } from "./accommodation-editor-preview-reviews";
-import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
+import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
 
-import { AccommodationPresentation } from "../../detail/accommodation-presentation";
-import { AccommodationAmenities } from "../../detail/amenities/accommodation-amenities";
-import { AccommodationGallery } from "../../detail/gallery/accommodation-gallery";
+import { AccommodationPresentation } from "../../../detail/accommodation-presentation";
+import { AccommodationAmenities } from "../../../detail/amenities/accommodation-amenities";
+import { AccommodationGallery } from "../../../detail/gallery/accommodation-gallery";
 
 type AccommodationEditorPreviewProps = {
   reviews: AccommodationUpdateData["reviews"];

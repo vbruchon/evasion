@@ -10,8 +10,8 @@ import { cn } from "@/lib/utils";
 import { AccommodationEditorDraftBanner } from "./accommodation-editor-draft-banner";
 import { AccommodationEditorHeader } from "./accommodation-editor-header";
 import { AccommodationEditorMobileNavigation } from "./accommodation-editor-mobile-navigation";
-import { AccommodationEditorPreview } from "./accommodation-editor-preview";
 import { AccommodationEditorSidebar } from "./accommodation-editor-sidebar";
+import { AccommodationEditorPreview } from "./preview/accommodation-editor-preview";
 
 type AccommodationEditorProps = {
   accommodation: AccommodationUpdateData;

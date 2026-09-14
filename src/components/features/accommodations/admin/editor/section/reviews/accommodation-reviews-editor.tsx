@@ -1,9 +1,10 @@
 "use client";
 
+import { AccommodationReviewsContentEditor } from "./accommodation-reviews-content-editor";
+import { AccommodationReviewsManagementEditor } from "./accommodation-reviews-management-editor";
+
 import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
-import { AccommodationReviewsContentEditor } from "./reviews/accommodation-reviews-content-editor";
-import { AccommodationReviewsManagementEditor } from "./reviews/accommodation-reviews-management-editor";
 
 type AccommodationReviewsEditorProps = {
   section: AccommodationReviewsEditorSection;

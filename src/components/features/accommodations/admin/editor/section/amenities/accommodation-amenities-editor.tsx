@@ -2,10 +2,10 @@
 
 import { accommodationAmenities } from "@/lib/accommodations/accommodation-amenities";
 
-import { AccommodationAmenityCategory } from "./amenities/accommodation-amenity-category";
-import { AccommodationAmenitiesToolbar } from "./amenities/accommodation-amenities-toolbar";
-import { useAccommodationAmenitiesEditor } from "./amenities/use-accommodation-amenities-editor";
-import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
+import { AccommodationAmenityCategory } from "./accommodation-amenity-category";
+import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
+import { useAccommodationAmenitiesEditor } from "./use-accommodation-amenities-editor";
+import { AccommodationAmenitiesToolbar } from "./accommodation-amenities-toolbar";
 
 type AccommodationAmenitiesEditorProps = {
   disabled?: boolean;
