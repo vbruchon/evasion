@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { AccommodationEditorRegion } from "@/components/features/accommodations/admin/editor/accommodation-editor-region";
+import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
 import type {
   AccommodationDisplayImageSource,
   AccommodationHeroData,
@@ -10,7 +10,7 @@ import { ACCOMMODATION_PREVIEW_PLACEHOLDERS } from "@/lib/accommodations/accommo
 import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import { cn } from "@/lib/utils";
 
-import { AccommodationKeyDetails } from "../accommodation-key-details";
+import { AccommodationKeyDetails } from "./accommodation-key-details";
 import { AccommodationHeroActions } from "./accommodation-hero-actions";
 import { AccommodationHeroGeneral } from "./accommodation-hero-general";
 import { AccommodationHighlights } from "./accommodation-highlights";

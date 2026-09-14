@@ -1,14 +1,13 @@
 import { getAccommodationAccess } from "@/lib/accommodations/accommodation-accesses";
 
-import { AccommodationLocationAccessPanel } from "./location/access/accommodation-location-access-panel";
-import { AccommodationLocationContent } from "./location/accommodation-location-content";
-
-import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import type {
   AccommodationAccessData,
   AccommodationLocationData,
-} from "./location/accommodation-location.types";
-import { AccommodationLocationMap } from "./location/map/accommodation-location-map";
+} from "./accommodation-location.types";
+import { AccommodationLocationAccessPanel } from "./access/accommodation-location-access-panel";
+import { AccommodationLocationContent } from "./accommodation-location-content";
+import { AccommodationLocationMap } from "./map/accommodation-location-map";
+import { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor-sections";
 
 type AccommodationLocationProps = {
   accommodation: AccommodationLocationData;

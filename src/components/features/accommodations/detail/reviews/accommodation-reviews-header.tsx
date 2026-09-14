@@ -1,6 +1,6 @@
 import { Star } from "lucide-react";
 
-import { AccommodationEditorRegion } from "@/components/features/accommodations/admin/editor/accommodation-editor-region";
+import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
 import { Button } from "@/components/ui/button";
 import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
 

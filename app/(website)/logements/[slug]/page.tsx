@@ -8,11 +8,11 @@ import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/av
 
 import { AccommodationAmenities } from "@/components/features/accommodations/detail/amenities/accommodation-amenities";
 import { AccommodationAvailability } from "@/components/features/accommodations/detail/availability/accommodation-availability";
-import { AccommodationGallery } from "@/components/features/accommodations/detail/accommodation-gallery";
-import { AccommodationHero } from "@/components/features/accommodations/detail/accommodation-hero";
-import { AccommodationLocation } from "@/components/features/accommodations/detail/accommodation-location";
+import { AccommodationHero } from "@/components/features/accommodations/detail/hero/accommodation-hero";
 import { AccommodationPresentation } from "@/components/features/accommodations/detail/accommodation-presentation";
+import { AccommodationLocation } from "@/components/features/accommodations/detail/location/accommodation-location";
 import { AccommodationReviews } from "@/components/features/accommodations/detail/reviews/accommodation-reviews";
+import { AccommodationGallery } from "@/components/features/accommodations/detail/gallery/accommodation-gallery";
 
 type AccommodationPageProps = {
   params: Promise<{

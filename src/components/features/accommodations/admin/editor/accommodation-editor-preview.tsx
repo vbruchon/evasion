@@ -12,14 +12,15 @@ import type {
 } from "@/lib/admin/accommodation/editor-sections";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 
-import { AccommodationGallery } from "../../detail/accommodation-gallery";
-import { AccommodationPresentation } from "../../detail/accommodation-presentation";
-import { AccommodationAmenities } from "../../detail/amenities/accommodation-amenities";
 import { AccommodationEditorPreviewAvailability } from "./accommodation-editor-preview-availability";
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
 import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
 import { AccommodationEditorPreviewReviews } from "./accommodation-editor-preview-reviews";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
+
+import { AccommodationPresentation } from "../../detail/accommodation-presentation";
+import { AccommodationAmenities } from "../../detail/amenities/accommodation-amenities";
+import { AccommodationGallery } from "../../detail/gallery/accommodation-gallery";
 
 type AccommodationEditorPreviewProps = {
   reviews: AccommodationUpdateData["reviews"];

@@ -8,8 +8,8 @@ import type {
 } from "@/lib/admin/accommodation/editor-sections";
 import { isAccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor-sections";
 
-import { AccommodationLocation } from "../../detail/accommodation-location";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
+import { AccommodationLocation } from "../../detail/location/accommodation-location";
 
 type AccommodationEditorPreviewLocationProps = {
   accommodation: React.ComponentProps<

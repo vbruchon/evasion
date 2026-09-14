@@ -1,4 +1,4 @@
-import { AccommodationAmenityIcon } from "@/components/features/accommodations/accommodation-amenity-icon";
+import { AccommodationAmenityIcon } from "@/components/features/accommodations/shared/accommodation-amenity-icon";
 import { cn } from "@/lib/utils";
 
 import type { AccommodationAmenityDisplay } from "./accommodation-amenities.types";

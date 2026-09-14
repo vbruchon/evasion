@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { AccommodationEditorRegion } from "@/components/features/accommodations/admin/editor/accommodation-editor-region";
+import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
 import { Button } from "@/components/ui/button";
 import { useAccommodationReviewsCarousel } from "@/hooks/use-accommodation-reviews-carousel";
 import type { AccommodationReviewData } from "@/lib/accommodations/reviews/accommodation-review.types";
