@@ -9,7 +9,7 @@ import {
   AccommodationAmenityData,
   AccommodationAmenityDisplay,
   AccommodationAmenityDisplayCategory,
-} from "@/components/features/accommodations/slug/amenities/accommodation-amenities.types";
+} from "@/components/features/accommodations/detail/amenities/accommodation-amenities.types";
 
 const AMENITY_PREVIEW_LIMIT = 15;
 

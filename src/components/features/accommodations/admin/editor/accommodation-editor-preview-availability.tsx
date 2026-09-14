@@ -9,7 +9,7 @@ import type {
 import { isAccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 
-import { AccommodationAvailability } from "../../slug/availability/accommodation-availability";
+import { AccommodationAvailability } from "../../detail/availability/accommodation-availability";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
 
 type AccommodationEditorPreviewAvailabilityProps = {

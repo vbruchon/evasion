@@ -6,13 +6,13 @@ import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodatio
 import { getPublishedAccommodationBySlug } from "@/lib/accommodations/accommodations";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 
-import { AccommodationAmenities } from "@/components/features/accommodations/slug/amenities/accommodation-amenities";
-import { AccommodationAvailability } from "@/components/features/accommodations/slug/availability/accommodation-availability";
-import { AccommodationGallery } from "@/components/features/accommodations/slug/accommodation-gallery";
-import { AccommodationHero } from "@/components/features/accommodations/slug/accommodation-hero";
-import { AccommodationLocation } from "@/components/features/accommodations/slug/accommodation-location";
-import { AccommodationPresentation } from "@/components/features/accommodations/slug/accommodation-presentation";
-import { AccommodationReviews } from "@/components/features/accommodations/slug/reviews/accommodation-reviews";
+import { AccommodationAmenities } from "@/components/features/accommodations/detail/amenities/accommodation-amenities";
+import { AccommodationAvailability } from "@/components/features/accommodations/detail/availability/accommodation-availability";
+import { AccommodationGallery } from "@/components/features/accommodations/detail/accommodation-gallery";
+import { AccommodationHero } from "@/components/features/accommodations/detail/accommodation-hero";
+import { AccommodationLocation } from "@/components/features/accommodations/detail/accommodation-location";
+import { AccommodationPresentation } from "@/components/features/accommodations/detail/accommodation-presentation";
+import { AccommodationReviews } from "@/components/features/accommodations/detail/reviews/accommodation-reviews";
 
 type AccommodationPageProps = {
   params: Promise<{

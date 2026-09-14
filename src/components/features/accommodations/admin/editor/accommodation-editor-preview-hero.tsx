@@ -8,7 +8,7 @@ import type {
 } from "@/lib/admin/accommodation/editor-sections";
 import { isAccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor-sections";
 
-import { AccommodationHero } from "../../slug/accommodation-hero";
+import { AccommodationHero } from "../../detail/accommodation-hero";
 import { AccommodationEditorSection as EditorSection } from "./accommodation-editor-section";
 
 type AccommodationEditorPreviewHeroProps = {
