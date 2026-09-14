@@ -1,7 +1,6 @@
 import { AccommodationAmenityIcon } from "@/components/features/accommodations/shared/accommodation-amenity-icon";
 import { cn } from "@/lib/utils";
-
-import type { AccommodationAmenityDisplay } from "./accommodation-amenities.types";
+import type { AccommodationAmenityDisplay } from "@/lib/accommodations/accommodation-amenities.types";
 
 type AccommodationAmenityItemProps = {
   amenity: AccommodationAmenityDisplay;

@@ -1,5 +1,5 @@
+import type { AccommodationAmenityDisplay } from "@/lib/accommodations/accommodation-amenities.types";
 import { AccommodationAmenityItem } from "./accommodation-amenity-item";
-import type { AccommodationAmenityDisplay } from "./accommodation-amenities.types";
 
 type AccommodationAmenitiesGridProps = {
   amenities: AccommodationAmenityDisplay[];

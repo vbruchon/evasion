@@ -1,4 +1,4 @@
-import type { AccommodationLocationData } from "./accommodation-location.types";
+import type { AccommodationLocationData } from "@/lib/accommodations/accommodation-location.types";
 import { cn } from "@/lib/utils";
 
 type AccommodationLocationContentProps = {

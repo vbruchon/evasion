@@ -7,11 +7,10 @@ import type {
 } from "@/lib/admin/accommodation/schema";
 
 import { accommodationAmenities } from "@/lib/accommodations/accommodation-amenities";
-
 import {
   getFilteredAmenityCategories,
   sortAccommodationAmenities,
-} from "./accommodation-amenities-editor.utils";
+} from "@/lib/admin/accommodation/accommodation-amenities-editor.utils";
 
 type UseAccommodationAmenitiesEditorOptions = {
   disabled?: boolean;

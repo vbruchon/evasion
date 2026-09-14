@@ -1,5 +1,5 @@
+import type { AccommodationAmenityDisplayCategory } from "@/lib/accommodations/accommodation-amenities.types";
 import { AccommodationAmenityItem } from "./accommodation-amenity-item";
-import type { AccommodationAmenityDisplayCategory } from "./accommodation-amenities.types";
 
 type AccommodationAmenitiesCategoriesProps = {
   categories: AccommodationAmenityDisplayCategory[];

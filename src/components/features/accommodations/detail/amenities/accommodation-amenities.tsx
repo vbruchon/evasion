@@ -4,7 +4,7 @@ import { useAccommodationAmenities } from "@/hooks/use-accommodation-amenities";
 import { AccommodationAmenitiesCategories } from "./accommodation-amenities-categories";
 import { AccommodationAmenitiesGrid } from "./accommodation-amenities-grid";
 import { AccommodationAmenitiesToggle } from "./accommodation-amenities-toggle";
-import type { AccommodationAmenityData } from "./accommodation-amenities.types";
+import type { AccommodationAmenityData } from "@/lib/accommodations/accommodation-amenities.types";
 
 type AccommodationAmenitiesProps = {
   amenities: AccommodationAmenityData[];
