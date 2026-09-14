@@ -4,7 +4,7 @@ import { GripVertical } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
-import type { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
+import type { AccommodationAdminListItem } from "@/lib/admin/accommodation/accommodation-admin-types";
 import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
 
 import { AccommodationAdminActions } from "./accommodation-admin-actions";

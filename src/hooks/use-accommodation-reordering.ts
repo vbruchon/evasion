@@ -1,6 +1,6 @@
 "use client";
 
-import { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
+import type { AccommodationAdminListItem } from "@/lib/admin/accommodation/accommodation-admin-types";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove } from "@dnd-kit/sortable";

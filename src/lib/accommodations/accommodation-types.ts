@@ -11,19 +11,6 @@ export type AccommodationWithImages = Prisma.AccommodationGetPayload<{
   };
 }>;
 
-export type AccommodationAdminListItem = Prisma.AccommodationGetPayload<{
-  include: {
-    images: true;
-
-    draft: {
-      select: {
-        id: true;
-        updatedAt: true;
-      };
-    };
-  };
-}>;
-
 export type AccommodationHeroData = Pick<
   Accommodation,
   | "name"

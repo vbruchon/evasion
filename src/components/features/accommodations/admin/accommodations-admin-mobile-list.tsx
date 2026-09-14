@@ -10,7 +10,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
-import type { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
+import type { AccommodationAdminListItem } from "@/lib/admin/accommodation/accommodation-admin-types";
 
 import { AccommodationAdminMobileCard } from "./accommodation-admin-mobile-card";
 

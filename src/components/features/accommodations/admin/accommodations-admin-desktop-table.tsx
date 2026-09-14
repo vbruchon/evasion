@@ -19,7 +19,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import type { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
+import type { AccommodationAdminListItem } from "@/lib/admin/accommodation/accommodation-admin-types";
 
 type AccommodationsAdminDesktopTableProps = {
   accommodations: AccommodationAdminListItem[];
