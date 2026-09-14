@@ -1,7 +1,7 @@
 import type {
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";

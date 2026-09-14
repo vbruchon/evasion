@@ -2,7 +2,7 @@
 
 import { useCallback, useState } from "react";
 
-import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
 
 import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 import {

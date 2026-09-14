@@ -2,7 +2,7 @@
 
 import { useFormContext, useWatch } from "react-hook-form";
 
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import { useAccommodationAvailabilityPreview } from "@/hooks/use-accommodation-availability-preview";
 

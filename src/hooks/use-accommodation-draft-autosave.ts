@@ -11,7 +11,7 @@ import {
   accommodationUpdateSchema,
   type AccommodationUpdateFormValues,
   type AccommodationUpdateImageInput,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { useAccommodationDraftSnapshot } from "@/hooks/use-accommodation-draft-snapshot";
 import type {

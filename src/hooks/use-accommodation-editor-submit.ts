@@ -8,7 +8,7 @@ import {
   saveAccommodationDraft,
   updateAccommodation,
 } from "~/app/admin/logements/action";
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import { getAccommodationDraftValues } from "@/lib/admin/accommodation/accommodation-draft";

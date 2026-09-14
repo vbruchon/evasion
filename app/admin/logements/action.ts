@@ -20,7 +20,7 @@ import type {
   AccommodationDraftContent,
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
-} from "./schema";
+} from "@/lib/admin/accommodation/schema";
 
 export const createAccommodation = async (
   values: AccommodationCreateFormValues,

@@ -1,7 +1,7 @@
 import {
   type AccommodationCreateFormValues,
   accommodationCreateSchema,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { createAccommodationSlug } from "@/lib/admin/accommodation/create-accommodation-slug";
 import { prisma } from "@/lib/prisma";

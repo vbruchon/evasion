@@ -2,7 +2,7 @@
 
 import { Controller, useFormContext } from "react-hook-form";
 
-import type { AccommodationTextFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationTextFormValues } from "@/lib/admin/accommodation/schema";
 
 import {
   Field,

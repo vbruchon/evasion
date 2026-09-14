@@ -1,6 +1,6 @@
 import { useFormContext, useWatch } from "react-hook-form";
 
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";

@@ -1,6 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 
-import type { AccommodationDraftContent } from "~/app/admin/logements/schema";
+import type { AccommodationDraftContent } from "@/lib/admin/accommodation/schema";
 
 import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/publish-accommodation-draft.action";
 import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";

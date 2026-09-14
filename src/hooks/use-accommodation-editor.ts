@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import {
   accommodationUpdateSchema,
   type AccommodationUpdateFormValues,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { useAccommodationDraftAutosave } from "@/hooks/use-accommodation-draft-autosave";
 import { useAccommodationEditorSubmit } from "@/hooks/use-accommodation-editor-submit";

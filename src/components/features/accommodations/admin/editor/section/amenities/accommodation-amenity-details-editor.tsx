@@ -1,6 +1,6 @@
 import { X } from "lucide-react";
 
-import type { AccommodationAmenityInput } from "~/app/admin/logements/schema";
+import type { AccommodationAmenityInput } from "@/lib/admin/accommodation/schema";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

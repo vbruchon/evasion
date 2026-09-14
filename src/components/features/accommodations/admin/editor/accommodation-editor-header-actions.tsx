@@ -2,7 +2,7 @@
 
 import { FileClock, Save, Send } from "lucide-react";
 
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
 

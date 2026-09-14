@@ -2,7 +2,7 @@ import {
   accommodationDraftContentSchema,
   type AccommodationDraftContent,
   type AccommodationUpdateFormValues,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 export const ACCOMMODATION_DRAFT_VALUE_FIELDS = [
   "name",

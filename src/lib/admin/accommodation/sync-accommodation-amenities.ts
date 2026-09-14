@@ -1,6 +1,6 @@
 import type { Prisma } from "@/generated/prisma/client";
 
-import type { AccommodationAmenitiesInput } from "~/app/admin/logements/schema";
+import type { AccommodationAmenitiesInput } from "@/lib/admin/accommodation/schema";
 
 export const syncAccommodationAmenities = async (
   tx: Prisma.TransactionClient,

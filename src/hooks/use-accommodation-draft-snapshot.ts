@@ -7,7 +7,7 @@ import { useWatch } from "react-hook-form";
 import type {
   AccommodationDraftContent,
   AccommodationUpdateFormValues,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import {

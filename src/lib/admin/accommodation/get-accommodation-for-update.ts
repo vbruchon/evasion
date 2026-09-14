@@ -1,7 +1,7 @@
 import {
   accommodationAccessesSchema,
   accommodationAmenitiesSchema,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/accommodation-draft";
 import { resolveAccommodationDraftImages } from "@/lib/admin/accommodation/resolve-accommodation-draft-images";

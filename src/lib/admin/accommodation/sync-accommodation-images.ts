@@ -1,6 +1,6 @@
 import type { Prisma } from "@/generated/prisma/client";
 
-import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
 
 type ExistingAccommodationImage = {
   id: string;

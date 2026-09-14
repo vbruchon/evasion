@@ -1,6 +1,6 @@
 "use client";
 
-import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
 
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 import { uploadAccommodationImageFiles } from "@/lib/admin/uploadthing/upload-accommodation-image-files";

@@ -1,4 +1,4 @@
-import type { AccommodationDraftContent } from "~/app/admin/logements/schema";
+import type { AccommodationDraftContent } from "@/lib/admin/accommodation/schema";
 
 type AccommodationImage = {
   id: string;

@@ -5,7 +5,7 @@ import type { UseFormReturn } from "react-hook-form";
 import { useWatch } from "react-hook-form";
 
 import { updateAccommodationStatus } from "~/app/admin/logements/action";
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 type UseAccommodationStatusOptions = {
   accommodationId: string;

@@ -3,7 +3,7 @@ import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 import type {
   AccommodationDraftContent,
   AccommodationUpdateImageInput,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";

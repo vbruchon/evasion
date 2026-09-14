@@ -4,7 +4,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import type {
   AccommodationAmenityInput,
   AccommodationUpdateFormValues,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { accommodationAmenities } from "@/lib/accommodations/accommodation-amenities";
 

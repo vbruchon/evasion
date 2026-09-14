@@ -12,7 +12,7 @@ import {
 import type {
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { useAccommodationEditorSubmit } from "@/hooks/use-accommodation-editor-submit";
 import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";

@@ -1,4 +1,4 @@
-import type { AccommodationAmenityInput } from "~/app/admin/logements/schema";
+import type { AccommodationAmenityInput } from "@/lib/admin/accommodation/schema";
 
 import {
   accommodationAmenityCategories,

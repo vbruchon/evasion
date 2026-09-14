@@ -2,7 +2,7 @@ import type {
   AccommodationCreateFormValues,
   AccommodationDraftContent,
   AccommodationUpdateFormValues,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 type AccommodationDraftValues = AccommodationDraftContent["values"];
 

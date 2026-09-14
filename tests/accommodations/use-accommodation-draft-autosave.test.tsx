@@ -12,7 +12,7 @@ import type {
   AccommodationDraftContent,
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { useAccommodationDraftAutosave } from "@/hooks/use-accommodation-draft-autosave";
 import type {

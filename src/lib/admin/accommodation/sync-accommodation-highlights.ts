@@ -1,6 +1,6 @@
 import type { Prisma } from "@/generated/prisma/client";
 
-import type { AccommodationHighlightsInput } from "~/app/admin/logements/schema";
+import type { AccommodationHighlightsInput } from "@/lib/admin/accommodation/schema";
 
 export const getAccommodationExistingHighlightIds = (
   highlights: AccommodationHighlightsInput,

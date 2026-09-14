@@ -1,4 +1,4 @@
-import type { AccommodationUpdateImageInput } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
 
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
