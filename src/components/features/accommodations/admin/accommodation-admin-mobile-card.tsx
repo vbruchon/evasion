@@ -2,17 +2,18 @@
 
 import { GripVertical } from "lucide-react";
 
+import { Button } from "@/components/ui/button";
+import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
+import type { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
+import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
+
 import { AccommodationAdminActions } from "./accommodation-admin-actions";
 import { AccommodationAdminIdentity } from "./accommodation-admin-identity";
+import { AccommodationDraftBadge } from "./accommodation-draft-badge";
 import { AccommodationStatusBadge } from "./accommodation-status-badge";
 
-import { Button } from "@/components/ui/button";
-import { formatDate, formatRelativeDate } from "@/lib/admin/format-date";
-import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
-import { useAccommodationSortable } from "@/hooks/use-accommodation-sortable";
-
 type AccommodationAdminMobileCardProps = {
-  accommodation: AccommodationWithImages;
+  accommodation: AccommodationAdminListItem;
   isReordering: boolean;
 };
 
@@ -37,11 +38,15 @@ export const AccommodationAdminMobileCard = ({
         <AccommodationAdminIdentity accommodation={accommodation} />
 
         <div className="mt-5 flex items-center justify-between gap-4">
-          <AccommodationStatusBadge
-            id={accommodation.id}
-            status={accommodation.status}
-            disabled={isReordering}
-          />
+          <div className="flex flex-wrap items-center gap-2">
+            <AccommodationStatusBadge
+              id={accommodation.id}
+              status={accommodation.status}
+              disabled={isReordering}
+            />
+
+            {accommodation.draft ? <AccommodationDraftBadge /> : null}
+          </div>
 
           <div className="flex items-center gap-2">
             <p className="text-sm text-muted-foreground">
@@ -63,7 +68,7 @@ export const AccommodationAdminMobileCard = ({
           </div>
         </div>
 
-        <div className="mt-5 border-t border-border/60 pt-4 flex justify-between">
+        <div className="mt-5 flex justify-between border-t border-border/60 pt-4">
           <p className="text-sm text-foreground">
             {formatDate(accommodation.updatedAt)}
           </p>

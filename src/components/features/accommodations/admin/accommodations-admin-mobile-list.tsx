@@ -10,11 +10,12 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
+import type { AccommodationAdminListItem } from "@/lib/accommodations/accommodation-types";
+
 import { AccommodationAdminMobileCard } from "./accommodation-admin-mobile-card";
-import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
 type AccommodationsAdminMobileListProps = {
-  accommodations: AccommodationWithImages[];
+  accommodations: AccommodationAdminListItem[];
   isReordering: boolean;
   sensors: SensorDescriptor<SensorOptions>[];
   onDragEnd: (event: DragEndEvent) => void;
