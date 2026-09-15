@@ -82,7 +82,6 @@ export const AccommodationAdminRow = ({
             id={accommodation.id}
             name={accommodation.name}
             slug={accommodation.slug}
-            mobile
           />
         ) : null}
       </TableCell>
