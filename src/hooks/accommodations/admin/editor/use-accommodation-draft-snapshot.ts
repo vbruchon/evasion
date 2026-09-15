@@ -11,7 +11,7 @@ import {
   ACCOMMODATION_DRAFT_VALUE_FIELDS,
   getAccommodationDraftSignature,
   getAccommodationDraftValues,
-} from "@/lib/admin/accommodation/accommodation-draft";
+} from "@/lib/admin/accommodation/draft/accommodation-draft";
 
 type UseAccommodationDraftSnapshotOptions = {
   form: UseFormReturn<AccommodationUpdateFormValues>;

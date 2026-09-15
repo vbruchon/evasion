@@ -1,7 +1,7 @@
 import {
   getAccommodationDraftFileKeys,
   parseAccommodationDraftContent,
-} from "@/lib/admin/accommodation/accommodation-draft";
+} from "@/lib/admin/accommodation/draft/accommodation-draft";
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";
 

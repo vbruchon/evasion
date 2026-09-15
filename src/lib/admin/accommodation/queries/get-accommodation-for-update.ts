@@ -4,8 +4,8 @@ import {
   AccommodationUpdateFormValues,
 } from "@/lib/admin/accommodation/schema";
 
-import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/accommodation-draft";
-import { resolveAccommodationDraftImages } from "@/lib/admin/accommodation/resolve-accommodation-draft-images";
+import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/draft/accommodation-draft";
+import { resolveAccommodationDraftImages } from "@/lib/admin/accommodation/draft/resolve-accommodation-draft-images";
 import { accommodationAccesses } from "@/lib/accommodations/accommodation-accesses";
 import { prisma } from "@/lib/prisma";
 

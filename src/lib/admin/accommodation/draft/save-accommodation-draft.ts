@@ -11,11 +11,11 @@ import {
   getAccommodationDraftFileKeys,
   parseAccommodationDraftContent,
 } from "./accommodation-draft";
-import { hasForeignAccommodationHighlight } from "./sync-accommodation-highlights";
+import { hasForeignAccommodationHighlight } from "../sync-accommodation-highlights";
 import {
   getAccommodationUpdateImageFileKeys,
   hasForeignAccommodationImage,
-} from "./sync-accommodation-images";
+} from "../sync-accommodation-images";
 
 type AccommodationDraftValues = AccommodationDraftContent["values"];
 

@@ -19,7 +19,7 @@ import type {
   AccommodationPreviewImage,
 } from "@/lib/admin/accommodation/accommodation-image-previews";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
-import { getAccommodationDraftSignature } from "@/lib/admin/accommodation/accommodation-draft";
+import { getAccommodationDraftSignature } from "@/lib/admin/accommodation/draft/accommodation-draft";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
 
 const AUTOSAVE_DELAY = 2500;

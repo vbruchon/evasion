@@ -9,7 +9,7 @@ import { prisma } from "@/lib/prisma";
 import {
   getAccommodationDraftFileKeys,
   parseAccommodationDraftContent,
-} from "../accommodation-draft";
+} from "../draft/accommodation-draft";
 import { persistAccommodationUpdate } from "../persist-accommodation-update";
 import { revalidateAccommodation } from "../revalidate-accommodation";
 import {

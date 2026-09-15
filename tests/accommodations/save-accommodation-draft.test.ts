@@ -5,7 +5,7 @@ import type {
   AccommodationUpdateImageInput,
 } from "@/lib/admin/accommodation/schema";
 
-import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";
+import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/save-accommodation-draft";
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";
 

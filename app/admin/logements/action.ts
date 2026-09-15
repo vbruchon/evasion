@@ -4,10 +4,10 @@ import type { AccommodationStatus } from "@/generated/prisma/client";
 
 import { createAccommodationAdmin } from "@/lib/admin/accommodation/commands/create-accommodation";
 import { deleteAccommodationAdmin } from "@/lib/admin/accommodation/commands/delete-accommodation";
-import { discardAccommodationDraftAdmin } from "@/lib/admin/accommodation/discard-accommodation-draft.action";
-import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/publish-accommodation-draft.action";
+import { discardAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/discard-accommodation-draft";
+import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/publish-accommodation-draft";
 import { reorderAccommodationsAdmin } from "@/lib/admin/accommodation/commands/reorder-accommodations";
-import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";
+import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/save-accommodation-draft";
 import { updateAccommodationAdmin } from "@/lib/admin/accommodation/commands/update-accommodation";
 import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/commands/update-accommodation-status";
 import { requireAdmin } from "@/lib/admin/require-admin";

@@ -2,19 +2,19 @@ import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";
 
 import { parseAccommodationDraftContent } from "./accommodation-draft";
-import { revalidateAccommodation } from "./revalidate-accommodation";
-import { syncAccommodationAccesses } from "./sync-accommodation-accesses";
-import { syncAccommodationAmenities } from "./sync-accommodation-amenities";
+import { revalidateAccommodation } from "../revalidate-accommodation";
+import { syncAccommodationAccesses } from "../sync-accommodation-accesses";
+import { syncAccommodationAmenities } from "../sync-accommodation-amenities";
 import {
   hasForeignAccommodationHighlight,
   syncAccommodationHighlights,
-} from "./sync-accommodation-highlights";
+} from "../sync-accommodation-highlights";
 import {
   getRemovedAccommodationImages,
   hasForeignAccommodationImage,
   syncAccommodationImages,
-} from "./sync-accommodation-images";
-import { toAccommodationPersistenceData } from "./accommodation-persistence-data";
+} from "../sync-accommodation-images";
+import { toAccommodationPersistenceData } from "../accommodation-persistence-data";
 
 export const publishAccommodationDraftAdmin = async (
   accommodationId: string,
