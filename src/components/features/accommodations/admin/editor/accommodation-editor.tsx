@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { AccommodationEditorDraftBanner } from "./accommodation-editor-draft-banner";
 import { AccommodationEditorHeader } from "./accommodation-editor-header";
 import { AccommodationEditorMobileNavigation } from "./accommodation-editor-mobile-navigation";
-import { AccommodationEditorSidebar } from "./accommodation-editor-sidebar";
+import { AccommodationEditorSidebar } from "./sidebar/accommodation-editor-sidebar";
 import { AccommodationEditorPreview } from "./preview/accommodation-editor-preview";
 
 type AccommodationEditorProps = {
@@ -20,10 +20,11 @@ type AccommodationEditorProps = {
 export const AccommodationEditor = ({
   accommodation,
 }: AccommodationEditorProps) => {
+  const navigation = useAccommodationEditorNavigation();
+
   const {
     activeSection,
     activeHeroSection,
-    activePresentationSection,
     activeLocationSection,
     activeAvailabilitySection,
     activeReviewsSection,
@@ -31,11 +32,10 @@ export const AccommodationEditor = ({
     setMobileView,
     handleSectionChange,
     handleHeroSectionChange,
-    handlePresentationSectionChange,
     handleLocationSectionChange,
     handleAvailabilitySectionChange,
     handleReviewsSectionChange,
-  } = useAccommodationEditorNavigation();
+  } = navigation;
 
   const {
     form,
@@ -151,12 +151,7 @@ export const AccommodationEditor = ({
             )}
           >
             <AccommodationEditorSidebar
-              activeSection={activeSection}
-              activeHeroSection={activeHeroSection}
-              activePresentationSection={activePresentationSection}
-              activeLocationSection={activeLocationSection}
-              activeAvailabilitySection={activeAvailabilitySection}
-              activeReviewsSection={activeReviewsSection}
+              navigation={navigation}
               accommodationId={accommodation.id}
               reviews={accommodation.reviews}
               lastReviewsImportAt={accommodation.lastReviewsImportAt}
@@ -164,12 +159,6 @@ export const AccommodationEditor = ({
               coverImageId={coverImageId}
               presentationImageId={presentationImageId}
               disabled={disabled}
-              onSectionChange={handleSectionChange}
-              onHeroSectionChange={handleHeroSectionChange}
-              onPresentationSectionChange={handlePresentationSectionChange}
-              onLocationSectionChange={handleLocationSectionChange}
-              onAvailabilitySectionChange={handleAvailabilitySectionChange}
-              onReviewsSectionChange={handleReviewsSectionChange}
               onFilesSelected={addFiles}
               onSetCover={setCoverImage}
               onSetPresentationImage={setPresentationImage}

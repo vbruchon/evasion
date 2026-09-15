@@ -87,3 +87,7 @@ export const useAccommodationEditorNavigation = () => {
     handleReviewsSectionChange,
   };
 };
+
+export type AccommodationEditorNavigation = ReturnType<
+  typeof useAccommodationEditorNavigation
+>;
