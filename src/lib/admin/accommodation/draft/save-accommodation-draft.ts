@@ -15,7 +15,7 @@ import { hasForeignAccommodationHighlight } from "../sync-accommodation-highligh
 import {
   getAccommodationUpdateImageFileKeys,
   hasForeignAccommodationImage,
-} from "../sync-accommodation-images";
+} from "../images/sync-accommodation-images";
 
 type AccommodationDraftValues = AccommodationDraftContent["values"];
 

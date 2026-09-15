@@ -5,7 +5,7 @@ import Image from "next/image";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { cn } from "@/lib/utils";
 
 type AccommodationImageGalleryProps = {

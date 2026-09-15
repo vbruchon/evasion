@@ -6,7 +6,7 @@ import { useWatch } from "react-hook-form";
 
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
-import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import {
   ACCOMMODATION_DRAFT_VALUE_FIELDS,
   getAccommodationDraftSignature,

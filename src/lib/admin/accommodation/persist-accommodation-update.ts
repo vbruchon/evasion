@@ -8,7 +8,7 @@ import { prisma } from "@/lib/prisma";
 import { syncAccommodationAccesses } from "./sync-accommodation-accesses";
 import { syncAccommodationAmenities } from "./sync-accommodation-amenities";
 import { syncAccommodationHighlights } from "./sync-accommodation-highlights";
-import { syncAccommodationImages } from "./sync-accommodation-images";
+import { syncAccommodationImages } from "./images/sync-accommodation-images";
 import { toAccommodationPersistenceData } from "./accommodation-persistence-data";
 
 type PersistAccommodationUpdateOptions = {

@@ -5,7 +5,7 @@ import {
   type AccommodationUpdateImageInput,
 } from "@/lib/admin/accommodation/schema";
 
-import { hasForeignAccommodationImage } from "./sync-accommodation-images";
+import { hasForeignAccommodationImage } from "./images/sync-accommodation-images";
 import { hasForeignAccommodationHighlight } from "./sync-accommodation-highlights";
 
 type ValidateAccommodationUpdateOptions = {

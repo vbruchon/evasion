@@ -13,7 +13,7 @@ import {
   getRemovedAccommodationImages,
   hasForeignAccommodationImage,
   syncAccommodationImages,
-} from "../sync-accommodation-images";
+} from "../images/sync-accommodation-images";
 import { toAccommodationPersistenceData } from "../accommodation-persistence-data";
 
 export const publishAccommodationDraftAdmin = async (

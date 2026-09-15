@@ -9,7 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor-sections";
 
 import { AccommodationNumberField } from "../../form/accommodation-number-field";

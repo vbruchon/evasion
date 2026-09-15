@@ -2,7 +2,7 @@
 
 import { useAccommodationEditorAvailabilityData } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-availability-data";
 import { useAccommodationEditorPreviewData } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-preview-data";
-import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import type {
   AccommodationAvailabilityEditorSection,
   AccommodationEditorSection,

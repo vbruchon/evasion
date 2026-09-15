@@ -15,7 +15,7 @@ import { revalidateAccommodation } from "../revalidate-accommodation";
 import {
   getAccommodationUpdateImageFileKeys,
   getRemovedAccommodationImages,
-} from "../sync-accommodation-images";
+} from "../images/sync-accommodation-images";
 import { validateAccommodationUpdate } from "../validate-accommodation-update";
 
 export const updateAccommodationAdmin = async (

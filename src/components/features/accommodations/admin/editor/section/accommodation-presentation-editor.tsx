@@ -1,4 +1,4 @@
-import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
 import type { AccommodationPresentationEditorSection } from "@/lib/admin/accommodation/editor-sections";
 

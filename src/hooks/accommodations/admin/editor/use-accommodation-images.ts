@@ -11,7 +11,7 @@ import {
   syncAccommodationPreparedImages,
   type AccommodationInitialImage,
   type AccommodationPreviewImage,
-} from "@/lib/admin/accommodation/accommodation-image-previews";
+} from "@/lib/admin/accommodation/images/accommodation-image-previews";
 
 type UseAccommodationImagesOptions = {
   initialImages?: AccommodationInitialImage[];

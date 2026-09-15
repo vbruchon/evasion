@@ -13,7 +13,7 @@ import { useAccommodationDraftAutosave } from "@/hooks/accommodations/admin/edit
 import { useAccommodationEditorSubmit } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-submit";
 import { useAccommodationImages } from "@/hooks/accommodations/admin/editor/use-accommodation-images";
 import { useAccommodationStatus } from "@/hooks/accommodations/admin/editor/use-accommodation-status";
-import { haveAccommodationImagesChanged } from "@/lib/admin/accommodation/accommodation-image-state";
+import { haveAccommodationImagesChanged } from "@/lib/admin/accommodation/images/accommodation-image-state";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 export const useAccommodationEditor = (

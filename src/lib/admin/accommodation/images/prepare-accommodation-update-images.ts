@@ -2,7 +2,7 @@
 
 import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
 
-import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { uploadAccommodationImageFiles } from "@/lib/admin/uploadthing/upload-accommodation-image-files";
 
 const isNewImage = (

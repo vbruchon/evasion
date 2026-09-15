@@ -17,10 +17,10 @@ import { useAccommodationDraftSnapshot } from "@/hooks/accommodations/admin/edit
 import type {
   AccommodationInitialImage,
   AccommodationPreviewImage,
-} from "@/lib/admin/accommodation/accommodation-image-previews";
+} from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { useDebouncedCallback } from "@/hooks/use-debounced-callback";
 import { getAccommodationDraftSignature } from "@/lib/admin/accommodation/draft/accommodation-draft";
-import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
+import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/images/prepare-accommodation-update-images";
 
 const AUTOSAVE_DELAY = 2500;
 

@@ -15,8 +15,8 @@ import type {
 } from "@/lib/admin/accommodation/schema";
 
 import { useAccommodationEditorSubmit } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-submit";
-import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
-import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
+import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/images/prepare-accommodation-update-images";
 
 import { createAccommodationUpdateValues } from "../helpers/accommodation-values";
 
@@ -27,7 +27,7 @@ vi.mock("~/app/admin/logements/action", () => ({
 }));
 
 vi.mock(
-  "@/lib/admin/accommodation/prepare-accommodation-update-images",
+  "@/lib/admin/accommodation/images/prepare-accommodation-update-images",
   () => ({
     prepareAccommodationUpdateImages: vi.fn(),
   }),

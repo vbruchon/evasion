@@ -10,9 +10,9 @@ import {
 } from "~/app/admin/logements/action";
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
-import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { getAccommodationDraftValues } from "@/lib/admin/accommodation/draft/accommodation-draft";
-import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
+import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/images/prepare-accommodation-update-images";
 
 type UseAccommodationEditorSubmitOptions = {
   accommodationId: string;
