@@ -3,12 +3,12 @@
 import { ArrowDown, ArrowUp, Trash2 } from "lucide-react";
 import type { UseFormRegisterReturn } from "react-hook-form";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 
 import { AccommodationHighlightIconPicker } from "./accommodation-highlight-icon-picker";
+import { AccommodationHighlightActionButton } from "./accommodation-highlight-action-button";
 
 type AccommodationHighlightFieldCardProps = {
   index: number;
@@ -80,50 +80,30 @@ export const AccommodationHighlightFieldCard = ({
             />
 
             <div className="flex shrink-0 items-center">
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "text-muted-foreground/70 hover:text-foreground",
-                  compact ? "size-7" : "size-8",
-                )}
+              <AccommodationHighlightActionButton
+                icon={ArrowUp}
+                label="Déplacer vers le haut"
+                compact={compact}
                 disabled={disabled || index === 0}
-                aria-label="Déplacer vers le haut"
                 onClick={onMoveUp}
-              >
-                <ArrowUp className="size-3.5" />
-              </Button>
+              />
 
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "text-muted-foreground/70 hover:text-foreground",
-                  compact ? "size-7" : "size-8",
-                )}
+              <AccommodationHighlightActionButton
+                icon={ArrowDown}
+                label="Déplacer vers le bas"
+                compact={compact}
                 disabled={disabled || index === total - 1}
-                aria-label="Déplacer vers le bas"
                 onClick={onMoveDown}
-              >
-                <ArrowDown className="size-3.5" />
-              </Button>
+              />
 
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                className={cn(
-                  "text-muted-foreground/70 hover:text-destructive",
-                  compact ? "size-7" : "size-8",
-                )}
+              <AccommodationHighlightActionButton
+                icon={Trash2}
+                label="Supprimer le point fort"
+                compact={compact}
                 disabled={disabled}
-                aria-label="Supprimer le point fort"
+                destructive
                 onClick={onRemove}
-              >
-                <Trash2 className="size-3.5" />
-              </Button>
+              />
             </div>
           </div>
 
