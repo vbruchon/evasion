@@ -13,6 +13,20 @@ import { createAccommodationDraftValues } from "../helpers/accommodation-values"
 type DraftAmenities = AccommodationDraftContent["amenities"];
 type DraftAccesses = AccommodationDraftContent["accesses"];
 
+const draftValues = createAccommodationDraftValues({
+  subtitle: "Une nouvelle version",
+
+  locationTitle: "Aux portes du Vercors",
+  locationDescription:
+    "Un emplacement calme entre la Drôme et les premiers reliefs du Vercors.",
+  locationLatitude: 45.03,
+  locationLongitude: 5.09,
+  locationRadiusMeters: 6000,
+
+  reviewsTitle: "Vos séjours, vos souvenirs",
+  reviewsDescription: "Découvrez leurs impressions après leur séjour.",
+});
+
 describe("publishAccommodationDraftAdmin", () => {
   beforeEach(async () => {
     await resetAccommodationDatabase();
@@ -135,19 +149,7 @@ describe("publishAccommodationDraftAdmin", () => {
 
     const saveResult = await saveAccommodationDraftAdmin(
       accommodation.id,
-      createAccommodationDraftValues({
-        subtitle: "Une nouvelle version",
-
-        locationTitle: "Aux portes du Vercors",
-        locationDescription:
-          "Un emplacement calme entre la Drôme et les premiers reliefs du Vercors.",
-        locationLatitude: 45.03,
-        locationLongitude: 5.09,
-        locationRadiusMeters: 6000,
-
-        reviewsTitle: "Vos séjours, vos souvenirs",
-        reviewsDescription: "Découvrez leurs impressions après leur séjour.",
-      }),
+      draftValues,
       [],
       [
         {
