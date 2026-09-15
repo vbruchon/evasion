@@ -22,7 +22,6 @@ import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsect
 import { AccommodationAvailabilityEditor } from "./section/accommodation-availability-editor";
 import { AccommodationGalleryEditor } from "./section/accommodation-gallery-editor";
 import { AccommodationHeroEditor } from "./section/accommodation-hero-editor";
-import { AccommodationHighlightsEditor } from "./section/highlights/accommodation-highlights-editor";
 import { AccommodationPresentationEditor } from "./section/accommodation-presentation-editor";
 import { AccommodationAmenitiesEditor } from "./section/amenities/accommodation-amenities-editor";
 import { AccommodationLocationEditor } from "./section/location/accommodation-location-editor";
@@ -163,30 +162,14 @@ export const AccommodationEditorSidebar = ({
 
       <div className="min-h-0 flex-1 overflow-y-auto">
         {activeSection === "hero" ? (
-          <>
-            {activeHeroSection === "general" ? (
-              <AccommodationHeroEditor section="general" />
-            ) : null}
-
-            {activeHeroSection === "key-details" ? (
-              <AccommodationHeroEditor section="key-details" />
-            ) : null}
-
-            {activeHeroSection === "highlights" ? (
-              <AccommodationHighlightsEditor disabled={disabled} />
-            ) : null}
-
-            {activeHeroSection === "image" ? (
-              <AccommodationHeroEditor
-                section="image"
-                images={images}
-                coverImageId={coverImageId}
-                disabled={disabled}
-                onSetCover={onSetCover}
-                onOpenGallery={() => onSectionChange("gallery")}
-              />
-            ) : null}
-          </>
+          <AccommodationHeroEditor
+            section={activeHeroSection}
+            images={images}
+            coverImageId={coverImageId}
+            disabled={disabled}
+            onSetCover={onSetCover}
+            onOpenGallery={() => onSectionChange("gallery")}
+          />
         ) : null}
 
         {activeSection === "presentation" ? (
