@@ -103,16 +103,9 @@ export const useAccommodationDraftAutosave = ({
     const parsedValues = accommodationUpdateSchema.safeParse(updateValues);
 
     if (!parsedValues.success) {
-      console.error(parsedValues.error.issues);
-      console.error(updateValues);
-
       setStatus("idle");
       return;
     }
-    // if (!parsedValues.success) {
-    //   setStatus("idle");
-    //   return;
-    // }
 
     const currentSignature = signature;
     const sourceImages = images;
