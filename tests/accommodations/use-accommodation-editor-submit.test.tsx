@@ -71,7 +71,6 @@ describe("useAccommodationEditorSubmit", () => {
 
   afterEach(() => {
     cleanup();
-    vi.clearAllMocks();
   });
 
   it("publishes the current editor state directly", async () => {

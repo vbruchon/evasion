@@ -1,12 +1,8 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { fetchAccommodationIcal } from "@/lib/accommodations/availability/fetch-accommodation-ical";
 
 describe("fetchAccommodationIcal", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it("returns the iCal content when the request succeeds", async () => {
     const content = `
 BEGIN:VCALENDAR

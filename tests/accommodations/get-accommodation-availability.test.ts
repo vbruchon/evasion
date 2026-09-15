@@ -1,12 +1,8 @@
-import { afterEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 
 import { getAccommodationAvailability } from "@/lib/accommodations/availability/get-accommodation-availability";
 
 describe("getAccommodationAvailability", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it("fetches and parses the unavailable periods", async () => {
     vi.spyOn(globalThis, "fetch").mockResolvedValue(
       new Response(

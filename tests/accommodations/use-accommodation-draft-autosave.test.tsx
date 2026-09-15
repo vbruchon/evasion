@@ -199,7 +199,6 @@ const renderAutosaveHook = ({
 describe("useAccommodationDraftAutosave", () => {
   beforeEach(() => {
     vi.useFakeTimers();
-    vi.clearAllMocks();
 
     mockedPrepareAccommodationUpdateImages.mockResolvedValue([]);
 
