@@ -5,8 +5,8 @@ import { useAccommodationEditorRegionClick } from "@/hooks/accommodations/admin/
 import type {
   AccommodationAvailabilityEditorSection,
   AccommodationEditorSection,
-} from "@/lib/admin/accommodation/editor-sections";
-import { isAccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
+} from "@/lib/admin/accommodation/editor/editor-sections";
+import { isAccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 
 import { AccommodationAvailability } from "../../../detail/availability/accommodation-availability";

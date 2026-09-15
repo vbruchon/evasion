@@ -8,9 +8,9 @@ import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/
 import type {
   AccommodationEditorSection,
   AccommodationReviewsEditorSection,
-} from "@/lib/admin/accommodation/editor-sections";
+} from "@/lib/admin/accommodation/editor/editor-sections";
 import { AccommodationReviews } from "@/components/features/accommodations/detail/reviews/accommodation-reviews";
-import { isAccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import { isAccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
 import { useAccommodationEditorRegionClick } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-region-click";

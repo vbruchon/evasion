@@ -4,8 +4,8 @@ import { useAccommodationEditorRegionClick } from "@/hooks/accommodations/admin/
 import type {
   AccommodationEditorSection,
   AccommodationLocationEditorSection,
-} from "@/lib/admin/accommodation/editor-sections";
-import { isAccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor-sections";
+} from "@/lib/admin/accommodation/editor/editor-sections";
+import { isAccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
 import { AccommodationLocation } from "../../../detail/location/accommodation-location";

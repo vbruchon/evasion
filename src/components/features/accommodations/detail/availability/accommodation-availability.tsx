@@ -2,7 +2,7 @@ import { AlertCircle, Loader2 } from "lucide-react";
 
 import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
-import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationAvailabilityCalendar } from "./accommodation-availability-calendar";
 

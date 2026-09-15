@@ -10,7 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
-import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationNumberField } from "../../form/accommodation-number-field";
 import { AccommodationTextField } from "../../form/accommodation-text-field";

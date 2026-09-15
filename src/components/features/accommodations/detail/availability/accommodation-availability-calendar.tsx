@@ -11,7 +11,7 @@ import {
   getCurrentCalendarMonth,
   isSameCalendarMonth,
 } from "@/lib/accommodations/availability/accommodation-calendar";
-import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 import { cn } from "@/lib/utils";
 
 import { AccommodationAvailabilityBooking } from "./accommodation-availability-booking";

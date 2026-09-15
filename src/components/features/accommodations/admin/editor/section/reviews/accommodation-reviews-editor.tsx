@@ -3,7 +3,7 @@
 import { AccommodationReviewsContentEditor } from "./accommodation-reviews-content-editor";
 import { AccommodationReviewsManagementEditor } from "./accommodation-reviews-management-editor";
 
-import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 type AccommodationReviewsEditorProps = {

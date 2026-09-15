@@ -1,6 +1,6 @@
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
-import type { AccommodationPresentationEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationPresentationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";

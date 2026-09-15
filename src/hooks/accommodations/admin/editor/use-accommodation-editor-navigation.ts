@@ -9,7 +9,7 @@ import type {
   AccommodationLocationEditorSection,
   AccommodationPresentationEditorSection,
   AccommodationReviewsEditorSection,
-} from "@/lib/admin/accommodation/editor-sections";
+} from "@/lib/admin/accommodation/editor/editor-sections";
 
 export type AccommodationEditorMobileView = "preview" | "editor";
 

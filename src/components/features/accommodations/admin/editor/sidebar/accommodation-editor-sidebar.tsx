@@ -2,7 +2,7 @@
 
 import type { AccommodationEditorNavigation } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-navigation";
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
-import { getAccommodationEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import { getAccommodationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 import { AccommodationEditorSidebarContent } from "./accommodation-editor-sidebar-content";

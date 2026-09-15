@@ -7,7 +7,7 @@ import type {
   AccommodationHighlightDisplay,
 } from "@/lib/accommodations/accommodation-types";
 import { ACCOMMODATION_PREVIEW_PLACEHOLDERS } from "@/lib/accommodations/accommodation-preview-placeholders";
-import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 import { cn } from "@/lib/utils";
 
 import { AccommodationKeyDetails } from "./accommodation-key-details";

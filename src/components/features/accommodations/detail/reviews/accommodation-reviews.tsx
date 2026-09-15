@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import type { AccommodationReviewData } from "@/lib/accommodations/reviews/accommodation-review.types";
-import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationReviewsCarousel } from "./accommodation-reviews-carousel";
 import { AccommodationReviewsDialog } from "./accommodation-reviews-dialog";

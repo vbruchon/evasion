@@ -5,7 +5,7 @@ import {
   accommodationLocationEditorSections,
   accommodationPresentationEditorSections,
   accommodationReviewsEditorSections,
-} from "@/lib/admin/accommodation/editor-sections";
+} from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsection-nav";
 

@@ -6,7 +6,7 @@ import { AccommodationEditorRegion } from "@/components/features/accommodations/
 import { Button } from "@/components/ui/button";
 import { useAccommodationReviewsCarousel } from "@/hooks/accommodations/detail/use-accommodation-reviews-carousel";
 import type { AccommodationReviewData } from "@/lib/accommodations/reviews/accommodation-review.types";
-import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationReviewCard } from "./accommodation-review-card";
 

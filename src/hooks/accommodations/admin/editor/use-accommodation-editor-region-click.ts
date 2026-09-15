@@ -2,7 +2,7 @@
 
 import { useCallback, type MouseEvent } from "react";
 
-import type { AccommodationEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 type AccommodationEditorRegionGuard<TRegion extends string> = (
   regionId: string,

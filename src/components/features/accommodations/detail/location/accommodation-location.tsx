@@ -3,7 +3,7 @@ import { getAccommodationAccess } from "@/lib/accommodations/accommodation-acces
 import { AccommodationLocationAccessPanel } from "./access/accommodation-location-access-panel";
 import { AccommodationLocationContent } from "./accommodation-location-content";
 import { AccommodationLocationMap } from "./map/accommodation-location-map";
-import { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 import type {
   AccommodationAccessData,
   AccommodationLocationData,
