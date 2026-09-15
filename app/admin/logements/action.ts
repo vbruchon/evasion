@@ -13,8 +13,7 @@ import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/comman
 import { requireAdmin } from "@/lib/admin/require-admin";
 import { searchAccommodationLocationsAdmin } from "@/lib/admin/accommodation/queries/search-accommodation-locations";
 import { checkAccommodationAvailabilityCalendarAdmin } from "@/lib/admin/accommodation/queries/check-accommodation-availability-calendar";
-import { importAccommodationReviewsAdmin } from "@/lib/admin/accommodation/reviews/import-accommodation-reviews.action";
-
+import { importAccommodationReviewsAdmin } from "@/lib/admin/accommodation/reviews/import-accommodation-reviews-admin";
 import type {
   AccommodationCreateFormValues,
   AccommodationDraftContent,

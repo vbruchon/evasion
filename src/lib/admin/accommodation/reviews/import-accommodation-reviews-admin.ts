@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 const MAX_REVIEWS_CSV_SIZE = 5 * 1024 * 1024;
 
-export type ImportAccommodationReviewsActionResult =
+export type ImportAccommodationReviewsAdminResult =
   | {
       success: true;
       total: number;
@@ -20,7 +20,7 @@ export type ImportAccommodationReviewsActionResult =
 export const importAccommodationReviewsAdmin = async (
   accommodationId: string,
   file: File,
-): Promise<ImportAccommodationReviewsActionResult> => {
+): Promise<ImportAccommodationReviewsAdminResult> => {
   if (!file || file.size === 0) {
     return {
       success: false,
