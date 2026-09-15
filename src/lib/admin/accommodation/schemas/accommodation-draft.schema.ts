@@ -5,6 +5,7 @@ import { accommodationAmenitiesSchema } from "./accommodation-amenity.schema";
 import { accommodationFieldsSchema } from "./accommodation-fields.schema";
 import { accommodationHighlightsSchema } from "./accommodation-highlight.schema";
 import { accommodationUpdateImagesSchema } from "./accommodation-image.schema";
+import { accommodationContentDefaults } from "@/lib/accommodations/accommodation-defaults";
 
 const accommodationDraftValuesSchema = z.preprocess((value) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -27,15 +28,7 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
     availabilityCalendarUrl: "",
     bookingUrl: "",
 
-    availabilityTitle: "Planifiez votre séjour",
-    availabilityDescription:
-      "Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.",
-    bookingButtonLabel: "Continuer sur Airbnb",
-
-    reviewsTitle: "Leurs moments, leurs mots",
-    reviewsDescription:
-      "Découvrez les impressions laissées par les voyageurs après leur séjour.",
-
+    ...accommodationContentDefaults,
     ...(value as Record<string, unknown>),
   };
 }, accommodationFieldsSchema);
