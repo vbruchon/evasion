@@ -1,6 +1,6 @@
 import { headers } from "next/headers";
 
-import { isAdminEmail } from "@/lib/admin";
+import { isAdminEmail } from "@/lib/admin/is-admin-email";
 import { auth } from "@/lib/auth";
 
 export const requireAdmin = async () => {

@@ -1,6 +1,6 @@
 "use client";
 
-import type { AccommodationImageInput } from "~/app/admin/logements/schema";
+import type { AccommodationImageInput } from "@/lib/admin/accommodation/schema";
 
 import { uploadAccommodationImageFiles } from "@/lib/admin/uploadthing/upload-accommodation-image-files";
 

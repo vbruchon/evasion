@@ -1,6 +1,6 @@
 import { Check } from "lucide-react";
 
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

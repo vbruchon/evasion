@@ -1,6 +1,6 @@
 "use client";
 
-import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";

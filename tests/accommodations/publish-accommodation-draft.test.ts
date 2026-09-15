@@ -1,9 +1,9 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 
-import type { AccommodationDraftContent } from "~/app/admin/logements/schema";
+import type { AccommodationDraftContent } from "@/lib/admin/accommodation/schema";
 
-import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/publish-accommodation-draft.action";
-import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";
+import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/publish-accommodation-draft";
+import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/save-accommodation-draft";
 import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
@@ -12,6 +12,20 @@ import { createAccommodationDraftValues } from "../helpers/accommodation-values"
 
 type DraftAmenities = AccommodationDraftContent["amenities"];
 type DraftAccesses = AccommodationDraftContent["accesses"];
+
+const draftValues = createAccommodationDraftValues({
+  subtitle: "Une nouvelle version",
+
+  locationTitle: "Aux portes du Vercors",
+  locationDescription:
+    "Un emplacement calme entre la Drôme et les premiers reliefs du Vercors.",
+  locationLatitude: 45.03,
+  locationLongitude: 5.09,
+  locationRadiusMeters: 6000,
+
+  reviewsTitle: "Vos séjours, vos souvenirs",
+  reviewsDescription: "Découvrez leurs impressions après leur séjour.",
+});
 
 describe("publishAccommodationDraftAdmin", () => {
   beforeEach(async () => {
@@ -135,19 +149,7 @@ describe("publishAccommodationDraftAdmin", () => {
 
     const saveResult = await saveAccommodationDraftAdmin(
       accommodation.id,
-      createAccommodationDraftValues({
-        subtitle: "Une nouvelle version",
-
-        locationTitle: "Aux portes du Vercors",
-        locationDescription:
-          "Un emplacement calme entre la Drôme et les premiers reliefs du Vercors.",
-        locationLatitude: 45.03,
-        locationLongitude: 5.09,
-        locationRadiusMeters: 6000,
-
-        reviewsTitle: "Vos séjours, vos souvenirs",
-        reviewsDescription: "Découvrez leurs impressions après leur séjour.",
-      }),
+      draftValues,
       [],
       [
         {

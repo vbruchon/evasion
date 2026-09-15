@@ -1,7 +1,7 @@
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { UploadThingError } from "uploadthing/server";
 
-import { isAdminEmail } from "@/lib/admin";
+import { isAdminEmail } from "@/lib/admin/is-admin-email";
 import { auth } from "@/lib/auth";
 
 const f = createUploadthing();

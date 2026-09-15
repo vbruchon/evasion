@@ -4,7 +4,7 @@ import { Eye, Settings2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import type { AccommodationEditorMobileView } from "@/hooks/use-accommodation-editor-navigation";
+import type { AccommodationEditorMobileView } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-navigation";
 
 type AccommodationEditorMobileNavigationProps = {
   activeView: AccommodationEditorMobileView;

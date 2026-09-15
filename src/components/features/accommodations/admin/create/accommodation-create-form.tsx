@@ -8,7 +8,7 @@ import { createAccommodation } from "~/app/admin/logements/action";
 import {
   accommodationCreateSchema,
   type AccommodationCreateFormValues,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 import { AccommodationTextField } from "@/components/features/accommodations/admin/form/accommodation-text-field";
 import { AdminFormSection } from "@/components/layout/admin/admin-form-section";

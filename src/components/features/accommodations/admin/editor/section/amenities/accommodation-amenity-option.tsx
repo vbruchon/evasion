@@ -1,8 +1,8 @@
 import { Check, Pencil } from "lucide-react";
 
-import type { AccommodationAmenityInput } from "~/app/admin/logements/schema";
+import type { AccommodationAmenityInput } from "@/lib/admin/accommodation/schema";
 
-import { AccommodationAmenityIcon } from "@/components/features/accommodations/accommodation-amenity-icon";
+import { AccommodationAmenityIcon } from "@/components/features/accommodations/shared/accommodation-amenity-icon";
 import { Button } from "@/components/ui/button";
 import { accommodationAmenities } from "@/lib/accommodations/accommodation-amenities";
 import { cn } from "@/lib/utils";

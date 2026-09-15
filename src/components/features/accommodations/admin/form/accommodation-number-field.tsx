@@ -4,7 +4,7 @@ import { Minus, Plus, type LucideIcon } from "lucide-react";
 import { useId } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import {
   Field,

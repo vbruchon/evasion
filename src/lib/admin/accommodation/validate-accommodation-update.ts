@@ -3,10 +3,10 @@ import {
   accommodationUpdateSchema,
   type AccommodationUpdateFormValues,
   type AccommodationUpdateImageInput,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
-import { hasForeignAccommodationImage } from "./sync-accommodation-images";
-import { hasForeignAccommodationHighlight } from "./sync-accommodation-highlights";
+import { hasForeignAccommodationImage } from "./images/sync-accommodation-images";
+import { hasForeignAccommodationHighlight } from "./persistence/sync-accommodation-highlights";
 
 type ValidateAccommodationUpdateOptions = {
   values: AccommodationUpdateFormValues;

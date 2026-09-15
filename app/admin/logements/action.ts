@@ -2,25 +2,24 @@
 
 import type { AccommodationStatus } from "@/generated/prisma/client";
 
-import { createAccommodationAdmin } from "@/lib/admin/accommodation/create-accommodation.action";
-import { deleteAccommodationAdmin } from "@/lib/admin/accommodation/delete-accommodation.action";
-import { discardAccommodationDraftAdmin } from "@/lib/admin/accommodation/discard-accommodation-draft.action";
-import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/publish-accommodation-draft.action";
-import { reorderAccommodationsAdmin } from "@/lib/admin/accommodation/reorder-accommodations.action";
-import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/save-accommodation-draft.action";
-import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accommodation.action";
-import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/update-accommodation-status.action";
+import { createAccommodationAdmin } from "@/lib/admin/accommodation/commands/create-accommodation";
+import { deleteAccommodationAdmin } from "@/lib/admin/accommodation/commands/delete-accommodation";
+import { discardAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/discard-accommodation-draft";
+import { publishAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/publish-accommodation-draft";
+import { reorderAccommodationsAdmin } from "@/lib/admin/accommodation/commands/reorder-accommodations";
+import { saveAccommodationDraftAdmin } from "@/lib/admin/accommodation/draft/save-accommodation-draft";
+import { updateAccommodationAdmin } from "@/lib/admin/accommodation/commands/update-accommodation";
+import { updateAccommodationStatusAdmin } from "@/lib/admin/accommodation/commands/update-accommodation-status";
 import { requireAdmin } from "@/lib/admin/require-admin";
-import { searchAccommodationLocationsAdmin } from "@/lib/admin/accommodation/search-accommodation-locations.action";
-import { checkAccommodationAvailabilityCalendarAdmin } from "@/lib/admin/accommodation/check-accommodation-availability-calendar.action";
-import { importAccommodationReviewsAdmin } from "@/lib/admin/accommodation/reviews/import-accommodation-reviews.action";
-
+import { searchAccommodationLocationsAdmin } from "@/lib/admin/accommodation/queries/search-accommodation-locations";
+import { checkAccommodationAvailabilityCalendarAdmin } from "@/lib/admin/accommodation/queries/check-accommodation-availability-calendar";
+import { importAccommodationReviewsAdmin } from "@/lib/admin/accommodation/reviews/import-accommodation-reviews-admin";
 import type {
   AccommodationCreateFormValues,
   AccommodationDraftContent,
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
-} from "./schema";
+} from "@/lib/admin/accommodation/schema";
 
 export const createAccommodation = async (
   values: AccommodationCreateFormValues,
@@ -99,6 +98,8 @@ export const discardAccommodationDraft = async (accommodationId: string) => {
 };
 
 export const searchAccommodationLocations = async (query: string) => {
+  await requireAdmin();
+
   return searchAccommodationLocationsAdmin(query);
 };
 

@@ -2,7 +2,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError } from "better-auth/api";
 import { betterAuth } from "better-auth/minimal";
 
-import { isAdminEmail } from "@/lib/admin";
+import { isAdminEmail } from "@/lib/admin/is-admin-email";
 import { prisma } from "@/lib/prisma";
 
 const betterAuthUrl = process.env.BETTER_AUTH_URL;

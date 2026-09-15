@@ -7,17 +7,18 @@ import {
   Ruler,
   Users,
 } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
 
-import { AccommodationImageGallery } from "../../form/accommodation-image-gallery";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
+import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
+
 import { AccommodationNumberField } from "../../form/accommodation-number-field";
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
-
+import { AccommodationImageGallery } from "../../form/images/accommodation-image-gallery";
+import { AccommodationHighlightsEditor } from "./highlights/accommodation-highlights-editor";
 type AccommodationHeroEditorProps = {
-  section: "general" | "key-details" | "image";
+  section: AccommodationHeroEditorSection;
   images?: AccommodationPreviewImage[];
   coverImageId?: string | null;
   disabled?: boolean;
@@ -115,6 +116,10 @@ export const AccommodationHeroEditor = ({
         )}
       </AccommodationEditorSectionContent>
     );
+  }
+
+  if (section === "highlights") {
+    return <AccommodationHighlightsEditor disabled={disabled} />;
   }
 
   return (

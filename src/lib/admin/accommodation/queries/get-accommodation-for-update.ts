@@ -1,0 +1,219 @@
+import {
+  accommodationAccessesSchema,
+  accommodationAmenitiesSchema,
+  AccommodationUpdateFormValues,
+} from "@/lib/admin/accommodation/schema";
+
+import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/draft/accommodation-draft";
+import { resolveAccommodationDraftImages } from "@/lib/admin/accommodation/draft/resolve-accommodation-draft-images";
+import { accommodationAccesses } from "@/lib/accommodations/accommodation-accesses";
+import { prisma } from "@/lib/prisma";
+
+export const getAccommodationForUpdate = async (id: string) => {
+  const accommodation = await prisma.accommodation.findUnique({
+    where: {
+      id,
+    },
+
+    select: {
+      id: true,
+      name: true,
+      slug: true,
+      type: true,
+      subtitle: true,
+      shortDescription: true,
+      description: true,
+      status: true,
+
+      guestCapacity: true,
+      bedrooms: true,
+      beds: true,
+      bathrooms: true,
+      surface: true,
+
+      locationTitle: true,
+      locationDescription: true,
+      locationLatitude: true,
+      locationLongitude: true,
+      locationRadiusMeters: true,
+
+      availabilityCalendarUrl: true,
+      bookingUrl: true,
+      availabilityTitle: true,
+      availabilityDescription: true,
+      bookingButtonLabel: true,
+
+      reviewsTitle: true,
+      reviewsDescription: true,
+      lastReviewsImportAt: true,
+
+      reviews: {
+        orderBy: {
+          reviewedAt: "desc",
+        },
+
+        select: {
+          id: true,
+          authorName: true,
+          rating: true,
+          comment: true,
+          reviewedAt: true,
+        },
+      },
+
+      images: {
+        orderBy: {
+          position: "asc",
+        },
+
+        select: {
+          id: true,
+          url: true,
+          fileKey: true,
+          alt: true,
+          isCover: true,
+          isPresentation: true,
+        },
+      },
+
+      highlights: {
+        orderBy: {
+          position: "asc",
+        },
+
+        select: {
+          id: true,
+          title: true,
+          description: true,
+          icon: true,
+        },
+      },
+
+      amenities: {
+        orderBy: {
+          position: "asc",
+        },
+
+        select: {
+          key: true,
+          details: true,
+        },
+      },
+
+      accesses: {
+        select: {
+          key: true,
+          details: true,
+        },
+      },
+
+      draft: {
+        select: {
+          content: true,
+          updatedAt: true,
+        },
+      },
+    },
+  });
+
+  if (!accommodation) {
+    return null;
+  }
+
+  const draft = accommodation.draft
+    ? parseAccommodationDraftContent(accommodation.draft.content)
+    : null;
+
+  const values = draft?.values ?? {
+    name: accommodation.name,
+    type: accommodation.type ?? "",
+    subtitle: accommodation.subtitle ?? "",
+    shortDescription: accommodation.shortDescription ?? "",
+    description: accommodation.description ?? "",
+
+    guestCapacity: accommodation.guestCapacity,
+    bedrooms: accommodation.bedrooms,
+    beds: accommodation.beds,
+    bathrooms: accommodation.bathrooms,
+    surface: accommodation.surface,
+
+    locationTitle: accommodation.locationTitle ?? "",
+    locationDescription: accommodation.locationDescription ?? "",
+    locationLatitude: accommodation.locationLatitude,
+    locationLongitude: accommodation.locationLongitude,
+    locationRadiusMeters: accommodation.locationRadiusMeters,
+
+    availabilityCalendarUrl: accommodation.availabilityCalendarUrl ?? "",
+    bookingUrl: accommodation.bookingUrl ?? "",
+
+    availabilityTitle: accommodation.availabilityTitle,
+    availabilityDescription: accommodation.availabilityDescription,
+    bookingButtonLabel: accommodation.bookingButtonLabel,
+    reviewsTitle: accommodation.reviewsTitle,
+    reviewsDescription: accommodation.reviewsDescription,
+  };
+
+  const images = draft
+    ? resolveAccommodationDraftImages(accommodation.images, draft.images)
+    : accommodation.images.map((image) => ({
+        ...image,
+        isExisting: true,
+      }));
+
+  const highlights = draft ? draft.highlights : accommodation.highlights;
+
+  const amenities = draft
+    ? draft.amenities
+    : accommodationAmenitiesSchema.parse(
+        accommodation.amenities.map((amenity) => ({
+          key: amenity.key,
+          details: amenity.details ?? "",
+        })),
+      );
+
+  const accessOrder = new Map(
+    accommodationAccesses.map((access, index) => [access.key, index]),
+  );
+
+  const accesses = draft
+    ? draft.accesses
+    : accommodationAccessesSchema
+        .parse(
+          accommodation.accesses.map((access) => ({
+            key: access.key,
+            details: access.details ?? "",
+          })),
+        )
+        .sort(
+          (a, b) =>
+            (accessOrder.get(a.key) ?? Number.MAX_SAFE_INTEGER) -
+            (accessOrder.get(b.key) ?? Number.MAX_SAFE_INTEGER),
+        );
+
+  const formValues: AccommodationUpdateFormValues = {
+    ...values,
+    status: accommodation.status,
+    highlights,
+    amenities,
+    accesses,
+  };
+  return {
+    id: accommodation.id,
+    slug: accommodation.slug,
+    status: accommodation.status,
+
+    formValues,
+
+    reviews: accommodation.reviews,
+    lastReviewsImportAt: accommodation.lastReviewsImportAt,
+
+    images,
+
+    hasDraft: draft !== null,
+    draftUpdatedAt: accommodation.draft?.updatedAt ?? null,
+  };
+};
+
+export type AccommodationUpdateData = NonNullable<
+  Awaited<ReturnType<typeof getAccommodationForUpdate>>
+>;

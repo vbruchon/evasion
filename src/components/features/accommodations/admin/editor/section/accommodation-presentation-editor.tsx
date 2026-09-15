@@ -1,10 +1,10 @@
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
-import type { AccommodationPresentationEditorSection } from "@/lib/admin/accommodation/editor-sections";
+import type { AccommodationPresentationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
-import { AccommodationImageGallery } from "../../form/accommodation-image-gallery";
 import { AccommodationTextField } from "../../form/accommodation-text-field";
 import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
+import { AccommodationImageGallery } from "../../form/images/accommodation-image-gallery";
 
 type AccommodationPresentationEditorProps = {
   section: AccommodationPresentationEditorSection;

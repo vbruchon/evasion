@@ -1,8 +1,9 @@
+import { accommodationContentDefaults } from "@/lib/accommodations/accommodation-defaults";
 import type {
   AccommodationCreateFormValues,
   AccommodationDraftContent,
   AccommodationUpdateFormValues,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
 type AccommodationDraftValues = AccommodationDraftContent["values"];
 
@@ -40,13 +41,8 @@ export const createAccommodationUpdateValues = (
 
   availabilityCalendarUrl: "",
   bookingUrl: "",
-  availabilityTitle: "Planifiez votre séjour",
-  availabilityDescription:
-    "Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.",
-  bookingButtonLabel: "Continuer sur Airbnb",
-  reviewsTitle: "Leurs moments, leurs mots",
-  reviewsDescription:
-    "Découvrez les impressions laissées par les voyageurs après leur séjour.",
+
+  ...accommodationContentDefaults,
 
   highlights: [],
   amenities: [],
@@ -83,13 +79,7 @@ export const createAccommodationDraftValues = (
   availabilityCalendarUrl: "",
   bookingUrl: "",
 
-  availabilityTitle: "Planifiez votre séjour",
-  availabilityDescription:
-    "Consultez les prochaines disponibilités du logement et choisissez les dates qui vous conviennent.",
-  bookingButtonLabel: "Continuer sur Airbnb",
-  reviewsTitle: "Leurs moments, leurs mots",
-  reviewsDescription:
-    "Découvrez les impressions laissées par les voyageurs après leur séjour.",
+  ...accommodationContentDefaults,
 
   ...overrides,
 });

@@ -2,8 +2,8 @@ import { Eye, House, Plus } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { AccommodationsAdminTable } from "@/components/features/accommodations/admin/accommodations-admin-table";
-import { getAdminAccommodations } from "@/lib/accommodations/accommodations";
+import { AccommodationsAdminTable } from "@/components/features/accommodations/admin/list/accommodations-admin-table";
+import { getAdminAccommodations } from "@/lib/admin/accommodation/queries/get-admin-accommodations";
 import { AdminPageHeader } from "@/components/layout/admin/admin-page-header";
 
 export default async function AdminAccommodationsPage() {

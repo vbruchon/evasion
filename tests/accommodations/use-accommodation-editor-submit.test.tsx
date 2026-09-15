@@ -12,11 +12,11 @@ import {
 import type {
   AccommodationUpdateFormValues,
   AccommodationUpdateImageInput,
-} from "~/app/admin/logements/schema";
+} from "@/lib/admin/accommodation/schema";
 
-import { useAccommodationEditorSubmit } from "@/hooks/use-accommodation-editor-submit";
-import type { AccommodationPreviewImage } from "@/hooks/use-accommodation-images";
-import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/prepare-accommodation-update-images";
+import { useAccommodationEditorSubmit } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-submit";
+import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
+import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/images/prepare-accommodation-update-images";
 
 import { createAccommodationUpdateValues } from "../helpers/accommodation-values";
 
@@ -27,7 +27,7 @@ vi.mock("~/app/admin/logements/action", () => ({
 }));
 
 vi.mock(
-  "@/lib/admin/accommodation/prepare-accommodation-update-images",
+  "@/lib/admin/accommodation/images/prepare-accommodation-update-images",
   () => ({
     prepareAccommodationUpdateImages: vi.fn(),
   }),
@@ -71,7 +71,6 @@ describe("useAccommodationEditorSubmit", () => {
 
   afterEach(() => {
     cleanup();
-    vi.clearAllMocks();
   });
 
   it("publishes the current editor state directly", async () => {

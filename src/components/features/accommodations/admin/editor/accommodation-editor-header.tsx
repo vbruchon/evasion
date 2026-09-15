@@ -4,11 +4,11 @@ import { ChevronLeft } from "lucide-react";
 import Link from "next/link";
 import { useFormContext, useWatch } from "react-hook-form";
 
-import type { AccommodationUpdateFormValues } from "~/app/admin/logements/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { AccommodationDraftAutosaveStatus } from "@/hooks/use-accommodation-draft-autosave";
+import type { AccommodationDraftAutosaveStatus } from "@/hooks/accommodations/admin/editor/use-accommodation-draft-autosave";
 
 import { AccommodationEditorHeaderActions } from "./accommodation-editor-header-actions";
 

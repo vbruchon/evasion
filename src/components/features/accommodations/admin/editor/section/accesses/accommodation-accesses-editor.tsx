@@ -7,7 +7,7 @@ import {
 
 import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
 import { AccommodationAccessItem } from "./accommodation-access-item";
-import { useAccommodationAccessesEditor } from "@/hooks/use-accommodation-accesses-editor";
+import { useAccommodationAccessesEditor } from "@/hooks/accommodations/admin/editor/use-accommodation-accesses-editor";
 
 type AccommodationAccessesEditorProps = {
   disabled?: boolean;
