@@ -2,6 +2,7 @@ import { LocateFixed, Maximize2, Minus, Plus } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { AccommodationLocationMapControlButton } from "./accommodation-location-map-control-button";
 
 type AccommodationLocationMapControlsProps = {
   allowExpand?: boolean;
@@ -22,9 +23,6 @@ export const AccommodationLocationMapControls = ({
   onReset,
   onExpand,
 }: AccommodationLocationMapControlsProps) => {
-  const controlButtonClassName =
-    "size-10 rounded-none text-foreground/80 transition-colors hover:bg-primary/10 hover:text-primary";
-
   return (
     <>
       <div
@@ -43,38 +41,25 @@ export const AccommodationLocationMapControls = ({
           className,
         )}
       >
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className={cn(controlButtonClassName, "border-b border-primary/15")}
-          aria-label="Zoomer"
+        <AccommodationLocationMapControlButton
+          icon={Plus}
+          label="Zoomer"
+          separated
           onClick={onZoomIn}
-        >
-          <Plus className="size-4" />
-        </Button>
+        />
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className={cn(controlButtonClassName, "border-b border-primary/15")}
-          aria-label="Dézoomer"
+        <AccommodationLocationMapControlButton
+          icon={Minus}
+          label="Dézoomer"
+          separated
           onClick={onZoomOut}
-        >
-          <Minus className="size-4" />
-        </Button>
+        />
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className={controlButtonClassName}
-          aria-label="Recentrer la carte"
+        <AccommodationLocationMapControlButton
+          icon={LocateFixed}
+          label="Recentrer la carte"
           onClick={onReset}
-        >
-          <LocateFixed className="size-4" />
-        </Button>
+        />
       </div>
 
       {allowExpand ? (
