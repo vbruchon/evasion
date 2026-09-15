@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronDown, ChevronUp, GripVertical, Trash2 } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import type { DragEvent } from "react";
 
@@ -28,6 +29,31 @@ type AccommodationSortableImageItemProps = {
   onReorder: (fromIndex: number, toIndex: number) => void;
   onRemove: (id: string) => void;
 };
+
+type AccommodationImageReorderButtonProps = {
+  icon: LucideIcon;
+  label: string;
+  disabled: boolean;
+  onClick: () => void;
+};
+
+const AccommodationImageReorderButton = ({
+  icon: Icon,
+  label,
+  disabled,
+  onClick,
+}: AccommodationImageReorderButtonProps) => (
+  <Button
+    type="button"
+    size="icon-xs"
+    variant="ghost"
+    disabled={disabled}
+    aria-label={label}
+    onClick={onClick}
+  >
+    <Icon />
+  </Button>
+);
 
 export const AccommodationSortableImageItem = ({
   image,
@@ -106,27 +132,19 @@ export const AccommodationSortableImageItem = ({
 
       <div className="flex shrink-0 items-center gap-1">
         <div className="flex flex-col">
-          <Button
-            type="button"
-            size="icon-xs"
-            variant="ghost"
+          <AccommodationImageReorderButton
+            icon={ChevronUp}
+            label={`Déplacer ${imageLabel} vers le haut`}
             disabled={disabled || index === 0}
-            aria-label={`Déplacer ${imageLabel} vers le haut`}
             onClick={() => onReorder(index, index - 1)}
-          >
-            <ChevronUp />
-          </Button>
+          />
 
-          <Button
-            type="button"
-            size="icon-xs"
-            variant="ghost"
+          <AccommodationImageReorderButton
+            icon={ChevronDown}
+            label={`Déplacer ${imageLabel} vers le bas`}
             disabled={disabled || index === totalImages - 1}
-            aria-label={`Déplacer ${imageLabel} vers le bas`}
             onClick={() => onReorder(index, index + 1)}
-          >
-            <ChevronDown />
-          </Button>
+          />
         </div>
 
         <Button
