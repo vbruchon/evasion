@@ -9,14 +9,14 @@ import { prisma } from "@/lib/prisma";
 import {
   getAccommodationDraftFileKeys,
   parseAccommodationDraftContent,
-} from "./accommodation-draft";
-import { persistAccommodationUpdate } from "./persist-accommodation-update";
-import { revalidateAccommodation } from "./revalidate-accommodation";
+} from "../accommodation-draft";
+import { persistAccommodationUpdate } from "../persist-accommodation-update";
+import { revalidateAccommodation } from "../revalidate-accommodation";
 import {
   getAccommodationUpdateImageFileKeys,
   getRemovedAccommodationImages,
-} from "./sync-accommodation-images";
-import { validateAccommodationUpdate } from "./validate-accommodation-update";
+} from "../sync-accommodation-images";
+import { validateAccommodationUpdate } from "../validate-accommodation-update";
 
 export const updateAccommodationAdmin = async (
   id: string,

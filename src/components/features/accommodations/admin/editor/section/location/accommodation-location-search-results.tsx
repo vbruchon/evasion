@@ -1,7 +1,7 @@
 import { MapPin } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import type { AccommodationLocationSearchResult } from "@/lib/admin/accommodation/search-accommodation-locations.action";
+import type { AccommodationLocationSearchResult } from "@/lib/admin/accommodation/queries/search-accommodation-locations";
 
 type AccommodationLocationSearchResultsProps = {
   results: AccommodationLocationSearchResult[];

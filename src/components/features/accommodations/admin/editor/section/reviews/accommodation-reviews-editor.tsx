@@ -4,7 +4,7 @@ import { AccommodationReviewsContentEditor } from "./accommodation-reviews-conte
 import { AccommodationReviewsManagementEditor } from "./accommodation-reviews-management-editor";
 
 import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
-import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 type AccommodationReviewsEditorProps = {
   section: AccommodationReviewsEditorSection;

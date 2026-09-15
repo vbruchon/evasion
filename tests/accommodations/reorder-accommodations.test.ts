@@ -1,6 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 
-import { reorderAccommodationsAdmin } from "@/lib/admin/accommodation/reorder-accommodations.action";
+import { reorderAccommodationsAdmin } from "@/lib/admin/accommodation/commands/reorder-accommodations";
 import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";

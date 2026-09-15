@@ -1,6 +1,6 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 
-import { deleteAccommodationAdmin } from "@/lib/admin/accommodation/delete-accommodation.action";
+import { deleteAccommodationAdmin } from "@/lib/admin/accommodation/commands/delete-accommodation";
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";
 

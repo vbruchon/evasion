@@ -6,7 +6,7 @@ import {
 import { createAccommodationSlug } from "@/lib/admin/accommodation/create-accommodation-slug";
 import { prisma } from "@/lib/prisma";
 
-import { revalidateAccommodation } from "./revalidate-accommodation";
+import { revalidateAccommodation } from "../revalidate-accommodation";
 
 type CreateAccommodationResult =
   | {

@@ -10,7 +10,7 @@ import type {
   AccommodationLocationEditorSection,
   AccommodationReviewsEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
-import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 import { AccommodationEditorPreviewAvailability } from "./accommodation-editor-preview-availability";
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";

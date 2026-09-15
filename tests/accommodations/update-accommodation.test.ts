@@ -2,7 +2,7 @@ import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
 
-import { updateAccommodationAdmin } from "@/lib/admin/accommodation/update-accommodation.action";
+import { updateAccommodationAdmin } from "@/lib/admin/accommodation/commands/update-accommodation";
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";
 

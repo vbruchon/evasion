@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 
 import { AccommodationEditor } from "@/components/features/accommodations/admin/editor/accommodation-editor";
-import { getAccommodationForUpdate } from "@/lib/admin/accommodation/get-accommodation-for-update";
+import { getAccommodationForUpdate } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 type PageProps = {
   params: Promise<{

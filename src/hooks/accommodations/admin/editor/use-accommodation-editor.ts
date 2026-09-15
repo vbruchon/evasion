@@ -14,7 +14,7 @@ import { useAccommodationEditorSubmit } from "@/hooks/accommodations/admin/edito
 import { useAccommodationImages } from "@/hooks/accommodations/admin/editor/use-accommodation-images";
 import { useAccommodationStatus } from "@/hooks/accommodations/admin/editor/use-accommodation-status";
 import { haveAccommodationImagesChanged } from "@/lib/admin/accommodation/accommodation-image-state";
-import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 export const useAccommodationEditor = (
   accommodation: AccommodationUpdateData,

@@ -1,7 +1,7 @@
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
 import { prisma } from "@/lib/prisma";
 
-import { revalidateAccommodation } from "./revalidate-accommodation";
+import { revalidateAccommodation } from "../revalidate-accommodation";
 
 export const deleteAccommodationAdmin = async (id: string) => {
   const accommodation = await prisma.accommodation.findUnique({

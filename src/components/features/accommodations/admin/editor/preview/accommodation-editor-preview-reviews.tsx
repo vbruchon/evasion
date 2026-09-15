@@ -4,7 +4,7 @@ import { useWatch } from "react-hook-form";
 
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
-import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 import type {
   AccommodationEditorSection,
   AccommodationReviewsEditorSection,

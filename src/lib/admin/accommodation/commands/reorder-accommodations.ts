@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-import { revalidateAccommodation } from "./revalidate-accommodation";
+import { revalidateAccommodation } from "../revalidate-accommodation";
 
 export type AccommodationPosition = {
   id: string;

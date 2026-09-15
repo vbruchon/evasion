@@ -6,7 +6,7 @@ import { useFormContext, useWatch } from "react-hook-form";
 import { searchAccommodationLocations } from "~/app/admin/logements/action";
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
-import type { AccommodationLocationSearchResult } from "@/lib/admin/accommodation/search-accommodation-locations.action";
+import type { AccommodationLocationSearchResult } from "@/lib/admin/accommodation/queries/search-accommodation-locations";
 
 type UseAccommodationLocationMapEditorOptions = {
   disabled: boolean;

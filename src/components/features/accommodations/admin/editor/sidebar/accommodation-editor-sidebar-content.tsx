@@ -1,6 +1,6 @@
 import type { AccommodationEditorNavigation } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-navigation";
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
-import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 import { AccommodationAvailabilityEditor } from "../section/accommodation-availability-editor";
 import { AccommodationGalleryEditor } from "../section/accommodation-gallery-editor";

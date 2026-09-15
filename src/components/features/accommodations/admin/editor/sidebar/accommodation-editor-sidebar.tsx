@@ -3,7 +3,7 @@
 import type { AccommodationEditorNavigation } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-navigation";
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import { getAccommodationEditorSection } from "@/lib/admin/accommodation/editor-sections";
-import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 import { AccommodationEditorSidebarContent } from "./accommodation-editor-sidebar-content";
 import { AccommodationEditorSidebarNavigation } from "./accommodation-editor-sidebar-navigation";

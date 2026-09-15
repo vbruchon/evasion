@@ -2,7 +2,7 @@ import type { AccommodationStatus } from "@/generated/prisma/client";
 
 import { prisma } from "@/lib/prisma";
 
-import { revalidateAccommodation } from "./revalidate-accommodation";
+import { revalidateAccommodation } from "../revalidate-accommodation";
 
 export const updateAccommodationStatusAdmin = async (
   id: string,
