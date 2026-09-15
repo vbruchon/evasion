@@ -1,7 +1,6 @@
 "use client";
 
-import type { MouseEvent } from "react";
-
+import { useAccommodationEditorRegionClick } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-region-click";
 import type {
   AccommodationEditorSection,
   AccommodationLocationEditorSection,
@@ -32,26 +31,12 @@ export const AccommodationEditorPreviewLocation = ({
   onSectionChange,
   onLocationSectionChange,
 }: AccommodationEditorPreviewLocationProps) => {
-  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    const target = event.target;
-
-    if (!(target instanceof Element)) {
-      return;
-    }
-
-    const region = target.closest<HTMLElement>("[data-editor-region]");
-    const regionId = region?.dataset.editorRegion;
-
-    if (!regionId || !isAccommodationLocationEditorSection(regionId)) {
-      return;
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    onLocationSectionChange(regionId);
-    onSectionChange("location");
-  };
+  const handleClick = useAccommodationEditorRegionClick({
+    section: "location",
+    isRegion: isAccommodationLocationEditorSection,
+    onSectionChange,
+    onRegionChange: onLocationSectionChange,
+  });
 
   return (
     <EditorSection

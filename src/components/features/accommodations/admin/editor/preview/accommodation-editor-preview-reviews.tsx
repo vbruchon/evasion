@@ -1,19 +1,19 @@
 "use client";
 
-import type { MouseEvent } from "react";
 import { useWatch } from "react-hook-form";
 
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
-import { AccommodationReviews } from "@/components/features/accommodations/detail/reviews/accommodation-reviews";
+import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 import type {
   AccommodationEditorSection,
   AccommodationReviewsEditorSection,
 } from "@/lib/admin/accommodation/editor-sections";
+import { AccommodationReviews } from "@/components/features/accommodations/detail/reviews/accommodation-reviews";
 import { isAccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor-sections";
-import type { AccommodationUpdateData } from "@/lib/admin/accommodation/get-accommodation-for-update";
 
 import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
+import { useAccommodationEditorRegionClick } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-region-click";
 
 type AccommodationEditorPreviewReviewsProps = {
   reviews: AccommodationUpdateData["reviews"];
@@ -41,27 +41,12 @@ export const AccommodationEditorPreviewReviews = ({
     name: "reviewsDescription",
   });
 
-  const handleClick = (event: MouseEvent<HTMLDivElement>) => {
-    const target = event.target;
-
-    if (!(target instanceof Element)) {
-      return;
-    }
-
-    const region = target.closest<HTMLElement>("[data-editor-region]");
-
-    const regionId = region?.dataset.editorRegion;
-
-    if (!regionId || !isAccommodationReviewsEditorSection(regionId)) {
-      return;
-    }
-
-    event.preventDefault();
-    event.stopPropagation();
-
-    onReviewsSectionChange(regionId);
-    onSectionChange("reviews");
-  };
+  const handleClick = useAccommodationEditorRegionClick({
+    section: "reviews",
+    isRegion: isAccommodationReviewsEditorSection,
+    onSectionChange,
+    onRegionChange: onReviewsSectionChange,
+  });
 
   return (
     <EditorSection
