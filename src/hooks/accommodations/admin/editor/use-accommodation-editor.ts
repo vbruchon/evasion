@@ -24,40 +24,7 @@ export const useAccommodationEditor = (
   const form = useForm<AccommodationUpdateFormValues>({
     resolver: zodResolver(accommodationUpdateSchema),
 
-    defaultValues: {
-      name: accommodation.name,
-      type: accommodation.type,
-      subtitle: accommodation.subtitle,
-      shortDescription: accommodation.shortDescription,
-      description: accommodation.description,
-      status: accommodation.status,
-
-      guestCapacity: accommodation.guestCapacity,
-      bedrooms: accommodation.bedrooms,
-      beds: accommodation.beds,
-      bathrooms: accommodation.bathrooms,
-      surface: accommodation.surface,
-
-      locationTitle: accommodation.locationTitle,
-      locationDescription: accommodation.locationDescription,
-      locationLatitude: accommodation.locationLatitude,
-      locationLongitude: accommodation.locationLongitude,
-      locationRadiusMeters: accommodation.locationRadiusMeters,
-
-      availabilityCalendarUrl: accommodation.availabilityCalendarUrl,
-      bookingUrl: accommodation.bookingUrl,
-
-      availabilityTitle: accommodation.availabilityTitle,
-      availabilityDescription: accommodation.availabilityDescription,
-      bookingButtonLabel: accommodation.bookingButtonLabel,
-      reviewsTitle: accommodation.reviewsTitle,
-      reviewsDescription: accommodation.reviewsDescription,
-
-      highlights: accommodation.highlights,
-      amenities: accommodation.amenities,
-      accesses: accommodation.accesses,
-    },
-
+    defaultValues: accommodation.formValues,
     mode: "onSubmit",
   });
 

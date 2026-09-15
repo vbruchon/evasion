@@ -9,6 +9,7 @@ import { syncAccommodationAccesses } from "./sync-accommodation-accesses";
 import { syncAccommodationAmenities } from "./sync-accommodation-amenities";
 import { syncAccommodationHighlights } from "./sync-accommodation-highlights";
 import { syncAccommodationImages } from "./sync-accommodation-images";
+import { toAccommodationPersistenceData } from "./accommodation-persistence-data";
 
 type PersistAccommodationUpdateOptions = {
   accommodationId: string;
@@ -30,32 +31,7 @@ export const persistAccommodationUpdate = async ({
       },
 
       data: {
-        name: data.name,
-        type: data.type || null,
-        subtitle: data.subtitle || null,
-        shortDescription: data.shortDescription || null,
-        description: data.description || null,
-
-        guestCapacity: data.guestCapacity,
-        bedrooms: data.bedrooms,
-        beds: data.beds,
-        bathrooms: data.bathrooms,
-        surface: data.surface,
-
-        locationTitle: data.locationTitle || null,
-        locationDescription: data.locationDescription || null,
-        locationLatitude: data.locationLatitude,
-        locationLongitude: data.locationLongitude,
-        locationRadiusMeters: data.locationRadiusMeters,
-
-        availabilityCalendarUrl: data.availabilityCalendarUrl || null,
-        bookingUrl: data.bookingUrl || null,
-
-        availabilityTitle: data.availabilityTitle,
-        availabilityDescription: data.availabilityDescription,
-        bookingButtonLabel: data.bookingButtonLabel,
-        reviewsTitle: data.reviewsTitle,
-        reviewsDescription: data.reviewsDescription,
+        ...toAccommodationPersistenceData(data),
 
         status: data.status,
 

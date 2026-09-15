@@ -62,30 +62,10 @@ export const parseAccommodationDraftContent = (
 
 export const getAccommodationDraftValues = (
   values: AccommodationDraftValueSource,
-): AccommodationDraftContent["values"] => ({
-  name: values.name,
-  type: values.type,
-  subtitle: values.subtitle,
-  shortDescription: values.shortDescription,
-  description: values.description,
-  guestCapacity: values.guestCapacity,
-  bedrooms: values.bedrooms,
-  beds: values.beds,
-  bathrooms: values.bathrooms,
-  surface: values.surface,
-  locationTitle: values.locationTitle,
-  locationDescription: values.locationDescription,
-  locationLatitude: values.locationLatitude,
-  locationLongitude: values.locationLongitude,
-  locationRadiusMeters: values.locationRadiusMeters,
-  availabilityCalendarUrl: values.availabilityCalendarUrl,
-  bookingUrl: values.bookingUrl,
-  availabilityTitle: values.availabilityTitle,
-  availabilityDescription: values.availabilityDescription,
-  bookingButtonLabel: values.bookingButtonLabel,
-  reviewsTitle: values.reviewsTitle,
-  reviewsDescription: values.reviewsDescription,
-});
+): AccommodationDraftContent["values"] =>
+  Object.fromEntries(
+    ACCOMMODATION_DRAFT_VALUE_FIELDS.map((field) => [field, values[field]]),
+  ) as AccommodationDraftContent["values"];
 
 export const getAccommodationDraftFileKeys = (
   content: AccommodationDraftContent,

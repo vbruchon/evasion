@@ -14,6 +14,7 @@ import {
   hasForeignAccommodationImage,
   syncAccommodationImages,
 } from "./sync-accommodation-images";
+import { toAccommodationPersistenceData } from "./accommodation-persistence-data";
 
 export const publishAccommodationDraftAdmin = async (
   accommodationId: string,
@@ -107,35 +108,7 @@ export const publishAccommodationDraftAdmin = async (
         id: accommodationId,
       },
 
-      data: {
-        name: draft.values.name,
-        type: draft.values.type || null,
-        subtitle: draft.values.subtitle || null,
-        shortDescription: draft.values.shortDescription || null,
-        description: draft.values.description || null,
-
-        guestCapacity: draft.values.guestCapacity,
-        bedrooms: draft.values.bedrooms,
-        beds: draft.values.beds,
-        bathrooms: draft.values.bathrooms,
-        surface: draft.values.surface,
-
-        locationTitle: draft.values.locationTitle || null,
-        locationDescription: draft.values.locationDescription || null,
-        locationLatitude: draft.values.locationLatitude,
-        locationLongitude: draft.values.locationLongitude,
-        locationRadiusMeters: draft.values.locationRadiusMeters,
-
-        availabilityCalendarUrl: draft.values.availabilityCalendarUrl || null,
-        bookingUrl: draft.values.bookingUrl || null,
-
-        availabilityTitle: draft.values.availabilityTitle,
-        availabilityDescription: draft.values.availabilityDescription,
-        bookingButtonLabel: draft.values.bookingButtonLabel,
-
-        reviewsTitle: draft.values.reviewsTitle,
-        reviewsDescription: draft.values.reviewsDescription,
-      },
+      data: toAccommodationPersistenceData(draft.values),
     });
 
     await syncAccommodationImages(tx, accommodationId, draft.images);

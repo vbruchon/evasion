@@ -1,6 +1,7 @@
 import {
   accommodationAccessesSchema,
   accommodationAmenitiesSchema,
+  AccommodationUpdateFormValues,
 } from "@/lib/admin/accommodation/schema";
 
 import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/accommodation-draft";
@@ -189,45 +190,22 @@ export const getAccommodationForUpdate = async (id: string) => {
             (accessOrder.get(b.key) ?? Number.MAX_SAFE_INTEGER),
         );
 
+  const formValues: AccommodationUpdateFormValues = {
+    ...values,
+    status: accommodation.status,
+    highlights,
+    amenities,
+    accesses,
+  };
   return {
     id: accommodation.id,
     slug: accommodation.slug,
     status: accommodation.status,
 
-    name: values.name,
-    type: values.type,
-    subtitle: values.subtitle,
-    shortDescription: values.shortDescription,
-    description: values.description,
-
-    guestCapacity: values.guestCapacity,
-    bedrooms: values.bedrooms,
-    beds: values.beds,
-    bathrooms: values.bathrooms,
-    surface: values.surface,
-
-    locationTitle: values.locationTitle,
-    locationDescription: values.locationDescription,
-    locationLatitude: values.locationLatitude,
-    locationLongitude: values.locationLongitude,
-    locationRadiusMeters: values.locationRadiusMeters,
-
-    availabilityCalendarUrl: values.availabilityCalendarUrl,
-    bookingUrl: values.bookingUrl,
-
-    availabilityTitle: values.availabilityTitle,
-    availabilityDescription: values.availabilityDescription,
-    bookingButtonLabel: values.bookingButtonLabel,
-
-    reviewsTitle: values.reviewsTitle,
-    reviewsDescription: values.reviewsDescription,
+    formValues,
 
     reviews: accommodation.reviews,
     lastReviewsImportAt: accommodation.lastReviewsImportAt,
-
-    highlights,
-    amenities,
-    accesses,
 
     images,
 

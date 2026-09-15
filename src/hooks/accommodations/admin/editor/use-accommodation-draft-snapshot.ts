@@ -4,15 +4,13 @@ import { useMemo } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useWatch } from "react-hook-form";
 
-import type {
-  AccommodationDraftContent,
-  AccommodationUpdateFormValues,
-} from "@/lib/admin/accommodation/schema";
+import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
 
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/accommodation-image-previews";
 import {
   ACCOMMODATION_DRAFT_VALUE_FIELDS,
   getAccommodationDraftSignature,
+  getAccommodationDraftValues,
 } from "@/lib/admin/accommodation/accommodation-draft";
 
 type UseAccommodationDraftSnapshotOptions = {
@@ -28,7 +26,7 @@ export const useAccommodationDraftSnapshot = ({
   coverImageId,
   presentationImageId,
 }: UseAccommodationDraftSnapshotOptions) => {
-  const watchedDraftValues = useWatch({
+  useWatch({
     control: form.control,
     name: ACCOMMODATION_DRAFT_VALUE_FIELDS,
   });
@@ -48,57 +46,7 @@ export const useAccommodationDraftSnapshot = ({
     name: "accesses",
   });
 
-  const values = useMemo<AccommodationDraftContent["values"]>(() => {
-    const [
-      name,
-      type,
-      subtitle,
-      shortDescription,
-      description,
-      guestCapacity,
-      bedrooms,
-      beds,
-      bathrooms,
-      surface,
-      locationTitle,
-      locationDescription,
-      locationLatitude,
-      locationLongitude,
-      locationRadiusMeters,
-      availabilityCalendarUrl,
-      bookingUrl,
-      availabilityTitle,
-      availabilityDescription,
-      bookingButtonLabel,
-      reviewsTitle,
-      reviewsDescription,
-    ] = watchedDraftValues;
-
-    return {
-      name,
-      type,
-      subtitle,
-      shortDescription,
-      description,
-      guestCapacity,
-      bedrooms,
-      beds,
-      bathrooms,
-      surface,
-      locationTitle,
-      locationDescription,
-      locationLatitude,
-      locationLongitude,
-      locationRadiusMeters,
-      availabilityCalendarUrl,
-      bookingUrl,
-      availabilityTitle,
-      availabilityDescription,
-      bookingButtonLabel,
-      reviewsTitle,
-      reviewsDescription,
-    };
-  }, [watchedDraftValues]);
+  const values = getAccommodationDraftValues(form.getValues());
 
   const signature = useMemo(
     () =>
