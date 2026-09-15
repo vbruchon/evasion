@@ -6,7 +6,7 @@ import {
 } from "@/lib/admin/accommodation/schema";
 
 import { hasForeignAccommodationImage } from "./images/sync-accommodation-images";
-import { hasForeignAccommodationHighlight } from "./sync-accommodation-highlights";
+import { hasForeignAccommodationHighlight } from "./persistence/sync-accommodation-highlights";
 
 type ValidateAccommodationUpdateOptions = {
   values: AccommodationUpdateFormValues;

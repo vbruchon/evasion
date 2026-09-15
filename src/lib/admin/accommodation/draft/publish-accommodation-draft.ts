@@ -3,18 +3,18 @@ import { prisma } from "@/lib/prisma";
 
 import { parseAccommodationDraftContent } from "./accommodation-draft";
 import { revalidateAccommodation } from "../revalidate-accommodation";
-import { syncAccommodationAccesses } from "../sync-accommodation-accesses";
-import { syncAccommodationAmenities } from "../sync-accommodation-amenities";
+import { syncAccommodationAccesses } from "../persistence/sync-accommodation-accesses";
+import { syncAccommodationAmenities } from "../persistence/sync-accommodation-amenities";
 import {
   hasForeignAccommodationHighlight,
   syncAccommodationHighlights,
-} from "../sync-accommodation-highlights";
+} from "../persistence/sync-accommodation-highlights";
 import {
   getRemovedAccommodationImages,
   hasForeignAccommodationImage,
   syncAccommodationImages,
 } from "../images/sync-accommodation-images";
-import { toAccommodationPersistenceData } from "../accommodation-persistence-data";
+import { toAccommodationPersistenceData } from "../persistence/accommodation-persistence-data";
 
 export const publishAccommodationDraftAdmin = async (
   accommodationId: string,

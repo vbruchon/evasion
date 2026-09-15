@@ -10,7 +10,7 @@ import {
   getAccommodationDraftFileKeys,
   parseAccommodationDraftContent,
 } from "../draft/accommodation-draft";
-import { persistAccommodationUpdate } from "../persist-accommodation-update";
+import { persistAccommodationUpdate } from "../persistence/persist-accommodation-update";
 import { revalidateAccommodation } from "../revalidate-accommodation";
 import {
   getAccommodationUpdateImageFileKeys,

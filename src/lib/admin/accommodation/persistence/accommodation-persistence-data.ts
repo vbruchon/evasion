@@ -1,4 +1,4 @@
-import type { AccommodationDraftContent } from "./schema";
+import { AccommodationDraftContent } from "../schema";
 
 type AccommodationPersistenceValueSource = AccommodationDraftContent["values"];
 

@@ -11,7 +11,7 @@ import {
   getAccommodationDraftFileKeys,
   parseAccommodationDraftContent,
 } from "./accommodation-draft";
-import { hasForeignAccommodationHighlight } from "../sync-accommodation-highlights";
+import { hasForeignAccommodationHighlight } from "../persistence/sync-accommodation-highlights";
 import {
   getAccommodationUpdateImageFileKeys,
   hasForeignAccommodationImage,
