@@ -238,3 +238,32 @@ model AccommodationReview {
   @@unique([accommodationId, importKey])
   @@index([accommodationId, reviewedAt])
 }
+
+model ReviewsPageContent {
+  id String @id
+
+  heroEyebrow      String
+  heroTitle        String
+  heroDescription  String  @db.Text
+  heroImageUrl     String?
+  heroImageFileKey String?
+
+  recentReviewsEyebrow     String
+  recentReviewsTitle       String
+  recentReviewsDescription String @db.Text
+
+  allReviewsTitle       String
+  allReviewsDescription String @db.Text
+
+  ctaEyebrow      String
+  ctaTitle        String
+  ctaDescription  String  @db.Text
+  ctaButtonLabel  String
+  ctaImageUrl     String?
+  ctaImageFileKey String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews_page_content")
+}
