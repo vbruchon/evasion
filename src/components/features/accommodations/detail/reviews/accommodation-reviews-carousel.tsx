@@ -5,10 +5,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
 import { Button } from "@/components/ui/button";
 import { useAccommodationReviewsCarousel } from "@/hooks/accommodations/detail/use-accommodation-reviews-carousel";
+import { ReviewCard } from "@/components/features/reviews/shared/review-card";
 import type { AccommodationReviewData } from "@/lib/accommodations/reviews/accommodation-review.types";
 import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
-
-import { AccommodationReviewCard } from "./accommodation-review-card";
 
 type AccommodationReviewsCarouselProps = {
   reviews: AccommodationReviewData[];
@@ -68,7 +67,7 @@ export const AccommodationReviewsCarousel = ({
                   key={review.id}
                   className="shrink-0 snap-start basis-[88%] sm:basis-[calc(50%-0.5rem)] xl:basis-[calc(33.333%-0.67rem)]"
                 >
-                  <AccommodationReviewCard review={review} />
+                  <ReviewCard review={review} />
                 </div>
               ))}
             </div>

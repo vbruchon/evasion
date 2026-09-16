@@ -2,12 +2,12 @@ export const REVIEWS_PAGE_CONTENT_ID = "reviews-page";
 
 export const reviewsPageContentDefaults = {
   heroEyebrow: "Avis voyageurs",
-  heroTitle: "Des séjours qui laissent une trace",
+  heroTitle: "Leurs moments, leurs mots.",
   heroDescription:
-    "Découvrez les expériences partagées par celles et ceux qui ont séjourné dans nos logements.",
+    "Ils ont vécu l’expérience Évasion et partagent leurs impressions. Des séjours authentiques, des souvenirs inoubliables.",
 
   recentReviewsEyebrow: "Derniers avis",
-  recentReviewsTitle: "Leurs derniers souvenirs",
+  recentReviewsTitle: "Ils ont vécu Évasion",
   recentReviewsDescription:
     "Une sélection parmi les derniers avis laissés par nos voyageurs.",
 
@@ -16,8 +16,8 @@ export const reviewsPageContentDefaults = {
     "Parcourez l’ensemble des avis laissés par nos voyageurs et découvrez leurs expériences.",
 
   ctaEyebrow: "À votre tour",
-  ctaTitle: "Et si le prochain séjour était le vôtre ?",
+  ctaTitle: "Après leurs souvenirs, vivez votre Évasion.",
   ctaDescription:
-    "Découvrez nos logements et choisissez l’expérience qui vous ressemble.",
-  ctaButtonLabel: "Découvrir les logements",
+    "Choisissez le lieu, laissez le quotidien derrière vous et profitez d’une parenthèse pensée pour deux.",
+  ctaButtonLabel: "Découvrir nos logements",
 } as const;
