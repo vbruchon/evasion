@@ -18,4 +18,16 @@ export const reviewsPageContentSchema = z.object({
   ctaButtonLabel: z.string().trim().min(1).max(80),
 });
 
+export const reviewsPageImageSchema = z.object({
+  url: z.string().url(),
+  fileKey: z.string().trim().min(1),
+});
+
+export const reviewsPageImagesSchema = z.object({
+  heroImage: reviewsPageImageSchema.nullable(),
+  ctaImage: reviewsPageImageSchema.nullable(),
+});
+
 export type ReviewsPageContentValues = z.infer<typeof reviewsPageContentSchema>;
+
+export type ReviewsPageImageInput = z.infer<typeof reviewsPageImageSchema>;
