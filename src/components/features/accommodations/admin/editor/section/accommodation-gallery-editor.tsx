@@ -1,6 +1,6 @@
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 
-import { AccommodationEditorSectionContent } from "../section/accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { AccommodationImageDropzone } from "../../form/images/accommodation-image-dropzone";
 import { AccommodationSortableImageGallery } from "../../form/images/accommodation-sortable-image-gallery";
 
@@ -23,7 +23,7 @@ export const AccommodationGalleryEditor = ({
   onRemoveImage,
   onReorderImages,
 }: AccommodationGalleryEditorProps) => (
-  <AccommodationEditorSectionContent>
+  <AdminEditorSectionContent>
     <AccommodationImageDropzone
       compact
       disabled={disabled}
@@ -40,5 +40,5 @@ export const AccommodationGalleryEditor = ({
         onRemove={onRemoveImage}
       />
     ) : null}
-  </AccommodationEditorSectionContent>
+  </AdminEditorSectionContent>
 );

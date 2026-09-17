@@ -7,7 +7,7 @@ import {
   accommodationReviewsEditorSections,
 } from "@/lib/admin/accommodation/editor/editor-sections";
 
-import { AccommodationEditorSubsectionNav } from "./accommodation-editor-subsection-nav";
+import { AdminEditorSubsectionNav } from "@/components/layout/admin/editor/admin-editor-subsection-nav";
 
 type AccommodationEditorSidebarNavigationProps = {
   navigation: AccommodationEditorNavigation;
@@ -19,7 +19,7 @@ export const AccommodationEditorSidebarNavigation = ({
   switch (navigation.activeSection) {
     case "hero":
       return (
-        <AccommodationEditorSubsectionNav
+        <AdminEditorSubsectionNav
           sections={accommodationHeroEditorSections}
           activeSection={navigation.activeHeroSection}
           columns={4}
@@ -30,7 +30,7 @@ export const AccommodationEditorSidebarNavigation = ({
 
     case "presentation":
       return (
-        <AccommodationEditorSubsectionNav
+        <AdminEditorSubsectionNav
           sections={accommodationPresentationEditorSections}
           activeSection={navigation.activePresentationSection}
           columns={2}
@@ -41,7 +41,7 @@ export const AccommodationEditorSidebarNavigation = ({
 
     case "location":
       return (
-        <AccommodationEditorSubsectionNav
+        <AdminEditorSubsectionNav
           sections={accommodationLocationEditorSections}
           activeSection={navigation.activeLocationSection}
           columns={3}
@@ -52,7 +52,7 @@ export const AccommodationEditorSidebarNavigation = ({
 
     case "availability":
       return (
-        <AccommodationEditorSubsectionNav
+        <AdminEditorSubsectionNav
           sections={accommodationAvailabilityEditorSections}
           activeSection={navigation.activeAvailabilitySection}
           columns={2}
@@ -63,7 +63,7 @@ export const AccommodationEditorSidebarNavigation = ({
 
     case "reviews":
       return (
-        <AccommodationEditorSubsectionNav
+        <AdminEditorSubsectionNav
           sections={accommodationReviewsEditorSections}
           activeSection={navigation.activeReviewsSection}
           columns={2}

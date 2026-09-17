@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils";
 
 import { AccommodationEditorDraftBanner } from "./accommodation-editor-draft-banner";
 import { AccommodationEditorHeader } from "./accommodation-editor-header";
-import { AccommodationEditorMobileNavigation } from "./accommodation-editor-mobile-navigation";
+import { AdminEditorMobileNavigation } from "@/components/layout/admin/editor/admin-editor-mobile-navigation";
 import { AccommodationEditorSidebar } from "./sidebar/accommodation-editor-sidebar";
 import { AccommodationEditorPreview } from "./preview/accommodation-editor-preview";
 
@@ -108,7 +108,7 @@ export const AccommodationEditor = ({
           />
         ) : null}
 
-        <AccommodationEditorMobileNavigation
+        <AdminEditorMobileNavigation
           activeView={mobileView}
           onViewChange={setMobileView}
         />

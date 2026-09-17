@@ -3,7 +3,7 @@
 import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationTextField } from "../../form/accommodation-text-field";
-import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 
 type AccommodationAvailabilityEditorProps = {
   section: AccommodationAvailabilityEditorSection;
@@ -14,7 +14,7 @@ export const AccommodationAvailabilityEditor = ({
 }: AccommodationAvailabilityEditorProps) => {
   if (section === "content") {
     return (
-      <AccommodationEditorSectionContent>
+      <AdminEditorSectionContent>
         <AccommodationTextField
           name="availabilityTitle"
           label="Titre"
@@ -28,12 +28,12 @@ export const AccommodationAvailabilityEditor = ({
           placeholder="Consultez les prochaines disponibilités du logement..."
           variant="editor"
         />
-      </AccommodationEditorSectionContent>
+      </AdminEditorSectionContent>
     );
   }
 
   return (
-    <AccommodationEditorSectionContent>
+    <AdminEditorSectionContent>
       <div>
         <AccommodationTextField
           name="availabilityCalendarUrl"
@@ -70,6 +70,6 @@ export const AccommodationAvailabilityEditor = ({
           variant="editor"
         />
       </div>
-    </AccommodationEditorSectionContent>
+    </AdminEditorSectionContent>
   );
 };

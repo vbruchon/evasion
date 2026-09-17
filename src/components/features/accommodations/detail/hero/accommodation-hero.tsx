@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type {
   AccommodationDisplayImageSource,
   AccommodationHeroData,
@@ -80,7 +80,7 @@ export const AccommodationHero = ({
       {background}
 
       {editorPreview && !coverImage ? (
-        <AccommodationEditorRegion
+        <AdminEditorRegion
           region="image"
           activeRegion={activeEditorRegion}
           className="absolute right-[8%] top-1/2 z-20 hidden -translate-y-1/2 p-1 lg:block"
@@ -88,12 +88,12 @@ export const AccommodationHero = ({
           <div className="border border-white/15 bg-black/30 px-4 py-2 text-xs text-white/55 backdrop-blur-sm">
             {ACCOMMODATION_PREVIEW_PLACEHOLDERS.hero.coverImage}
           </div>
-        </AccommodationEditorRegion>
+        </AdminEditorRegion>
       ) : null}
 
       <div className="relative z-10 flex w-full items-center">
         <div>
-          <AccommodationEditorRegion
+          <AdminEditorRegion
             region="general"
             activeRegion={activeEditorRegion}
             className="max-w-2xl -m-3 p-3"
@@ -102,11 +102,11 @@ export const AccommodationHero = ({
               accommodation={accommodation}
               editorPreview={editorPreview}
             />
-          </AccommodationEditorRegion>
+          </AdminEditorRegion>
 
           {showKeyDetails ? (
             <div className="mt-8 lg:mt-12">
-              <AccommodationEditorRegion
+              <AdminEditorRegion
                 region="key-details"
                 activeRegion={activeEditorRegion}
                 className="inline-block max-w-full p-2"
@@ -115,7 +115,7 @@ export const AccommodationHero = ({
                   accommodationDetails={accommodation}
                   editorPreview={editorPreview}
                 />
-              </AccommodationEditorRegion>
+              </AdminEditorRegion>
             </div>
           ) : null}
 
@@ -127,7 +127,7 @@ export const AccommodationHero = ({
       </div>
 
       {showHighlights ? (
-        <AccommodationEditorRegion
+        <AdminEditorRegion
           region="highlights"
           activeRegion={activeEditorRegion}
           className="relative z-10 -mx-6 mt-12 border-t border-white/10 bg-black/45 backdrop-blur-md md:-mx-12 lg:absolute lg:inset-x-0 lg:bottom-0 lg:mx-0 lg:mt-0"
@@ -136,7 +136,7 @@ export const AccommodationHero = ({
             highlights={highlights}
             editorPreview={editorPreview}
           />
-        </AccommodationEditorRegion>
+        </AdminEditorRegion>
       ) : null}
     </section>
   );

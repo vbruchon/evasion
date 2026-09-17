@@ -14,7 +14,7 @@ import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/e
 
 import { AccommodationNumberField } from "../../form/accommodation-number-field";
 import { AccommodationTextField } from "../../form/accommodation-text-field";
-import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { AccommodationImageGallery } from "../../form/images/accommodation-image-gallery";
 import { AccommodationHighlightsEditor } from "./highlights/accommodation-highlights-editor";
 type AccommodationHeroEditorProps = {
@@ -36,7 +36,7 @@ export const AccommodationHeroEditor = ({
 }: AccommodationHeroEditorProps) => {
   if (section === "general") {
     return (
-      <AccommodationEditorSectionContent>
+      <AdminEditorSectionContent>
         <AccommodationTextField
           name="type"
           label="Type de logement"
@@ -58,13 +58,13 @@ export const AccommodationHeroEditor = ({
           multiline
           variant="editor"
         />
-      </AccommodationEditorSectionContent>
+      </AdminEditorSectionContent>
     );
   }
 
   if (section === "image") {
     return (
-      <AccommodationEditorSectionContent>
+      <AdminEditorSectionContent>
         <div>
           <p className="text-sm font-medium">Image de couverture</p>
 
@@ -114,7 +114,7 @@ export const AccommodationHeroEditor = ({
             ) : null}
           </div>
         )}
-      </AccommodationEditorSectionContent>
+      </AdminEditorSectionContent>
     );
   }
 
@@ -123,7 +123,7 @@ export const AccommodationHeroEditor = ({
   }
 
   return (
-    <AccommodationEditorSectionContent>
+    <AdminEditorSectionContent>
       <p className="text-xs leading-5 text-muted-foreground">
         Affichées sous le sous-titre dans le hero.
       </p>
@@ -172,6 +172,6 @@ export const AccommodationHeroEditor = ({
           step={0.5}
         />
       </div>
-    </AccommodationEditorSectionContent>
+    </AdminEditorSectionContent>
   );
 };

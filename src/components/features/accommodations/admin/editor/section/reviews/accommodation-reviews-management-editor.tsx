@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { useAccommodationReviewsImport } from "@/hooks/accommodations/admin/editor/use-accommodation-reviews-import";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
-import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { AccommodationReviewsStatusCard } from "./accommodation-reviews-status-card";
 
 type AccommodationReviewsManagementEditorProps = {
@@ -44,7 +44,7 @@ export const AccommodationReviewsManagementEditor = ({
   const shouldShowReminder = isReviewsImportStale(lastReviewsImportAt);
 
   return (
-    <AccommodationEditorSectionContent>
+    <AdminEditorSectionContent>
       <AccommodationReviewsStatusCard
         reviewCount={reviews.length}
         lastReviewsImportAt={lastReviewsImportAt}
@@ -140,6 +140,6 @@ export const AccommodationReviewsManagementEditor = ({
           {error}
         </div>
       ) : null}
-    </AccommodationEditorSectionContent>
+    </AdminEditorSectionContent>
   );
 };

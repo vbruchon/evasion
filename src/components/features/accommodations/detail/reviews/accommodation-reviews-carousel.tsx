@@ -2,7 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { Button } from "@/components/ui/button";
 import { useAccommodationReviewsCarousel } from "@/hooks/accommodations/detail/use-accommodation-reviews-carousel";
 import { ReviewCard } from "@/components/features/reviews/shared/review-card";
@@ -35,7 +35,7 @@ export const AccommodationReviewsCarousel = ({
   } = useAccommodationReviewsCarousel(featuredReviews.length);
 
   return (
-    <AccommodationEditorRegion
+    <AdminEditorRegion
       region="management"
       activeRegion={activeEditorRegion}
       className="-m-3 mt-9 p-3"
@@ -113,6 +113,6 @@ export const AccommodationReviewsCarousel = ({
           </p>
         </div>
       )}
-    </AccommodationEditorRegion>
+    </AdminEditorRegion>
   );
 };

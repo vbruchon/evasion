@@ -5,7 +5,7 @@ import { Search, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { AccommodationLocationSearchResults } from "./accommodation-location-search-results";
 import { AccommodationLocationMap } from "@/components/features/accommodations/detail/location/map/accommodation-location-map";
 import { useAccommodationLocationMapEditor } from "@/hooks/accommodations/admin/editor/use-accommodation-location-map-editor";
@@ -37,7 +37,7 @@ export const AccommodationLocationMapEditor = ({
   const hasLocation = latitude !== null && longitude !== null;
 
   return (
-    <AccommodationEditorSectionContent>
+    <AdminEditorSectionContent>
       <div>
         <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
           Zone approximative
@@ -150,6 +150,6 @@ export const AccommodationLocationMapEditor = ({
           </p>
         </div>
       )}
-    </AccommodationEditorSectionContent>
+    </AdminEditorSectionContent>
   );
 };

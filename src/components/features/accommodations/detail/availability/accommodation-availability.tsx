@@ -1,6 +1,6 @@
 import { AlertCircle, Loader2 } from "lucide-react";
 
-import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
@@ -44,7 +44,7 @@ export const AccommodationAvailability = ({
         <div className="xl:pt-4">
           <p className="section-eyebrow text-primary/85">Disponibilités</p>
 
-          <AccommodationEditorRegion
+          <AdminEditorRegion
             region="content"
             activeRegion={activeEditorRegion}
             className="-m-3 mt-1 p-3"
@@ -56,7 +56,7 @@ export const AccommodationAvailability = ({
             <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground">
               {availabilityDescription}
             </p>
-          </AccommodationEditorRegion>
+          </AdminEditorRegion>
 
           <div className="mt-8 h-px w-12 bg-primary/60" />
 
@@ -69,7 +69,7 @@ export const AccommodationAvailability = ({
 
         <div className="min-w-0">
           {!hasCalendar ? (
-            <AccommodationEditorRegion
+            <AdminEditorRegion
               region="calendar"
               activeRegion={activeEditorRegion}
             >
@@ -79,11 +79,11 @@ export const AccommodationAvailability = ({
                   du logement.
                 </p>
               </div>
-            </AccommodationEditorRegion>
+            </AdminEditorRegion>
           ) : null}
 
           {hasCalendar && loading ? (
-            <AccommodationEditorRegion
+            <AdminEditorRegion
               region="calendar"
               activeRegion={activeEditorRegion}
             >
@@ -94,11 +94,11 @@ export const AccommodationAvailability = ({
                   <p className="text-sm">Chargement des disponibilités...</p>
                 </div>
               </div>
-            </AccommodationEditorRegion>
+            </AdminEditorRegion>
           ) : null}
 
           {hasCalendar && !loading && error ? (
-            <AccommodationEditorRegion
+            <AdminEditorRegion
               region="calendar"
               activeRegion={activeEditorRegion}
             >
@@ -119,7 +119,7 @@ export const AccommodationAvailability = ({
                   </div>
                 </div>
               </div>
-            </AccommodationEditorRegion>
+            </AdminEditorRegion>
           ) : null}
 
           {hasCalendar && !loading && !error ? (
