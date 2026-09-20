@@ -1,6 +1,6 @@
 "use client";
 
-import { useAccommodationEditorRegionClick } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-region-click";
+import { useAdminEditorRegionClick } from "@/hooks/admin/editor/use-admin-editor-region-click";
 
 import type {
   AccommodationAvailabilityEditorSection,
@@ -10,7 +10,7 @@ import { isAccommodationAvailabilityEditorSection } from "@/lib/admin/accommodat
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 
 import { AccommodationAvailability } from "../../../detail/availability/accommodation-availability";
-import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
+import { AdminEditorSection } from "@/components/layout/admin/editor/admin-editor-section";
 
 type AccommodationEditorPreviewAvailabilityProps = {
   unavailablePeriods: AccommodationUnavailablePeriodData[];
@@ -43,7 +43,7 @@ export const AccommodationEditorPreviewAvailability = ({
   onSectionChange,
   onAvailabilitySectionChange,
 }: AccommodationEditorPreviewAvailabilityProps) => {
-  const handleClick = useAccommodationEditorRegionClick({
+  const handleClick = useAdminEditorRegionClick({
     section: "availability",
     isRegion: isAccommodationAvailabilityEditorSection,
     onSectionChange,
@@ -51,7 +51,7 @@ export const AccommodationEditorPreviewAvailability = ({
   });
 
   return (
-    <EditorSection
+    <AdminEditorSection
       label="Disponibilités"
       active={activeSection === "availability"}
       interactiveChildren
@@ -75,6 +75,6 @@ export const AccommodationEditorPreviewAvailability = ({
           editorPreview
         />
       </div>
-    </EditorSection>
+    </AdminEditorSection>
   );
 };

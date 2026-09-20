@@ -10,8 +10,7 @@ import type {
   AccommodationPresentationEditorSection,
   AccommodationReviewsEditorSection,
 } from "@/lib/admin/accommodation/editor/editor-sections";
-
-export type AccommodationEditorMobileView = "preview" | "editor";
+import { AdminEditorMobileView } from "@/components/layout/admin/editor/admin-editor-mobile-navigation";
 
 export const useAccommodationEditorNavigation = () => {
   const [activeSection, setActiveSection] =
@@ -33,7 +32,7 @@ export const useAccommodationEditorNavigation = () => {
     useState<AccommodationReviewsEditorSection>("content");
 
   const [mobileView, setMobileView] =
-    useState<AccommodationEditorMobileView>("preview");
+    useState<AdminEditorMobileView>("preview");
 
   const handleSectionChange = (section: AccommodationEditorSection) => {
     setActiveSection(section);

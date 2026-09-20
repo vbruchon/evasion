@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
-import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { useAccommodationBookingSelection } from "@/hooks/accommodations/detail/use-accommodation-booking-selection";
 import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
 import {
@@ -100,10 +100,7 @@ export const AccommodationAvailabilityCalendar = ({
 
       <div className="pointer-events-none absolute inset-x-6 bottom-2 top-14 -z-10 bg-primary/[0.035] blur-3xl" />
 
-      <AccommodationEditorRegion
-        region="calendar"
-        activeRegion={activeEditorRegion}
-      >
+      <AdminEditorRegion region="calendar" activeRegion={activeEditorRegion}>
         <div className="relative overflow-hidden rounded-xl border border-primary/30 bg-card shadow-[0_0_55px_rgba(184,134,55,0.22),0_18px_55px_-24px_rgba(0,0,0,0.95)]">
           <div className="grid px-4 py-7 sm:px-6 md:grid-cols-2 md:divide-x md:divide-border/40">
             <AccommodationAvailabilityMonth
@@ -138,7 +135,7 @@ export const AccommodationAvailabilityCalendar = ({
             />
           ) : null}
         </div>
-      </AccommodationEditorRegion>
+      </AdminEditorRegion>
     </div>
   );
 };

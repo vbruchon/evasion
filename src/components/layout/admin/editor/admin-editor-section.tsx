@@ -4,7 +4,7 @@ import type { KeyboardEvent, MouseEvent, ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
-type AccommodationEditorSectionProps = {
+type AdminEditorSectionProps = {
   active: boolean;
   label: string;
   children: ReactNode;
@@ -12,13 +12,13 @@ type AccommodationEditorSectionProps = {
   onSelect: () => void;
 };
 
-export const AccommodationEditorSection = ({
+export const AdminEditorSection = ({
   active,
   label,
   children,
   interactiveChildren = false,
   onSelect,
-}: AccommodationEditorSectionProps) => {
+}: AdminEditorSectionProps) => {
   const handleClick = (event: MouseEvent<HTMLElement>) => {
     if (interactiveChildren) {
       event.preventDefault();

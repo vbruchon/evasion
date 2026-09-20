@@ -2,25 +2,29 @@
 
 import { useCallback, type MouseEvent } from "react";
 
-import type { AccommodationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
-
-type AccommodationEditorRegionGuard<TRegion extends string> = (
+type AdminEditorRegionGuard<TRegion extends string> = (
   regionId: string,
 ) => regionId is TRegion;
 
-type UseAccommodationEditorRegionClickOptions<TRegion extends string> = {
-  section: AccommodationEditorSection;
-  isRegion: AccommodationEditorRegionGuard<TRegion>;
-  onSectionChange: (section: AccommodationEditorSection) => void;
+type UseAdminEditorRegionClickOptions<
+  TSection extends string,
+  TRegion extends string,
+> = {
+  section: TSection;
+  isRegion: AdminEditorRegionGuard<TRegion>;
+  onSectionChange: (section: TSection) => void;
   onRegionChange: (region: TRegion) => void;
 };
 
-export const useAccommodationEditorRegionClick = <TRegion extends string>({
+export const useAdminEditorRegionClick = <
+  TSection extends string,
+  TRegion extends string,
+>({
   section,
   isRegion,
   onSectionChange,
   onRegionChange,
-}: UseAccommodationEditorRegionClickOptions<TRegion>) =>
+}: UseAdminEditorRegionClickOptions<TSection, TRegion>) =>
   useCallback(
     (event: MouseEvent<HTMLDivElement>) => {
       const target = event.target;

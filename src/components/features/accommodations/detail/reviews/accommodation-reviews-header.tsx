@@ -1,6 +1,6 @@
 import { Star } from "lucide-react";
 
-import { AccommodationEditorRegion } from "@/components/features/accommodations/shared/accommodation-editor-region";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { Button } from "@/components/ui/button";
 import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
@@ -24,7 +24,7 @@ export const AccommodationReviewsHeader = ({
   onOpenReviews,
 }: AccommodationReviewsHeaderProps) => (
   <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-    <AccommodationEditorRegion
+    <AdminEditorRegion
       region="content"
       activeRegion={activeEditorRegion}
       className="-m-3 p-3"
@@ -40,7 +40,7 @@ export const AccommodationReviewsHeader = ({
           {description}
         </p>
       </div>
-    </AccommodationEditorRegion>
+    </AdminEditorRegion>
 
     {averageRating !== null ? (
       <div className="flex shrink-0 flex-col items-start gap-5 sm:flex-row sm:items-end">

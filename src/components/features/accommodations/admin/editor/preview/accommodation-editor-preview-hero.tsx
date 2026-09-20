@@ -1,13 +1,13 @@
 "use client";
 
-import { useAccommodationEditorRegionClick } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-region-click";
+import { useAdminEditorRegionClick } from "@/hooks/admin/editor/use-admin-editor-region-click";
 import type {
   AccommodationEditorSection,
   AccommodationHeroEditorSection,
 } from "@/lib/admin/accommodation/editor/editor-sections";
 import { isAccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
-import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
+import { AdminEditorSection } from "@/components/layout/admin/editor/admin-editor-section";
 import { AccommodationHero } from "../../../detail/hero/accommodation-hero";
 
 type AccommodationEditorPreviewHeroProps = {
@@ -33,7 +33,7 @@ export const AccommodationEditorPreviewHero = ({
   onSectionChange,
   onHeroSectionChange,
 }: AccommodationEditorPreviewHeroProps) => {
-  const handleClick = useAccommodationEditorRegionClick({
+  const handleClick = useAdminEditorRegionClick({
     section: "hero",
     isRegion: isAccommodationHeroEditorSection,
     onSectionChange,
@@ -41,7 +41,7 @@ export const AccommodationEditorPreviewHero = ({
   });
 
   return (
-    <EditorSection
+    <AdminEditorSection
       label="Hero"
       active={activeSection === "hero"}
       interactiveChildren
@@ -59,6 +59,6 @@ export const AccommodationEditorPreviewHero = ({
           editorPreview
         />
       </div>
-    </EditorSection>
+    </AdminEditorSection>
   );
 };

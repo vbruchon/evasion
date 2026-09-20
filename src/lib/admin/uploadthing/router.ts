@@ -32,6 +32,31 @@ export const uploadRouter = {
         url: file.ufsUrl,
       };
     }),
+  reviewsPageImages: f({
+    image: {
+      maxFileSize: "8MB",
+      maxFileCount: 2,
+    },
+  })
+    .middleware(async ({ req }) => {
+      const session = await auth.api.getSession({
+        headers: req.headers,
+      });
+
+      if (!session || !isAdminEmail(session.user.email)) {
+        throw new UploadThingError("Unauthorized");
+      }
+
+      return {
+        userId: session.user.id,
+      };
+    })
+    .onUploadComplete(async ({ file }) => {
+      return {
+        fileKey: file.key,
+        url: file.ufsUrl,
+      };
+    }),
 } satisfies FileRouter;
 
 export type UploadRouter = typeof uploadRouter;

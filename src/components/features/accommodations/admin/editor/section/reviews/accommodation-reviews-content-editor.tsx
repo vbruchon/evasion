@@ -1,10 +1,10 @@
 "use client";
 
 import { AccommodationTextField } from "../../../form/accommodation-text-field";
-import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 
 export const AccommodationReviewsContentEditor = () => (
-  <AccommodationEditorSectionContent>
+  <AdminEditorSectionContent>
     <AccommodationTextField
       name="reviewsTitle"
       label="Titre"
@@ -19,5 +19,5 @@ export const AccommodationReviewsContentEditor = () => (
       multiline
       variant="editor"
     />
-  </AccommodationEditorSectionContent>
+  </AdminEditorSectionContent>
 );

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Noto_Sans, Playfair_Display } from "next/font/google";
+import { Caveat, Noto_Sans, Playfair_Display } from "next/font/google";
 
 import "./globals.css";
 
@@ -11,6 +11,12 @@ const notoSans = Noto_Sans({
 
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair-display",
+  subsets: ["latin"],
+  display: "swap",
+});
+
+const caveat = Caveat({
+  variable: "--font-caveat",
   subsets: ["latin"],
   display: "swap",
 });
@@ -31,7 +37,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className="dark">
-      <body className={`${notoSans.variable} ${playfairDisplay.variable}`}>
+      <body
+        className={`${notoSans.variable} ${playfairDisplay.variable} ${caveat.variable}`}
+      >
         {children}
       </body>
     </html>

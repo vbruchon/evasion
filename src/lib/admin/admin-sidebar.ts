@@ -1,4 +1,4 @@
-import { House, LayoutDashboard } from "lucide-react";
+import { House, LayoutDashboard, Star } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 export type AdminNavigationItem = {
@@ -30,6 +30,11 @@ export const adminNavigation: AdminNavigationGroup[] = [
         label: "Logements",
         href: "/admin/logements",
         icon: House,
+      },
+      {
+        label: "Avis",
+        href: "/admin/avis",
+        icon: Star,
       },
     ],
   },

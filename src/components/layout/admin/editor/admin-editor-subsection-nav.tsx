@@ -1,25 +1,25 @@
 import { cn } from "@/lib/utils";
 
-type AccommodationEditorSubsection = {
+type AdminEditorSubsection = {
   id: string;
   label: string;
 };
 
-type AccommodationEditorSubsectionNavProps<T extends string> = {
-  sections: readonly (AccommodationEditorSubsection & { id: T })[];
+type AdminEditorSubsectionNavProps<T extends string> = {
+  sections: readonly (AdminEditorSubsection & { id: T })[];
   activeSection: T;
   columns: 2 | 3 | 4;
   ariaLabel: string;
   onSectionChange: (section: T) => void;
 };
 
-export const AccommodationEditorSubsectionNav = <T extends string>({
+export const AdminEditorSubsectionNav = <T extends string>({
   sections,
   activeSection,
   columns,
   ariaLabel,
   onSectionChange,
-}: AccommodationEditorSubsectionNavProps<T>) => (
+}: AdminEditorSubsectionNavProps<T>) => (
   <nav
     className={cn(
       "grid shrink-0 border-b border-border/60 bg-background px-5 sm:px-6",

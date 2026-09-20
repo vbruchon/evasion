@@ -1,5 +1,9 @@
 import "dotenv/config";
 
+import {
+  REVIEWS_PAGE_CONTENT_ID,
+  reviewsPageContentDefaults,
+} from "../src/lib/reviews/reviews-page-defaults";
 import { prisma } from "../src/lib/prisma";
 
 import { accommodations } from "./seeds/accommodations";
@@ -43,11 +47,27 @@ const seedAccommodations = async () => {
   }
 };
 
+const seedReviewsPageContent = async () => {
+  await prisma.reviewsPageContent.upsert({
+    where: {
+      id: REVIEWS_PAGE_CONTENT_ID,
+    },
+
+    update: {},
+
+    create: {
+      id: REVIEWS_PAGE_CONTENT_ID,
+      ...reviewsPageContentDefaults,
+    },
+  });
+};
+
 const main = async () => {
   await seedAccommodations();
+  await seedReviewsPageContent();
 
   console.log(
-    `Seed terminé : ${accommodations.length} logements de démonstration créés.`,
+    `Seed terminé : ${accommodations.length} logements de démonstration et le contenu de la page Avis créés.`,
   );
 };
 

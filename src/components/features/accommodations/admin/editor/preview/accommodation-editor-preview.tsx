@@ -16,8 +16,7 @@ import { AccommodationEditorPreviewAvailability } from "./accommodation-editor-p
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
 import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
 import { AccommodationEditorPreviewReviews } from "./accommodation-editor-preview-reviews";
-import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
-
+import { AdminEditorSection } from "@/components/layout/admin/editor/admin-editor-section";
 import { AccommodationPresentation } from "../../../detail/accommodation-presentation";
 import { AccommodationAmenities } from "../../../detail/amenities/accommodation-amenities";
 import { AccommodationGallery } from "../../../detail/gallery/accommodation-gallery";
@@ -105,7 +104,7 @@ export const AccommodationEditorPreview = ({
         onHeroSectionChange={onHeroSectionChange}
       />
 
-      <EditorSection
+      <AdminEditorSection
         label="Présentation"
         active={activeSection === "presentation"}
         onSelect={() => onSectionChange("presentation")}
@@ -115,15 +114,15 @@ export const AccommodationEditorPreview = ({
           image={presentationImage}
           editorPreview
         />
-      </EditorSection>
+      </AdminEditorSection>
 
-      <EditorSection
+      <AdminEditorSection
         label="Équipements"
         active={activeSection === "amenities"}
         onSelect={() => onSectionChange("amenities")}
       >
         <AccommodationAmenities amenities={amenities} editorPreview />
-      </EditorSection>
+      </AdminEditorSection>
 
       <AccommodationEditorPreviewLocation
         accommodation={accommodation}
@@ -157,7 +156,7 @@ export const AccommodationEditorPreview = ({
         onReviewsSectionChange={onReviewsSectionChange}
       />
 
-      <EditorSection
+      <AdminEditorSection
         label="Galerie"
         active={activeSection === "gallery"}
         onSelect={() => onSectionChange("gallery")}
@@ -167,7 +166,7 @@ export const AccommodationEditorPreview = ({
           images={previewImages}
           editorPreview
         />
-      </EditorSection>
+      </AdminEditorSection>
     </div>
   );
 };

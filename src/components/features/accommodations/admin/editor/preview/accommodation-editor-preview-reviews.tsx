@@ -12,8 +12,8 @@ import type {
 import { AccommodationReviews } from "@/components/features/accommodations/detail/reviews/accommodation-reviews";
 import { isAccommodationReviewsEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
-import { AccommodationEditorSection as EditorSection } from "../accommodation-editor-section";
-import { useAccommodationEditorRegionClick } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-region-click";
+import { AdminEditorSection } from "@/components/layout/admin/editor/admin-editor-section";
+import { useAdminEditorRegionClick } from "@/hooks/admin/editor/use-admin-editor-region-click";
 
 type AccommodationEditorPreviewReviewsProps = {
   reviews: AccommodationUpdateData["reviews"];
@@ -41,7 +41,7 @@ export const AccommodationEditorPreviewReviews = ({
     name: "reviewsDescription",
   });
 
-  const handleClick = useAccommodationEditorRegionClick({
+  const handleClick = useAdminEditorRegionClick({
     section: "reviews",
     isRegion: isAccommodationReviewsEditorSection,
     onSectionChange,
@@ -49,7 +49,7 @@ export const AccommodationEditorPreviewReviews = ({
   });
 
   return (
-    <EditorSection
+    <AdminEditorSection
       label="Avis"
       active={activeSection === "reviews"}
       interactiveChildren
@@ -66,6 +66,6 @@ export const AccommodationEditorPreviewReviews = ({
           editorPreview
         />
       </div>
-    </EditorSection>
+    </AdminEditorSection>
   );
 };

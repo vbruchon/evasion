@@ -5,7 +5,7 @@ import {
   MAX_ACCOMMODATION_ACCESSES,
 } from "@/lib/accommodations/accommodation-accesses";
 
-import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { AccommodationAccessItem } from "./accommodation-access-item";
 import { useAccommodationAccessesEditor } from "@/hooks/accommodations/admin/editor/use-accommodation-accesses-editor";
 
@@ -27,7 +27,7 @@ export const AccommodationAccessesEditor = ({
   });
 
   return (
-    <AccommodationEditorSectionContent>
+    <AdminEditorSectionContent>
       <div>
         <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
           Arrivée & accès
@@ -56,6 +56,6 @@ export const AccommodationAccessesEditor = ({
           />
         ))}
       </div>
-    </AccommodationEditorSectionContent>
+    </AdminEditorSectionContent>
   );
 };

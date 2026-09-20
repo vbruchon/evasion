@@ -4,7 +4,7 @@ import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodati
 
 import { AccommodationTextField } from "../../../form/accommodation-text-field";
 import { AccommodationAccessesEditor } from "../accesses/accommodation-accesses-editor";
-import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { AccommodationLocationMapEditor } from "./accommodation-location-map-editor";
 
 type AccommodationLocationEditorProps = {
@@ -18,7 +18,7 @@ export const AccommodationLocationEditor = ({
 }: AccommodationLocationEditorProps) => {
   if (section === "content") {
     return (
-      <AccommodationEditorSectionContent>
+      <AdminEditorSectionContent>
         <AccommodationTextField
           name="locationTitle"
           label="Titre"
@@ -33,7 +33,7 @@ export const AccommodationLocationEditor = ({
           multiline
           variant="editor"
         />
-      </AccommodationEditorSectionContent>
+      </AdminEditorSectionContent>
     );
   }
 

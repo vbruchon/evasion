@@ -4,17 +4,17 @@ import { Eye, Settings2 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 
-import type { AccommodationEditorMobileView } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-navigation";
-
-type AccommodationEditorMobileNavigationProps = {
-  activeView: AccommodationEditorMobileView;
-  onViewChange: (view: AccommodationEditorMobileView) => void;
+type AdminEditorMobileNavigationProps = {
+  activeView: AdminEditorMobileView;
+  onViewChange: (view: AdminEditorMobileView) => void;
 };
 
-export const AccommodationEditorMobileNavigation = ({
+export type AdminEditorMobileView = "preview" | "editor";
+
+export const AdminEditorMobileNavigation = ({
   activeView,
   onViewChange,
-}: AccommodationEditorMobileNavigationProps) => (
+}: AdminEditorMobileNavigationProps) => (
   <div className="relative z-40 grid shrink-0 grid-cols-2 border-b border-border/60 bg-background p-2 lg:hidden">
     <button
       type="button"

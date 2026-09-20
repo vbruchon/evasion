@@ -3,7 +3,7 @@
 import { accommodationAmenities } from "@/lib/accommodations/accommodation-amenities";
 
 import { AccommodationAmenityCategory } from "./accommodation-amenity-category";
-import { AccommodationEditorSectionContent } from "../accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { useAccommodationAmenitiesEditor } from "@/hooks/accommodations/admin/editor/use-accommodation-amenities-editor";
 import { AccommodationAmenitiesToolbar } from "./accommodation-amenities-toolbar";
 
@@ -30,7 +30,7 @@ export const AccommodationAmenitiesEditor = ({
   } = useAccommodationAmenitiesEditor({ disabled });
 
   return (
-    <AccommodationEditorSectionContent>
+    <AdminEditorSectionContent>
       <AccommodationAmenitiesToolbar
         search={search}
         selectedCount={selectedAmenities.length}
@@ -66,6 +66,6 @@ export const AccommodationAmenitiesEditor = ({
           </p>
         </div>
       )}
-    </AccommodationEditorSectionContent>
+    </AdminEditorSectionContent>
   );
 };

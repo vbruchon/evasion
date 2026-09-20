@@ -3,7 +3,7 @@ import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodatio
 import type { AccommodationPresentationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationTextField } from "../../form/accommodation-text-field";
-import { AccommodationEditorSectionContent } from "./accommodation-editor-section-content";
+import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { AccommodationImageGallery } from "../../form/images/accommodation-image-gallery";
 
 type AccommodationPresentationEditorProps = {
@@ -31,7 +31,7 @@ export const AccommodationPresentationEditor = ({
 
   if (section === "content") {
     return (
-      <AccommodationEditorSectionContent>
+      <AdminEditorSectionContent>
         <AccommodationTextField
           name="shortDescription"
           label="Promesse"
@@ -47,12 +47,12 @@ export const AccommodationPresentationEditor = ({
           multiline
           variant="editor"
         />
-      </AccommodationEditorSectionContent>
+      </AdminEditorSectionContent>
     );
   }
 
   return (
-    <AccommodationEditorSectionContent>
+    <AdminEditorSectionContent>
       <div>
         <p className="text-xs font-medium uppercase tracking-[0.14em] text-muted-foreground">
           Image de présentation
@@ -85,6 +85,6 @@ export const AccommodationPresentationEditor = ({
           </p>
         </div>
       )}
-    </AccommodationEditorSectionContent>
+    </AdminEditorSectionContent>
   );
 };
