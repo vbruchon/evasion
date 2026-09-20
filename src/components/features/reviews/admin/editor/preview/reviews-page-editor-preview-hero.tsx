@@ -13,6 +13,8 @@ type ReviewsPageEditorPreviewHeroProps = {
   eyebrow: string;
   title: string;
   description: string;
+  handwrittenFirstLine: string;
+  handwrittenSecondLine: string;
   imageUrl: string | null;
   averageRating: number;
   totalReviews: number;
@@ -28,6 +30,8 @@ export const ReviewsPageEditorPreviewHero = ({
   eyebrow,
   title,
   description,
+  handwrittenFirstLine,
+  handwrittenSecondLine,
   imageUrl,
   averageRating,
   totalReviews,
@@ -55,6 +59,8 @@ export const ReviewsPageEditorPreviewHero = ({
           eyebrow={eyebrow}
           title={title}
           description={description}
+          handwrittenFirstLine={handwrittenFirstLine}
+          handwrittenSecondLine={handwrittenSecondLine}
           imageUrl={imageUrl}
           averageRating={averageRating}
           totalReviews={totalReviews}

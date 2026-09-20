@@ -10,6 +10,8 @@ type ReviewsPageHeroProps = {
   eyebrow: string;
   title: string;
   description: string;
+  handwrittenFirstLine: string;
+  handwrittenSecondLine: string;
   imageUrl: string | null;
   averageRating: number;
   totalReviews: number;
@@ -21,6 +23,8 @@ export const ReviewsPageHero = ({
   eyebrow,
   title,
   description,
+  handwrittenFirstLine,
+  handwrittenSecondLine,
   imageUrl,
   averageRating,
   totalReviews,
@@ -108,19 +112,18 @@ export const ReviewsPageHero = ({
       </AdminEditorRegion>
     </div>
 
-    <div
-      className={cn(
-        "absolute bottom-12 right-10 z-10 hidden -rotate-6 text-right font-handwritten md:block lg:bottom-14 lg:right-16 xl:right-24",
-        editorPreview && "pointer-events-none",
-      )}
+    <AdminEditorRegion
+      region="content"
+      activeRegion={activeEditorRegion}
+      className="absolute bottom-12 right-10 z-10 hidden -rotate-6 text-right font-handwritten md:block lg:bottom-14 lg:right-16 xl:right-24"
     >
       <p className="mt-0.5 text-[1.8rem] leading-[1.05] tracking-[-0.02em] text-white/90">
-        Plus qu&apos;un séjour,
+        {handwrittenFirstLine}
       </p>
 
       <p className="text-[1.7rem] leading-[1.05] tracking-[-0.02em] text-primary">
-        une Évasion.
+        {handwrittenSecondLine}
       </p>
-    </div>
+    </AdminEditorRegion>
   </section>
 );

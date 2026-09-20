@@ -35,6 +35,8 @@ export default async function ReviewsPage() {
         eyebrow={content.heroEyebrow}
         title={content.heroTitle}
         description={content.heroDescription}
+        handwrittenFirstLine={content.heroHandwrittenFirstLine}
+        handwrittenSecondLine={content.heroHandwrittenSecondLine}
         imageUrl={content.heroImageUrl}
         averageRating={summary.averageRating}
         totalReviews={summary.totalReviews}
@@ -55,6 +57,8 @@ export default async function ReviewsPage() {
         eyebrow={content.ctaEyebrow}
         title={content.ctaTitle}
         description={content.ctaDescription}
+        handwrittenPrefix={content.ctaHandwrittenPrefix}
+        handwrittenHighlight={content.ctaHandwrittenHighlight}
         buttonLabel={content.ctaButtonLabel}
         imageUrl={content.ctaImageUrl}
       />

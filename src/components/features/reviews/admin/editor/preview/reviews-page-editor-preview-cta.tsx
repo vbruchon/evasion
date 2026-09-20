@@ -13,6 +13,8 @@ type ReviewsPageEditorPreviewCtaProps = {
   eyebrow: string;
   title: string;
   description: string;
+  handwrittenPrefix: string;
+  handwrittenHighlight: string;
   buttonLabel: string;
   imageUrl: string | null;
 
@@ -27,6 +29,8 @@ export const ReviewsPageEditorPreviewCta = ({
   eyebrow,
   title,
   description,
+  handwrittenPrefix,
+  handwrittenHighlight,
   buttonLabel,
   imageUrl,
   activeSection,
@@ -53,6 +57,8 @@ export const ReviewsPageEditorPreviewCta = ({
           eyebrow={eyebrow}
           title={title}
           description={description}
+          handwrittenPrefix={handwrittenPrefix}
+          handwrittenHighlight={handwrittenHighlight}
           buttonLabel={buttonLabel}
           imageUrl={imageUrl}
           activeEditorRegion={

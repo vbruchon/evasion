@@ -242,11 +242,13 @@ model AccommodationReview {
 model ReviewsPageContent {
   id String @id
 
-  heroEyebrow      String
-  heroTitle        String
-  heroDescription  String  @db.Text
-  heroImageUrl     String?
-  heroImageFileKey String?
+  heroEyebrow               String
+  heroTitle                 String
+  heroDescription           String  @db.Text
+  heroHandwrittenFirstLine  String
+  heroHandwrittenSecondLine String
+  heroImageUrl              String?
+  heroImageFileKey          String?
 
   recentReviewsEyebrow     String
   recentReviewsTitle       String
@@ -255,12 +257,14 @@ model ReviewsPageContent {
   allReviewsTitle       String
   allReviewsDescription String @db.Text
 
-  ctaEyebrow      String
-  ctaTitle        String
-  ctaDescription  String  @db.Text
-  ctaButtonLabel  String
-  ctaImageUrl     String?
-  ctaImageFileKey String?
+  ctaEyebrow              String
+  ctaTitle                String
+  ctaDescription          String  @db.Text
+  ctaButtonLabel          String
+  ctaHandwrittenPrefix    String
+  ctaHandwrittenHighlight String
+  ctaImageUrl             String?
+  ctaImageFileKey         String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

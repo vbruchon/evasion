@@ -57,6 +57,17 @@ export const ReviewsPageHeroEditor = ({
         placeholder="Présentez les avis de vos voyageurs"
         multiline
       />
+      <ReviewsPageTextField
+        name="heroHandwrittenFirstLine"
+        label="Phrase manuscrite — première ligne"
+        placeholder="Ex. Plus qu’un séjour,"
+      />
+
+      <ReviewsPageTextField
+        name="heroHandwrittenSecondLine"
+        label="Phrase manuscrite — deuxième ligne"
+        placeholder="Ex. une Évasion."
+      />
     </AdminEditorSectionContent>
   );
 };

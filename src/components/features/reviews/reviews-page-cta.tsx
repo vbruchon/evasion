@@ -12,6 +12,8 @@ type ReviewsPageCtaProps = {
   eyebrow: string;
   title: string;
   description: string;
+  handwrittenPrefix: string;
+  handwrittenHighlight: string;
   buttonLabel: string;
   imageUrl: string | null;
   activeEditorRegion?: ReviewsPageCtaEditorSection;
@@ -33,6 +35,8 @@ export const ReviewsPageCta = ({
   eyebrow,
   title,
   description,
+  handwrittenPrefix,
+  handwrittenHighlight,
   buttonLabel,
   imageUrl,
   activeEditorRegion,
@@ -102,8 +106,8 @@ export const ReviewsPageCta = ({
       </Link>
 
       <p className="mt-8 -rotate-2 font-handwritten text-2xl text-white/70">
-        Le temps de{" "}
-        <span className="text-primary/80">s&apos;évader un instant.</span>
+        {handwrittenPrefix}{" "}
+        <span className="text-primary/80">{handwrittenHighlight}</span>
       </p>
     </AdminEditorRegion>
   </section>

@@ -11,6 +11,8 @@ export const reviewsPageContentDefaults = {
   heroTitle: "Leurs moments, leurs mots.",
   heroDescription:
     "Ils ont vécu l’expérience Évasion et partagent leurs impressions. Des séjours authentiques, des souvenirs inoubliables.",
+  heroHandwrittenFirstLine: "Plus qu’un séjour,",
+  heroHandwrittenSecondLine: "une Évasion.",
 
   recentReviewsEyebrow: "Derniers avis",
   recentReviewsTitle: "Ils ont vécu Évasion",
@@ -25,5 +27,7 @@ export const reviewsPageContentDefaults = {
   ctaTitle: "Après leurs souvenirs, vivez votre Évasion.",
   ctaDescription:
     "Choisissez le lieu, laissez le quotidien derrière vous et profitez d’une parenthèse pensée pour deux.",
+  ctaHandwrittenPrefix: "Le temps de",
+  ctaHandwrittenHighlight: "s’évader un instant.",
   ctaButtonLabel: "Découvrir nos logements",
 } as const;

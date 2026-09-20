@@ -63,6 +63,18 @@ export const ReviewsPageCtaEditor = ({
         label="Libellé du bouton"
         placeholder="Ex. Découvrir nos logements"
       />
+
+      <ReviewsPageTextField
+        name="ctaHandwrittenPrefix"
+        label="Phrase manuscrite"
+        placeholder="Ex. Le temps de"
+      />
+
+      <ReviewsPageTextField
+        name="ctaHandwrittenHighlight"
+        label="Partie mise en valeur"
+        placeholder="Ex. s’évader un instant."
+      />
     </AdminEditorSectionContent>
   );
 };

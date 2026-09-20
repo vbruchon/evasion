@@ -15,6 +15,8 @@ export const getReviewsPageContent = async () => {
       heroEyebrow: true,
       heroTitle: true,
       heroDescription: true,
+      heroHandwrittenFirstLine: true,
+      heroHandwrittenSecondLine: true,
       heroImageUrl: true,
       heroImageFileKey: true,
 
@@ -28,6 +30,8 @@ export const getReviewsPageContent = async () => {
       ctaEyebrow: true,
       ctaTitle: true,
       ctaDescription: true,
+      ctaHandwrittenPrefix: true,
+      ctaHandwrittenHighlight: true,
       ctaButtonLabel: true,
       ctaImageUrl: true,
       ctaImageFileKey: true,

@@ -73,7 +73,12 @@ describe("updateReviewsPageContentAdmin", () => {
 
     const updatedValues = createContentValues({
       heroTitle: "Titre modifié",
+      heroHandwrittenFirstLine: "Une première ligne modifiée,",
+      heroHandwrittenSecondLine: "et une seconde ligne.",
+
       ctaTitle: "Nouveau CTA",
+      ctaHandwrittenPrefix: "Prenez le temps de",
+      ctaHandwrittenHighlight: "vous évader.",
     });
 
     const secondResult = await updateReviewsPageContentAdmin(
@@ -100,7 +105,12 @@ describe("updateReviewsPageContentAdmin", () => {
 
     expect(updatedContent).toMatchObject({
       heroTitle: "Titre modifié",
+      heroHandwrittenFirstLine: "Une première ligne modifiée,",
+      heroHandwrittenSecondLine: "et une seconde ligne.",
+
       ctaTitle: "Nouveau CTA",
+      ctaHandwrittenPrefix: "Prenez le temps de",
+      ctaHandwrittenHighlight: "vous évader.",
 
       heroImageUrl: "https://example.com/hero-2.webp",
       heroImageFileKey: "hero-2",

@@ -18,6 +18,8 @@ const getReviewsPageDefaultValues = (
   heroEyebrow: content.heroEyebrow,
   heroTitle: content.heroTitle,
   heroDescription: content.heroDescription,
+  heroHandwrittenFirstLine: content.heroHandwrittenFirstLine,
+  heroHandwrittenSecondLine: content.heroHandwrittenSecondLine,
 
   recentReviewsEyebrow: content.recentReviewsEyebrow,
   recentReviewsTitle: content.recentReviewsTitle,
@@ -29,6 +31,8 @@ const getReviewsPageDefaultValues = (
   ctaEyebrow: content.ctaEyebrow,
   ctaTitle: content.ctaTitle,
   ctaDescription: content.ctaDescription,
+  ctaHandwrittenPrefix: content.ctaHandwrittenPrefix,
+  ctaHandwrittenHighlight: content.ctaHandwrittenHighlight,
   ctaButtonLabel: content.ctaButtonLabel,
 });
 

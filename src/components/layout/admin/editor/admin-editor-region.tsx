@@ -21,7 +21,7 @@ export const AdminEditorRegion = <TRegion extends string>({
       activeRegion &&
         "relative cursor-pointer transition-colors after:pointer-events-none after:absolute after:inset-0 after:z-50 after:transition-shadow",
       activeRegion === region
-        ? "bg-primary/4 after:ring-1 after:ring-inset after:ring-primary"
+        ? "bg-primary/4 after:ring-1 after:ring-inset after:ring-primary p-3"
         : activeRegion &&
             "hover:bg-primary/2 hover:after:ring-1 hover:after:ring-inset hover:after:ring-primary/40",
       className,
