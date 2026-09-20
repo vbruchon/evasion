@@ -4,6 +4,11 @@ import {
   REVIEWS_PAGE_CONTENT_ID,
   reviewsPageContentDefaults,
 } from "../src/lib/reviews/reviews-page-defaults";
+import {
+  ABOUT_PAGE_CONTENT_ID,
+  aboutPageContentDefaults,
+} from "../src/lib/about/about-page-defaults";
+
 import { prisma } from "../src/lib/prisma";
 
 import { accommodations } from "./seeds/accommodations";
@@ -62,12 +67,28 @@ const seedReviewsPageContent = async () => {
   });
 };
 
+const seedAboutPageContent = async () => {
+  await prisma.aboutPageContent.upsert({
+    where: {
+      id: ABOUT_PAGE_CONTENT_ID,
+    },
+
+    update: {},
+
+    create: {
+      id: ABOUT_PAGE_CONTENT_ID,
+      ...aboutPageContentDefaults,
+    },
+  });
+};
+
 const main = async () => {
   await seedAccommodations();
   await seedReviewsPageContent();
+  await seedAboutPageContent();
 
   console.log(
-    `Seed terminé : ${accommodations.length} logements de démonstration et le contenu de la page Avis créés.`,
+    `Seed terminé : ${accommodations.length} logements de démonstration et le contenu des pages Avis et À propos créés.`,
   );
 };
 
