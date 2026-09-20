@@ -41,8 +41,8 @@ export const ReviewsPageReviewsEditor = ({
         />
 
         <p className="border-t border-border/60 pt-5 text-xs leading-5 text-muted-foreground">
-          Cette section affiche automatiquement 4 avis parmi les 10 plus
-          récents.
+          Cette section affiche automatiquement jusqu’à 4 avis récents, en
+          privilégiant des logements différents.
         </p>
       </AdminEditorSectionContent>
     );

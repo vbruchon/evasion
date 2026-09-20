@@ -8,7 +8,7 @@ import {
   getReviewsPageReviews,
 } from "@/lib/reviews/queries/get-reviews-page-reviews";
 import { getReviewsPageSummary } from "@/lib/reviews/queries/get-reviews-page-summary";
-import { selectRandomReviews } from "@/lib/reviews/select-random-reviews";
+import { selectRecentDiverseReviews } from "@/lib/reviews/select-recent-diverse-reviews";
 
 export const dynamic = "force-dynamic";
 
@@ -16,7 +16,7 @@ const RECENT_REVIEWS_COUNT = 4;
 const INITIAL_REVIEWS_COUNT = 6;
 
 export default async function ReviewsPage() {
-  const [content, summary, recentPool, initialReviews, accommodations] =
+  const [content, summary, recentCandidates, initialReviews, accommodations] =
     await Promise.all([
       getReviewsPageContent(),
       getReviewsPageSummary(),
@@ -27,7 +27,10 @@ export default async function ReviewsPage() {
       getReviewsPageAccommodationFilters(),
     ]);
 
-  const recentReviews = selectRandomReviews(recentPool, RECENT_REVIEWS_COUNT);
+  const recentReviews = selectRecentDiverseReviews(
+    recentCandidates,
+    RECENT_REVIEWS_COUNT,
+  );
 
   return (
     <main className="min-h-screen bg-background text-foreground">

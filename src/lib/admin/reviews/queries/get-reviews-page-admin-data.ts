@@ -6,7 +6,7 @@ import {
   getReviewsPageReviews,
 } from "@/lib/reviews/queries/get-reviews-page-reviews";
 import { getReviewsPageSummary } from "@/lib/reviews/queries/get-reviews-page-summary";
-import { selectRandomReviews } from "@/lib/reviews/select-random-reviews";
+import { selectRecentDiverseReviews } from "@/lib/reviews/select-recent-diverse-reviews";
 
 const RECENT_REVIEWS_COUNT = 4;
 
@@ -14,7 +14,7 @@ export const getReviewsPageAdminData = async () => {
   const [
     content,
     summary,
-    recentPool,
+    recentCandidates,
     initialReviews,
     accommodations,
     latestImport,
@@ -46,7 +46,10 @@ export const getReviewsPageAdminData = async () => {
     content,
     summary,
 
-    recentReviews: selectRandomReviews(recentPool, RECENT_REVIEWS_COUNT),
+    recentReviews: selectRecentDiverseReviews(
+      recentCandidates,
+      RECENT_REVIEWS_COUNT,
+    ),
 
     initialReviews,
     accommodations,

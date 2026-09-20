@@ -121,49 +121,74 @@ describe("reviews page queries", () => {
     });
   });
 
-  it("returns only the 10 most recent reviews from published accommodations", async () => {
-    const accommodation = await createAccommodationFixture({
+  it("returns up to four recent reviews per published accommodation", async () => {
+    const firstAccommodation = await createAccommodationFixture({
       status: "PUBLISHED",
-      slug: "published-accommodation",
+      slug: "first-published-accommodation",
+      position: 1,
     });
 
-    for (let index = 1; index <= 12; index += 1) {
+    const secondAccommodation = await createAccommodationFixture({
+      status: "PUBLISHED",
+      slug: "second-published-accommodation",
+      position: 2,
+    });
+
+    const draftAccommodation = await createAccommodationFixture({
+      status: "DRAFT",
+      slug: "draft-accommodation",
+      position: 3,
+    });
+
+    for (let index = 1; index <= 6; index += 1) {
       await createReview({
-        accommodationId: accommodation.id,
-        authorName: `Voyageur ${index}`,
+        accommodationId: firstAccommodation.id,
+        authorName: `Premier ${index}`,
         reviewedAt: new Date(
           `2026-09-${String(index).padStart(2, "0")}T10:00:00.000Z`,
         ),
       });
     }
 
-    const draftAccommodation = await createAccommodationFixture({
-      status: "DRAFT",
-      slug: "draft-accommodation",
-    });
+    for (let index = 1; index <= 2; index += 1) {
+      await createReview({
+        accommodationId: secondAccommodation.id,
+        authorName: `Second ${index}`,
+        reviewedAt: new Date(
+          `2026-09-${String(index + 10).padStart(2, "0")}T10:00:00.000Z`,
+        ),
+      });
+    }
 
     await createReview({
       accommodationId: draftAccommodation.id,
       authorName: "Voyageur draft",
-      reviewedAt: new Date("2026-10-01T10:00:00.000Z"),
+      reviewedAt: new Date("2026-09-20T10:00:00.000Z"),
     });
 
     const reviews = await getReviewsPageRecentReviews();
 
-    expect(reviews).toHaveLength(10);
+    expect(
+      reviews
+        .filter(
+          (review) => review.accommodation.slug === firstAccommodation.slug,
+        )
+        .map((review) => review.authorName),
+    ).toEqual(["Premier 6", "Premier 5", "Premier 4", "Premier 3"]);
 
-    expect(reviews.map((review) => review.authorName)).toEqual([
-      "Voyageur 12",
-      "Voyageur 11",
-      "Voyageur 10",
-      "Voyageur 9",
-      "Voyageur 8",
-      "Voyageur 7",
-      "Voyageur 6",
-      "Voyageur 5",
-      "Voyageur 4",
-      "Voyageur 3",
-    ]);
+    expect(
+      reviews
+        .filter(
+          (review) => review.accommodation.slug === secondAccommodation.slug,
+        )
+        .map((review) => review.authorName),
+    ).toEqual(["Second 2", "Second 1"]);
+
+    expect(
+      reviews.some(
+        (review) => review.accommodation.slug === draftAccommodation.slug,
+      ),
+    ).toBe(false);
   });
 
   it("filters reviews by accommodation and paginates them", async () => {

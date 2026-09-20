@@ -5,8 +5,6 @@ import type {
   ReviewsPageReviewsResult,
 } from "../reviews-page.types";
 
-export const REVIEWS_PAGE_RECENT_POOL_SIZE = 10;
-
 const mapReview = (review: {
   id: string;
   authorName: string;
@@ -22,42 +20,62 @@ const mapReview = (review: {
   reviewedAt: review.reviewedAt.toISOString(),
 });
 
+const RECENT_REVIEWS_PER_ACCOMMODATION = 4;
+
 export const getReviewsPageRecentReviews = async () => {
-  const reviews = await prisma.accommodationReview.findMany({
+  const accommodations = await prisma.accommodation.findMany({
     where: {
-      accommodation: {
-        status: "PUBLISHED",
+      status: "PUBLISHED",
+
+      reviews: {
+        some: {},
       },
     },
 
     orderBy: [
       {
-        reviewedAt: "desc",
+        position: "asc",
       },
       {
-        id: "desc",
+        id: "asc",
       },
     ],
 
-    take: REVIEWS_PAGE_RECENT_POOL_SIZE,
-
     select: {
-      id: true,
-      authorName: true,
-      rating: true,
-      comment: true,
-      reviewedAt: true,
+      name: true,
+      slug: true,
 
-      accommodation: {
+      reviews: {
+        orderBy: [
+          {
+            reviewedAt: "desc",
+          },
+          {
+            id: "desc",
+          },
+        ],
+
+        take: RECENT_REVIEWS_PER_ACCOMMODATION,
+
         select: {
-          name: true,
-          slug: true,
+          id: true,
+          authorName: true,
+          rating: true,
+          comment: true,
+          reviewedAt: true,
         },
       },
     },
   });
 
-  return reviews.map(mapReview);
+  return accommodations.flatMap(({ reviews, ...accommodation }) =>
+    reviews.map((review) =>
+      mapReview({
+        ...review,
+        accommodation,
+      }),
+    ),
+  );
 };
 
 type GetReviewsPageReviewsOptions = {
