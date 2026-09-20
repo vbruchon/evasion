@@ -1,5 +1,10 @@
-import Image from "next/image";
 import { Star } from "lucide-react";
+
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import type { ReviewsPageHeroEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
+import { REVIEWS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/reviews/reviews-page-defaults";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 type ReviewsPageHeroProps = {
   eyebrow: string;
@@ -8,9 +13,9 @@ type ReviewsPageHeroProps = {
   imageUrl: string | null;
   averageRating: number;
   totalReviews: number;
+  activeEditorRegion?: ReviewsPageHeroEditorSection;
+  editorPreview?: boolean;
 };
-
-const DEFAULT_HERO_IMAGE = "/images/pages/reviews/evasion-page-avis-hero.png";
 
 export const ReviewsPageHero = ({
   eyebrow,
@@ -19,33 +24,49 @@ export const ReviewsPageHero = ({
   imageUrl,
   averageRating,
   totalReviews,
+  activeEditorRegion,
+  editorPreview = false,
 }: ReviewsPageHeroProps) => (
   <section className="relative min-h-155 overflow-hidden border-b border-border/60 bg-background md:min-h-165 lg:min-h-175">
-    <Image
-      src={imageUrl ?? DEFAULT_HERO_IMAGE}
-      alt=""
-      fill
-      priority
-      sizes="100vw"
-      className="object-cover object-center"
-    />
+    <AdminEditorRegion
+      region="image"
+      activeRegion={activeEditorRegion}
+      className="absolute inset-0"
+    >
+      <Image
+        src={imageUrl ?? REVIEWS_PAGE_DEFAULT_HERO_IMAGE}
+        alt=""
+        fill
+        priority
+        unoptimized={imageUrl?.startsWith("blob:")}
+        sizes="100vw"
+        className="object-cover object-center"
+      />
 
-    <div className="absolute inset-0 bg-black/45 " />
+      <div className="absolute inset-0 bg-black/45" />
 
-    <div className="absolute inset-0 bg-linear-to-r from-background from-0% via-background/94 via-30% to-transparent to-68%" />
+      <div className="absolute inset-0 bg-linear-to-r from-background from-0% via-background/94 via-30% to-transparent to-68%" />
 
-    <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-black/25 to-transparent" />
-    <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-black/30 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-black/25 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-black/30 to-transparent" />
+    </AdminEditorRegion>
 
     <div className="relative z-10 flex min-h-155 items-center px-6 pb-16 pt-28 md:min-h-165 md:px-12 md:pb-20 md:pt-32 lg:min-h-175 lg:px-20 xl:px-24">
-      <div className="w-full max-w-sm">
+      <AdminEditorRegion
+        region="content"
+        activeRegion={activeEditorRegion}
+        className={cn(
+          "w-full max-w-sm lg:w-120 lg:max-w-none",
+          editorPreview && "p-4",
+        )}
+      >
         <p className="text-sm font-medium uppercase tracking-[0.28em] text-primary">
           {eyebrow}
         </p>
 
         <div className="mt-4 h-px w-8 bg-primary/80" />
 
-        <h1 className="mt-6 font-heading text-[2.8rem] leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-[3.7rem] lg:w-120">
+        <h1 className="mt-6 font-heading text-[2.8rem] leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:w-120 lg:text-[3.7rem]">
           {title}
         </h1>
 
@@ -84,10 +105,15 @@ export const ReviewsPageHero = ({
             </p>
           </div>
         ) : null}
-      </div>
+      </AdminEditorRegion>
     </div>
 
-    <div className="absolute bottom-12 right-10 z-10 hidden -rotate-6 text-right font-handwritten md:block lg:bottom-14 lg:right-16 xl:right-24">
+    <div
+      className={cn(
+        "absolute bottom-12 right-10 z-10 hidden -rotate-6 text-right font-handwritten md:block lg:bottom-14 lg:right-16 xl:right-24",
+        editorPreview && "pointer-events-none",
+      )}
+    >
       <p className="mt-0.5 text-[1.8rem] leading-[1.05] tracking-[-0.02em] text-white/90">
         Plus qu&apos;un séjour,
       </p>

@@ -1,8 +1,12 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { buttonVariants } from "@/components/ui/button";
+import type { ReviewsPageCtaEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
+import { REVIEWS_PAGE_DEFAULT_CTA_IMAGE } from "@/lib/reviews/reviews-page-defaults";
+import { cn } from "@/lib/utils";
 
 type ReviewsPageCtaProps = {
   eyebrow: string;
@@ -10,9 +14,9 @@ type ReviewsPageCtaProps = {
   description: string;
   buttonLabel: string;
   imageUrl: string | null;
+  activeEditorRegion?: ReviewsPageCtaEditorSection;
+  editorPreview?: boolean;
 };
-
-const DEFAULT_CTA_IMAGE = "/images/pages/reviews/evasion-page-avis-cta.png";
 
 const highlightBrandName = (title: string) =>
   title.split(/(évasion)/gi).map((part, index) =>
@@ -31,26 +35,40 @@ export const ReviewsPageCta = ({
   description,
   buttonLabel,
   imageUrl,
+  activeEditorRegion,
+  editorPreview = false,
 }: ReviewsPageCtaProps) => (
   <section className="relative flex min-h-100 items-center overflow-hidden border-b border-border/60 bg-background px-6 py-24 md:min-h-135 md:px-12 lg:min-h-130 lg:px-20">
-    <Image
-      src={imageUrl ?? DEFAULT_CTA_IMAGE}
-      alt=""
-      fill
-      sizes="100vw"
-      className="scale-105 object-cover blur-[7px]"
-    />
+    <AdminEditorRegion
+      region="image"
+      activeRegion={activeEditorRegion}
+      className="absolute inset-0"
+    >
+      <Image
+        src={imageUrl ?? REVIEWS_PAGE_DEFAULT_CTA_IMAGE}
+        alt=""
+        fill
+        unoptimized={imageUrl?.startsWith("blob:")}
+        sizes="100vw"
+        className="scale-105 object-cover blur-[7px]"
+      />
 
-    {/* L'image devient réellement décorative */}
-    <div className="absolute inset-0 bg-black/68" />
+      <div className="absolute inset-0 bg-black/68" />
 
-    {/* Vignettage pour recentrer l'œil */}
-    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.12)_42%,rgba(0,0,0,0.58)_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(0,0,0,0.12)_42%,rgba(0,0,0,0.58)_100%)]" />
 
-    <div className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-background/65 to-transparent" />
-    <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-background/70 to-transparent" />
+      <div className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-background/65 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-background/70 to-transparent" />
+    </AdminEditorRegion>
 
-    <div className="relative z-10 mx-auto w-full max-w-4xl text-center">
+    <AdminEditorRegion
+      region="content"
+      activeRegion={activeEditorRegion}
+      className={cn(
+        "relative z-10 mx-auto w-full max-w-4xl text-center",
+        editorPreview && "[&_a]:pointer-events-none p-4",
+      )}
+    >
       <p className="text-xs font-medium uppercase tracking-[0.28em] text-primary">
         {eyebrow}
       </p>
@@ -87,6 +105,6 @@ export const ReviewsPageCta = ({
         Le temps de{" "}
         <span className="text-primary/80">s&apos;évader un instant.</span>
       </p>
-    </div>
+    </AdminEditorRegion>
   </section>
 );
