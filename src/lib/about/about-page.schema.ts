@@ -43,7 +43,6 @@ export const aboutPageImageSchema = z.object({
 });
 
 export const aboutPageImagesSchema = z.object({
-  heroImage: aboutPageImageSchema.nullable(),
   spiritImage: aboutPageImageSchema.nullable(),
   ctaImage: aboutPageImageSchema.nullable(),
 });

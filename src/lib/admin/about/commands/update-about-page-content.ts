@@ -15,7 +15,6 @@ import { prisma } from "@/lib/prisma";
 
 export const updateAboutPageContentAdmin = async (
   values: AboutPageContentValues,
-  heroImage: AboutPageImageInput | null,
   spiritImage: AboutPageImageInput | null,
   ctaImage: AboutPageImageInput | null,
 ) => {
@@ -25,7 +24,6 @@ export const updateAboutPageContentAdmin = async (
     },
 
     select: {
-      heroImageFileKey: true,
       spiritImageFileKey: true,
       ctaImageFileKey: true,
     },
@@ -33,17 +31,14 @@ export const updateAboutPageContentAdmin = async (
 
   const currentFileKeys = new Set(
     [
-      existingContent?.heroImageFileKey,
       existingContent?.spiritImageFileKey,
       existingContent?.ctaImageFileKey,
     ].filter((fileKey): fileKey is string => Boolean(fileKey)),
   );
 
-  const submittedFileKeys = [
-    heroImage?.fileKey,
-    spiritImage?.fileKey,
-    ctaImage?.fileKey,
-  ].filter((fileKey): fileKey is string => Boolean(fileKey));
+  const submittedFileKeys = [spiritImage?.fileKey, ctaImage?.fileKey].filter(
+    (fileKey): fileKey is string => Boolean(fileKey),
+  );
 
   const newlyUploadedFileKeys = submittedFileKeys.filter(
     (fileKey) => !currentFileKeys.has(fileKey),
@@ -54,8 +49,8 @@ export const updateAboutPageContentAdmin = async (
   };
 
   const contentValidation = aboutPageContentSchema.safeParse(values);
+
   const imagesValidation = aboutPageImagesSchema.safeParse({
-    heroImage,
     spiritImage,
     ctaImage,
   });
@@ -81,9 +76,6 @@ export const updateAboutPageContentAdmin = async (
       update: {
         ...content,
 
-        heroImageUrl: images.heroImage?.url ?? null,
-        heroImageFileKey: images.heroImage?.fileKey ?? null,
-
         spiritImageUrl: images.spiritImage?.url ?? null,
         spiritImageFileKey: images.spiritImage?.fileKey ?? null,
 
@@ -96,9 +88,6 @@ export const updateAboutPageContentAdmin = async (
 
         ...aboutPageContentDefaults,
         ...content,
-
-        heroImageUrl: images.heroImage?.url ?? null,
-        heroImageFileKey: images.heroImage?.fileKey ?? null,
 
         spiritImageUrl: images.spiritImage?.url ?? null,
         spiritImageFileKey: images.spiritImage?.fileKey ?? null,
@@ -117,11 +106,9 @@ export const updateAboutPageContentAdmin = async (
   }
 
   const finalFileKeys = new Set(
-    [
-      images.heroImage?.fileKey,
-      images.spiritImage?.fileKey,
-      images.ctaImage?.fileKey,
-    ].filter((fileKey): fileKey is string => Boolean(fileKey)),
+    [images.spiritImage?.fileKey, images.ctaImage?.fileKey].filter(
+      (fileKey): fileKey is string => Boolean(fileKey),
+    ),
   );
 
   const replacedFileKeys = [...currentFileKeys].filter(

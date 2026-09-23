@@ -47,10 +47,9 @@ describe("updateAboutPageContentAdmin", () => {
     const firstResult = await updateAboutPageContentAdmin(
       initialValues,
       {
-        url: "https://example.com/hero-1.webp",
-        fileKey: "hero-1",
+        url: "https://example.com/spirit-1.webp",
+        fileKey: "spirit-1",
       },
-      null,
       null,
     );
 
@@ -67,11 +66,8 @@ describe("updateAboutPageContentAdmin", () => {
     expect(createdContent).toMatchObject({
       heroTitle: "Titre initial",
 
-      heroImageUrl: "https://example.com/hero-1.webp",
-      heroImageFileKey: "hero-1",
-
-      spiritImageUrl: null,
-      spiritImageFileKey: null,
+      spiritImageUrl: "https://example.com/spirit-1.webp",
+      spiritImageFileKey: "spirit-1",
 
       ctaImageUrl: null,
       ctaImageFileKey: null,
@@ -86,12 +82,8 @@ describe("updateAboutPageContentAdmin", () => {
     const secondResult = await updateAboutPageContentAdmin(
       updatedValues,
       {
-        url: "https://example.com/hero-2.webp",
-        fileKey: "hero-2",
-      },
-      {
-        url: "https://example.com/spirit.webp",
-        fileKey: "spirit-1",
+        url: "https://example.com/spirit-2.webp",
+        fileKey: "spirit-2",
       },
       {
         url: "https://example.com/cta.webp",
@@ -114,17 +106,14 @@ describe("updateAboutPageContentAdmin", () => {
       spiritTitle: "Nouvel esprit",
       ctaTitle: "Nouveau CTA",
 
-      heroImageUrl: "https://example.com/hero-2.webp",
-      heroImageFileKey: "hero-2",
-
-      spiritImageUrl: "https://example.com/spirit.webp",
-      spiritImageFileKey: "spirit-1",
+      spiritImageUrl: "https://example.com/spirit-2.webp",
+      spiritImageFileKey: "spirit-2",
 
       ctaImageUrl: "https://example.com/cta.webp",
       ctaImageFileKey: "cta-1",
     });
 
-    expect(deleteUploadThingFilesMock).toHaveBeenLastCalledWith(["hero-1"]);
+    expect(deleteUploadThingFilesMock).toHaveBeenLastCalledWith(["spirit-1"]);
 
     expect(revalidatePathMock).toHaveBeenCalledWith("/a-propos");
     expect(revalidatePathMock).toHaveBeenCalledWith("/admin/a-propos");
@@ -137,10 +126,6 @@ describe("updateAboutPageContentAdmin", () => {
 
     const result = await updateAboutPageContentAdmin(
       invalidValues,
-      {
-        url: "https://example.com/new-hero.webp",
-        fileKey: "new-hero",
-      },
       {
         url: "https://example.com/new-spirit.webp",
         fileKey: "new-spirit",
@@ -157,7 +142,6 @@ describe("updateAboutPageContentAdmin", () => {
     });
 
     expect(deleteUploadThingFilesMock).toHaveBeenCalledWith([
-      "new-hero",
       "new-spirit",
       "new-cta",
     ]);

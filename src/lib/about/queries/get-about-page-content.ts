@@ -16,8 +16,6 @@ export const getAboutPageContent = async () => {
       heroTitle: true,
       heroDescription: true,
       heroButtonLabel: true,
-      heroImageUrl: true,
-      heroImageFileKey: true,
 
       spiritEyebrow: true,
       spiritTitle: true,
@@ -61,9 +59,6 @@ export const getAboutPageContent = async () => {
 
   return {
     ...aboutPageContentDefaults,
-
-    heroImageUrl: null,
-    heroImageFileKey: null,
 
     spiritImageUrl: null,
     spiritImageFileKey: null,

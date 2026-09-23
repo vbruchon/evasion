@@ -275,12 +275,10 @@ model ReviewsPageContent {
 model AboutPageContent {
   id String @id
 
-  heroEyebrow      String
-  heroTitle        String
-  heroDescription  String  @db.Text
-  heroButtonLabel  String
-  heroImageUrl     String?
-  heroImageFileKey String?
+  heroEyebrow     String
+  heroTitle       String
+  heroDescription String @db.Text
+  heroButtonLabel String
 
   spiritEyebrow         String
   spiritTitle           String

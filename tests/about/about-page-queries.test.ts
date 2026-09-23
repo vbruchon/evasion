@@ -1,8 +1,9 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 
-import { getAboutPageContent } from "@/lib/about/queries/get-about-page-content";
-import { getAboutPageStats } from "@/lib/about/queries/get-about-page-stats";
 import { aboutPageContentDefaults } from "@/lib/about/about-page-defaults";
+import { getAboutPageContent } from "@/lib/about/queries/get-about-page-content";
+import { getAboutPageHeroImages } from "@/lib/about/queries/get-about-page-hero-images";
+import { getAboutPageStats } from "@/lib/about/queries/get-about-page-stats";
 import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
@@ -46,9 +47,6 @@ describe("about page queries", () => {
     expect(content).toEqual({
       ...aboutPageContentDefaults,
 
-      heroImageUrl: null,
-      heroImageFileKey: null,
-
       spiritImageUrl: null,
       spiritImageFileKey: null,
 
@@ -79,5 +77,67 @@ describe("about page queries", () => {
       totalReviews: 2,
       averageRating: 4,
     });
+  });
+
+  it("returns one hero image per published accommodation in position order", async () => {
+    await createAccommodationFixture({
+      name: "Deuxième logement",
+      slug: "second-about-accommodation",
+      status: "PUBLISHED",
+      position: 2,
+      images: [
+        {
+          url: "https://example.com/second.webp",
+          alt: "Deuxième logement",
+          isCover: true,
+        },
+      ],
+    });
+
+    await createAccommodationFixture({
+      name: "Premier logement",
+      slug: "first-about-accommodation",
+      status: "PUBLISHED",
+      position: 1,
+      images: [
+        {
+          url: "https://example.com/first-secondary.webp",
+          position: 1,
+          isCover: false,
+        },
+        {
+          url: "https://example.com/first-cover.webp",
+          alt: "Image principale",
+          position: 2,
+          isCover: true,
+        },
+      ],
+    });
+
+    await createAccommodationFixture({
+      name: "Brouillon",
+      slug: "draft-about-accommodation",
+      status: "DRAFT",
+      position: 0,
+      images: [
+        {
+          url: "https://example.com/draft.webp",
+          isCover: true,
+        },
+      ],
+    });
+
+    const images = await getAboutPageHeroImages();
+
+    expect(images).toEqual([
+      {
+        src: "https://example.com/first-cover.webp",
+        alt: "Image principale",
+      },
+      {
+        src: "https://example.com/second.webp",
+        alt: "Deuxième logement",
+      },
+    ]);
   });
 });

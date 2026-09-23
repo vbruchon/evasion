@@ -9,11 +9,10 @@ import { requireAdmin } from "@/lib/admin/require-admin";
 
 export const updateAboutPageContent = async (
   values: AboutPageContentValues,
-  heroImage: AboutPageImageInput | null,
   spiritImage: AboutPageImageInput | null,
   ctaImage: AboutPageImageInput | null,
 ) => {
   await requireAdmin();
 
-  return updateAboutPageContentAdmin(values, heroImage, spiritImage, ctaImage);
+  return updateAboutPageContentAdmin(values, spiritImage, ctaImage);
 };

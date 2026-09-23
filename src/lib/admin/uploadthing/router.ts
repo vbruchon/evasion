@@ -61,7 +61,7 @@ export const uploadRouter = {
   aboutPageImages: f({
     image: {
       maxFileSize: "8MB",
-      maxFileCount: 3,
+      maxFileCount: 2,
     },
   })
     .middleware(async ({ req }) => {
