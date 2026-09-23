@@ -49,9 +49,9 @@ export const AboutPageStats = ({
           <AboutPageSectionHeading index="03" eyebrow={eyebrow} />
 
           <div className="lg:ml-8">
-            <h3 className="mt-7 max-w-[15ch] font-heading text-4xl leading-[1.08] tracking-[-0.03em] text-foreground lg:text-5xl">
+            <h2 className="mt-7 max-w-[15ch] font-heading text-4xl leading-[1.08] tracking-[-0.03em] text-foreground lg:text-5xl">
               {title}
-            </h3>
+            </h2>
           </div>
         </header>
 
