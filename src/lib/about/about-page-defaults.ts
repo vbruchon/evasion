@@ -14,7 +14,7 @@ export const ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE =
   "/images/accommodations/nature/gallery-01.png";
 
 export const ABOUT_PAGE_DEFAULT_CTA_IMAGE =
-  "/images/accommodations/chalet/gallery-02.png";
+  "/images/pages/reviews/evasion-page-avis-cta.png";
 
 export const aboutPageContentDefaults = {
   heroEyebrow: "À propos",

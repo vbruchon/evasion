@@ -1,6 +1,6 @@
 import { AboutPageHeroCarousel } from "@/components/features/about/about-page-hero-carousel";
 import type { AboutHeroImage } from "@/lib/about/about-page.types";
-import { AboutPageLinkButton } from "@/components/features/about//about-page-link-button";
+import { AboutPageLinkButton } from "@/components/features/about/about-page-link-button";
 
 type AboutPageHeroProps = {
   eyebrow: string;
