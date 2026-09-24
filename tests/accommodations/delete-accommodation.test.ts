@@ -1,4 +1,4 @@
-import { afterAll, beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { deleteAccommodationAdmin } from "@/lib/admin/accommodation/commands/delete-accommodation";
 import { deleteUploadThingFiles } from "@/lib/admin/uploadthing/delete-files";
@@ -85,10 +85,13 @@ describe("deleteAccommodationAdmin", () => {
       },
     ]);
 
-    expect(deleteUploadThingFiles).toHaveBeenCalledWith([
-      "deleted-image-1",
-      "deleted-image-2",
-    ]);
+    const deletedFileKeys = vi.mocked(deleteUploadThingFiles).mock
+      .calls[0]?.[0];
+
+    expect(deletedFileKeys).toHaveLength(2);
+    expect(deletedFileKeys).toEqual(
+      expect.arrayContaining(["deleted-image-1", "deleted-image-2"]),
+    );
   });
 
   it("rejects deleting an accommodation that does not exist", async () => {
