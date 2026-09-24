@@ -5,6 +5,10 @@ import { type ChangeEvent, type DragEvent, useRef } from "react";
 
 import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 import { cn } from "@/lib/utils";
+import {
+  ADMIN_IMAGE_ACCEPT,
+  ADMIN_IMAGE_FORMAT_LABEL,
+} from "@/lib/admin/images/image-upload";
 
 type AccommodationImageDropzoneProps = {
   onFilesSelected: (files: File[]) => void;
@@ -50,7 +54,7 @@ export const AccommodationImageDropzone = ({
       <input
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp"
+        accept={ADMIN_IMAGE_ACCEPT}
         multiple
         disabled={disabled}
         className="hidden"
@@ -107,7 +111,8 @@ export const AccommodationImageDropzone = ({
             compact ? "mt-3" : "mt-4",
           )}
         >
-          PNG, JPG, AVIF ou WEBP · 8 Mo · {MAX_ACCOMMODATION_IMAGES} images max.
+          {ADMIN_IMAGE_FORMAT_LABEL} · 8 Mo · {MAX_ACCOMMODATION_IMAGES} images
+          max.
         </p>
       </div>
     </>

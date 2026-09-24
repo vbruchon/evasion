@@ -3,8 +3,8 @@ import type { AboutPageEditorImage } from "@/hooks/about/admin/editor/use-about-
 import type { AboutPageCtaEditorSection } from "@/lib/admin/about/editor/editor-sections";
 import { ABOUT_PAGE_DEFAULT_CTA_IMAGE } from "@/lib/about/about-page-defaults";
 
+import { AdminImageEditor } from "@/components/layout/admin/form/admin-image-editor";
 import { AboutPageTextField } from "../../form/about-page-text-field";
-import { AboutPageImageEditor } from "../../form/about-page-image-editor";
 
 type AboutPageCtaEditorProps = {
   section: AboutPageCtaEditorSection;
@@ -24,7 +24,7 @@ export const AboutPageCtaEditor = ({
   if (section === "image") {
     return (
       <AdminEditorSectionContent>
-        <AboutPageImageEditor
+        <AdminImageEditor
           title="Image d’arrière-plan"
           description="Cette image accompagne l’appel à l’action en bas de la page."
           imageUrl={image?.previewUrl ?? ABOUT_PAGE_DEFAULT_CTA_IMAGE}

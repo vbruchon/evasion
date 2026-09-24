@@ -1,6 +1,5 @@
 import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
-
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
+import { isAdminImageFile } from "@/lib/admin/images/image-upload";
 
 export type AccommodationInitialImage = {
   id: string;
@@ -45,9 +44,7 @@ export const createAccommodationPreviewImages = async (
   files: File[],
   availableSlots: number,
 ): Promise<AccommodationPreviewImage[]> => {
-  const acceptedFiles = files
-    .filter((file) => ACCEPTED_IMAGE_TYPES.includes(file.type))
-    .slice(0, availableSlots);
+  const acceptedFiles = files.filter(isAdminImageFile).slice(0, availableSlots);
 
   return Promise.all(
     acceptedFiles.map(async (file) => ({

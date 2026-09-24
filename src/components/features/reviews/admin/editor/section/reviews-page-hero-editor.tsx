@@ -3,7 +3,7 @@ import { REVIEWS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/reviews/reviews-page-defa
 import type { ReviewsPageHeroEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import type { ReviewsPageEditorImage } from "@/hooks/reviews/admin/editor/use-reviews-page-images";
 
-import { ReviewsPageImageEditor } from "../../form/reviews-page-image-editor";
+import { AdminImageEditor } from "@/components/layout/admin/form/admin-image-editor";
 import { ReviewsPageTextField } from "../../form/reviews-page-text-field";
 
 type ReviewsPageHeroEditorProps = {
@@ -24,7 +24,7 @@ export const ReviewsPageHeroEditor = ({
   if (section === "image") {
     return (
       <AdminEditorSectionContent>
-        <ReviewsPageImageEditor
+        <AdminImageEditor
           title="Image du hero"
           description="Cette image est affichée en arrière-plan en haut de la page."
           imageUrl={image?.previewUrl ?? REVIEWS_PAGE_DEFAULT_HERO_IMAGE}

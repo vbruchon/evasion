@@ -5,9 +5,16 @@ import { ImagePlus, RotateCcw, Upload } from "lucide-react";
 import { type ChangeEvent, type DragEvent, useRef, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  ADMIN_IMAGE_ACCEPT,
+  ADMIN_IMAGE_FORMAT_LABEL,
+  ADMIN_IMAGE_MAX_FILE_SIZE,
+  isAdminImageFile,
+  isAdminImageFileSizeValid,
+} from "@/lib/admin/images/image-upload";
 import { cn } from "@/lib/utils";
 
-type ReviewsPageImageEditorProps = {
+type AdminImageEditorProps = {
   title: string;
   description: string;
   imageUrl: string;
@@ -17,12 +24,9 @@ type ReviewsPageImageEditorProps = {
   onRemove: () => void;
 };
 
-const MAX_FILE_SIZE = 8 * 1024 * 1024;
+const MAX_FILE_SIZE_MB = ADMIN_IMAGE_MAX_FILE_SIZE / (1024 * 1024);
 
-const isValidImage = (file: File) =>
-  ["image/jpeg", "image/png", "image/webp", "image/avif"].includes(file.type);
-
-export const ReviewsPageImageEditor = ({
+export const AdminImageEditor = ({
   title,
   description,
   imageUrl,
@@ -30,20 +34,20 @@ export const ReviewsPageImageEditor = ({
   disabled = false,
   onFileSelected,
   onRemove,
-}: ReviewsPageImageEditorProps) => {
+}: AdminImageEditorProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handleFile = (file: File) => {
     setError(null);
 
-    if (!isValidImage(file)) {
-      setError("Utilisez une image JPG, PNG, WEBP ou AVIF.");
+    if (!isAdminImageFile(file)) {
+      setError(`Utilisez une image ${ADMIN_IMAGE_FORMAT_LABEL}.`);
       return;
     }
 
-    if (file.size > MAX_FILE_SIZE) {
-      setError("L’image ne doit pas dépasser 8 Mo.");
+    if (!isAdminImageFileSizeValid(file)) {
+      setError(`L’image ne doit pas dépasser ${MAX_FILE_SIZE_MB} Mo.`);
       return;
     }
 
@@ -71,6 +75,12 @@ export const ReviewsPageImageEditor = ({
 
     if (file) {
       handleFile(file);
+    }
+  };
+
+  const handleOpenFilePicker = () => {
+    if (!disabled) {
+      inputRef.current?.click();
     }
   };
 
@@ -104,7 +114,7 @@ export const ReviewsPageImageEditor = ({
       <input
         ref={inputRef}
         type="file"
-        accept="image/jpeg,image/png,image/webp,image/avif"
+        accept={ADMIN_IMAGE_ACCEPT}
         disabled={disabled}
         className="hidden"
         onChange={handleInputChange}
@@ -119,15 +129,11 @@ export const ReviewsPageImageEditor = ({
             ? "cursor-not-allowed opacity-60"
             : "cursor-pointer hover:border-primary/50 hover:bg-primary/2",
         )}
-        onClick={() => {
-          if (!disabled) {
-            inputRef.current?.click();
-          }
-        }}
+        onClick={handleOpenFilePicker}
         onKeyDown={(event) => {
           if (!disabled && (event.key === "Enter" || event.key === " ")) {
             event.preventDefault();
-            inputRef.current?.click();
+            handleOpenFilePicker();
           }
         }}
         onDragOver={(event) => event.preventDefault()}
@@ -143,7 +149,7 @@ export const ReviewsPageImageEditor = ({
         </div>
 
         <p className="mt-3 text-xs text-muted-foreground">
-          JPG, PNG, WEBP ou AVIF · 8 Mo max.
+          {ADMIN_IMAGE_FORMAT_LABEL} · {MAX_FILE_SIZE_MB} Mo max.
         </p>
       </div>
 

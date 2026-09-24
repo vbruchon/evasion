@@ -3,7 +3,7 @@ import type { AboutPageEditorImage } from "@/hooks/about/admin/editor/use-about-
 import type { AboutPageSpiritEditorSection } from "@/lib/admin/about/editor/editor-sections";
 import { ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE } from "@/lib/about/about-page-defaults";
 
-import { AboutPageImageEditor } from "../../form/about-page-image-editor";
+import { AdminImageEditor } from "@/components/layout/admin/form/admin-image-editor";
 import { AboutPageTextField } from "../../form/about-page-text-field";
 
 type AboutPageSpiritEditorProps = {
@@ -24,7 +24,7 @@ export const AboutPageSpiritEditor = ({
   if (section === "image") {
     return (
       <AdminEditorSectionContent>
-        <AboutPageImageEditor
+        <AdminImageEditor
           title="Image de la section"
           description="Cette image accompagne la présentation de l’esprit Évasion."
           imageUrl={image?.previewUrl ?? ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE}
