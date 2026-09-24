@@ -1,6 +1,6 @@
 import { AboutPageHeroCarousel } from "@/components/features/about/about-page-hero-carousel";
 import type { AboutHeroImage } from "@/lib/about/about-page.types";
-import { AboutPageLinkButton } from "@/components/features/about/about-page-link-button";
+import { PageLinkButton } from "@/components/layout/page-link-button";
 import { SiteSection } from "@/components/layout/site-section";
 
 type AboutPageHeroProps = {
@@ -42,9 +42,7 @@ export const AboutPageHero = ({
           </p>
 
           <div className="mt-9 flex justify-center sm:justify-start">
-            <AboutPageLinkButton href="/logements">
-              {buttonLabel}
-            </AboutPageLinkButton>
+            <PageLinkButton href="/logements">{buttonLabel}</PageLinkButton>
           </div>
         </div>
 
