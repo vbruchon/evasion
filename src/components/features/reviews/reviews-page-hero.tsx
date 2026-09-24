@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { Star } from "lucide-react";
 
-import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type { ReviewsPageHeroEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { REVIEWS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/reviews/reviews-page-defaults";
-import Image from "next/image";
 import { SiteSection } from "@/components/layout/site-section";
+import { PageHeroContent } from "@/components/layout/page-hero-content";
 
 type ReviewsPageHeroProps = {
   eyebrow: string;
@@ -59,51 +60,46 @@ export const ReviewsPageHero = ({
         activeRegion={activeEditorRegion}
         className="w-full max-w-sm lg:w-120 lg:max-w-none"
       >
-        <p className="text-sm font-medium uppercase tracking-[0.28em] text-primary">
-          {eyebrow}
-        </p>
+        <PageHeroContent
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+          variant="compact"
+        >
+          {totalReviews > 0 ? (
+            <div className="mt-10 ml-8 space-y-4 border-l border-primary/20 pl-4">
+              <div className="flex items-end gap-1.5">
+                <span className="font-heading text-[3.5rem] leading-[0.9] text-primary">
+                  {averageRating.toFixed(1).replace(".", ",")}
+                </span>
 
-        <div className="mt-4 h-px w-8 bg-primary/80" />
+                <span className="pb-1 text-primary/85">/5</span>
+              </div>
 
-        <h1 className="mt-6 font-heading text-[2.8rem] leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:w-120 lg:text-[3.7rem]">
-          {title}
-        </h1>
+              <div
+                className="mt-4 flex items-center gap-1.5 text-primary"
+                aria-label={`${averageRating.toFixed(1)} étoiles sur 5`}
+              >
+                {Array.from({ length: 5 }, (_, index) => (
+                  <Star
+                    key={index}
+                    className="size-[1.15rem]"
+                    fill={
+                      index < Math.round(averageRating)
+                        ? "currentColor"
+                        : "none"
+                    }
+                    strokeWidth={1.4}
+                  />
+                ))}
+              </div>
 
-        <p className="mt-6 max-w-xs text-sm leading-6 text-foreground/72">
-          {description}
-        </p>
-
-        {totalReviews > 0 ? (
-          <div className="mt-10 ml-8 space-y-4 border-l border-primary/20 pl-4">
-            <div className="flex items-end gap-1.5">
-              <span className="font-heading text-[3.5rem] leading-[0.9] text-primary">
-                {averageRating.toFixed(1).replace(".", ",")}
-              </span>
-
-              <span className="pb-1 text-primary/85">/5</span>
+              <p className="mt-3 text-xs uppercase tracking-widest text-foreground/70">
+                Basé sur {totalReviews} avis
+              </p>
             </div>
-
-            <div
-              className="mt-4 flex items-center gap-1.5 text-primary"
-              aria-label={`${averageRating.toFixed(1)} étoiles sur 5`}
-            >
-              {Array.from({ length: 5 }, (_, index) => (
-                <Star
-                  key={index}
-                  className="size-[1.15rem]"
-                  fill={
-                    index < Math.round(averageRating) ? "currentColor" : "none"
-                  }
-                  strokeWidth={1.4}
-                />
-              ))}
-            </div>
-
-            <p className="mt-3 text-xs uppercase tracking-widest text-foreground/70">
-              Basé sur {totalReviews} avis
-            </p>
-          </div>
-        ) : null}
+          ) : null}
+        </PageHeroContent>
       </AdminEditorRegion>
     </div>
 
