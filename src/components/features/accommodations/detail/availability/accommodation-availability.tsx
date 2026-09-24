@@ -47,7 +47,7 @@ export const AccommodationAvailability = ({
           <AdminEditorRegion
             region="content"
             activeRegion={activeEditorRegion}
-            className="-m-3 mt-1 p-3"
+            className="mt-4"
           >
             <h2 className="mt-4 max-w-lg font-heading text-4xl leading-[1.03] tracking-[-0.035em] md:text-5xl xl:text-[3.4rem]">
               {availabilityTitle}

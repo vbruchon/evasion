@@ -67,7 +67,6 @@ export const ReviewsPageEditorPreviewHero = ({
           activeEditorRegion={
             activeSection === "hero" ? activeHeroSection : undefined
           }
-          editorPreview
         />
       </div>
     </AdminEditorSection>

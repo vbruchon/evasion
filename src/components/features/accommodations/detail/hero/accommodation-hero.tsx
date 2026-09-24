@@ -96,7 +96,7 @@ export const AccommodationHero = ({
           <AdminEditorRegion
             region="general"
             activeRegion={activeEditorRegion}
-            className="max-w-2xl -m-3 p-3"
+            className="max-w-2xl"
           >
             <AccommodationHeroGeneral
               accommodation={accommodation}

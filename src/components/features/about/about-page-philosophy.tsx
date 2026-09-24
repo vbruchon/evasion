@@ -20,7 +20,6 @@ type AboutPagePhilosophyProps = {
   fourthTitle: string;
   fourthDescription: string;
   activeEditorRegion?: AboutPagePhilosophyEditorSection;
-  editorPreview?: boolean;
 };
 
 export const AboutPagePhilosophy = ({
@@ -36,7 +35,6 @@ export const AboutPagePhilosophy = ({
   fourthTitle,
   fourthDescription,
   activeEditorRegion,
-  editorPreview = false,
 }: AboutPagePhilosophyProps) => {
   const principles = [
     {
@@ -76,7 +74,7 @@ export const AboutPagePhilosophy = ({
           <AdminEditorRegion
             region="introduction"
             activeRegion={activeEditorRegion}
-            className={cn("lg:col-span-4", editorPreview && "-m-3 p-3")}
+            className="lg:col-span-4"
           >
             <header>
               <AboutPageSectionHeading index="02" eyebrow={eyebrow} />
@@ -116,10 +114,7 @@ export const AboutPagePhilosophy = ({
                     key={principle.id}
                     region={principle.editorRegion}
                     activeRegion={activeEditorRegion}
-                    className={cn(
-                      index % 2 === 1 && "lg:translate-y-6",
-                      editorPreview && "-m-3 p-3",
-                    )}
+                    className={cn(index % 2 === 1 && "lg:translate-y-6")}
                   >
                     <Card className="h-full rounded-none border-border/55 bg-card/65 py-0 shadow-none sm:bg-card/70">
                       <CardContent className="flex h-full flex-col p-5 sm:p-7 lg:p-8">

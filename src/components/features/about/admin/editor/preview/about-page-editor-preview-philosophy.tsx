@@ -82,7 +82,6 @@ export const AboutPageEditorPreviewPhilosophy = ({
           activeEditorRegion={
             activeSection === "philosophy" ? activePhilosophySection : undefined
           }
-          editorPreview
         />
       </div>
     </AdminEditorSection>

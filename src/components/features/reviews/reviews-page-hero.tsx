@@ -3,7 +3,6 @@ import { Star } from "lucide-react";
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type { ReviewsPageHeroEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import { REVIEWS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/reviews/reviews-page-defaults";
-import { cn } from "@/lib/utils";
 import Image from "next/image";
 
 type ReviewsPageHeroProps = {
@@ -16,7 +15,6 @@ type ReviewsPageHeroProps = {
   averageRating: number;
   totalReviews: number;
   activeEditorRegion?: ReviewsPageHeroEditorSection;
-  editorPreview?: boolean;
 };
 
 export const ReviewsPageHero = ({
@@ -29,7 +27,6 @@ export const ReviewsPageHero = ({
   averageRating,
   totalReviews,
   activeEditorRegion,
-  editorPreview = false,
 }: ReviewsPageHeroProps) => (
   <section className="relative min-h-155 overflow-hidden border-b border-border/60 bg-background md:min-h-165 lg:min-h-175">
     <AdminEditorRegion
@@ -59,10 +56,7 @@ export const ReviewsPageHero = ({
       <AdminEditorRegion
         region="content"
         activeRegion={activeEditorRegion}
-        className={cn(
-          "w-full max-w-sm lg:w-120 lg:max-w-none",
-          editorPreview && "p-4",
-        )}
+        className="w-full max-w-sm lg:w-120 lg:max-w-none"
       >
         <p className="text-sm font-medium uppercase tracking-[0.28em] text-primary">
           {eyebrow}

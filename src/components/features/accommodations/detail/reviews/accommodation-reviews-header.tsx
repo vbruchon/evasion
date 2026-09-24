@@ -24,11 +24,7 @@ export const AccommodationReviewsHeader = ({
   onOpenReviews,
 }: AccommodationReviewsHeaderProps) => (
   <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-    <AdminEditorRegion
-      region="content"
-      activeRegion={activeEditorRegion}
-      className="-m-3 p-3"
-    >
+    <AdminEditorRegion region="content" activeRegion={activeEditorRegion}>
       <div>
         <p className="section-eyebrow text-primary/85">Avis voyageurs</p>
 

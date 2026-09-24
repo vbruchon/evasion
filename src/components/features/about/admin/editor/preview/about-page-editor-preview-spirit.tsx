@@ -62,7 +62,6 @@ export const AboutPageEditorPreviewSpirit = ({
           activeEditorRegion={
             activeSection === "spirit" ? activeSpiritSection : undefined
           }
-          editorPreview
         />
       </div>
     </AdminEditorSection>

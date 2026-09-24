@@ -67,7 +67,7 @@ export const AboutPageCta = ({
         activeRegion={activeEditorRegion}
         className={cn(
           "mx-auto max-w-4xl text-center",
-          editorPreview && "p-3 [&_a]:pointer-events-none",
+          editorPreview && "[&_a]:pointer-events-none",
         )}
       >
         <p className="text-xs font-medium uppercase tracking-[0.28em] text-primary">

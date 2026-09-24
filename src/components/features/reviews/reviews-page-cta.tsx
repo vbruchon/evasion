@@ -70,7 +70,7 @@ export const ReviewsPageCta = ({
       activeRegion={activeEditorRegion}
       className={cn(
         "relative z-10 mx-auto w-full max-w-4xl text-center",
-        editorPreview && "[&_a]:pointer-events-none p-4",
+        editorPreview && "[&_a]:pointer-events-none",
       )}
     >
       <p className="text-xs font-medium uppercase tracking-[0.28em] text-primary">

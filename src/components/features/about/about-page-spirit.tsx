@@ -4,7 +4,6 @@ import { AboutPageContainer } from "@/components/features/about/about-page-conta
 import { AboutPageSectionHeading } from "@/components/features/about/about-page-section-heading";
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type { AboutPageSpiritEditorSection } from "@/lib/admin/about/editor/editor-sections";
-import { cn } from "@/lib/utils";
 
 type AboutPageSpiritProps = {
   eyebrow: string;
@@ -14,7 +13,6 @@ type AboutPageSpiritProps = {
   handwritten: string;
   imageUrl: string;
   activeEditorRegion?: AboutPageSpiritEditorSection;
-  editorPreview?: boolean;
 };
 
 export const AboutPageSpirit = ({
@@ -25,16 +23,11 @@ export const AboutPageSpirit = ({
   handwritten,
   imageUrl,
   activeEditorRegion,
-  editorPreview = false,
 }: AboutPageSpiritProps) => {
   return (
     <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
       <AboutPageContainer className="relative">
-        <AdminEditorRegion
-          region="content"
-          activeRegion={activeEditorRegion}
-          className={cn(editorPreview && "-m-3 p-3")}
-        >
+        <AdminEditorRegion region="content" activeRegion={activeEditorRegion}>
           <AboutPageSectionHeading index="01" eyebrow={eyebrow} />
         </AdminEditorRegion>
 
@@ -42,10 +35,7 @@ export const AboutPageSpirit = ({
           <AdminEditorRegion
             region="content"
             activeRegion={activeEditorRegion}
-            className={cn(
-              "lg:col-span-5 lg:col-start-1 lg:ml-8",
-              editorPreview && "-m-3 p-3",
-            )}
+            className="lg:col-span-5 lg:col-start-1 lg:ml-8"
           >
             <h2 className="max-w-[22ch] font-heading text-4xl leading-[1.06] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-5xl">
               {title}
@@ -80,7 +70,6 @@ export const AboutPageSpirit = ({
               <AdminEditorRegion
                 region="image"
                 activeRegion={activeEditorRegion}
-                className={cn(editorPreview && "-m-3 p-3")}
               >
                 <div className="relative aspect-4/5 overflow-hidden bg-muted sm:aspect-16/11">
                   <Image
@@ -107,10 +96,7 @@ export const AboutPageSpirit = ({
               <AdminEditorRegion
                 region="content"
                 activeRegion={activeEditorRegion}
-                className={cn(
-                  "relative -mt-3 ml-auto max-w-max sm:-mt-4 lg:-mr-6",
-                  editorPreview && "-m-3 p-3",
-                )}
+                className="relative -mt-3 ml-auto max-w-max sm:-mt-4 lg:-mr-6"
               >
                 <p className="-rotate-2 pr-3 font-handwritten text-2xl text-primary sm:pr-8 sm:text-3xl lg:text-4xl">
                   {handwritten}

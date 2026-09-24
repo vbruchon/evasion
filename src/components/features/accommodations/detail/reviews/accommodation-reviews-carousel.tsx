@@ -38,7 +38,7 @@ export const AccommodationReviewsCarousel = ({
     <AdminEditorRegion
       region="management"
       activeRegion={activeEditorRegion}
-      className="-m-3 mt-9 p-3"
+      className="mt-12"
     >
       {featuredReviews.length > 0 ? (
         <>

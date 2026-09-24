@@ -1,13 +1,12 @@
-import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type { ReviewsAccommodationFilter } from "@/components/features/reviews/all-reviews-filter";
-import { AllReviewsSection } from "@/components/features/reviews/all-reviews-section";
-import { RecentReviewsSection } from "@/components/features/reviews/recent-reviews-section";
 import type { ReviewsPageReviewsEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import type {
   ReviewsPageReview,
   ReviewsPageReviewsResult,
 } from "@/lib/reviews/reviews-page.types";
-import { cn } from "@/lib/utils";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import { AllReviewsSection } from "@/components/features/reviews/all-reviews-section";
+import { RecentReviewsSection } from "@/components/features/reviews/recent-reviews-section";
 
 type ReviewsPageReviewsSectionProps = {
   recentReviewsEyebrow: string;
@@ -45,10 +44,7 @@ export const ReviewsPageReviewsSection = ({
       <AdminEditorRegion
         region="recent"
         activeRegion={activeEditorRegion}
-        className={cn(
-          editorPreview && "-m-3 p-3",
-          editorPreview && "[&_a]:pointer-events-none",
-        )}
+        className={editorPreview ? "[&_a]:pointer-events-none" : undefined}
       >
         <RecentReviewsSection
           eyebrow={recentReviewsEyebrow}
@@ -58,11 +54,7 @@ export const ReviewsPageReviewsSection = ({
         />
       </AdminEditorRegion>
 
-      <AdminEditorRegion
-        region="all"
-        activeRegion={activeEditorRegion}
-        className={cn(editorPreview && "-m-3 p-3")}
-      >
+      <AdminEditorRegion region="all" activeRegion={activeEditorRegion}>
         <AllReviewsSection
           title={allReviewsTitle}
           description={allReviewsDescription}
