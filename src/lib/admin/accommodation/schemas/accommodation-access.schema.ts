@@ -10,7 +10,7 @@ const accommodationAccessKeys = accommodationAccesses.map(
   (access) => access.key,
 ) as [AccommodationAccessKey, ...AccommodationAccessKey[]];
 
-export const accommodationAccessSchema = z.object({
+const accommodationAccessSchema = z.object({
   key: z.enum(accommodationAccessKeys),
 
   details: z
@@ -42,10 +42,6 @@ export const accommodationAccessesSchema = z
       seenKeys.add(access.key);
     });
   });
-
-export type AccommodationAccessInput = z.infer<
-  typeof accommodationAccessSchema
->;
 
 export type AccommodationAccessesInput = z.infer<
   typeof accommodationAccessesSchema

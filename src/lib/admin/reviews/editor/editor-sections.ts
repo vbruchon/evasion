@@ -1,4 +1,4 @@
-export const reviewsPageEditorSections = [
+const reviewsPageEditorSections = [
   {
     id: "hero",
     label: "Hero",

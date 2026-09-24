@@ -1,8 +1,8 @@
 import type L from "leaflet";
 
 export const ACCOMMODATION_LOCATION_DEFAULT_ZOOM = 11;
-export const ACCOMMODATION_LOCATION_MAX_ZOOM = 12;
-export const ACCOMMODATION_LOCATION_FIT_PADDING: [number, number] = [45, 45];
+const ACCOMMODATION_LOCATION_MAX_ZOOM = 12;
+const ACCOMMODATION_LOCATION_FIT_PADDING: [number, number] = [45, 45];
 
 export const ACCOMMODATION_LOCATION_TILE_URL =
   "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png";

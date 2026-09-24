@@ -4,12 +4,10 @@ import type { AccommodationAmenityInput } from "@/lib/admin/accommodation/schema
 
 import { AccommodationAmenityIcon } from "@/components/features/accommodations/shared/accommodation-amenity-icon";
 import { Button } from "@/components/ui/button";
-import { accommodationAmenities } from "@/lib/accommodations/accommodation-amenities";
+import { AccommodationAmenityDefinition } from "@/lib/accommodations/accommodation-amenities";
 import { cn } from "@/lib/utils";
 
 import { AccommodationAmenityDetailsEditor } from "./accommodation-amenity-details-editor";
-
-type AccommodationAmenityDefinition = (typeof accommodationAmenities)[number];
 
 type AccommodationAmenityOptionProps = {
   amenity: AccommodationAmenityDefinition;

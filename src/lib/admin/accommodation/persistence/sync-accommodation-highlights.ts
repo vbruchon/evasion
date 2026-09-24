@@ -2,7 +2,7 @@ import type { Prisma } from "@/generated/prisma/client";
 
 import type { AccommodationHighlightsInput } from "@/lib/admin/accommodation/schema";
 
-export const getAccommodationExistingHighlightIds = (
+const getAccommodationExistingHighlightIds = (
   highlights: AccommodationHighlightsInput,
 ) => highlights.flatMap((highlight) => (highlight.id ? [highlight.id] : []));
 

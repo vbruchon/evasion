@@ -22,7 +22,7 @@ export const reviewsPageContentSchema = z.object({
   ctaButtonLabel: z.string().trim().min(1).max(80),
 });
 
-export const reviewsPageImageSchema = z.object({
+const reviewsPageImageSchema = z.object({
   url: z.string().url(),
   fileKey: z.string().trim().min(1),
 });

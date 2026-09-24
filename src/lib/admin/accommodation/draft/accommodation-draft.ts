@@ -74,10 +74,6 @@ export const getAccommodationDraftFileKeys = (
     "fileKey" in image ? [image.fileKey] : [],
   );
 
-export const getAccommodationDraftExistingImageIds = (
-  content: AccommodationDraftContent,
-) => content.images.flatMap((image) => ("id" in image ? [image.id] : []));
-
 export const getAccommodationDraftSignature = ({
   values,
   highlights,

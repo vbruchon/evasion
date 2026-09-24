@@ -1,4 +1,4 @@
-export const accommodationEditorSections = [
+const accommodationEditorSections = [
   {
     id: "hero",
     label: "Hero",

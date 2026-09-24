@@ -1,5 +1,4 @@
 import {
-  accommodationUpdateImagesSchema,
   accommodationUpdateSchema,
   type AccommodationUpdateFormValues,
   type AccommodationUpdateImageInput,
@@ -7,6 +6,7 @@ import {
 
 import { hasForeignAccommodationImage } from "./images/sync-accommodation-images";
 import { hasForeignAccommodationHighlight } from "./persistence/sync-accommodation-highlights";
+import { accommodationUpdateImagesSchema } from "./schemas/accommodation-image.schema";
 
 type ValidateAccommodationUpdateOptions = {
   values: AccommodationUpdateFormValues;

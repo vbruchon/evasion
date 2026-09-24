@@ -1,17 +1,8 @@
-export {
-  accommodationAccessSchema,
-  accommodationAccessesSchema,
-} from "./schemas/accommodation-access.schema";
+export { accommodationAccessesSchema } from "./schemas/accommodation-access.schema";
 
-export type {
-  AccommodationAccessInput,
-  AccommodationAccessesInput,
-} from "./schemas/accommodation-access.schema";
+export type { AccommodationAccessesInput } from "./schemas/accommodation-access.schema";
 
-export {
-  accommodationAmenitySchema,
-  accommodationAmenitiesSchema,
-} from "./schemas/accommodation-amenity.schema";
+export { accommodationAmenitiesSchema } from "./schemas/accommodation-amenity.schema";
 
 export type {
   AccommodationAmenityInput,
@@ -26,27 +17,9 @@ export { accommodationDraftContentSchema } from "./schemas/accommodation-draft.s
 
 export type { AccommodationDraftContent } from "./schemas/accommodation-draft.schema";
 
-export {
-  accommodationHighlightSchema,
-  accommodationHighlightsSchema,
-} from "./schemas/accommodation-highlight.schema";
+export type { AccommodationHighlightsInput } from "./schemas/accommodation-highlight.schema";
 
-export type {
-  AccommodationHighlightInput,
-  AccommodationHighlightsInput,
-} from "./schemas/accommodation-highlight.schema";
-
-export {
-  accommodationImageSchema,
-  accommodationImagesSchema,
-  accommodationUpdateImageSchema,
-  accommodationUpdateImagesSchema,
-} from "./schemas/accommodation-image.schema";
-
-export type {
-  AccommodationImageInput,
-  AccommodationUpdateImageInput,
-} from "./schemas/accommodation-image.schema";
+export type { AccommodationUpdateImageInput } from "./schemas/accommodation-image.schema";
 
 export { accommodationUpdateSchema } from "./schemas/accommodation-update.schema";
 

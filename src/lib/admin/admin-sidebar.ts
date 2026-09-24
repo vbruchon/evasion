@@ -1,7 +1,7 @@
 import { CircleUserRound, House, LayoutDashboard, Star } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
-export type AdminNavigationItem = {
+type AdminNavigationItem = {
   label: string;
   href: string;
   icon: LucideIcon;

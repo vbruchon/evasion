@@ -2,7 +2,7 @@ import { z } from "zod";
 
 import { MAX_ACCOMMODATION_HIGHLIGHTS } from "@/lib/accommodations/accommodation-highlights";
 
-export const accommodationHighlightSchema = z.object({
+const accommodationHighlightSchema = z.object({
   id: z.string().min(1).optional(),
 
   title: z
@@ -26,10 +26,6 @@ export const accommodationHighlightsSchema = z
     MAX_ACCOMMODATION_HIGHLIGHTS,
     `Un logement ne peut pas contenir plus de ${MAX_ACCOMMODATION_HIGHLIGHTS} points forts.`,
   );
-
-export type AccommodationHighlightInput = z.infer<
-  typeof accommodationHighlightSchema
->;
 
 export type AccommodationHighlightsInput = z.infer<
   typeof accommodationHighlightsSchema

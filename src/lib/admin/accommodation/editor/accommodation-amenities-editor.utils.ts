@@ -9,7 +9,7 @@ const amenityOrder = new Map(
   accommodationAmenities.map((amenity, index) => [amenity.key, index]),
 );
 
-export const normalizeAmenitySearchValue = (value: string) =>
+const normalizeAmenitySearchValue = (value: string) =>
   value
     .normalize("NFD")
     .replace(/\p{Diacritic}/gu, "")

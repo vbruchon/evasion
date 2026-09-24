@@ -364,10 +364,3 @@ export type AccommodationAmenityKey =
 
 export type AccommodationAmenityDefinition =
   (typeof accommodationAmenities)[number];
-
-export const getAccommodationAmenity = (key: string) =>
-  accommodationAmenities.find((amenity) => amenity.key === key);
-
-export const getAccommodationAmenitiesByCategory = (
-  category: AccommodationAmenityCategory,
-) => accommodationAmenities.filter((amenity) => amenity.category === category);

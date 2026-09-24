@@ -11,7 +11,7 @@ export const getAccommodationUpdateImageFileKeys = (
   images: AccommodationUpdateImageInput[],
 ) => images.flatMap((image) => ("fileKey" in image ? [image.fileKey] : []));
 
-export const getAccommodationUpdateExistingImageIds = (
+const getAccommodationUpdateExistingImageIds = (
   images: AccommodationUpdateImageInput[],
 ) => images.flatMap((image) => ("id" in image ? [image.id] : []));
 

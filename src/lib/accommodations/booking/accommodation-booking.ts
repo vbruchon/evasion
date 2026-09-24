@@ -24,7 +24,7 @@ export const getAccommodationBookingNights = (
   return Math.round((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
 };
 
-export const isAirbnbBookingUrl = (bookingUrl: string) => {
+const isAirbnbBookingUrl = (bookingUrl: string) => {
   try {
     const url = new URL(bookingUrl);
 

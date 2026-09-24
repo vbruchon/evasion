@@ -2,12 +2,10 @@ import type { AccommodationAmenityInput } from "@/lib/admin/accommodation/schema
 
 import {
   accommodationAmenityCategories,
-  accommodationAmenities,
+  AccommodationAmenityDefinition,
 } from "@/lib/accommodations/accommodation-amenities";
 
 import { AccommodationAmenityOption } from "./accommodation-amenity-option";
-
-type AccommodationAmenityDefinition = (typeof accommodationAmenities)[number];
 
 type AccommodationAmenityCategoryData = {
   id: (typeof accommodationAmenityCategories)[number]["id"];

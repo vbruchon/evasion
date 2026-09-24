@@ -9,7 +9,7 @@ const accommodationAmenityKeys = accommodationAmenities.map(
   (amenity) => amenity.key,
 ) as [AccommodationAmenityKey, ...AccommodationAmenityKey[]];
 
-export const accommodationAmenitySchema = z.object({
+const accommodationAmenitySchema = z.object({
   key: z.enum(accommodationAmenityKeys),
 
   details: z
