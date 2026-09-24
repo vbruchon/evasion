@@ -5,6 +5,8 @@ import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/av
 import type { AccommodationAvailabilityEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationAvailabilityCalendar } from "./accommodation-availability-calendar";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AccommodationAvailabilityProps = {
   unavailablePeriods: AccommodationUnavailablePeriodData[];
@@ -36,11 +38,8 @@ export const AccommodationAvailability = ({
   }
 
   return (
-    <section
-      id="disponibilites"
-      className="scroll-mt-20 border-b border-border/60 px-6 py-16 md:px-12 lg:px-20 lg:py-20 xl:px-24"
-    >
-      <div className="mx-auto grid max-w-420 gap-12 xl:grid-cols-[0.7fr_1.8fr] xl:gap-20">
+    <SiteSection id="disponibilites" gutters spacing="default">
+      <SiteContainer className="grid gap-12 xl:grid-cols-[0.7fr_1.8fr] xl:gap-20">
         <div className="xl:pt-4">
           <p className="section-eyebrow text-primary/85">Disponibilités</p>
 
@@ -132,7 +131,7 @@ export const AccommodationAvailability = ({
             />
           ) : null}
         </div>
-      </div>
-    </section>
+      </SiteContainer>
+    </SiteSection>
   );
 };

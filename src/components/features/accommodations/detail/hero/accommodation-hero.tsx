@@ -14,6 +14,7 @@ import { AccommodationKeyDetails } from "./accommodation-key-details";
 import { AccommodationHeroActions } from "./accommodation-hero-actions";
 import { AccommodationHeroGeneral } from "./accommodation-hero-general";
 import { AccommodationHighlights } from "./accommodation-highlights";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AccommodationHeroProps = {
   accommodation: AccommodationHeroData;
@@ -71,7 +72,8 @@ export const AccommodationHero = ({
   );
 
   return (
-    <section
+    <SiteSection
+      bordered={false}
       className={cn(
         "relative flex min-h-140 w-full flex-col justify-center overflow-hidden px-6 pt-32 md:min-h-155 md:px-12 md:pt-36 lg:min-h-200 lg:px-20 xl:px-24",
         showHighlights ? "pb-0 lg:pb-28" : "pb-16 md:pb-20 lg:pb-24",
@@ -138,6 +140,6 @@ export const AccommodationHero = ({
           />
         </AdminEditorRegion>
       ) : null}
-    </section>
+    </SiteSection>
   );
 };

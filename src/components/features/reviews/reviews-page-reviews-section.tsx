@@ -7,6 +7,8 @@ import type {
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { AllReviewsSection } from "@/components/features/reviews/all-reviews-section";
 import { RecentReviewsSection } from "@/components/features/reviews/recent-reviews-section";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
 
 type ReviewsPageReviewsSectionProps = {
   recentReviewsEyebrow: string;
@@ -35,12 +37,12 @@ export const ReviewsPageReviewsSection = ({
   activeEditorRegion,
   editorPreview = false,
 }: ReviewsPageReviewsSectionProps) => (
-  <section className="relative overflow-hidden border-b border-border/60 px-6 py-20 md:px-12 lg:px-20 lg:py-28 xl:px-24">
+  <SiteSection gutters spacing="large" className="relative overflow-hidden">
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(184,134,55,0.055),transparent_30%)]" />
 
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_75%,rgba(184,134,55,0.025),transparent_28%)]" />
 
-    <div className="relative mx-auto max-w-420">
+    <SiteContainer className="relative">
       <AdminEditorRegion
         region="recent"
         activeRegion={activeEditorRegion}
@@ -63,6 +65,6 @@ export const ReviewsPageReviewsSection = ({
           editorPreview={editorPreview}
         />
       </AdminEditorRegion>
-    </div>
-  </section>
+    </SiteContainer>
+  </SiteSection>
 );

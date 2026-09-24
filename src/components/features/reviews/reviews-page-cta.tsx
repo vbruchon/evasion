@@ -7,6 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import type { ReviewsPageCtaEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import { REVIEWS_PAGE_DEFAULT_CTA_IMAGE } from "@/lib/reviews/reviews-page-defaults";
 import { cn } from "@/lib/utils";
+import { SiteSection } from "@/components/layout/site-section";
 
 type ReviewsPageCtaProps = {
   eyebrow: string;
@@ -42,7 +43,7 @@ export const ReviewsPageCta = ({
   activeEditorRegion,
   editorPreview = false,
 }: ReviewsPageCtaProps) => (
-  <section className="relative flex min-h-100 items-center overflow-hidden border-b border-border/60 bg-background px-6 py-24 md:min-h-135 md:px-12 lg:min-h-130 lg:px-20">
+  <SiteSection className="relative flex min-h-100 items-center overflow-hidden bg-background px-6 py-24 md:min-h-135 md:px-12 lg:min-h-130 lg:px-20">
     <AdminEditorRegion
       region="image"
       activeRegion={activeEditorRegion}
@@ -110,5 +111,5 @@ export const ReviewsPageCta = ({
         <span className="text-primary/80">{handwrittenHighlight}</span>
       </p>
     </AdminEditorRegion>
-  </section>
+  </SiteSection>
 );

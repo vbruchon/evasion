@@ -1,5 +1,6 @@
-import { AboutPageContainer } from "@/components/features/about/about-page-container";
+import { SiteContainer } from "@/components/layout/site-container";
 import { AboutPageSectionHeading } from "@/components/features/about/about-page-section-heading";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AboutPageStatsProps = {
   eyebrow: string;
@@ -43,8 +44,14 @@ export const AboutPageStats = ({
   ];
 
   return (
-    <section className="relative overflow-hidden py-14 sm:py-16 lg:py-20">
-      <AboutPageContainer className="relative grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-x-20">
+    <SiteSection
+      bordered={false}
+      className="relative overflow-hidden py-14 sm:py-16 lg:py-20"
+    >
+      <SiteContainer
+        variant="inset"
+        className="relative grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-x-20"
+      >
         <header className="lg:col-span-4">
           <AboutPageSectionHeading index="03" eyebrow={eyebrow} />
 
@@ -78,7 +85,7 @@ export const AboutPageStats = ({
             </div>
           ))}
         </dl>
-      </AboutPageContainer>
-    </section>
+      </SiteContainer>
+    </SiteSection>
   );
 };

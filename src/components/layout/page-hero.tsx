@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
+import { SiteSection } from "./site-section";
 
 type PageHeroProps = {
   title: string;
@@ -10,9 +11,9 @@ type PageHeroProps = {
 
 export const PageHero = ({ title, description, className }: PageHeroProps) => {
   return (
-    <section
+    <SiteSection
       className={cn(
-        "relative flex min-h-75 items-center justify-center overflow-hidden border-b border-border/60 px-6 pb-10 pt-28 text-center md:min-h-85",
+        "relative flex min-h-75 items-center justify-center overflow-hidden px-6 pb-10 pt-28 text-center md:min-h-85",
         className,
       )}
     >
@@ -46,6 +47,6 @@ export const PageHero = ({ title, description, className }: PageHeroProps) => {
           </p>
         ) : null}
       </div>
-    </section>
+    </SiteSection>
   );
 };

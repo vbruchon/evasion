@@ -1,11 +1,12 @@
 import { BadgeCheck, Fingerprint, Heart, Sparkles } from "lucide-react";
 
-import { AboutPageContainer } from "@/components/features/about/about-page-container";
+import { SiteContainer } from "@/components/layout/site-container";
 import { AboutPageSectionHeading } from "@/components/features/about/about-page-section-heading";
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { Card, CardContent } from "@/components/ui/card";
 import type { AboutPagePhilosophyEditorSection } from "@/lib/admin/about/editor/editor-sections";
 import { cn } from "@/lib/utils";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AboutPagePhilosophyProps = {
   eyebrow: string;
@@ -68,8 +69,11 @@ export const AboutPagePhilosophy = ({
   ];
 
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
-      <AboutPageContainer className="relative">
+    <SiteSection
+      bordered={false}
+      className="relative overflow-hidden py-16 sm:py-20 lg:py-24"
+    >
+      <SiteContainer variant="inset" className="relative">
         <div className="grid gap-12 sm:gap-14 lg:grid-cols-12 lg:gap-x-20">
           <AdminEditorRegion
             region="introduction"
@@ -143,7 +147,7 @@ export const AboutPagePhilosophy = ({
             </div>
           </div>
         </div>
-      </AboutPageContainer>
-    </section>
+      </SiteContainer>
+    </SiteSection>
   );
 };

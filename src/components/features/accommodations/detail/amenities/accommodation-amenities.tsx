@@ -5,6 +5,8 @@ import { AccommodationAmenitiesCategories } from "./accommodation-amenities-cate
 import { AccommodationAmenitiesGrid } from "./accommodation-amenities-grid";
 import { AccommodationAmenitiesToggle } from "./accommodation-amenities-toggle";
 import type { AccommodationAmenityData } from "@/lib/accommodations/accommodation-amenities.types";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AccommodationAmenitiesProps = {
   amenities: AccommodationAmenityData[];
@@ -33,11 +35,8 @@ export const AccommodationAmenities = ({
   }
 
   return (
-    <section
-      id="equipements"
-      className="scroll-mt-20 border-b border-border/60 px-6 py-14 md:px-12 lg:px-20 lg:py-16 xl:px-24"
-    >
-      <div className="mx-auto max-w-420">
+    <SiteSection id="equipements" gutters spacing="compact">
+      <SiteContainer>
         <p className="section-eyebrow text-primary/85">Équipements</p>
 
         <h2 className="mt-2 font-heading text-3xl leading-tight tracking-[-0.02em] md:text-[2.5rem]">
@@ -73,7 +72,7 @@ export const AccommodationAmenities = ({
             </p>
           </div>
         )}
-      </div>
-    </section>
+      </SiteContainer>
+    </SiteSection>
   );
 };

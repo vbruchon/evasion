@@ -1,6 +1,7 @@
 import { AboutPageHeroCarousel } from "@/components/features/about/about-page-hero-carousel";
 import type { AboutHeroImage } from "@/lib/about/about-page.types";
 import { AboutPageLinkButton } from "@/components/features/about/about-page-link-button";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AboutPageHeroProps = {
   eyebrow: string;
@@ -18,7 +19,10 @@ export const AboutPageHero = ({
   images,
 }: AboutPageHeroProps) => {
   return (
-    <section className="relative min-h-190 overflow-hidden bg-background lg:h-[clamp(720px,86svh,860px)] lg:min-h-0">
+    <SiteSection
+      bordered={false}
+      className="relative min-h-190 overflow-hidden bg-background lg:h-[clamp(720px,86svh,860px)] lg:min-h-0"
+    >
       <AboutPageHeroCarousel images={images} />
 
       <div className="relative z-10 mx-auto flex h-full min-h-190 w-full max-w-[1920px] flex-col px-6 pb-10 pt-32 sm:px-12 lg:min-h-0 lg:px-20 lg:pt-36 xl:px-24">
@@ -52,6 +56,6 @@ export const AboutPageHero = ({
           </span>
         </div>
       </div>
-    </section>
+    </SiteSection>
   );
 };

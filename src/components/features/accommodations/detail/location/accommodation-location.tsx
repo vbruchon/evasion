@@ -8,6 +8,8 @@ import type {
   AccommodationAccessData,
   AccommodationLocationData,
 } from "@/lib/accommodations/accommodation-location.types";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AccommodationLocationProps = {
   accommodation: AccommodationLocationData;
@@ -35,11 +37,8 @@ export const AccommodationLocation = ({
   }
 
   return (
-    <section
-      id="localisation"
-      className="scroll-mt-20 border-b border-border/60 px-6 py-16 md:px-12 lg:px-20 lg:py-20 xl:px-24"
-    >
-      <div className="mx-auto grid max-w-420 gap-10 xl:grid-cols-[0.95fr_2fr] xl:items-stretch xl:gap-14">
+    <SiteSection id="localisation" gutters spacing="default">
+      <SiteContainer className="grid gap-10 xl:grid-cols-[0.95fr_2fr] xl:items-stretch xl:gap-14">
         <AccommodationLocationContent
           accommodation={accommodation}
           editorPreview={editorPreview}
@@ -61,7 +60,7 @@ export const AccommodationLocation = ({
             active={activeEditorRegion === "map"}
           />
         </div>
-      </div>
-    </section>
+      </SiteContainer>
+    </SiteSection>
   );
 };

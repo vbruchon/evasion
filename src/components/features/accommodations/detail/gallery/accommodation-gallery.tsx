@@ -15,6 +15,8 @@ import type { AccommodationDisplayImage } from "@/lib/accommodations/accommodati
 import { ACCOMMODATION_PREVIEW_PLACEHOLDERS } from "@/lib/accommodations/accommodation-preview-placeholders";
 
 import { AccommodationGalleryLightbox } from "./accommodation-gallery-lightbox";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AccommodationGalleryProps = {
   accommodationName: string;
@@ -59,11 +61,8 @@ export const AccommodationGallery = ({
 
   return (
     <>
-      <section
-        id="galerie"
-        className="scroll-mt-20 border-b border-border/60 px-6 py-14 md:px-12 lg:px-20 lg:py-16 xl:px-24"
-      >
-        <div className="mx-auto max-w-420">
+      <SiteSection id="galerie" gutters spacing="compact">
+        <SiteContainer>
           <p className="section-eyebrow text-primary/85">Galerie</p>
 
           <h2 className="mt-2 font-heading text-3xl leading-tight tracking-[-0.02em] md:text-[2.5rem]">
@@ -139,8 +138,8 @@ export const AccommodationGallery = ({
               </p>
             </div>
           )}
-        </div>
-      </section>
+        </SiteContainer>
+      </SiteSection>
 
       {images.length > 0 ? (
         <AccommodationGalleryLightbox

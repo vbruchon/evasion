@@ -1,3 +1,4 @@
+import { SiteSection } from "@/components/layout/site-section";
 import { AccommodationCard } from "./accommodation-card";
 import { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
@@ -9,7 +10,8 @@ export const AccommodationsSection = ({
   accommodations,
 }: AccommodationsSectionProps) => {
   return (
-    <section
+    <SiteSection
+      bordered={false}
       aria-label="Liste des logements"
       className="px-6 py-10 md:px-12 lg:px-16 lg:py-12 xl:px-20"
     >
@@ -32,6 +34,6 @@ export const AccommodationsSection = ({
           </p>
         </div>
       )}
-    </section>
+    </SiteSection>
   );
 };

@@ -8,6 +8,8 @@ import type { AccommodationReviewsEditorSection } from "@/lib/admin/accommodatio
 import { AccommodationReviewsCarousel } from "./accommodation-reviews-carousel";
 import { AccommodationReviewsDialog } from "./accommodation-reviews-dialog";
 import { AccommodationReviewsHeader } from "./accommodation-reviews-header";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AccommodationReviewsProps = {
   reviews: AccommodationReviewData[];
@@ -38,11 +40,8 @@ export const AccommodationReviews = ({
 
   return (
     <>
-      <section
-        id="avis"
-        className="scroll-mt-20 border-b border-border/60 px-6 py-16 md:px-12 lg:px-20 lg:py-20 xl:px-24"
-      >
-        <div className="mx-auto max-w-420">
+      <SiteSection id="avis" gutters spacing="default">
+        <SiteContainer>
           <AccommodationReviewsHeader
             title={title}
             description={description}
@@ -58,8 +57,8 @@ export const AccommodationReviews = ({
             editorPreview={editorPreview}
             activeEditorRegion={activeEditorRegion}
           />
-        </div>
-      </section>
+        </SiteContainer>
+      </SiteSection>
 
       {!editorPreview && averageRating !== null ? (
         <AccommodationReviewsDialog

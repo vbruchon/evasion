@@ -1,11 +1,12 @@
 import Image from "next/image";
 
-import { AboutPageContainer } from "@/components/features/about/about-page-container";
+import { SiteContainer } from "@/components/layout/site-container";
 import { AboutPageLinkButton } from "@/components/features/about/about-page-link-button";
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type { AboutPageCtaEditorSection } from "@/lib/admin/about/editor/editor-sections";
 import { ABOUT_PAGE_DEFAULT_CTA_IMAGE } from "@/lib/about/about-page-defaults";
 import { cn } from "@/lib/utils";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AboutPageCtaProps = {
   eyebrow: string;
@@ -37,7 +38,10 @@ export const AboutPageCta = ({
   activeEditorRegion,
   editorPreview = false,
 }: AboutPageCtaProps) => (
-  <section className="relative flex min-h-125 items-center overflow-hidden border-b border-border/60 bg-background py-20 sm:py-24 lg:py-28">
+  <SiteSection
+    bordered={false}
+    className="relative flex min-h-125 items-center overflow-hidden bg-background py-20 sm:py-24 lg:py-28"
+  >
     <AdminEditorRegion
       region="image"
       activeRegion={activeEditorRegion}
@@ -61,7 +65,7 @@ export const AboutPageCta = ({
       <div className="absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-background/75 to-transparent" />
     </AdminEditorRegion>
 
-    <AboutPageContainer className="relative z-10">
+    <SiteContainer variant="inset" className="relative z-10">
       <AdminEditorRegion
         region="content"
         activeRegion={activeEditorRegion}
@@ -88,6 +92,6 @@ export const AboutPageCta = ({
           {buttonLabel}
         </AboutPageLinkButton>
       </AdminEditorRegion>
-    </AboutPageContainer>
-  </section>
+    </SiteContainer>
+  </SiteSection>
 );

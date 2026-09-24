@@ -1,9 +1,10 @@
 import Image from "next/image";
 
-import { AboutPageContainer } from "@/components/features/about/about-page-container";
+import { SiteContainer } from "@/components/layout/site-container";
 import { AboutPageSectionHeading } from "@/components/features/about/about-page-section-heading";
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type { AboutPageSpiritEditorSection } from "@/lib/admin/about/editor/editor-sections";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AboutPageSpiritProps = {
   eyebrow: string;
@@ -25,8 +26,11 @@ export const AboutPageSpirit = ({
   activeEditorRegion,
 }: AboutPageSpiritProps) => {
   return (
-    <section className="relative overflow-hidden py-16 sm:py-20 lg:py-24">
-      <AboutPageContainer className="relative">
+    <SiteSection
+      bordered={false}
+      className="relative overflow-hidden py-16 sm:py-20 lg:py-24"
+    >
+      <SiteContainer variant="inset" className="relative">
         <AdminEditorRegion region="content" activeRegion={activeEditorRegion}>
           <AboutPageSectionHeading index="01" eyebrow={eyebrow} />
         </AdminEditorRegion>
@@ -105,7 +109,7 @@ export const AboutPageSpirit = ({
             </div>
           </figure>
         </div>
-      </AboutPageContainer>
-    </section>
+      </SiteContainer>
+    </SiteSection>
   );
 };

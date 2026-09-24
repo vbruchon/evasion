@@ -4,6 +4,7 @@ import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor
 import type { ReviewsPageHeroEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import { REVIEWS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/reviews/reviews-page-defaults";
 import Image from "next/image";
+import { SiteSection } from "@/components/layout/site-section";
 
 type ReviewsPageHeroProps = {
   eyebrow: string;
@@ -28,7 +29,7 @@ export const ReviewsPageHero = ({
   totalReviews,
   activeEditorRegion,
 }: ReviewsPageHeroProps) => (
-  <section className="relative min-h-155 overflow-hidden border-b border-border/60 bg-background md:min-h-165 lg:min-h-175">
+  <SiteSection className="relative min-h-155 overflow-hidden bg-background md:min-h-165 lg:min-h-175">
     <AdminEditorRegion
       region="image"
       activeRegion={activeEditorRegion}
@@ -119,5 +120,5 @@ export const ReviewsPageHero = ({
         {handwrittenSecondLine}
       </p>
     </AdminEditorRegion>
-  </section>
+  </SiteSection>
 );

@@ -6,6 +6,8 @@ import type {
 } from "@/lib/accommodations/accommodation-types";
 import { ACCOMMODATION_PREVIEW_PLACEHOLDERS } from "@/lib/accommodations/accommodation-preview-placeholders";
 import { cn } from "@/lib/utils";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
 
 type AccommodationPresentationProps = {
   accommodation: AccommodationPresentationData;
@@ -30,10 +32,10 @@ export const AccommodationPresentation = ({
   }
 
   return (
-    <section className="border-b border-border/60 px-6 py-16 md:px-12 lg:px-20 lg:py-20 xl:px-24">
-      <div
+    <SiteSection gutters spacing="default">
+      <SiteContainer
         className={cn(
-          "mx-auto grid max-w-420 items-center gap-10",
+          "grid items-center gap-10",
           showTextContent && showImage && "lg:grid-cols-2 lg:gap-16 xl:gap-20",
         )}
       >
@@ -88,7 +90,7 @@ export const AccommodationPresentation = ({
             {ACCOMMODATION_PREVIEW_PLACEHOLDERS.presentation.image}
           </div>
         ) : null}
-      </div>
-    </section>
+      </SiteContainer>
+    </SiteSection>
   );
 };
