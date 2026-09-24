@@ -1,5 +1,5 @@
 import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
-import type { AboutPageEditorImage } from "@/hooks/about/admin/editor/use-about-page-images";
+import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import type { AboutPageSpiritEditorSection } from "@/lib/admin/about/editor/editor-sections";
 import { ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE } from "@/lib/about/about-page-defaults";
 
@@ -8,7 +8,7 @@ import { AboutPageTextField } from "../../form/about-page-text-field";
 
 type AboutPageSpiritEditorProps = {
   section: AboutPageSpiritEditorSection;
-  image: AboutPageEditorImage | null;
+  image: AdminEditorImage | null;
   disabled: boolean;
   onImageSelected: (file: File) => void;
   onRemoveImage: () => void;

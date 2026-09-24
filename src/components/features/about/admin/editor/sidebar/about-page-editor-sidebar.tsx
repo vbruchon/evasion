@@ -1,7 +1,7 @@
 "use client";
 
 import type { AboutPageEditorNavigation } from "@/hooks/about/admin/editor/use-about-page-editor-navigation";
-import type { AboutPageEditorImage } from "@/hooks/about/admin/editor/use-about-page-images";
+import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { getAboutPageEditorSection } from "@/lib/admin/about/editor/editor-sections";
 import type { AboutPageAdminData } from "@/lib/admin/about/queries/get-about-page-admin-data";
 
@@ -12,8 +12,8 @@ type AboutPageEditorSidebarProps = {
   navigation: AboutPageEditorNavigation;
   data: AboutPageAdminData;
 
-  spiritImage: AboutPageEditorImage | null;
-  ctaImage: AboutPageEditorImage | null;
+  spiritImage: AdminEditorImage | null;
+  ctaImage: AdminEditorImage | null;
   disabled: boolean;
 
   onSpiritImageSelected: (file: File) => void;

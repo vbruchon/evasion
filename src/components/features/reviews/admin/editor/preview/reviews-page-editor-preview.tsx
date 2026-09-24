@@ -3,7 +3,7 @@
 import { useFormContext, useWatch } from "react-hook-form";
 
 import type { ReviewsPageEditorNavigation } from "@/hooks/reviews/admin/editor/use-reviews-page-editor-navigation";
-import type { ReviewsPageEditorImage } from "@/hooks/reviews/admin/editor/use-reviews-page-images";
+import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import type { ReviewsPageAdminData } from "@/lib/admin/reviews/queries/get-reviews-page-admin-data";
 import type { ReviewsPageContentValues } from "@/lib/reviews/reviews-page.schema";
 
@@ -14,8 +14,8 @@ import { ReviewsPageEditorPreviewReviews } from "./reviews-page-editor-preview-r
 type ReviewsPageEditorPreviewProps = {
   data: ReviewsPageAdminData;
   navigation: ReviewsPageEditorNavigation;
-  heroImage: ReviewsPageEditorImage | null;
-  ctaImage: ReviewsPageEditorImage | null;
+  heroImage: AdminEditorImage | null;
+  ctaImage: AdminEditorImage | null;
 };
 
 export const ReviewsPageEditorPreview = ({

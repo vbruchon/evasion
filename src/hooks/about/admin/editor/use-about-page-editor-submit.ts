@@ -5,97 +5,15 @@ import type { UseFormReturn } from "react-hook-form";
 
 import { updateAboutPageContent } from "~/app/admin/a-propos/action";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
-import type {
-  AboutPageContentValues,
-  AboutPageImageInput,
-} from "@/lib/about/about-page.schema";
+import type { AboutPageContentValues } from "@/lib/about/about-page.schema";
 
-import type { AboutPageEditorImage } from "./use-about-page-images";
-
-type AboutPageImageSlot = "spirit" | "cta";
-
-type PendingImageUpload = {
-  slot: AboutPageImageSlot;
-  file: File;
-};
+import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
+import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-editor-images";
 
 type UseAboutPageEditorSubmitOptions = {
   form: UseFormReturn<AboutPageContentValues>;
-  spiritImage: AboutPageEditorImage | null;
-  ctaImage: AboutPageEditorImage | null;
-};
-
-const prepareAboutPageImages = async (
-  spiritImage: AboutPageEditorImage | null,
-  ctaImage: AboutPageEditorImage | null,
-) => {
-  const pendingUploads: PendingImageUpload[] = [];
-
-  if (spiritImage?.file) {
-    pendingUploads.push({
-      slot: "spirit",
-      file: spiritImage.file,
-    });
-  }
-
-  if (ctaImage?.file) {
-    pendingUploads.push({
-      slot: "cta",
-      file: ctaImage.file,
-    });
-  }
-
-  const uploadedFiles =
-    pendingUploads.length > 0
-      ? await uploadFiles("aboutPageImages", {
-          files: pendingUploads.map(({ file }) => file),
-        })
-      : [];
-
-  if (uploadedFiles.length !== pendingUploads.length) {
-    throw new Error("Une image n’a pas pu être envoyée.");
-  }
-
-  const uploadedImages = new Map<AboutPageImageSlot, AboutPageImageInput>();
-
-  pendingUploads.forEach(({ slot }, index) => {
-    const uploadedFile = uploadedFiles[index];
-
-    if (!uploadedFile?.key || !uploadedFile.ufsUrl) {
-      throw new Error("Une image n’a pas pu être envoyée.");
-    }
-
-    uploadedImages.set(slot, {
-      fileKey: uploadedFile.key,
-      url: uploadedFile.ufsUrl,
-    });
-  });
-
-  const resolveImage = (
-    slot: AboutPageImageSlot,
-    image: AboutPageEditorImage | null,
-  ): AboutPageImageInput | null => {
-    if (!image) {
-      return null;
-    }
-
-    if (image.persisted) {
-      return image.persisted;
-    }
-
-    const uploadedImage = uploadedImages.get(slot);
-
-    if (!uploadedImage) {
-      throw new Error("Une image n’a pas pu être envoyée.");
-    }
-
-    return uploadedImage;
-  };
-
-  return {
-    spiritImage: resolveImage("spirit", spiritImage),
-    ctaImage: resolveImage("cta", ctaImage),
-  };
+  spiritImage: AdminEditorImage | null;
+  ctaImage: AdminEditorImage | null;
 };
 
 export const useAboutPageEditorSubmit = ({
@@ -120,9 +38,15 @@ export const useAboutPageEditorSubmit = ({
       setIsSaving(true);
 
       try {
-        const preparedImages = await prepareAboutPageImages(
-          spiritImage,
-          ctaImage,
+        const preparedImages = await prepareAdminEditorImages(
+          {
+            spiritImage,
+            ctaImage,
+          },
+          (files) =>
+            uploadFiles("aboutPageImages", {
+              files,
+            }),
         );
 
         const result = await updateAboutPageContent(

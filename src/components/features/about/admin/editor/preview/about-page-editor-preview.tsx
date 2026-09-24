@@ -3,7 +3,7 @@
 import { useFormContext, useWatch } from "react-hook-form";
 
 import type { AboutPageEditorNavigation } from "@/hooks/about/admin/editor/use-about-page-editor-navigation";
-import type { AboutPageEditorImage } from "@/hooks/about/admin/editor/use-about-page-images";
+import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import type { AboutPageAdminData } from "@/lib/admin/about/queries/get-about-page-admin-data";
 import type { AboutPageContentValues } from "@/lib/about/about-page.schema";
 
@@ -16,8 +16,8 @@ import { AboutPageEditorPreviewStats } from "./about-page-editor-preview-stats";
 type AboutPageEditorPreviewProps = {
   data: AboutPageAdminData;
   navigation: AboutPageEditorNavigation;
-  spiritImage: AboutPageEditorImage | null;
-  ctaImage: AboutPageEditorImage | null;
+  spiritImage: AdminEditorImage | null;
+  ctaImage: AdminEditorImage | null;
 };
 
 export const AboutPageEditorPreview = ({

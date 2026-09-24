@@ -1,14 +1,14 @@
 import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
 import { REVIEWS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/reviews/reviews-page-defaults";
 import type { ReviewsPageHeroEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
-import type { ReviewsPageEditorImage } from "@/hooks/reviews/admin/editor/use-reviews-page-images";
+import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 
 import { AdminImageEditor } from "@/components/layout/admin/form/admin-image-editor";
 import { ReviewsPageTextField } from "../../form/reviews-page-text-field";
 
 type ReviewsPageHeroEditorProps = {
   section: ReviewsPageHeroEditorSection;
-  image: ReviewsPageEditorImage | null;
+  image: AdminEditorImage | null;
   disabled: boolean;
   onImageSelected: (file: File) => void;
   onRemoveImage: () => void;

@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReviewsPageEditorNavigation } from "@/hooks/reviews/admin/editor/use-reviews-page-editor-navigation";
-import type { ReviewsPageEditorImage } from "@/hooks/reviews/admin/editor/use-reviews-page-images";
+import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { getReviewsPageEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import type { ReviewsPageAdminData } from "@/lib/admin/reviews/queries/get-reviews-page-admin-data";
 
@@ -12,8 +12,8 @@ type ReviewsPageEditorSidebarProps = {
   navigation: ReviewsPageEditorNavigation;
   data: ReviewsPageAdminData;
 
-  heroImage: ReviewsPageEditorImage | null;
-  ctaImage: ReviewsPageEditorImage | null;
+  heroImage: AdminEditorImage | null;
+  ctaImage: AdminEditorImage | null;
   disabled: boolean;
 
   onHeroImageSelected: (file: File) => void;
