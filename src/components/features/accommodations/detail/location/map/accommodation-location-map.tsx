@@ -7,7 +7,7 @@ import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor
 import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { useAccommodationLocationMap } from "@/hooks/accommodations/detail/use-accommodation-location-map";
-import { AccommodationLocationMapEmptyState } from "../../../admin/editor/section/location/accommodation-location-map-empty-state";
+import { AccommodationLocationMapEmptyState } from "./accommodation-location-map-empty-state";
 import { AccommodationLocationMapControls } from "./accommodation-location-map-controls";
 import { AccommodationLocationMapDialog } from "./accommodation-location-map-dialog";
 
