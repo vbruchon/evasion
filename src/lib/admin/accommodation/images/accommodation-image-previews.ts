@@ -20,40 +20,26 @@ export type AccommodationPreviewImage = {
   isExisting: boolean;
 };
 
-const readFileAsDataUrl = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      if (typeof reader.result === "string") {
-        resolve(reader.result);
-        return;
-      }
-
-      reject(new Error("Impossible de lire l’image."));
-    };
-
-    reader.onerror = () => {
-      reject(new Error("Impossible de lire l’image."));
-    };
-
-    reader.readAsDataURL(file);
-  });
-
-export const createAccommodationPreviewImages = async (
+export const createAccommodationPreviewImages = (
   files: File[],
   availableSlots: number,
-): Promise<AccommodationPreviewImage[]> => {
+): AccommodationPreviewImage[] => {
   const acceptedFiles = files.filter(isAdminImageFile).slice(0, availableSlots);
 
-  return Promise.all(
-    acceptedFiles.map(async (file) => ({
-      id: crypto.randomUUID(),
-      file,
-      url: await readFileAsDataUrl(file),
-      isExisting: false,
-    })),
-  );
+  return acceptedFiles.map((file) => ({
+    id: crypto.randomUUID(),
+    file,
+    url: URL.createObjectURL(file),
+    isExisting: false,
+  }));
+};
+
+export const revokeAccommodationPreviewImage = (
+  image: AccommodationPreviewImage,
+) => {
+  if (image.file && image.url.startsWith("blob:")) {
+    URL.revokeObjectURL(image.url);
+  }
 };
 
 export const getAccommodationPreviewFileSelection = (

@@ -1,17 +1,17 @@
 "use client";
 
-import { useCallback, useState } from "react";
-
-import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
 import {
   createAccommodationPreviewImages,
   getAccommodationPreviewFileSelection,
+  revokeAccommodationPreviewImage,
   syncAccommodationPreparedImages,
   type AccommodationInitialImage,
   type AccommodationPreviewImage,
 } from "@/lib/admin/accommodation/images/accommodation-image-previews";
+import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
 
 type UseAccommodationImagesOptions = {
   initialImages?: AccommodationInitialImage[];
@@ -43,6 +43,35 @@ export const useAccommodationImages = ({
     () => initialImages.find((image) => image.isPresentation)?.id ?? null,
   );
 
+  const previousImagesRef = useRef(images);
+
+  useEffect(() => {
+    const currentLocalPreviewUrls = new Set(
+      images
+        .filter((image) => image.file && image.url.startsWith("blob:"))
+        .map((image) => image.url),
+    );
+
+    previousImagesRef.current.forEach((image) => {
+      if (
+        image.file &&
+        image.url.startsWith("blob:") &&
+        !currentLocalPreviewUrls.has(image.url)
+      ) {
+        revokeAccommodationPreviewImage(image);
+      }
+    });
+
+    previousImagesRef.current = images;
+  }, [images]);
+
+  useEffect(
+    () => () => {
+      previousImagesRef.current.forEach(revokeAccommodationPreviewImage);
+    },
+    [],
+  );
+
   const notifyFilesChange = useCallback(
     (
       nextImages: AccommodationPreviewImage[],
@@ -63,17 +92,14 @@ export const useAccommodationImages = ({
   );
 
   const addFiles = useCallback(
-    async (files: File[]) => {
+    (files: File[]) => {
       const availableSlots = MAX_ACCOMMODATION_IMAGES - images.length;
 
       if (availableSlots <= 0) {
         return;
       }
 
-      const newImages = await createAccommodationPreviewImages(
-        files,
-        availableSlots,
-      );
+      const newImages = createAccommodationPreviewImages(files, availableSlots);
 
       if (newImages.length === 0) {
         return;
