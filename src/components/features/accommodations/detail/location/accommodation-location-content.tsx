@@ -1,26 +1,23 @@
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import type { AccommodationLocationData } from "@/lib/accommodations/accommodation-location.types";
-import { cn } from "@/lib/utils";
+import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 type AccommodationLocationContentProps = {
   accommodation: AccommodationLocationData;
   editorPreview: boolean;
-  active: boolean;
+  activeEditorRegion?: AccommodationLocationEditorSection;
 };
 
 export const AccommodationLocationContent = ({
   accommodation,
   editorPreview,
-  active,
+  activeEditorRegion,
 }: AccommodationLocationContentProps) => {
   return (
-    <div
-      data-editor-region={editorPreview ? "content" : undefined}
-      className={cn(
-        "flex flex-col justify-center xl:py-5",
-        editorPreview &&
-          "cursor-pointer transition-[outline-color] hover:outline hover:outline-primary/60 hover:outline-offset-1",
-        editorPreview && active && "outline outline-primary outline-offset-1",
-      )}
+    <AdminEditorRegion
+      region="content"
+      activeRegion={activeEditorRegion}
+      className="flex flex-col justify-center xl:py-5"
     >
       <p className="section-eyebrow text-primary/85">Localisation & accès</p>
 
@@ -46,6 +43,6 @@ export const AccommodationLocationContent = ({
           du logement.
         </p>
       ) : null}
-    </div>
+    </AdminEditorRegion>
   );
 };

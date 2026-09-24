@@ -3,6 +3,9 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
+
 import { useAccommodationLocationMap } from "@/hooks/accommodations/detail/use-accommodation-location-map";
 import { AccommodationLocationMapEmptyState } from "../../../admin/editor/section/location/accommodation-location-map-empty-state";
 import { AccommodationLocationMapControls } from "./accommodation-location-map-controls";
@@ -13,7 +16,7 @@ type AccommodationLocationMapProps = {
   longitude: number | null;
   radiusMeters: number | null;
   editorPreview?: boolean;
-  active?: boolean;
+  activeEditorRegion?: AccommodationLocationEditorSection;
   showControls?: boolean;
   allowExpand?: boolean;
   expanded?: boolean;
@@ -25,7 +28,7 @@ export const AccommodationLocationMap = ({
   longitude,
   radiusMeters,
   editorPreview = false,
-  active = false,
+  activeEditorRegion,
   showControls = true,
   allowExpand = true,
   expanded = false,
@@ -44,11 +47,6 @@ export const AccommodationLocationMap = ({
   const regionClassName = cn(
     "relative isolate min-h-90 overflow-hidden border border-transparent bg-[#080906] xl:min-h-115",
 
-    editorPreview &&
-      "cursor-pointer transition-colors hover:border-primary/60!",
-
-    editorPreview && active && "border-primary!",
-
     expanded && "h-full min-h-0 border-0 xl:min-h-0",
 
     className,
@@ -58,9 +56,10 @@ export const AccommodationLocationMap = ({
 
   return (
     <>
-      <div
-        data-editor-region={editorPreview ? "map" : undefined}
-        className={regionClassName}
+      <AdminEditorRegion
+        region="map"
+        activeRegion={activeEditorRegion}
+        className={cn(regionClassName, "after:inset-0 after:z-1000")}
       >
         <div
           ref={containerRef}
@@ -118,7 +117,7 @@ export const AccommodationLocationMap = ({
             onExpand={allowExpand ? () => setIsExpanded(true) : undefined}
           />
         ) : null}
-      </div>
+      </AdminEditorRegion>
 
       {allowExpand ? (
         <AccommodationLocationMapDialog

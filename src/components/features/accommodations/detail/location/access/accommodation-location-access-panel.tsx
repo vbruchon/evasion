@@ -1,24 +1,25 @@
 import { Info } from "lucide-react";
-import { cn } from "@/lib/utils";
 
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import {
   accommodationAccesses,
   getAccommodationAccess,
 } from "@/lib/accommodations/accommodation-accesses";
+import type { AccommodationAccessData } from "@/lib/accommodations/accommodation-location.types";
+import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 
 import { AccommodationAccessIcon } from "./accommodation-access-icon";
-import type { AccommodationAccessData } from "@/lib/accommodations/accommodation-location.types";
 
 type AccommodationLocationAccessPanelProps = {
   accesses: AccommodationAccessData[];
   editorPreview: boolean;
-  active: boolean;
+  activeEditorRegion?: AccommodationLocationEditorSection;
 };
 
 export const AccommodationLocationAccessPanel = ({
   accesses,
   editorPreview,
-  active,
+  activeEditorRegion,
 }: AccommodationLocationAccessPanelProps) => {
   const accessOrder = new Map<string, number>(
     accommodationAccesses.map((access, index) => [access.key, index]),
@@ -46,16 +47,11 @@ export const AccommodationLocationAccessPanel = ({
   const hasAccesses = visibleAccesses.length > 0;
 
   return (
-    <div
-      data-editor-region={editorPreview ? "access" : undefined}
-      className={cn(
-        "flex flex-col border-b border-border/60 bg-card/25 px-6 py-6 xl:border-r xl:border-b-0",
-        editorPreview &&
-          "cursor-pointer transition-shadow hover:ring-1 hover:ring-inset hover:ring-primary/60",
-        editorPreview && active && "ring-1 ring-inset ring-primary",
-      )}
+    <AdminEditorRegion
+      region="access"
+      activeRegion={activeEditorRegion}
+      className="flex flex-col border-b border-border/60 bg-card/25 px-6 py-6 after:inset-0 xl:border-r xl:border-b-0"
     >
-      {" "}
       <div>
         <p className="text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
           Accès
@@ -102,6 +98,6 @@ export const AccommodationLocationAccessPanel = ({
           <p className="text-[11px]">Localisation approximative</p>
         </div>
       </div>
-    </div>
+    </AdminEditorRegion>
   );
 };

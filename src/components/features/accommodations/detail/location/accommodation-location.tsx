@@ -3,7 +3,7 @@ import { getAccommodationAccess } from "@/lib/accommodations/accommodation-acces
 import { AccommodationLocationAccessPanel } from "./access/accommodation-location-access-panel";
 import { AccommodationLocationContent } from "./accommodation-location-content";
 import { AccommodationLocationMap } from "./map/accommodation-location-map";
-import { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
+import type { AccommodationLocationEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 import type {
   AccommodationAccessData,
   AccommodationLocationData,
@@ -42,14 +42,14 @@ export const AccommodationLocation = ({
         <AccommodationLocationContent
           accommodation={accommodation}
           editorPreview={editorPreview}
-          active={activeEditorRegion === "content"}
+          activeEditorRegion={activeEditorRegion}
         />
 
         <div className="grid overflow-hidden rounded-xl border border-border/60 bg-card/10 xl:grid-cols-[260px_minmax(0,1fr)]">
           <AccommodationLocationAccessPanel
             accesses={accesses}
             editorPreview={editorPreview}
-            active={activeEditorRegion === "access"}
+            activeEditorRegion={activeEditorRegion}
           />
 
           <AccommodationLocationMap
@@ -57,7 +57,7 @@ export const AccommodationLocation = ({
             longitude={accommodation.locationLongitude}
             radiusMeters={accommodation.locationRadiusMeters}
             editorPreview={editorPreview}
-            active={activeEditorRegion === "map"}
+            activeEditorRegion={activeEditorRegion}
           />
         </div>
       </SiteContainer>

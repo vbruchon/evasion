@@ -8,16 +8,17 @@ import type {
   AccommodationEditorSection,
   AccommodationHeroEditorSection,
   AccommodationLocationEditorSection,
+  AccommodationPresentationEditorSection,
   AccommodationReviewsEditorSection,
 } from "@/lib/admin/accommodation/editor/editor-sections";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
 
 import { AccommodationEditorPreviewAvailability } from "./accommodation-editor-preview-availability";
 import { AccommodationEditorPreviewHero } from "./accommodation-editor-preview-hero";
+import { AccommodationEditorPreviewPresentation } from "./accommodation-editor-preview-presentation";
 import { AccommodationEditorPreviewLocation } from "./accommodation-editor-preview-location";
 import { AccommodationEditorPreviewReviews } from "./accommodation-editor-preview-reviews";
 import { AdminEditorSection } from "@/components/layout/admin/editor/admin-editor-section";
-import { AccommodationPresentation } from "../../../detail/accommodation-presentation";
 import { AccommodationAmenities } from "../../../detail/amenities/accommodation-amenities";
 import { AccommodationGallery } from "../../../detail/gallery/accommodation-gallery";
 
@@ -30,6 +31,7 @@ type AccommodationEditorPreviewProps = {
 
   activeSection: AccommodationEditorSection;
   activeHeroSection: AccommodationHeroEditorSection;
+  activePresentationSection: AccommodationPresentationEditorSection;
   activeLocationSection: AccommodationLocationEditorSection;
   activeAvailabilitySection: AccommodationAvailabilityEditorSection;
   activeReviewsSection: AccommodationReviewsEditorSection;
@@ -37,6 +39,10 @@ type AccommodationEditorPreviewProps = {
   onSectionChange: (section: AccommodationEditorSection) => void;
 
   onHeroSectionChange: (section: AccommodationHeroEditorSection) => void;
+
+  onPresentationSectionChange: (
+    section: AccommodationPresentationEditorSection,
+  ) => void;
 
   onLocationSectionChange: (
     section: AccommodationLocationEditorSection,
@@ -56,11 +62,13 @@ export const AccommodationEditorPreview = ({
   presentationImageId,
   activeSection,
   activeHeroSection,
+  activePresentationSection,
   activeLocationSection,
   activeAvailabilitySection,
   activeReviewsSection,
   onSectionChange,
   onHeroSectionChange,
+  onPresentationSectionChange,
   onLocationSectionChange,
   onAvailabilitySectionChange,
   onReviewsSectionChange,
@@ -104,17 +112,14 @@ export const AccommodationEditorPreview = ({
         onHeroSectionChange={onHeroSectionChange}
       />
 
-      <AdminEditorSection
-        label="Présentation"
-        active={activeSection === "presentation"}
-        onSelect={() => onSectionChange("presentation")}
-      >
-        <AccommodationPresentation
-          accommodation={accommodation}
-          image={presentationImage}
-          editorPreview
-        />
-      </AdminEditorSection>
+      <AccommodationEditorPreviewPresentation
+        accommodation={accommodation}
+        image={presentationImage}
+        activeSection={activeSection}
+        activePresentationSection={activePresentationSection}
+        onSectionChange={onSectionChange}
+        onPresentationSectionChange={onPresentationSectionChange}
+      />
 
       <AdminEditorSection
         label="Équipements"

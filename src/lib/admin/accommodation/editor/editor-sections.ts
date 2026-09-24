@@ -135,6 +135,11 @@ export const isAccommodationHeroEditorSection = (
 ): id is AccommodationHeroEditorSection =>
   accommodationHeroEditorSections.some((section) => section.id === id);
 
+export const isAccommodationPresentationEditorSection = (
+  id: string,
+): id is AccommodationPresentationEditorSection =>
+  accommodationPresentationEditorSections.some((section) => section.id === id);
+
 export const isAccommodationLocationEditorSection = (
   id: string,
 ): id is AccommodationLocationEditorSection =>

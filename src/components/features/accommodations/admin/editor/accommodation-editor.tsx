@@ -24,6 +24,7 @@ export const AccommodationEditor = ({
   const {
     activeSection,
     activeHeroSection,
+    activePresentationSection,
     activeLocationSection,
     activeAvailabilitySection,
     activeReviewsSection,
@@ -31,6 +32,7 @@ export const AccommodationEditor = ({
     setMobileView,
     handleSectionChange,
     handleHeroSectionChange,
+    handlePresentationSectionChange,
     handleLocationSectionChange,
     handleAvailabilitySectionChange,
     handleReviewsSectionChange,
@@ -119,11 +121,13 @@ export const AccommodationEditor = ({
               reviews={accommodation.reviews}
               activeSection={activeSection}
               activeHeroSection={activeHeroSection}
+              activePresentationSection={activePresentationSection}
               activeLocationSection={activeLocationSection}
               activeAvailabilitySection={activeAvailabilitySection}
               activeReviewsSection={activeReviewsSection}
               onSectionChange={handleSectionChange}
               onHeroSectionChange={handleHeroSectionChange}
+              onPresentationSectionChange={handlePresentationSectionChange}
               onLocationSectionChange={handleLocationSectionChange}
               onAvailabilitySectionChange={handleAvailabilitySectionChange}
               onReviewsSectionChange={handleReviewsSectionChange}
