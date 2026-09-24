@@ -1,4 +1,9 @@
-export const ADMIN_IMAGE_MAX_FILE_SIZE = 8 * 1024 * 1024;
+export const ADMIN_IMAGE_MAX_FILE_SIZE_MB = 8;
+
+export const ADMIN_IMAGE_MAX_FILE_SIZE =
+  ADMIN_IMAGE_MAX_FILE_SIZE_MB * 1024 * 1024;
+
+export const ADMIN_IMAGE_UPLOAD_MAX_FILE_SIZE = "8MB" as const;
 
 export const ADMIN_IMAGE_ACCEPTED_TYPES = [
   "image/jpeg",
