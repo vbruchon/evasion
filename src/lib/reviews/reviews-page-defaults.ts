@@ -1,10 +1,10 @@
 export const REVIEWS_PAGE_CONTENT_ID = "reviews-page";
 
 export const REVIEWS_PAGE_DEFAULT_HERO_IMAGE =
-  "/images/pages/reviews/evasion-page-avis-hero.png";
+  "/images/pages/shared/evasion-page-hero.png";
 
 export const REVIEWS_PAGE_DEFAULT_CTA_IMAGE =
-  "/images/pages/reviews/evasion-page-avis-cta.png";
+  "/images/pages/shared/evasion-page-cta.png";
 
 export const reviewsPageContentDefaults = {
   heroEyebrow: "Avis voyageurs",

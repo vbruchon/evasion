@@ -4,7 +4,7 @@ export const ABOUT_PAGE_CONTENT_ID = "about-page";
 
 export const ABOUT_HERO_FALLBACK_IMAGES: AboutHeroImage[] = [
   {
-    src: "/images/pages/reviews/evasion-page-avis-hero.png",
+    src: "/images/pages/shared/evasion-page-hero.png",
     alt: "Une parenthèse romantique dans un hébergement Évasion",
     objectPosition: "center",
   },
@@ -14,7 +14,7 @@ export const ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE =
   "/images/accommodations/nature/gallery-01.png";
 
 export const ABOUT_PAGE_DEFAULT_CTA_IMAGE =
-  "/images/pages/reviews/evasion-page-avis-cta.png";
+  "/images/pages/shared/evasion-page-cta.png";
 
 export const aboutPageContentDefaults = {
   heroEyebrow: "À propos",
