@@ -23,3 +23,18 @@ export const isAdminImageFile = (file: File) =>
 
 export const isAdminImageFileSizeValid = (file: File) =>
   file.size <= ADMIN_IMAGE_MAX_FILE_SIZE;
+
+export const getAdminImageFileValidationError = (file: File) => {
+  if (!isAdminImageFile(file)) {
+    return `Utilisez une image ${ADMIN_IMAGE_FORMAT_LABEL}.`;
+  }
+
+  if (!isAdminImageFileSizeValid(file)) {
+    return `L’image ne doit pas dépasser ${ADMIN_IMAGE_MAX_FILE_SIZE_MB} Mo.`;
+  }
+
+  return null;
+};
+
+export const isValidAdminImageFile = (file: File) =>
+  getAdminImageFileValidationError(file) === null;

@@ -1,14 +1,16 @@
 "use client";
 
 import { ImagePlus, Upload } from "lucide-react";
-import { type ChangeEvent, type DragEvent, useRef } from "react";
+import { type ChangeEvent, type DragEvent, useRef, useState } from "react";
 
 import { MAX_ACCOMMODATION_IMAGES } from "@/lib/accommodations/accommodation-images";
-import { cn } from "@/lib/utils";
 import {
   ADMIN_IMAGE_ACCEPT,
   ADMIN_IMAGE_FORMAT_LABEL,
+  ADMIN_IMAGE_MAX_FILE_SIZE_MB,
+  getAdminImageFileValidationError,
 } from "@/lib/admin/images/image-upload";
+import { cn } from "@/lib/utils";
 
 type AccommodationImageDropzoneProps = {
   onFilesSelected: (files: File[]) => void;
@@ -22,13 +24,36 @@ export const AccommodationImageDropzone = ({
   compact = false,
 }: AccommodationImageDropzoneProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleFiles = (files: File[]) => {
+    const validFiles: File[] = [];
+    let validationError: string | null = null;
+
+    files.forEach((file) => {
+      const fileError = getAdminImageFileValidationError(file);
+
+      if (fileError) {
+        validationError ??= fileError;
+        return;
+      }
+
+      validFiles.push(file);
+    });
+
+    setError(validationError);
+
+    if (validFiles.length > 0) {
+      onFilesSelected(validFiles);
+    }
+  };
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files) {
       return;
     }
 
-    void onFilesSelected(Array.from(event.target.files));
+    handleFiles(Array.from(event.target.files));
 
     event.target.value = "";
   };
@@ -40,7 +65,7 @@ export const AccommodationImageDropzone = ({
       return;
     }
 
-    void onFilesSelected(Array.from(event.dataTransfer.files));
+    handleFiles(Array.from(event.dataTransfer.files));
   };
 
   const handleOpenFilePicker = () => {
@@ -111,10 +136,12 @@ export const AccommodationImageDropzone = ({
             compact ? "mt-3" : "mt-4",
           )}
         >
-          {ADMIN_IMAGE_FORMAT_LABEL} · 8 Mo · {MAX_ACCOMMODATION_IMAGES} images
-          max.
+          {ADMIN_IMAGE_FORMAT_LABEL} · {ADMIN_IMAGE_MAX_FILE_SIZE_MB} Mo ·{" "}
+          {MAX_ACCOMMODATION_IMAGES} images max.
         </p>
       </div>
+
+      {error ? <p className="mt-2 text-sm text-destructive">{error}</p> : null}
     </>
   );
 };

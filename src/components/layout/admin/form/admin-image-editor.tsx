@@ -8,9 +8,8 @@ import { Button } from "@/components/ui/button";
 import {
   ADMIN_IMAGE_ACCEPT,
   ADMIN_IMAGE_FORMAT_LABEL,
-  ADMIN_IMAGE_MAX_FILE_SIZE,
-  isAdminImageFile,
-  isAdminImageFileSizeValid,
+  ADMIN_IMAGE_MAX_FILE_SIZE_MB,
+  getAdminImageFileValidationError,
 } from "@/lib/admin/images/image-upload";
 import { cn } from "@/lib/utils";
 
@@ -23,8 +22,6 @@ type AdminImageEditorProps = {
   onFileSelected: (file: File) => void;
   onRemove: () => void;
 };
-
-const MAX_FILE_SIZE_MB = ADMIN_IMAGE_MAX_FILE_SIZE / (1024 * 1024);
 
 export const AdminImageEditor = ({
   title,
@@ -39,15 +36,11 @@ export const AdminImageEditor = ({
   const [error, setError] = useState<string | null>(null);
 
   const handleFile = (file: File) => {
-    setError(null);
+    const validationError = getAdminImageFileValidationError(file);
 
-    if (!isAdminImageFile(file)) {
-      setError(`Utilisez une image ${ADMIN_IMAGE_FORMAT_LABEL}.`);
-      return;
-    }
+    setError(validationError);
 
-    if (!isAdminImageFileSizeValid(file)) {
-      setError(`L’image ne doit pas dépasser ${MAX_FILE_SIZE_MB} Mo.`);
+    if (validationError) {
       return;
     }
 
@@ -149,7 +142,7 @@ export const AdminImageEditor = ({
         </div>
 
         <p className="mt-3 text-xs text-muted-foreground">
-          {ADMIN_IMAGE_FORMAT_LABEL} · {MAX_FILE_SIZE_MB} Mo max.
+          {ADMIN_IMAGE_FORMAT_LABEL} · {ADMIN_IMAGE_MAX_FILE_SIZE_MB} Mo max.
         </p>
       </div>
 

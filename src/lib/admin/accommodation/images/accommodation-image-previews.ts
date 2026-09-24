@@ -1,5 +1,5 @@
 import type { AccommodationUpdateImageInput } from "@/lib/admin/accommodation/schema";
-import { isAdminImageFile } from "@/lib/admin/images/image-upload";
+import { isValidAdminImageFile } from "@/lib/admin/images/image-upload";
 
 export type AccommodationInitialImage = {
   id: string;
@@ -24,7 +24,9 @@ export const createAccommodationPreviewImages = (
   files: File[],
   availableSlots: number,
 ): AccommodationPreviewImage[] => {
-  const acceptedFiles = files.filter(isAdminImageFile).slice(0, availableSlots);
+  const acceptedFiles = files
+    .filter(isValidAdminImageFile)
+    .slice(0, availableSlots);
 
   return acceptedFiles.map((file) => ({
     id: crypto.randomUUID(),
