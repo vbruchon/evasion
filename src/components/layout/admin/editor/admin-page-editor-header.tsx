@@ -5,17 +5,21 @@ import { ChevronLeft, ExternalLink, Save } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
-type ReviewsPageEditorHeaderProps = {
+type AdminPageEditorHeaderProps = {
+  title: string;
+  publicHref: string;
   hasCurrentChanges: boolean;
   disabled: boolean;
   isSaving: boolean;
 };
 
-export const ReviewsPageEditorHeader = ({
+export const AdminPageEditorHeader = ({
+  title,
+  publicHref,
   hasCurrentChanges,
   disabled,
   isSaving,
-}: ReviewsPageEditorHeaderProps) => (
+}: AdminPageEditorHeaderProps) => (
   <header className="flex shrink-0 items-center justify-between gap-2 border-b border-border/60 px-2 py-3 sm:px-4 lg:gap-6 lg:px-6 lg:py-4">
     <div className="flex min-w-0 items-center gap-3">
       <Button
@@ -41,7 +45,7 @@ export const ReviewsPageEditorHeader = ({
 
       <span className="hidden text-muted-foreground lg:inline">/</span>
 
-      <p className="hidden truncate font-medium lg:block">Page Avis</p>
+      <p className="hidden truncate font-medium lg:block">{title}</p>
 
       {hasCurrentChanges ? (
         <span className="hidden text-xs text-muted-foreground xl:inline">
@@ -56,7 +60,7 @@ export const ReviewsPageEditorHeader = ({
         variant="outline"
         size="icon"
         className="sm:hidden"
-        render={<Link href="/avis" target="_blank" />}
+        render={<Link href={publicHref} target="_blank" />}
         aria-label="Voir la page publique"
       >
         <ExternalLink />
@@ -66,7 +70,7 @@ export const ReviewsPageEditorHeader = ({
         nativeButton={false}
         variant="outline"
         className="hidden sm:inline-flex"
-        render={<Link href="/avis" target="_blank" />}
+        render={<Link href={publicHref} target="_blank" />}
       >
         <ExternalLink />
         Voir la page
@@ -79,7 +83,6 @@ export const ReviewsPageEditorHeader = ({
         className="sm:h-10 sm:px-6"
       >
         <Save />
-
         {isSaving ? "Enregistrement..." : "Enregistrer"}
       </Button>
     </div>

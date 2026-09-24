@@ -5,13 +5,12 @@ import { FormProvider } from "react-hook-form";
 import { useAccommodationEditor } from "@/hooks/accommodations/admin/editor/use-accommodation-editor";
 import { useAccommodationEditorNavigation } from "@/hooks/accommodations/admin/editor/use-accommodation-editor-navigation";
 import type { AccommodationUpdateData } from "@/lib/admin/accommodation/queries/get-accommodation-for-update";
-import { cn } from "@/lib/utils";
 
 import { AccommodationEditorDraftBanner } from "./accommodation-editor-draft-banner";
 import { AccommodationEditorHeader } from "./accommodation-editor-header";
-import { AdminEditorMobileNavigation } from "@/components/layout/admin/editor/admin-editor-mobile-navigation";
 import { AccommodationEditorSidebar } from "./sidebar/accommodation-editor-sidebar";
 import { AccommodationEditorPreview } from "./preview/accommodation-editor-preview";
+import { AdminPageEditorWorkspace } from "@/components/layout/admin/editor/admin-page-editor-workspace";
 
 type AccommodationEditorProps = {
   accommodation: AccommodationUpdateData;
@@ -108,24 +107,11 @@ export const AccommodationEditor = ({
           />
         ) : null}
 
-        <AdminEditorMobileNavigation
+        <AdminPageEditorWorkspace
           activeView={mobileView}
           onViewChange={setMobileView}
-        />
-
-        {form.formState.errors.root ? (
-          <div className="shrink-0 border-b border-destructive/30 bg-destructive/5 px-4 py-3 text-sm text-destructive sm:px-6">
-            {form.formState.errors.root.message}
-          </div>
-        ) : null}
-
-        <div className="min-h-0 flex-1 overflow-hidden lg:grid lg:grid-cols-[minmax(0,1fr)_420px]">
-          <div
-            className={cn(
-              "h-full min-h-0 overflow-y-auto",
-              mobileView !== "preview" && "hidden lg:block",
-            )}
-          >
+          errorMessage={form.formState.errors.root?.message}
+          preview={
             <AccommodationEditorPreview
               images={images}
               coverImageId={coverImageId}
@@ -142,14 +128,8 @@ export const AccommodationEditor = ({
               onAvailabilitySectionChange={handleAvailabilitySectionChange}
               onReviewsSectionChange={handleReviewsSectionChange}
             />
-          </div>
-
-          <div
-            className={cn(
-              "h-full min-h-0 overflow-hidden",
-              mobileView !== "editor" && "hidden lg:block",
-            )}
-          >
+          }
+          sidebar={
             <AccommodationEditorSidebar
               navigation={navigation}
               accommodationId={accommodation.id}
@@ -165,8 +145,8 @@ export const AccommodationEditor = ({
               onRemoveImage={removeImage}
               onReorderImages={reorderImages}
             />
-          </div>
-        </div>
+          }
+        />
       </form>
     </FormProvider>
   );
