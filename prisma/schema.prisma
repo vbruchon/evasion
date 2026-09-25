@@ -319,3 +319,44 @@ model AboutPageContent {
 
   @@map("about_page_content")
 }
+
+model FaqPageContent {
+  id String @id
+
+  heroEyebrow     String
+  heroTitle       String
+  heroDescription String @db.Text
+
+  questionsEyebrow     String
+  questionsTitle       String
+  questionsDescription String @db.Text
+
+  ctaEyebrow     String
+  ctaTitle       String
+  ctaDescription String @db.Text
+  ctaButtonLabel String
+
+  items FaqItem[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("faq_page_content")
+}
+
+model FaqItem {
+  id String @id @default(cuid())
+
+  question String
+  answer   String @db.Text
+  position Int    @default(0)
+
+  faqPageContentId String
+  faqPageContent   FaqPageContent @relation(fields: [faqPageContentId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([faqPageContentId, position])
+  @@map("faq_items")
+}
