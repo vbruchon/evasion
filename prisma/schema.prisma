@@ -325,18 +325,22 @@ model FaqPageContent {
 
   heroEyebrow               String
   heroTitle                 String
-  heroDescription           String @db.Text
+  heroDescription           String  @db.Text
   heroHandwrittenFirstLine  String
   heroHandwrittenSecondLine String
+  heroImageUrl              String?
+  heroImageFileKey          String?
 
   questionsEyebrow     String
   questionsTitle       String
   questionsDescription String @db.Text
 
-  ctaEyebrow     String
-  ctaTitle       String
-  ctaDescription String @db.Text
-  ctaButtonLabel String
+  ctaEyebrow      String
+  ctaTitle        String
+  ctaDescription  String  @db.Text
+  ctaButtonLabel  String
+  ctaImageUrl     String?
+  ctaImageFileKey String?
 
   items FaqItem[]
 

@@ -1,11 +1,16 @@
 import { afterAll, beforeEach, describe, expect, it, vi } from "vitest";
 
-const { revalidatePathMock } = vi.hoisted(() => ({
+const { deleteUploadThingFilesMock, revalidatePathMock } = vi.hoisted(() => ({
+  deleteUploadThingFilesMock: vi.fn(),
   revalidatePathMock: vi.fn(),
 }));
 
 vi.mock("next/cache", () => ({
   revalidatePath: revalidatePathMock,
+}));
+
+vi.mock("@/lib/admin/uploadthing/delete-files", () => ({
+  deleteUploadThingFiles: deleteUploadThingFilesMock,
 }));
 
 import { updateFaqPageContentAdmin } from "@/lib/admin/faq/commands/update-faq-page-content";
@@ -48,13 +53,18 @@ describe("updateFaqPageContentAdmin", () => {
     await prisma.$disconnect();
   });
 
-  it("creates and updates the faq page content and questions", async () => {
+  it("creates and updates the faq page content, questions and images", async () => {
     const firstResult = await updateFaqPageContentAdmin(
       createContentValues({
         heroTitle: "FAQ initiale",
         heroHandwrittenFirstLine: "Toutes les infos,",
         heroHandwrittenSecondLine: "au même endroit.",
       }),
+      {
+        url: "https://example.com/faq-hero-1.webp",
+        fileKey: "faq-hero-1",
+      },
+      null,
     );
 
     expect(firstResult).toEqual({
@@ -76,10 +86,17 @@ describe("updateFaqPageContentAdmin", () => {
     });
 
     expect(createdContent.items).toHaveLength(2);
+
     expect(createdContent).toMatchObject({
       heroTitle: "FAQ initiale",
       heroHandwrittenFirstLine: "Toutes les infos,",
       heroHandwrittenSecondLine: "au même endroit.",
+
+      heroImageUrl: "https://example.com/faq-hero-1.webp",
+      heroImageFileKey: "faq-hero-1",
+
+      ctaImageUrl: null,
+      ctaImageFileKey: null,
     });
 
     const [firstItem, secondItem] = createdContent.items;
@@ -101,6 +118,14 @@ describe("updateFaqPageContentAdmin", () => {
           },
         ],
       }),
+      {
+        url: "https://example.com/faq-hero-2.webp",
+        fileKey: "faq-hero-2",
+      },
+      {
+        url: "https://example.com/faq-cta.webp",
+        fileKey: "faq-cta-1",
+      },
     );
 
     expect(secondResult).toEqual({
@@ -121,7 +146,15 @@ describe("updateFaqPageContentAdmin", () => {
       },
     });
 
-    expect(updatedContent.heroTitle).toBe("FAQ modifiée");
+    expect(updatedContent).toMatchObject({
+      heroTitle: "FAQ modifiée",
+
+      heroImageUrl: "https://example.com/faq-hero-2.webp",
+      heroImageFileKey: "faq-hero-2",
+
+      ctaImageUrl: "https://example.com/faq-cta.webp",
+      ctaImageFileKey: "faq-cta-1",
+    });
 
     expect(updatedContent.items).toMatchObject([
       {
@@ -141,21 +174,30 @@ describe("updateFaqPageContentAdmin", () => {
       false,
     );
 
+    expect(deleteUploadThingFilesMock).toHaveBeenLastCalledWith(["faq-hero-1"]);
+
     expect(revalidatePathMock).toHaveBeenCalledWith("/faq");
     expect(revalidatePathMock).toHaveBeenCalledWith("/admin/faq");
   });
 
-  it("rejects invalid content", async () => {
+  it("cleans up newly uploaded images when validation fails", async () => {
     const result = await updateFaqPageContentAdmin(
       createContentValues({
         heroTitle: "",
       }),
+      {
+        url: "https://example.com/new-faq-hero.webp",
+        fileKey: "new-faq-hero",
+      },
+      null,
     );
 
     expect(result).toEqual({
       success: false,
       message: "Le contenu de la page FAQ est invalide.",
     });
+
+    expect(deleteUploadThingFilesMock).toHaveBeenCalledWith(["new-faq-hero"]);
 
     expect(
       await prisma.faqPageContent.findUnique({

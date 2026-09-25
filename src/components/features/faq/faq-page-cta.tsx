@@ -10,6 +10,7 @@ type FaqPageCtaProps = {
   title: string;
   description: string;
   buttonLabel: string;
+  imageUrl: string | null;
 };
 
 export const FaqPageCta = ({
@@ -17,9 +18,12 @@ export const FaqPageCta = ({
   title,
   description,
   buttonLabel,
+  imageUrl,
 }: FaqPageCtaProps) => (
   <PageCta
-    background={<PageCtaBackground imageUrl={FAQ_PAGE_DEFAULT_CTA_IMAGE} />}
+    background={
+      <PageCtaBackground imageUrl={imageUrl ?? FAQ_PAGE_DEFAULT_CTA_IMAGE} />
+    }
   >
     <PageCtaContent
       eyebrow={eyebrow}

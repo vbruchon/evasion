@@ -27,6 +27,12 @@ describe("faq page queries", () => {
     expect(content).toEqual({
       ...faqPageContentDefaults,
 
+      heroImageUrl: null,
+      heroImageFileKey: null,
+
+      ctaImageUrl: null,
+      ctaImageFileKey: null,
+
       items: faqPageItemsDefaults.map((item) => ({
         itemId: null,
         ...item,
@@ -58,6 +64,13 @@ describe("faq page queries", () => {
     });
 
     const content = await getFaqPageContent();
+
+    expect(content).toMatchObject({
+      heroImageUrl: null,
+      heroImageFileKey: null,
+      ctaImageUrl: null,
+      ctaImageFileKey: null,
+    });
 
     expect(
       content.items.map((item) => ({

@@ -26,6 +26,16 @@ export const faqPageContentSchema = z.object({
   ctaButtonLabel: z.string().trim().min(1).max(80),
 });
 
-export type FaqPageContentValues = z.infer<typeof faqPageContentSchema>;
+const faqPageImageSchema = z.object({
+  url: z.string().url(),
+  fileKey: z.string().trim().min(1),
+});
 
+export const faqPageImagesSchema = z.object({
+  heroImage: faqPageImageSchema.nullable(),
+  ctaImage: faqPageImageSchema.nullable(),
+});
+
+export type FaqPageContentValues = z.infer<typeof faqPageContentSchema>;
 export type FaqPageItemInput = z.infer<typeof faqPageItemSchema>;
+export type FaqPageImageInput = z.infer<typeof faqPageImageSchema>;

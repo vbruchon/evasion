@@ -11,6 +11,7 @@ type FaqPageHeroProps = {
   description: string;
   handwrittenFirstLine: string;
   handwrittenSecondLine: string;
+  imageUrl: string | null;
 };
 
 export const FaqPageHero = ({
@@ -19,6 +20,7 @@ export const FaqPageHero = ({
   description,
   handwrittenFirstLine,
   handwrittenSecondLine,
+  imageUrl,
 }: FaqPageHeroProps) => (
   <SiteSection
     bordered={false}
@@ -26,10 +28,11 @@ export const FaqPageHero = ({
   >
     <div className="absolute inset-0">
       <Image
-        src={FAQ_PAGE_DEFAULT_HERO_IMAGE}
+        src={imageUrl ?? FAQ_PAGE_DEFAULT_HERO_IMAGE}
         alt=""
         fill
         priority
+        unoptimized={imageUrl?.startsWith("blob:")}
         sizes="100vw"
         className="object-cover object-center"
       />

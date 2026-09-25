@@ -16,6 +16,7 @@ export default async function FaqPage() {
         description={content.heroDescription}
         handwrittenFirstLine={content.heroHandwrittenFirstLine}
         handwrittenSecondLine={content.heroHandwrittenSecondLine}
+        imageUrl={content.heroImageUrl}
       />
 
       <FaqPageQuestions
@@ -30,6 +31,7 @@ export default async function FaqPage() {
         title={content.ctaTitle}
         description={content.ctaDescription}
         buttonLabel={content.ctaButtonLabel}
+        imageUrl={content.ctaImageUrl}
       />
     </main>
   );

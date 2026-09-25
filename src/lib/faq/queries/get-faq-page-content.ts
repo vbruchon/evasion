@@ -18,6 +18,8 @@ export const getFaqPageContent = async () => {
       heroDescription: true,
       heroHandwrittenFirstLine: true,
       heroHandwrittenSecondLine: true,
+      heroImageUrl: true,
+      heroImageFileKey: true,
 
       questionsEyebrow: true,
       questionsTitle: true,
@@ -27,6 +29,8 @@ export const getFaqPageContent = async () => {
       ctaTitle: true,
       ctaDescription: true,
       ctaButtonLabel: true,
+      ctaImageUrl: true,
+      ctaImageFileKey: true,
 
       items: {
         orderBy: {
@@ -56,6 +60,12 @@ export const getFaqPageContent = async () => {
 
   return {
     ...faqPageContentDefaults,
+
+    heroImageUrl: null,
+    heroImageFileKey: null,
+
+    ctaImageUrl: null,
+    ctaImageFileKey: null,
 
     items: faqPageItemsDefaults.map((item) => ({
       itemId: null,
