@@ -1,3 +1,4 @@
+import { sendContactRequestEmail } from "@/lib/contact/emails/send-contact-request-email";
 import { prisma } from "@/lib/prisma";
 
 import {
@@ -43,13 +44,23 @@ export const submitContactRequest = async (values: ContactRequestValues) => {
     }
   }
 
-  console.log("Contact request", {
-    firstName: data.firstName || null,
-    email: data.email,
-    subject: data.subject,
-    accommodation,
-    message: data.message,
-  });
+  try {
+    await sendContactRequestEmail({
+      firstName: data.firstName || null,
+      email: data.email,
+      subject: data.subject,
+      accommodationName: accommodation?.name ?? null,
+      message: data.message,
+    });
+  } catch (error) {
+    console.error("Unable to send contact request email", error);
+
+    return {
+      success: false as const,
+      message:
+        "Votre message n’a pas pu être envoyé. Veuillez réessayer dans quelques instants.",
+    };
+  }
 
   return {
     success: true as const,

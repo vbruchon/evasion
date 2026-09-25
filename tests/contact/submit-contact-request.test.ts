@@ -9,18 +9,28 @@ import {
 } from "vitest";
 
 import { submitContactRequest } from "@/lib/contact/commands/submit-contact-request";
+import { sendContactRequestEmail } from "@/lib/contact/emails/send-contact-request-email";
 import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
 
+vi.mock("@/lib/contact/emails/send-contact-request-email", () => ({
+  sendContactRequestEmail: vi.fn(),
+}));
+
+const mockedSendContactRequestEmail = vi.mocked(sendContactRequestEmail);
+
 describe("submitContactRequest", () => {
   beforeEach(async () => {
-    vi.spyOn(console, "log").mockImplementation(() => {});
+    mockedSendContactRequestEmail.mockResolvedValue(undefined);
+
+    vi.spyOn(console, "error").mockImplementation(() => {});
 
     await prisma.accommodation.deleteMany();
   });
 
   afterEach(() => {
+    vi.clearAllMocks();
     vi.restoreAllMocks();
   });
 
@@ -28,7 +38,7 @@ describe("submitContactRequest", () => {
     await prisma.$disconnect();
   });
 
-  it("accepts a request for a published accommodation", async () => {
+  it("sends a request for a published accommodation", async () => {
     const accommodation = await createAccommodationFixture({
       status: "PUBLISHED",
     });
@@ -44,9 +54,19 @@ describe("submitContactRequest", () => {
     expect(result).toEqual({
       success: true,
     });
+
+    expect(mockedSendContactRequestEmail).toHaveBeenCalledOnce();
+
+    expect(mockedSendContactRequestEmail).toHaveBeenCalledWith({
+      firstName: "Vivian",
+      email: "vivian@example.com",
+      subject: "ACCOMMODATION",
+      accommodationName: accommodation.name,
+      message: "Bonjour.",
+    });
   });
 
-  it("accepts a request without an accommodation", async () => {
+  it("sends a request without an accommodation", async () => {
     const result = await submitContactRequest({
       firstName: "",
       email: "vivian@example.com",
@@ -57,6 +77,16 @@ describe("submitContactRequest", () => {
 
     expect(result).toEqual({
       success: true,
+    });
+
+    expect(mockedSendContactRequestEmail).toHaveBeenCalledOnce();
+
+    expect(mockedSendContactRequestEmail).toHaveBeenCalledWith({
+      firstName: null,
+      email: "vivian@example.com",
+      subject: "OTHER",
+      accommodationName: null,
+      message: "Bonjour.",
     });
   });
 
@@ -77,6 +107,8 @@ describe("submitContactRequest", () => {
       success: false,
       message: "Le logement sélectionné n’est pas disponible.",
     });
+
+    expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
   });
 
   it("rejects an unknown accommodation", async () => {
@@ -92,6 +124,8 @@ describe("submitContactRequest", () => {
       success: false,
       message: "Le logement sélectionné n’est pas disponible.",
     });
+
+    expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
   });
 
   it("rejects an invalid request", async () => {
@@ -107,5 +141,29 @@ describe("submitContactRequest", () => {
       success: false,
       message: "Les informations de votre demande sont invalides.",
     });
+
+    expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
+  });
+
+  it("returns an error when the email cannot be sent", async () => {
+    mockedSendContactRequestEmail.mockRejectedValueOnce(
+      new Error("Resend unavailable"),
+    );
+
+    const result = await submitContactRequest({
+      firstName: "Vivian",
+      email: "vivian@example.com",
+      subject: "OTHER",
+      accommodationId: null,
+      message: "Bonjour.",
+    });
+
+    expect(result).toEqual({
+      success: false,
+      message:
+        "Votre message n’a pas pu être envoyé. Veuillez réessayer dans quelques instants.",
+    });
+
+    expect(mockedSendContactRequestEmail).toHaveBeenCalledOnce();
   });
 });
