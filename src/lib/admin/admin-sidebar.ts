@@ -1,4 +1,10 @@
-import { CircleUserRound, House, LayoutDashboard, Star } from "lucide-react";
+import {
+  CircleHelp,
+  CircleUserRound,
+  House,
+  LayoutDashboard,
+  Star,
+} from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 
 type AdminNavigationItem = {
@@ -35,6 +41,11 @@ export const adminNavigation: AdminNavigationGroup[] = [
         label: "Avis",
         href: "/admin/avis",
         icon: Star,
+      },
+      {
+        label: "FAQ",
+        href: "/admin/faq",
+        icon: CircleHelp,
       },
       {
         label: "À propos",

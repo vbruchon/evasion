@@ -36,6 +36,7 @@ export const uploadRouter = {
   accommodationImages: createAdminImageUploader(15),
   reviewsPageImages: createAdminImageUploader(2),
   aboutPageImages: createAdminImageUploader(2),
+  faqPageImages: createAdminImageUploader(2),
 } satisfies FileRouter;
 
 export type UploadRouter = typeof uploadRouter;
