@@ -323,9 +323,11 @@ model AboutPageContent {
 model FaqPageContent {
   id String @id
 
-  heroEyebrow     String
-  heroTitle       String
-  heroDescription String @db.Text
+  heroEyebrow               String
+  heroTitle                 String
+  heroDescription           String @db.Text
+  heroHandwrittenFirstLine  String
+  heroHandwrittenSecondLine String
 
   questionsEyebrow     String
   questionsTitle       String

@@ -14,6 +14,8 @@ export default async function FaqPage() {
         eyebrow={content.heroEyebrow}
         title={content.heroTitle}
         description={content.heroDescription}
+        handwrittenFirstLine={content.heroHandwrittenFirstLine}
+        handwrittenSecondLine={content.heroHandwrittenSecondLine}
       />
 
       <FaqPageQuestions

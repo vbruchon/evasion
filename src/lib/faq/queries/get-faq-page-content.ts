@@ -16,6 +16,8 @@ export const getFaqPageContent = async () => {
       heroEyebrow: true,
       heroTitle: true,
       heroDescription: true,
+      heroHandwrittenFirstLine: true,
+      heroHandwrittenSecondLine: true,
 
       questionsEyebrow: true,
       questionsTitle: true,

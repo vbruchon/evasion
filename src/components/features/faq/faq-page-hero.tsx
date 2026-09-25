@@ -9,12 +9,16 @@ type FaqPageHeroProps = {
   eyebrow: string;
   title: string;
   description: string;
+  handwrittenFirstLine: string;
+  handwrittenSecondLine: string;
 };
 
 export const FaqPageHero = ({
   eyebrow,
   title,
   description,
+  handwrittenFirstLine,
+  handwrittenSecondLine,
 }: FaqPageHeroProps) => (
   <SiteSection
     bordered={false}
@@ -65,11 +69,11 @@ export const FaqPageHero = ({
 
     <div className="absolute bottom-12 right-10 z-10 hidden -rotate-5 text-right font-handwritten md:block lg:bottom-14 lg:right-16 xl:right-24">
       <p className="text-[1.9rem] leading-none text-white/95">
-        Toutes les réponses,
+        {handwrittenFirstLine}
       </p>
 
       <p className="mt-1 text-[1.8rem] leading-none text-primary">
-        simplement.
+        {handwrittenSecondLine}
       </p>
     </div>
   </SiteSection>

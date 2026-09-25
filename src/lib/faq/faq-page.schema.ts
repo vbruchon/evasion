@@ -11,6 +11,8 @@ export const faqPageContentSchema = z.object({
   heroEyebrow: z.string().trim().min(1).max(80),
   heroTitle: z.string().trim().min(1).max(160),
   heroDescription: z.string().trim().min(1).max(500),
+  heroHandwrittenFirstLine: z.string().trim().min(1).max(120),
+  heroHandwrittenSecondLine: z.string().trim().min(1).max(120),
 
   questionsEyebrow: z.string().trim().min(1).max(80),
   questionsTitle: z.string().trim().min(1).max(160),

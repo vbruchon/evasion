@@ -52,6 +52,8 @@ describe("updateFaqPageContentAdmin", () => {
     const firstResult = await updateFaqPageContentAdmin(
       createContentValues({
         heroTitle: "FAQ initiale",
+        heroHandwrittenFirstLine: "Toutes les infos,",
+        heroHandwrittenSecondLine: "au même endroit.",
       }),
     );
 
@@ -73,8 +75,12 @@ describe("updateFaqPageContentAdmin", () => {
       },
     });
 
-    expect(createdContent.heroTitle).toBe("FAQ initiale");
     expect(createdContent.items).toHaveLength(2);
+    expect(createdContent).toMatchObject({
+      heroTitle: "FAQ initiale",
+      heroHandwrittenFirstLine: "Toutes les infos,",
+      heroHandwrittenSecondLine: "au même endroit.",
+    });
 
     const [firstItem, secondItem] = createdContent.items;
 

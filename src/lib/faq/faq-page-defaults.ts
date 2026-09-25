@@ -11,6 +11,8 @@ export const faqPageContentDefaults = {
   heroTitle: "Tout ce qu’il faut savoir avant votre Évasion.",
   heroDescription:
     "Retrouvez les réponses aux questions les plus fréquentes pour préparer votre séjour simplement et profiter pleinement de votre parenthèse.",
+  heroHandwrittenFirstLine: "Toutes les réponses,",
+  heroHandwrittenSecondLine: "simplement.",
 
   questionsEyebrow: "FAQ",
   questionsTitle: "Vos questions, nos réponses.",
