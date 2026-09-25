@@ -1,5 +1,11 @@
 export const FAQ_PAGE_CONTENT_ID = "faq-page";
 
+export const FAQ_PAGE_DEFAULT_HERO_IMAGE =
+  "/images/pages/shared/evasion-page-hero.png";
+
+export const FAQ_PAGE_DEFAULT_CTA_IMAGE =
+  "/images/pages/shared/evasion-page-cta.png";
+
 export const faqPageContentDefaults = {
   heroEyebrow: "Questions fréquentes",
   heroTitle: "Tout ce qu’il faut savoir avant votre Évasion.",
@@ -32,7 +38,7 @@ export const faqPageItemsDefaults = [
   {
     question: "L’adresse exacte du logement est-elle affichée sur le site ?",
     answer:
-      "Non. Afin de préserver la tranquillité des lieux, seule une localisation approximative est présentée sur le site.",
+      "Non. Afin de préserver la tranquillité des lieux, seule une localisation approximative est présentée sur le site. Vous recevrez l'adresse exacte après votre réservation.",
   },
   {
     question: "Puis-je modifier ou annuler une réservation ?",
