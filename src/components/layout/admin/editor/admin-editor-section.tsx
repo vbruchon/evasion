@@ -47,8 +47,12 @@ export const AdminEditorSection = ({
       aria-label={`Modifier la section ${label}`}
       aria-pressed={active}
       className={cn(
-        "group relative cursor-pointer ring-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-        active ? "ring-primary" : "ring-transparent hover:ring-primary/40",
+        "group relative cursor-pointer transition focus-visible:outline-none",
+        "after:pointer-events-none after:absolute after:inset-0 after:z-60 after:ring-1 after:ring-inset after:transition",
+        "focus-visible:after:ring-2 focus-visible:after:ring-primary/70",
+        active
+          ? "after:ring-primary/50"
+          : "after:ring-transparent hover:after:ring-primary/25",
       )}
       onClick={handleClick}
       onKeyDown={handleKeyDown}

@@ -8,6 +8,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import type { FaqPageQuestionsEditorSection } from "@/lib/admin/faq/editor/editor-sections";
+import { cn } from "@/lib/utils";
 
 type FaqPageQuestion = {
   itemId: string | null;
@@ -20,6 +23,8 @@ type FaqPageQuestionsProps = {
   title: string;
   description: string;
   items: FaqPageQuestion[];
+  activeEditorRegion?: FaqPageQuestionsEditorSection;
+  editorPreview?: boolean;
 };
 
 export const FaqPageQuestions = ({
@@ -27,6 +32,8 @@ export const FaqPageQuestions = ({
   title,
   description,
   items,
+  activeEditorRegion,
+  editorPreview = false,
 }: FaqPageQuestionsProps) => (
   <SiteSection
     gutters
@@ -38,7 +45,11 @@ export const FaqPageQuestions = ({
     />
 
     <SiteContainer className="relative">
-      <div className="mx-auto max-w-3xl text-center">
+      <AdminEditorRegion
+        region="content"
+        activeRegion={activeEditorRegion}
+        className="mx-auto max-w-3xl text-center"
+      >
         <p className="section-eyebrow text-primary/85">{eyebrow}</p>
 
         <div className="mx-auto mt-4 h-px w-8 bg-primary/80" />
@@ -50,12 +61,19 @@ export const FaqPageQuestions = ({
         <p className="mx-auto mt-6 max-w-xl text-sm leading-7 text-muted-foreground md:text-base">
           {description}
         </p>
-      </div>
+      </AdminEditorRegion>
 
-      <div className="mx-auto mt-14 max-w-5xl lg:mt-16">
+      <AdminEditorRegion
+        region="items"
+        activeRegion={activeEditorRegion}
+        className="mx-auto mt-14 max-w-5xl lg:mt-16"
+      >
         <Accordion
           defaultValue={items.length > 0 ? ["faq-0"] : []}
-          className="border-t border-border/60"
+          className={cn(
+            "border-t border-border/60",
+            editorPreview && "[&_button]:pointer-events-none",
+          )}
         >
           {items.map((item, index) => {
             const value = `faq-${index}`;
@@ -93,7 +111,7 @@ export const FaqPageQuestions = ({
             );
           })}
         </Accordion>
-      </div>
+      </AdminEditorRegion>
 
       <div
         aria-hidden

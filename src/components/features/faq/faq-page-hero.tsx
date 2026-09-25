@@ -1,8 +1,10 @@
 import Image from "next/image";
 
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { PageHeroContent } from "@/components/layout/page-hero-content";
 import { SiteContainer } from "@/components/layout/site-container";
 import { SiteSection } from "@/components/layout/site-section";
+import type { FaqPageHeroEditorSection } from "@/lib/admin/faq/editor/editor-sections";
 import { FAQ_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/faq/faq-page-defaults";
 
 type FaqPageHeroProps = {
@@ -12,6 +14,7 @@ type FaqPageHeroProps = {
   handwrittenFirstLine: string;
   handwrittenSecondLine: string;
   imageUrl: string | null;
+  activeEditorRegion?: FaqPageHeroEditorSection;
 };
 
 export const FaqPageHero = ({
@@ -21,12 +24,17 @@ export const FaqPageHero = ({
   handwrittenFirstLine,
   handwrittenSecondLine,
   imageUrl,
+  activeEditorRegion,
 }: FaqPageHeroProps) => (
   <SiteSection
     bordered={false}
     className="relative min-h-145 overflow-hidden bg-background md:min-h-155 lg:min-h-165"
   >
-    <div className="absolute inset-0">
+    <AdminEditorRegion
+      region="image"
+      activeRegion={activeEditorRegion}
+      className="absolute inset-0"
+    >
       <Image
         src={imageUrl ?? FAQ_PAGE_DEFAULT_HERO_IMAGE}
         alt=""
@@ -46,13 +54,17 @@ export const FaqPageHero = ({
       <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-black/25 to-transparent" />
 
       <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-background/60 to-transparent" />
-    </div>
+    </AdminEditorRegion>
 
     <SiteContainer
       variant="inset"
       className="relative z-10 flex min-h-145 items-center pb-14 pt-28 md:min-h-155 md:pb-16 md:pt-32 lg:min-h-165"
     >
-      <div className="w-full max-w-sm lg:w-135 lg:max-w-none">
+      <AdminEditorRegion
+        region="content"
+        activeRegion={activeEditorRegion}
+        className="w-full max-w-sm lg:w-135 lg:max-w-none"
+      >
         <PageHeroContent
           eyebrow={eyebrow}
           title={title}
@@ -67,10 +79,14 @@ export const FaqPageHero = ({
             Préparer · Réserver · Profiter
           </span>
         </div>
-      </div>
+      </AdminEditorRegion>
     </SiteContainer>
 
-    <div className="absolute bottom-12 right-10 z-10 hidden -rotate-5 text-right font-handwritten md:block lg:bottom-14 lg:right-16 xl:right-24">
+    <AdminEditorRegion
+      region="content"
+      activeRegion={activeEditorRegion}
+      className="absolute bottom-12 right-10 z-10 hidden -rotate-5 text-right font-handwritten md:block lg:bottom-14 lg:right-16 xl:right-24"
+    >
       <p className="text-[1.9rem] leading-none text-white/95">
         {handwrittenFirstLine}
       </p>
@@ -78,6 +94,6 @@ export const FaqPageHero = ({
       <p className="mt-1 text-[1.8rem] leading-none text-primary">
         {handwrittenSecondLine}
       </p>
-    </div>
+    </AdminEditorRegion>
   </SiteSection>
 );
