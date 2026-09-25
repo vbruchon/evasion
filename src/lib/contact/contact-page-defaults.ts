@@ -1,5 +1,8 @@
 export const CONTACT_PAGE_CONTENT_ID = "contact-page";
 
+export const CONTACT_PAGE_DEFAULT_IMAGE =
+  "/images/pages/shared/evasion-page-hero.png";
+
 export const contactPageContentDefaults = {
   eyebrow: "Contact",
   handwritten: "Une question ?",
