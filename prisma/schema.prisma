@@ -366,3 +366,24 @@ model FaqItem {
   @@index([faqPageContentId, position])
   @@map("faq_items")
 }
+
+model ContactPageContent {
+  id String @id
+
+  eyebrow     String
+  handwritten String
+  title       String
+  description String @db.Text
+
+  formTitle   String
+  submitLabel String
+
+  successEyebrow     String
+  successTitle       String
+  successDescription String @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_page_content")
+}
