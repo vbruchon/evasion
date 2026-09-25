@@ -21,7 +21,8 @@
     "test:accommodations": "dotenv -e .env.test -- vitest run tests/accommodations",
     "test:reviews": "dotenv -e .env.test -- vitest run tests/reviews",
     "test:about": "dotenv -e .env.test -- vitest run tests/about",
-    "can-commit": "pnpm exec tsc --noEmit && pnpm lint && git diff --check && pnpm test:accommodations && pnpm test:reviews && pnpm test:about "
+    "test:faq": "dotenv -e .env.test -- vitest run tests/faq",
+    "can-commit": "pnpm exec tsc --noEmit && pnpm lint && git diff --check && pnpm test:accommodations && pnpm test:reviews && pnpm test:about && pnpm test:faq"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
