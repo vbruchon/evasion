@@ -1,3 +1,4 @@
+import { verifyTurnstileToken } from "@/lib/contact/anti-bot/verify-turnstile-token";
 import { sendContactRequestEmail } from "@/lib/contact/emails/send-contact-request-email";
 import { checkContactRequestRateLimit } from "@/lib/contact/rate-limit/contact-request-rate-limit";
 import { prisma } from "@/lib/prisma";
@@ -9,11 +10,12 @@ import {
 
 type SubmitContactRequestOptions = {
   ipAddress: string;
+  turnstileToken: string;
 };
 
 export const submitContactRequest = async (
   values: ContactRequestValues,
-  { ipAddress }: SubmitContactRequestOptions,
+  { ipAddress, turnstileToken }: SubmitContactRequestOptions,
 ) => {
   const validation = contactRequestSchema.safeParse(values);
 
@@ -31,6 +33,26 @@ export const submitContactRequest = async (
       success: false as const,
       message:
         "Trop de demandes ont été envoyées récemment. Veuillez réessayer dans quelques minutes.",
+    };
+  }
+
+  let turnstileValid = false;
+
+  try {
+    turnstileValid = await verifyTurnstileToken(turnstileToken, ipAddress);
+  } catch (error) {
+    console.error("Unable to verify Turnstile token", error);
+
+    return {
+      success: false as const,
+      message: "La vérification de sécurité a échoué. Veuillez réessayer.",
+    };
+  }
+
+  if (!turnstileValid) {
+    return {
+      success: false as const,
+      message: "La vérification de sécurité a échoué. Veuillez réessayer.",
     };
   }
 

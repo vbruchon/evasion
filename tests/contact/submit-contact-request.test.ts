@@ -8,12 +8,17 @@ import {
   vi,
 } from "vitest";
 
+import { verifyTurnstileToken } from "@/lib/contact/anti-bot/verify-turnstile-token";
 import { submitContactRequest } from "@/lib/contact/commands/submit-contact-request";
 import { sendContactRequestEmail } from "@/lib/contact/emails/send-contact-request-email";
 import { checkContactRequestRateLimit } from "@/lib/contact/rate-limit/contact-request-rate-limit";
 import { prisma } from "@/lib/prisma";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
+
+vi.mock("@/lib/contact/anti-bot/verify-turnstile-token", () => ({
+  verifyTurnstileToken: vi.fn(),
+}));
 
 vi.mock("@/lib/contact/emails/send-contact-request-email", () => ({
   sendContactRequestEmail: vi.fn(),
@@ -23,6 +28,7 @@ vi.mock("@/lib/contact/rate-limit/contact-request-rate-limit", () => ({
   checkContactRequestRateLimit: vi.fn(),
 }));
 
+const mockedVerifyTurnstileToken = vi.mocked(verifyTurnstileToken);
 const mockedSendContactRequestEmail = vi.mocked(sendContactRequestEmail);
 const mockedCheckContactRequestRateLimit = vi.mocked(
   checkContactRequestRateLimit,
@@ -30,10 +36,13 @@ const mockedCheckContactRequestRateLimit = vi.mocked(
 
 const requestOptions = {
   ipAddress: "127.0.0.1",
+  turnstileToken: "valid-turnstile-token",
 };
 
 describe("submitContactRequest", () => {
   beforeEach(async () => {
+    mockedVerifyTurnstileToken.mockResolvedValue(true);
+
     mockedSendContactRequestEmail.mockResolvedValue(undefined);
 
     mockedCheckContactRequestRateLimit.mockResolvedValue({
@@ -82,6 +91,11 @@ describe("submitContactRequest", () => {
       "127.0.0.1",
     );
 
+    expect(mockedVerifyTurnstileToken).toHaveBeenCalledWith(
+      "valid-turnstile-token",
+      "127.0.0.1",
+    );
+
     expect(mockedSendContactRequestEmail).toHaveBeenCalledOnce();
 
     expect(mockedSendContactRequestEmail).toHaveBeenCalledWith({
@@ -110,6 +124,11 @@ describe("submitContactRequest", () => {
     });
 
     expect(mockedCheckContactRequestRateLimit).toHaveBeenCalledWith(
+      "127.0.0.1",
+    );
+
+    expect(mockedVerifyTurnstileToken).toHaveBeenCalledWith(
+      "valid-turnstile-token",
       "127.0.0.1",
     );
 
@@ -149,6 +168,11 @@ describe("submitContactRequest", () => {
       "127.0.0.1",
     );
 
+    expect(mockedVerifyTurnstileToken).toHaveBeenCalledWith(
+      "valid-turnstile-token",
+      "127.0.0.1",
+    );
+
     expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
   });
 
@@ -173,6 +197,11 @@ describe("submitContactRequest", () => {
       "127.0.0.1",
     );
 
+    expect(mockedVerifyTurnstileToken).toHaveBeenCalledWith(
+      "valid-turnstile-token",
+      "127.0.0.1",
+    );
+
     expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
   });
 
@@ -194,6 +223,7 @@ describe("submitContactRequest", () => {
     });
 
     expect(mockedCheckContactRequestRateLimit).not.toHaveBeenCalled();
+    expect(mockedVerifyTurnstileToken).not.toHaveBeenCalled();
     expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
   });
 
@@ -227,6 +257,71 @@ describe("submitContactRequest", () => {
       "127.0.0.1",
     );
 
+    expect(mockedVerifyTurnstileToken).not.toHaveBeenCalled();
+    expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
+  });
+
+  it("rejects a request when Turnstile validation fails", async () => {
+    mockedVerifyTurnstileToken.mockResolvedValueOnce(false);
+
+    const result = await submitContactRequest(
+      {
+        firstName: "Vivian",
+        email: "vivian@example.com",
+        subject: "OTHER",
+        accommodationId: null,
+        message: "Bonjour.",
+      },
+      requestOptions,
+    );
+
+    expect(result).toEqual({
+      success: false,
+      message: "La vérification de sécurité a échoué. Veuillez réessayer.",
+    });
+
+    expect(mockedCheckContactRequestRateLimit).toHaveBeenCalledWith(
+      "127.0.0.1",
+    );
+
+    expect(mockedVerifyTurnstileToken).toHaveBeenCalledWith(
+      "valid-turnstile-token",
+      "127.0.0.1",
+    );
+
+    expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
+  });
+
+  it("returns an error when Turnstile cannot be verified", async () => {
+    mockedVerifyTurnstileToken.mockRejectedValueOnce(
+      new Error("Turnstile unavailable"),
+    );
+
+    const result = await submitContactRequest(
+      {
+        firstName: "Vivian",
+        email: "vivian@example.com",
+        subject: "OTHER",
+        accommodationId: null,
+        message: "Bonjour.",
+      },
+      requestOptions,
+    );
+
+    expect(result).toEqual({
+      success: false,
+      message: "La vérification de sécurité a échoué. Veuillez réessayer.",
+    });
+
+    expect(mockedCheckContactRequestRateLimit).toHaveBeenCalledWith(
+      "127.0.0.1",
+    );
+
+    expect(mockedVerifyTurnstileToken).toHaveBeenCalledWith(
+      "valid-turnstile-token",
+      "127.0.0.1",
+    );
+
     expect(mockedSendContactRequestEmail).not.toHaveBeenCalled();
   });
 
@@ -253,6 +348,11 @@ describe("submitContactRequest", () => {
     });
 
     expect(mockedCheckContactRequestRateLimit).toHaveBeenCalledWith(
+      "127.0.0.1",
+    );
+
+    expect(mockedVerifyTurnstileToken).toHaveBeenCalledWith(
+      "valid-turnstile-token",
       "127.0.0.1",
     );
 

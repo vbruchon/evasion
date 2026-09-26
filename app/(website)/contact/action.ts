@@ -17,10 +17,14 @@ const getClientIp = async () => {
   return requestHeaders.get("x-real-ip") ?? "unknown";
 };
 
-export const submitContactForm = async (values: ContactRequestValues) => {
+export const submitContactForm = async (
+  values: ContactRequestValues,
+  turnstileToken: string,
+) => {
   const ipAddress = await getClientIp();
 
   return submitContactRequest(values, {
     ipAddress,
+    turnstileToken,
   });
 };

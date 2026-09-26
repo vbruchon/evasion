@@ -19,6 +19,7 @@ type ContactPageFormContentProps = {
   content: ContactPageContentValues;
   preview?: boolean;
   activeEditorRegion?: ContactPageFormEditorRegion;
+  securityReady?: boolean;
 };
 
 export const ContactPageFormContent = ({
@@ -26,6 +27,7 @@ export const ContactPageFormContent = ({
   content,
   preview = false,
   activeEditorRegion,
+  securityReady = true,
 }: ContactPageFormContentProps) => {
   const form = useFormContext<ContactRequestValues>();
 
@@ -120,7 +122,9 @@ export const ContactPageFormContent = ({
           <Button
             type="submit"
             size="lg"
-            disabled={form.formState.isSubmitting}
+            disabled={
+              form.formState.isSubmitting || (!preview && !securityReady)
+            }
             className="h-13 w-full"
           >
             {form.formState.isSubmitting
