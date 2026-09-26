@@ -9,10 +9,12 @@ import type { ContactPageAccommodation } from "@/lib/contact/queries/get-contact
 
 type ContactAccommodationPickerProps = {
   accommodations: ContactPageAccommodation[];
+  preview?: boolean;
 };
 
 export const ContactAccommodationPicker = ({
   accommodations,
+  preview = false,
 }: ContactAccommodationPickerProps) => {
   const form = useFormContext<ContactRequestValues>();
 
@@ -28,7 +30,12 @@ export const ContactAccommodationPicker = ({
       <ContactAccommodationCarousel
         accommodations={accommodations}
         selectedId={accommodationId}
+        preview={preview}
         onSelect={(id) => {
+          if (preview) {
+            return;
+          }
+
           form.setValue("accommodationId", id, {
             shouldDirty: true,
             shouldValidate: true,
@@ -36,7 +43,7 @@ export const ContactAccommodationPicker = ({
         }}
       />
 
-      <FieldError errors={[error]} />
+      {!preview ? <FieldError errors={[error]} /> : null}
     </Field>
   );
 };

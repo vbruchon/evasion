@@ -9,6 +9,7 @@ type AdminEditorSectionProps = {
   label: string;
   children: ReactNode;
   interactiveChildren?: boolean;
+  className?: string;
   onSelect: () => void;
 };
 
@@ -17,6 +18,7 @@ export const AdminEditorSection = ({
   label,
   children,
   interactiveChildren = false,
+  className,
   onSelect,
 }: AdminEditorSectionProps) => {
   const handleClick = (event: MouseEvent<HTMLElement>) => {
@@ -53,11 +55,14 @@ export const AdminEditorSection = ({
         active
           ? "after:ring-primary/50"
           : "after:ring-transparent hover:after:ring-primary/25",
+        className,
       )}
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
-      <div className={cn(!interactiveChildren && "pointer-events-none")}>
+      <div
+        className={cn("h-full", !interactiveChildren && "pointer-events-none")}
+      >
         {children}
       </div>
 
@@ -66,9 +71,11 @@ export const AdminEditorSection = ({
           Modifier
         </span>
 
-        <span className="hidden border border-primary/50 bg-background/90 px-3 py-2 text-xs font-medium uppercase tracking-wide text-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block">
-          Cliquer pour modifier
-        </span>
+        {!active && (
+          <span className="hidden border border-primary/50 bg-background/90 px-3 py-2 text-xs font-medium uppercase tracking-wide text-foreground opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:block">
+            Cliquer pour modifier
+          </span>
+        )}
       </div>
     </section>
   );

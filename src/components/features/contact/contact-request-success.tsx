@@ -1,12 +1,16 @@
-import { Button } from "@/components/ui/button";
-import { CircleCheck, ArrowLeft } from "lucide-react";
+import { ArrowLeft, CircleCheck } from "lucide-react";
 import Image from "next/image";
+
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import { Button } from "@/components/ui/button";
+import type { ContactPageSuccessEditorRegion } from "@/lib/admin/contact/editor/editor-sections";
 
 type ContactRequestSuccessProps = {
   eyebrow: string;
   title: string;
   description: string;
   onReset: () => void;
+  activeEditorRegion?: ContactPageSuccessEditorRegion;
 };
 
 export const ContactRequestSuccess = ({
@@ -14,6 +18,7 @@ export const ContactRequestSuccess = ({
   title,
   description,
   onReset,
+  activeEditorRegion,
 }: ContactRequestSuccessProps) => {
   return (
     <div className="relative">
@@ -32,16 +37,30 @@ export const ContactRequestSuccess = ({
             <CircleCheck className="size-5 text-primary" />
           </div>
 
-          <p className="section-eyebrow text-primary/85">{eyebrow}</p>
+          <AdminEditorRegion region="eyebrow" activeRegion={activeEditorRegion}>
+            <p className="section-eyebrow text-primary/85">{eyebrow}</p>
+          </AdminEditorRegion>
         </div>
 
-        <h2 className="mt-4 max-w-lg font-heading text-4xl leading-[1.02] tracking-[-0.04em] sm:text-5xl">
-          {title}
-        </h2>
+        <AdminEditorRegion
+          region="title"
+          activeRegion={activeEditorRegion}
+          className="mt-4"
+        >
+          <h2 className="max-w-lg font-heading text-4xl leading-[1.02] tracking-[-0.04em] sm:text-5xl">
+            {title}
+          </h2>
+        </AdminEditorRegion>
 
-        <p className="mt-5 max-w-md text-sm leading-7 text-muted-foreground md:text-base">
-          {description}
-        </p>
+        <AdminEditorRegion
+          region="description"
+          activeRegion={activeEditorRegion}
+          className="mt-5"
+        >
+          <p className="max-w-md text-sm leading-7 text-muted-foreground md:text-base">
+            {description}
+          </p>
+        </AdminEditorRegion>
 
         <div className="mt-8 h-px w-full max-w-sm bg-border/60" />
 

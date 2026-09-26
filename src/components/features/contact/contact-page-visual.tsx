@@ -9,7 +9,7 @@ type ContactPageVisualProps = {
   handwritten: string;
   title: string;
   description: string;
-  variant?: "page" | "modal";
+  variant?: "page" | "modal" | "preview";
 };
 
 const reassuranceItems = [
@@ -40,6 +40,7 @@ export const ContactPageVisual = ({
       variant === "page" &&
         "min-h-115 border-b lg:min-h-svh lg:border-b-0 lg:border-r",
       variant === "modal" && "hidden min-h-0 border-r lg:block",
+      variant === "preview" && "h-full min-h-0 border-r",
     )}
   >
     <Image
@@ -61,12 +62,14 @@ export const ContactPageVisual = ({
       aria-hidden
       className="pointer-events-none absolute inset-y-0 left-0 z-5 w-[78%] bg-linear-to-r from-black/85 via-black/55 to-transparent backdrop-blur-[2px]"
     />
+
     <div
       className={cn(
         "relative z-10 flex h-full min-h-inherit flex-col",
-        variant === "page"
-          ? "px-6 pb-8 pt-28 sm:px-10 sm:pb-10 lg:px-12 lg:pb-12 lg:pt-32 xl:px-16"
-          : "px-10 py-12 xl:px-14",
+        variant === "page" &&
+          "px-6 pb-8 pt-28 sm:px-10 sm:pb-10 lg:px-12 lg:pb-12 lg:pt-32 xl:px-16",
+        variant === "modal" && "px-10 py-12 xl:px-14",
+        variant === "preview" && "px-10 py-12 xl:px-14",
       )}
     >
       <div className="flex items-center gap-4">

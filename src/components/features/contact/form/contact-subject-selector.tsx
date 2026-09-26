@@ -8,10 +8,12 @@ import { cn } from "@/lib/utils";
 
 type ContactSubjectSelectorProps = {
   hasAccommodations: boolean;
+  preview?: boolean;
 };
 
 type SubjectCardProps = {
   active: boolean;
+  preview: boolean;
   icon: LucideIcon;
   title: string;
   description: string;
@@ -20,6 +22,7 @@ type SubjectCardProps = {
 
 const SubjectCard = ({
   active,
+  preview,
   icon: Icon,
   title,
   description,
@@ -28,22 +31,36 @@ const SubjectCard = ({
   <button
     type="button"
     aria-pressed={active}
-    onClick={onClick}
+    onClick={preview ? undefined : onClick}
+    tabIndex={preview ? -1 : undefined}
     className={cn(
-      "group flex min-h-24 cursor-pointer items-center gap-4 border px-5 py-4 text-left transition-all duration-300",
-      active
-        ? "border-primary bg-primary/8 shadow-[inset_0_0_30px_rgba(194,136,66,0.04)]"
-        : "border-border/65 bg-white/1.5 hover:border-primary/40 hover:bg-white/2.5",
+      "group flex min-h-24 items-center gap-4 border px-5 py-4 text-left transition-all duration-300",
+
+      preview ? "cursor-default" : "cursor-pointer",
+
+      active &&
+        !preview &&
+        "border-primary bg-primary/8 shadow-[inset_0_0_30px_rgba(194,136,66,0.04)]",
+
+      active && preview && "border-muted-foreground/60 bg-white/1.5",
+
+      !active && "border-border/65 bg-white/1.5",
+
+      !preview && !active && "hover:border-primary/40 hover:bg-white/2.5",
     )}
   >
     <Icon
       className={cn(
         "size-6 transition-colors",
-        active
-          ? "text-primary"
-          : "text-muted-foreground group-hover:text-primary",
+
+        active && !preview && "text-primary",
+
+        preview && "text-muted-foreground",
+
+        !preview && !active && "text-muted-foreground group-hover:text-primary",
       )}
     />
+
     <div className="flex min-w-0 flex-col">
       <span className="font-heading text-lg leading-tight">{title}</span>
 
@@ -56,6 +73,7 @@ const SubjectCard = ({
 
 export const ContactSubjectSelector = ({
   hasAccommodations,
+  preview = false,
 }: ContactSubjectSelectorProps) => {
   const form = useFormContext<ContactRequestValues>();
 
@@ -85,6 +103,7 @@ export const ContactSubjectSelector = ({
       {hasAccommodations ? (
         <SubjectCard
           active={subject === "ACCOMMODATION"}
+          preview={preview}
           icon={House}
           title="Un logement"
           description="Une question avant une réservation"
@@ -94,6 +113,7 @@ export const ContactSubjectSelector = ({
 
       <SubjectCard
         active={subject === "OTHER"}
+        preview={preview}
         icon={MessageCircleMore}
         title="Autre demande"
         description="Pour toute autre question"

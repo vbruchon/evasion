@@ -9,17 +9,23 @@ import { ContactSubjectSelector } from "@/components/features/contact/form/conta
 import { Button } from "@/components/ui/button";
 import type { ContactRequestValues } from "@/lib/contact/contact-request.schema";
 import type { ContactPageAccommodation } from "@/lib/contact/queries/get-contact-page-accommodations";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import type { ContactPageFormEditorRegion } from "@/lib/admin/contact/editor/editor-sections";
 
 type ContactPageFormContentProps = {
   accommodations: ContactPageAccommodation[];
   formTitle: string;
   submitLabel: string;
+  preview?: boolean;
+  activeEditorRegion?: ContactPageFormEditorRegion;
 };
 
 export const ContactPageFormContent = ({
   accommodations,
   formTitle,
   submitLabel,
+  preview = false,
+  activeEditorRegion,
 }: ContactPageFormContentProps) => {
   const form = useFormContext<ContactRequestValues>();
 
@@ -32,14 +38,25 @@ export const ContactPageFormContent = ({
 
   return (
     <>
-      <h2 className="max-w-xl font-heading text-2xl leading-tight tracking-[-0.03em] lg:text-[1.75rem]">
-        {formTitle}
-      </h2>
+      <AdminEditorRegion
+        region="title"
+        activeRegion={preview ? activeEditorRegion : undefined}
+      >
+        <h2 className="max-w-xl font-heading text-2xl leading-tight tracking-[-0.03em] lg:text-[1.75rem]">
+          {formTitle}
+        </h2>
+      </AdminEditorRegion>
 
-      <ContactSubjectSelector hasAccommodations={hasAccommodations} />
+      <ContactSubjectSelector
+        hasAccommodations={hasAccommodations}
+        preview={preview}
+      />
 
       {subject === "ACCOMMODATION" ? (
-        <ContactAccommodationPicker accommodations={accommodations} />
+        <ContactAccommodationPicker
+          accommodations={accommodations}
+          preview={preview}
+        />
       ) : null}
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2">
@@ -79,18 +96,24 @@ export const ContactPageFormContent = ({
         </div>
       ) : null}
 
-      <Button
-        type="submit"
-        size="lg"
-        disabled={form.formState.isSubmitting}
-        className="mt-7 h-13 w-full"
+      <AdminEditorRegion
+        region="submit"
+        activeRegion={preview ? activeEditorRegion : undefined}
+        className="mt-7"
       >
-        {form.formState.isSubmitting ? "Envoi en cours..." : submitLabel}
+        <Button
+          type="submit"
+          size="lg"
+          disabled={form.formState.isSubmitting}
+          className="h-13 w-full"
+        >
+          {form.formState.isSubmitting ? "Envoi en cours..." : submitLabel}
 
-        {!form.formState.isSubmitting ? (
-          <ArrowRight data-icon="inline-end" />
-        ) : null}
-      </Button>
+          {!form.formState.isSubmitting ? (
+            <ArrowRight data-icon="inline-end" />
+          ) : null}
+        </Button>
+      </AdminEditorRegion>
     </>
   );
 };

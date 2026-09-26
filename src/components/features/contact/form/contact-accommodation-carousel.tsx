@@ -11,12 +11,14 @@ import { cn } from "@/lib/utils";
 type ContactAccommodationCarouselProps = {
   accommodations: ContactPageAccommodation[];
   selectedId: string | null;
+  preview?: boolean;
   onSelect: (id: string) => void;
 };
 
 export const ContactAccommodationCarousel = ({
   accommodations,
   selectedId,
+  preview = false,
   onSelect,
 }: ContactAccommodationCarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -129,7 +131,12 @@ export const ContactAccommodationCarousel = ({
               key={accommodation.id}
               accommodation={accommodation}
               selected={accommodation.id === selectedId}
-              onSelect={(element) => handleSelect(accommodation.id, element)}
+              preview={preview}
+              onSelect={(element) => {
+                if (!preview) {
+                  handleSelect(accommodation.id, element);
+                }
+              }}
             />
           ))}
         </div>

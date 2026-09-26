@@ -9,26 +9,33 @@ import { cn } from "@/lib/utils";
 type ContactAccommodationCardProps = {
   accommodation: ContactPageAccommodation;
   selected: boolean;
+  preview?: boolean;
   onSelect: (element: HTMLButtonElement) => void;
 };
 
 export const ContactAccommodationCard = ({
   accommodation,
   selected,
+  preview = false,
   onSelect,
 }: ContactAccommodationCardProps) => (
   <button
     type="button"
-    aria-pressed={selected}
-    onClick={(event) => onSelect(event.currentTarget)}
-    className="group w-44 shrink-0 snap-start cursor-pointer text-left sm:w-48"
+    aria-pressed={preview ? undefined : selected}
+    tabIndex={preview ? -1 : undefined}
+    onClick={preview ? undefined : (event) => onSelect(event.currentTarget)}
+    className={cn(
+      "group w-44 shrink-0 snap-start text-left sm:w-48",
+      preview ? "cursor-default" : "cursor-pointer",
+    )}
   >
     <div
       className={cn(
         "relative aspect-[1.35/1] overflow-hidden border transition-all duration-300",
         selected
           ? "border-primary/80 shadow-[0_0_0_1px_rgba(194,136,66,0.12)]"
-          : "border-border/55 group-hover:border-primary/45",
+          : "border-border/55",
+        !preview && !selected && "group-hover:border-primary/45",
       )}
     >
       {accommodation.imageUrl ? (
@@ -39,9 +46,10 @@ export const ContactAccommodationCard = ({
           sizes="192px"
           className={cn(
             "object-cover brightness-[0.78] saturate-[0.9] transition-all duration-700 ease-out",
-            selected
-              ? "scale-[1.025] brightness-[0.9] saturate-100"
-              : "group-hover:scale-[1.045] group-hover:brightness-[0.84]",
+            selected && "scale-[1.025] brightness-[0.9] saturate-100",
+            !preview &&
+              !selected &&
+              "group-hover:scale-[1.045] group-hover:brightness-[0.84]",
           )}
         />
       ) : (
