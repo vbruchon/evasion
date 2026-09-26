@@ -2,7 +2,7 @@ import { afterAll, beforeEach, describe, expect, it } from "vitest";
 
 import { aboutPageContentDefaults } from "@/lib/about/about-page-defaults";
 import { getAboutPageContent } from "@/lib/about/queries/get-about-page-content";
-import { getAboutPageHeroImages } from "@/lib/about/queries/get-about-page-hero-images";
+import { getAccommodationHeroImages } from "@/lib/accommodations/queries/get-accommodation-hero-images";
 import { getAboutPageStats } from "@/lib/about/queries/get-about-page-stats";
 import { prisma } from "@/lib/prisma";
 
@@ -127,7 +127,7 @@ describe("about page queries", () => {
       ],
     });
 
-    const images = await getAboutPageHeroImages();
+    const images = await getAccommodationHeroImages();
 
     expect(images).toEqual([
       {

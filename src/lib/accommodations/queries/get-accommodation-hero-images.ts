@@ -1,7 +1,13 @@
-import type { AboutHeroImage } from "@/lib/about/about-page.types";
 import { prisma } from "@/lib/prisma";
 
-export const getAboutPageHeroImages = async (): Promise<AboutHeroImage[]> => {
+export type AccommodationHeroImage = {
+  src: string;
+  alt: string;
+};
+
+export const getAccommodationHeroImages = async (): Promise<
+  AccommodationHeroImage[]
+> => {
   const accommodations = await prisma.accommodation.findMany({
     where: {
       status: "PUBLISHED",
