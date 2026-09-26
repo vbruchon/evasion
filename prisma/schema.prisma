@@ -409,3 +409,39 @@ model ContactPageContent {
 
   @@map("contact_page_content")
 }
+
+model HomePageContent {
+  id String @id
+
+  heroEyebrow     String
+  heroTitle       String
+  heroDescription String @db.Text
+  heroButtonLabel String
+
+  accommodationsEyebrow     String
+  accommodationsTitle       String
+  accommodationsDescription String @db.Text
+
+  escapeEyebrow      String
+  escapeTitle        String
+  escapeDescription  String  @db.Text
+  escapeHandwritten  String
+  escapeImageUrl     String?
+  escapeImageFileKey String?
+
+  reviewsEyebrow     String
+  reviewsTitle       String
+  reviewsDescription String @db.Text
+
+  ctaEyebrow      String
+  ctaTitle        String
+  ctaDescription  String  @db.Text
+  ctaButtonLabel  String
+  ctaImageUrl     String?
+  ctaImageFileKey String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("home_page_content")
+}
