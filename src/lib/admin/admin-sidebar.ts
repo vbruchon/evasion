@@ -3,6 +3,7 @@ import {
   CircleUserRound,
   House,
   LayoutDashboard,
+  Mail,
   Star,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -51,6 +52,11 @@ export const adminNavigation: AdminNavigationGroup[] = [
         label: "À propos",
         href: "/admin/a-propos",
         icon: CircleUserRound,
+      },
+      {
+        label: "Contact",
+        href: "/admin/contact",
+        icon: Mail,
       },
     ],
   },

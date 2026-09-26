@@ -366,3 +366,46 @@ model FaqItem {
   @@index([faqPageContentId, position])
   @@map("faq_items")
 }
+
+model ContactPageContent {
+  id String @id
+
+  eyebrow     String
+  handwritten String
+  title       String
+  description String @db.Text
+
+  reassuranceFirstLabel  String
+  reassuranceSecondLabel String
+  reassuranceThirdLabel  String
+
+  formTitle String
+
+  accommodationSubjectTitle       String
+  accommodationSubjectDescription String
+  otherSubjectTitle               String
+  otherSubjectDescription         String
+
+  accommodationLabel String
+
+  firstNameLabel       String
+  firstNamePlaceholder String
+
+  emailLabel       String
+  emailPlaceholder String
+
+  messageLabel       String
+  messagePlaceholder String
+
+  submitLabel String
+
+  successEyebrow     String
+  successTitle       String
+  successDescription String @db.Text
+  successResetLabel  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("contact_page_content")
+}
