@@ -1,4 +1,5 @@
 import { sendContactRequestEmail } from "@/lib/contact/emails/send-contact-request-email";
+import { checkContactRequestRateLimit } from "@/lib/contact/rate-limit/contact-request-rate-limit";
 import { prisma } from "@/lib/prisma";
 
 import {
@@ -6,13 +7,30 @@ import {
   type ContactRequestValues,
 } from "../contact-request.schema";
 
-export const submitContactRequest = async (values: ContactRequestValues) => {
+type SubmitContactRequestOptions = {
+  ipAddress: string;
+};
+
+export const submitContactRequest = async (
+  values: ContactRequestValues,
+  { ipAddress }: SubmitContactRequestOptions,
+) => {
   const validation = contactRequestSchema.safeParse(values);
 
   if (!validation.success) {
     return {
       success: false as const,
       message: "Les informations de votre demande sont invalides.",
+    };
+  }
+
+  const rateLimit = await checkContactRequestRateLimit(ipAddress);
+
+  if (!rateLimit.success) {
+    return {
+      success: false as const,
+      message:
+        "Trop de demandes ont été envoyées récemment. Veuillez réessayer dans quelques minutes.",
     };
   }
 
