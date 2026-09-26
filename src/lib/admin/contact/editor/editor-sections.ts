@@ -9,7 +9,7 @@ const contactPageEditorSections = [
     id: "form",
     label: "Formulaire",
     description:
-      "Personnalisez le titre du formulaire et le libellé du bouton d’envoi.",
+      "Personnalisez les textes, libellés et champs du formulaire de contact.",
   },
   {
     id: "success",
@@ -22,37 +22,25 @@ const contactPageEditorSections = [
 export type ContactPageEditorSection =
   (typeof contactPageEditorSections)[number]["id"];
 
-export const contactPageFormEditorRegions = [
+export const contactPageFormEditorSections = [
   {
-    id: "title",
-    label: "Titre",
+    id: "presentation",
+    label: "Présentation",
+  },
+  {
+    id: "fields",
+    label: "Champs",
   },
   {
     id: "submit",
-    label: "Bouton",
+    label: "Envoi",
   },
 ] as const;
 
-export type ContactPageFormEditorRegion =
-  (typeof contactPageFormEditorRegions)[number]["id"];
+export type ContactPageFormEditorSection =
+  (typeof contactPageFormEditorSections)[number]["id"];
 
-export const contactPageSuccessEditorRegions = [
-  {
-    id: "eyebrow",
-    label: "Sur-titre",
-  },
-  {
-    id: "title",
-    label: "Titre",
-  },
-  {
-    id: "description",
-    label: "Description",
-  },
-] as const;
-
-export type ContactPageSuccessEditorRegion =
-  (typeof contactPageSuccessEditorRegions)[number]["id"];
+export type ContactPageFormEditorRegion = ContactPageFormEditorSection;
 
 export const getContactPageEditorSection = (id: ContactPageEditorSection) =>
   contactPageEditorSections.find((section) => section.id === id);
@@ -60,9 +48,4 @@ export const getContactPageEditorSection = (id: ContactPageEditorSection) =>
 export const isContactPageFormEditorRegion = (
   id: string,
 ): id is ContactPageFormEditorRegion =>
-  contactPageFormEditorRegions.some((region) => region.id === id);
-
-export const isContactPageSuccessEditorRegion = (
-  id: string,
-): id is ContactPageSuccessEditorRegion =>
-  contactPageSuccessEditorRegions.some((region) => region.id === id);
+  contactPageFormEditorSections.some((section) => section.id === id);

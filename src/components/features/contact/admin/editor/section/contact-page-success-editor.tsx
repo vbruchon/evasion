@@ -1,50 +1,31 @@
 import { ContactPageTextField } from "@/components/features/contact/admin/editor/form/contact-page-text-field";
 import { AdminEditorSectionContent } from "@/components/layout/admin/editor/admin-editor-section-content";
-import type { ContactPageEditorNavigation } from "@/hooks/contact/admin/editor/use-contact-page-editor-navigation";
 
-type ContactPageSuccessEditorProps = {
-  navigation: ContactPageEditorNavigation;
-};
+export const ContactPageSuccessEditor = () => (
+  <AdminEditorSectionContent>
+    <ContactPageTextField
+      name="successEyebrow"
+      label="Sur-titre"
+      placeholder="Ex. Message envoyé"
+    />
 
-export const ContactPageSuccessEditor = ({
-  navigation,
-}: ContactPageSuccessEditorProps) => {
-  switch (navigation.activeSuccessRegion) {
-    case "eyebrow":
-      return (
-        <AdminEditorSectionContent>
-          <ContactPageTextField
-            name="successEyebrow"
-            label="Sur-titre"
-            placeholder="Ex. Message envoyé"
-          />
-        </AdminEditorSectionContent>
-      );
+    <ContactPageTextField
+      name="successTitle"
+      label="Titre"
+      placeholder="Ex. Votre demande est bien partie."
+    />
 
-    case "title":
-      return (
-        <AdminEditorSectionContent>
-          <ContactPageTextField
-            name="successTitle"
-            label="Titre"
-            placeholder="Ex. Votre demande est bien partie."
-          />
-        </AdminEditorSectionContent>
-      );
+    <ContactPageTextField
+      name="successDescription"
+      label="Description"
+      placeholder="Texte affiché après l’envoi"
+      multiline
+    />
 
-    case "description":
-      return (
-        <AdminEditorSectionContent>
-          <ContactPageTextField
-            name="successDescription"
-            label="Description"
-            placeholder="Texte affiché après l’envoi"
-            multiline
-          />
-        </AdminEditorSectionContent>
-      );
-
-    default:
-      return null;
-  }
-};
+    <ContactPageTextField
+      name="successResetLabel"
+      label="Libellé du bouton"
+      placeholder="Ex. Envoyer un autre message"
+    />
+  </AdminEditorSectionContent>
+);

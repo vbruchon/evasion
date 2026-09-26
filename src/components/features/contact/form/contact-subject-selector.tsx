@@ -8,6 +8,10 @@ import { cn } from "@/lib/utils";
 
 type ContactSubjectSelectorProps = {
   hasAccommodations: boolean;
+  accommodationTitle: string;
+  accommodationDescription: string;
+  otherTitle: string;
+  otherDescription: string;
   preview?: boolean;
 };
 
@@ -30,33 +34,25 @@ const SubjectCard = ({
 }: SubjectCardProps) => (
   <button
     type="button"
-    aria-pressed={active}
+    aria-pressed={preview ? undefined : active}
     onClick={preview ? undefined : onClick}
     tabIndex={preview ? -1 : undefined}
     className={cn(
       "group flex min-h-24 items-center gap-4 border px-5 py-4 text-left transition-all duration-300",
-
       preview ? "cursor-default" : "cursor-pointer",
-
       active &&
         !preview &&
         "border-primary bg-primary/8 shadow-[inset_0_0_30px_rgba(194,136,66,0.04)]",
-
       active && preview && "border-muted-foreground/60 bg-white/1.5",
-
       !active && "border-border/65 bg-white/1.5",
-
       !preview && !active && "hover:border-primary/40 hover:bg-white/2.5",
     )}
   >
     <Icon
       className={cn(
         "size-6 transition-colors",
-
         active && !preview && "text-primary",
-
         preview && "text-muted-foreground",
-
         !preview && !active && "text-muted-foreground group-hover:text-primary",
       )}
     />
@@ -73,6 +69,10 @@ const SubjectCard = ({
 
 export const ContactSubjectSelector = ({
   hasAccommodations,
+  accommodationTitle,
+  accommodationDescription,
+  otherTitle,
+  otherDescription,
   preview = false,
 }: ContactSubjectSelectorProps) => {
   const form = useFormContext<ContactRequestValues>();
@@ -105,8 +105,8 @@ export const ContactSubjectSelector = ({
           active={subject === "ACCOMMODATION"}
           preview={preview}
           icon={House}
-          title="Un logement"
-          description="Une question avant une réservation"
+          title={accommodationTitle}
+          description={accommodationDescription}
           onClick={() => selectSubject("ACCOMMODATION")}
         />
       ) : null}
@@ -115,8 +115,8 @@ export const ContactSubjectSelector = ({
         active={subject === "OTHER"}
         preview={preview}
         icon={MessageCircleMore}
-        title="Autre demande"
-        description="Pour toute autre question"
+        title={otherTitle}
+        description={otherDescription}
         onClick={() => selectSubject("OTHER")}
       />
     </div>

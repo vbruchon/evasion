@@ -6,13 +6,13 @@ import { useRouter } from "next/navigation";
 import { ContactPageInteractive } from "@/components/features/contact/contact-page-interactive";
 import { ContactPagePanel } from "@/components/features/contact/contact-page-panel";
 import { ContactPageVisual } from "@/components/features/contact/contact-page-visual";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import type { ContactPageContentValues } from "@/lib/contact/contact-page.schema";
 import type { ContactPageAccommodation } from "@/lib/contact/queries/get-contact-page-accommodations";
 
@@ -76,6 +76,9 @@ export const ContactModal = ({
             handwritten={content.handwritten}
             title={content.title}
             description={content.description}
+            reassuranceFirstLabel={content.reassuranceFirstLabel}
+            reassuranceSecondLabel={content.reassuranceSecondLabel}
+            reassuranceThirdLabel={content.reassuranceThirdLabel}
             variant="modal"
           />
 

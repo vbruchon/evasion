@@ -15,10 +15,10 @@ export const ContactPageEditorSidebarContent = ({
       return <ContactPageVisualEditor />;
 
     case "form":
-      return <ContactPageFormEditor />;
+      return <ContactPageFormEditor navigation={navigation} />;
 
     case "success":
-      return <ContactPageSuccessEditor navigation={navigation} />;
+      return <ContactPageSuccessEditor />;
 
     default:
       return null;

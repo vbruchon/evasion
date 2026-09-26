@@ -20,12 +20,36 @@ export const useContactPageEditor = (data: ContactPageAdminData) => {
       title: data.content.title,
       description: data.content.description,
 
+      reassuranceFirstLabel: data.content.reassuranceFirstLabel,
+      reassuranceSecondLabel: data.content.reassuranceSecondLabel,
+      reassuranceThirdLabel: data.content.reassuranceThirdLabel,
+
       formTitle: data.content.formTitle,
+
+      accommodationSubjectTitle: data.content.accommodationSubjectTitle,
+      accommodationSubjectDescription:
+        data.content.accommodationSubjectDescription,
+
+      otherSubjectTitle: data.content.otherSubjectTitle,
+      otherSubjectDescription: data.content.otherSubjectDescription,
+
+      accommodationLabel: data.content.accommodationLabel,
+
+      firstNameLabel: data.content.firstNameLabel,
+      firstNamePlaceholder: data.content.firstNamePlaceholder,
+
+      emailLabel: data.content.emailLabel,
+      emailPlaceholder: data.content.emailPlaceholder,
+
+      messageLabel: data.content.messageLabel,
+      messagePlaceholder: data.content.messagePlaceholder,
+
       submitLabel: data.content.submitLabel,
 
       successEyebrow: data.content.successEyebrow,
       successTitle: data.content.successTitle,
       successDescription: data.content.successDescription,
+      successResetLabel: data.content.successResetLabel,
     },
 
     mode: "onSubmit",

@@ -32,6 +32,9 @@ export const ContactPageEditorPreviewVisual = ({
         handwritten={values.handwritten ?? ""}
         title={values.title ?? ""}
         description={values.description ?? ""}
+        reassuranceFirstLabel={values.reassuranceFirstLabel ?? ""}
+        reassuranceSecondLabel={values.reassuranceSecondLabel ?? ""}
+        reassuranceThirdLabel={values.reassuranceThirdLabel ?? ""}
         variant="preview"
       />
     </AdminEditorSection>

@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 type ContactAccommodationCarouselProps = {
   accommodations: ContactPageAccommodation[];
   selectedId: string | null;
+  label: string;
   preview?: boolean;
   onSelect: (id: string) => void;
 };
@@ -18,6 +19,7 @@ type ContactAccommodationCarouselProps = {
 export const ContactAccommodationCarousel = ({
   accommodations,
   selectedId,
+  label,
   preview = false,
   onSelect,
 }: ContactAccommodationCarouselProps) => {
@@ -94,9 +96,9 @@ export const ContactAccommodationCarousel = ({
   return (
     <div className="min-w-0">
       <div className="mb-3 flex items-center justify-between">
-        <FieldLabel>Quel logement ?</FieldLabel>
+        <FieldLabel>{label}</FieldLabel>
 
-        {hasOverflow ? (
+        {hasOverflow && !preview ? (
           <div className="flex items-center gap-1">
             <button
               type="button"

@@ -17,12 +17,34 @@ export const getContactPageContent = async () => {
       title: true,
       description: true,
 
+      reassuranceFirstLabel: true,
+      reassuranceSecondLabel: true,
+      reassuranceThirdLabel: true,
+
       formTitle: true,
+
+      accommodationSubjectTitle: true,
+      accommodationSubjectDescription: true,
+      otherSubjectTitle: true,
+      otherSubjectDescription: true,
+
+      accommodationLabel: true,
+
+      firstNameLabel: true,
+      firstNamePlaceholder: true,
+
+      emailLabel: true,
+      emailPlaceholder: true,
+
+      messageLabel: true,
+      messagePlaceholder: true,
+
       submitLabel: true,
 
       successEyebrow: true,
       successTitle: true,
       successDescription: true,
+      successResetLabel: true,
     },
   });
 

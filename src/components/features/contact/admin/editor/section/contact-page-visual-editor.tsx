@@ -27,5 +27,23 @@ export const ContactPageVisualEditor = () => (
       placeholder="Présentez la prise de contact"
       multiline
     />
+
+    <ContactPageTextField
+      name="reassuranceFirstLabel"
+      label="Premier élément de réassurance"
+      placeholder="Ex. Réponse rapide"
+    />
+
+    <ContactPageTextField
+      name="reassuranceSecondLabel"
+      label="Deuxième élément de réassurance"
+      placeholder="Ex. Un contact humain"
+    />
+
+    <ContactPageTextField
+      name="reassuranceThirdLabel"
+      label="Troisième élément de réassurance"
+      placeholder="Ex. Un séjour en toute sérénité"
+    />
   </AdminEditorSectionContent>
 );

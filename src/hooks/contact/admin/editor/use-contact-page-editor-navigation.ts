@@ -6,18 +6,15 @@ import type { AdminEditorMobileView } from "@/components/layout/admin/editor/adm
 import type {
   ContactPageEditorSection,
   ContactPageFormEditorRegion,
-  ContactPageSuccessEditorRegion,
+  ContactPageFormEditorSection,
 } from "@/lib/admin/contact/editor/editor-sections";
 
 export const useContactPageEditorNavigation = () => {
   const [activeSection, setActiveSection] =
     useState<ContactPageEditorSection>("visual");
 
-  const [activeFormRegion, setActiveFormRegion] =
-    useState<ContactPageFormEditorRegion>("title");
-
-  const [activeSuccessRegion, setActiveSuccessRegion] =
-    useState<ContactPageSuccessEditorRegion>("eyebrow");
+  const [activeFormSection, setActiveFormSection] =
+    useState<ContactPageFormEditorSection>("presentation");
 
   const [mobileView, setMobileView] =
     useState<AdminEditorMobileView>("preview");
@@ -27,27 +24,27 @@ export const useContactPageEditorNavigation = () => {
     setMobileView("editor");
   };
 
-  const handleFormRegionChange = (region: ContactPageFormEditorRegion) => {
-    setActiveFormRegion(region);
+  const handleFormSectionChange = (section: ContactPageFormEditorSection) => {
+    setActiveFormSection(section);
+    setActiveSection("form");
+    setMobileView("editor");
   };
 
-  const handleSuccessRegionChange = (
-    region: ContactPageSuccessEditorRegion,
-  ) => {
-    setActiveSuccessRegion(region);
+  const handleFormRegionChange = (region: ContactPageFormEditorRegion) => {
+    setActiveFormSection(region);
   };
 
   return {
     activeSection,
-    activeFormRegion,
-    activeSuccessRegion,
+    activeFormSection,
+    activeFormRegion: activeFormSection,
     mobileView,
 
     setMobileView,
 
     handleSectionChange,
+    handleFormSectionChange,
     handleFormRegionChange,
-    handleSuccessRegionChange,
   };
 };
 

@@ -20,6 +20,9 @@ export default async function ContactPage() {
           handwritten={content.handwritten}
           title={content.title}
           description={content.description}
+          reassuranceFirstLabel={content.reassuranceFirstLabel}
+          reassuranceSecondLabel={content.reassuranceSecondLabel}
+          reassuranceThirdLabel={content.reassuranceThirdLabel}
           variant="page"
         />
 

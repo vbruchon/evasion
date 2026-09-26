@@ -23,13 +23,13 @@ export const ContactPageInteractive = ({
       eyebrow={content.successEyebrow}
       title={content.successTitle}
       description={content.successDescription}
+      resetLabel={content.successResetLabel}
       onReset={() => setSubmitted(false)}
     />
   ) : (
     <ContactPageForm
+      content={content}
       accommodations={accommodations}
-      formTitle={content.formTitle}
-      submitLabel={content.submitLabel}
       onSuccess={() => setSubmitted(true)}
     />
   );

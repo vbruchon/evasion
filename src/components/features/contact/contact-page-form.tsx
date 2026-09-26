@@ -4,19 +4,18 @@ import { FormProvider } from "react-hook-form";
 
 import { ContactPageFormContent } from "@/components/features/contact/form/contact-page-form-content";
 import { useContactRequestForm } from "@/hooks/contact/use-contact-request-form";
+import type { ContactPageContentValues } from "@/lib/contact/contact-page.schema";
 import type { ContactPageAccommodation } from "@/lib/contact/queries/get-contact-page-accommodations";
 
 type ContactPageFormProps = {
+  content: ContactPageContentValues;
   accommodations: ContactPageAccommodation[];
-  formTitle: string;
-  submitLabel: string;
   onSuccess: () => void;
 };
 
 export const ContactPageForm = ({
+  content,
   accommodations,
-  formTitle,
-  submitLabel,
   onSuccess,
 }: ContactPageFormProps) => {
   const hasAccommodations = accommodations.length > 0;
@@ -30,9 +29,8 @@ export const ContactPageForm = ({
     <FormProvider {...form}>
       <form onSubmit={handleSubmit} noValidate>
         <ContactPageFormContent
+          content={content}
           accommodations={accommodations}
-          formTitle={formTitle}
-          submitLabel={submitLabel}
         />
       </form>
     </FormProvider>
