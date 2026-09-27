@@ -1,11 +1,11 @@
 import { ReviewCard } from "@/components/features/reviews/shared/review-card";
-import type { ReviewsPageReview } from "@/lib/reviews/reviews-page.types";
+import type { ReviewWithAccommodation } from "@/lib/reviews/review.types";
 
 type RecentReviewsSectionProps = {
   eyebrow: string;
   title: string;
   description: string;
-  reviews: ReviewsPageReview[];
+  reviews: ReviewWithAccommodation[];
 };
 
 export const RecentReviewsSection = ({

@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 
-export const getReviewsPageSummary = async () => {
+export const getReviewsSummary = async () => {
   const summary = await prisma.accommodationReview.aggregate({
     where: {
       accommodation: {

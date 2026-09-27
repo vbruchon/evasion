@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma";
+import { getRecentReviewCandidates } from "@/lib/reviews/queries/get-recent-review-candidates";
 import { getReviewsPageContent } from "@/lib/reviews/queries/get-reviews-page-content";
 import {
   getReviewsPageAccommodationFilters,
-  getReviewsPageRecentReviews,
   getReviewsPageReviews,
 } from "@/lib/reviews/queries/get-reviews-page-reviews";
-import { getReviewsPageSummary } from "@/lib/reviews/queries/get-reviews-page-summary";
+import { getReviewsSummary } from "@/lib/reviews/queries/get-reviews-summary";
 import { selectRecentDiverseReviews } from "@/lib/reviews/select-recent-diverse-reviews";
 
 const RECENT_REVIEWS_COUNT = 4;
@@ -20,8 +20,8 @@ export const getReviewsPageAdminData = async () => {
     latestImport,
   ] = await Promise.all([
     getReviewsPageContent(),
-    getReviewsPageSummary(),
-    getReviewsPageRecentReviews(),
+    getReviewsSummary(),
+    getRecentReviewCandidates(),
     getReviewsPageReviews(),
     getReviewsPageAccommodationFilters(),
 

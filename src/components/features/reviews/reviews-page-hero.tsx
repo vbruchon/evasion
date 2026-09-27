@@ -1,11 +1,11 @@
 import Image from "next/image";
-import { Star } from "lucide-react";
 
 import type { ReviewsPageHeroEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { REVIEWS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/reviews/reviews-page-defaults";
 import { SiteSection } from "@/components/layout/site-section";
 import { PageHeroContent } from "@/components/layout/page-hero-content";
+import { ReviewStars } from "@/components/features/reviews/shared/review-stars";
 
 type ReviewsPageHeroProps = {
   eyebrow: string;
@@ -76,23 +76,11 @@ export const ReviewsPageHero = ({
                 <span className="pb-1 text-primary/85">/5</span>
               </div>
 
-              <div
-                className="mt-4 flex items-center gap-1.5 text-primary"
-                aria-label={`${averageRating.toFixed(1)} étoiles sur 5`}
-              >
-                {Array.from({ length: 5 }, (_, index) => (
-                  <Star
-                    key={index}
-                    className="size-[1.15rem]"
-                    fill={
-                      index < Math.round(averageRating)
-                        ? "currentColor"
-                        : "none"
-                    }
-                    strokeWidth={1.4}
-                  />
-                ))}
-              </div>
+              <ReviewStars
+                rating={averageRating}
+                className="mt-4 gap-1.5"
+                starClassName="size-[1.15rem]"
+              />
 
               <p className="mt-3 text-xs uppercase tracking-widest text-foreground/70">
                 Basé sur {totalReviews} avis

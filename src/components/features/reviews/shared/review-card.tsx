@@ -1,8 +1,12 @@
 import Link from "next/link";
-import { cn } from "@/lib/utils";
-import { Star } from "lucide-react";
 
+import { ReviewStars } from "@/components/features/reviews/shared/review-stars";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import {
+  formatReviewDate,
+  getAuthorInitials,
+} from "@/lib/reviews/review-formatters";
+import { cn } from "@/lib/utils";
 
 type ReviewCardProps = {
   review: {
@@ -19,20 +23,6 @@ type ReviewCardProps = {
 
   variant?: "default" | "showcase" | "archive";
 };
-
-const formatReviewDate = (date: Date | string) =>
-  new Intl.DateTimeFormat("fr-FR", {
-    month: "long",
-    year: "numeric",
-  }).format(new Date(date));
-
-const getAuthorInitials = (name: string) =>
-  name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase())
-    .join("");
 
 export const ReviewCard = ({
   review,
@@ -54,19 +44,7 @@ export const ReviewCard = ({
     )}
   >
     <CardContent className="flex flex-1 flex-col p-6 sm:p-7">
-      <div
-        className="flex items-center gap-1 text-primary"
-        aria-label={`${review.rating} étoiles sur 5`}
-      >
-        {Array.from({ length: 5 }, (_, index) => (
-          <Star
-            key={index}
-            className="size-3.5"
-            fill={index < review.rating ? "currentColor" : "none"}
-            strokeWidth={1.4}
-          />
-        ))}
-      </div>
+      <ReviewStars rating={review.rating} />
 
       <p
         className={cn(
