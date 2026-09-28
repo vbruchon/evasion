@@ -3,6 +3,7 @@ import { UploadThingError } from "uploadthing/server";
 
 import { isAdminEmail } from "@/lib/admin/is-admin-email";
 import { auth } from "@/lib/auth";
+
 import { ADMIN_IMAGE_UPLOAD_MAX_FILE_SIZE } from "../images/image-upload";
 
 const f = createUploadthing();
@@ -37,6 +38,7 @@ export const uploadRouter = {
   reviewsPageImages: createAdminImageUploader(2),
   aboutPageImages: createAdminImageUploader(2),
   faqPageImages: createAdminImageUploader(2),
+  homePageImages: createAdminImageUploader(2),
 } satisfies FileRouter;
 
 export type UploadRouter = typeof uploadRouter;

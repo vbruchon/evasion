@@ -1,17 +1,7 @@
-export type ReviewsPageReview = {
-  id: string;
-  authorName: string;
-  rating: number;
-  comment: string;
-  reviewedAt: string;
-  accommodation: {
-    name: string;
-    slug: string;
-  };
-};
+import type { ReviewWithAccommodation } from "./review.types";
 
 export type ReviewsPageReviewsResult = {
-  reviews: ReviewsPageReview[];
+  reviews: ReviewWithAccommodation[];
   hasMore: boolean;
   nextOffset: number | null;
 };

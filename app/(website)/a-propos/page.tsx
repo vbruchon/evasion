@@ -8,7 +8,7 @@ import {
   ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE,
 } from "@/lib/about/about-page-defaults";
 import { getAboutPageContent } from "@/lib/about/queries/get-about-page-content";
-import { getAboutPageHeroImages } from "@/lib/about/queries/get-about-page-hero-images";
+import { getAccommodationHeroImages } from "@/lib/accommodations/queries/get-accommodation-hero-images";
 import { getAboutPageStats } from "@/lib/about/queries/get-about-page-stats";
 
 export const dynamic = "force-dynamic";
@@ -17,7 +17,7 @@ export default async function AboutPage() {
   const [content, stats, databaseHeroImages] = await Promise.all([
     getAboutPageContent(),
     getAboutPageStats(),
-    getAboutPageHeroImages(),
+    getAccommodationHeroImages(),
   ]);
 
   const heroImages =

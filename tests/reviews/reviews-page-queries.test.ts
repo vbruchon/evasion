@@ -1,13 +1,13 @@
 import { afterAll, beforeEach, describe, expect, it } from "vitest";
 
 import { prisma } from "@/lib/prisma";
+import { getRecentReviewCandidates } from "@/lib/reviews/queries/get-recent-review-candidates";
 import { getReviewsPageContent } from "@/lib/reviews/queries/get-reviews-page-content";
 import {
   getReviewsPageAccommodationFilters,
-  getReviewsPageRecentReviews,
   getReviewsPageReviews,
 } from "@/lib/reviews/queries/get-reviews-page-reviews";
-import { getReviewsPageSummary } from "@/lib/reviews/queries/get-reviews-page-summary";
+import { getReviewsSummary } from "@/lib/reviews/queries/get-reviews-summary";
 import { reviewsPageContentDefaults } from "@/lib/reviews/reviews-page-defaults";
 
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
@@ -113,7 +113,7 @@ describe("reviews page queries", () => {
       reviewedAt: new Date("2026-09-04T10:00:00.000Z"),
     });
 
-    const summary = await getReviewsPageSummary();
+    const summary = await getReviewsSummary();
 
     expect(summary).toEqual({
       averageRating: 4,
@@ -166,7 +166,7 @@ describe("reviews page queries", () => {
       reviewedAt: new Date("2026-09-20T10:00:00.000Z"),
     });
 
-    const reviews = await getReviewsPageRecentReviews();
+    const reviews = await getRecentReviewCandidates();
 
     expect(
       reviews

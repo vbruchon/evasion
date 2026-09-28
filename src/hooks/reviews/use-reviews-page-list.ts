@@ -1,10 +1,8 @@
 import { useState, useTransition } from "react";
 
 import { loadReviewsPageReviews } from "~/app/(website)/avis/action";
-import type {
-  ReviewsPageReview,
-  ReviewsPageReviewsResult,
-} from "@/lib/reviews/reviews-page.types";
+import type { ReviewWithAccommodation } from "@/lib/reviews/review.types";
+import type { ReviewsPageReviewsResult } from "@/lib/reviews/reviews-page.types";
 
 const ALL_ACCOMMODATIONS_VALUE = "all";
 
@@ -17,7 +15,7 @@ export const useReviewsPageList = ({
   initialResult,
   reviewsPerPage,
 }: UseReviewsPageListOptions) => {
-  const [reviews, setReviews] = useState<ReviewsPageReview[]>(
+  const [reviews, setReviews] = useState<ReviewWithAccommodation[]>(
     initialResult.reviews,
   );
 

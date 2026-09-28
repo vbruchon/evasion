@@ -1,8 +1,8 @@
-import { AboutHeroImage } from "./about-page.types";
+import type { PageHeroCarouselImage } from "@/components/layout/page-hero-carousel";
 
 export const ABOUT_PAGE_CONTENT_ID = "about-page";
 
-export const ABOUT_HERO_FALLBACK_IMAGES: AboutHeroImage[] = [
+export const ABOUT_HERO_FALLBACK_IMAGES: PageHeroCarouselImage[] = [
   {
     src: "/images/pages/shared/evasion-page-hero.png",
     alt: "Une parenthèse romantique dans un hébergement Évasion",

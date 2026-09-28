@@ -1,82 +1,7 @@
 import { prisma } from "@/lib/prisma";
+import { mapReviewWithAccommodation } from "@/lib/reviews/map-review-with-accommodation";
 
-import type {
-  ReviewsPageReview,
-  ReviewsPageReviewsResult,
-} from "../reviews-page.types";
-
-const mapReview = (review: {
-  id: string;
-  authorName: string;
-  rating: number;
-  comment: string;
-  reviewedAt: Date;
-  accommodation: {
-    name: string;
-    slug: string;
-  };
-}): ReviewsPageReview => ({
-  ...review,
-  reviewedAt: review.reviewedAt.toISOString(),
-});
-
-const RECENT_REVIEWS_PER_ACCOMMODATION = 4;
-
-export const getReviewsPageRecentReviews = async () => {
-  const accommodations = await prisma.accommodation.findMany({
-    where: {
-      status: "PUBLISHED",
-
-      reviews: {
-        some: {},
-      },
-    },
-
-    orderBy: [
-      {
-        position: "asc",
-      },
-      {
-        id: "asc",
-      },
-    ],
-
-    select: {
-      name: true,
-      slug: true,
-
-      reviews: {
-        orderBy: [
-          {
-            reviewedAt: "desc",
-          },
-          {
-            id: "desc",
-          },
-        ],
-
-        take: RECENT_REVIEWS_PER_ACCOMMODATION,
-
-        select: {
-          id: true,
-          authorName: true,
-          rating: true,
-          comment: true,
-          reviewedAt: true,
-        },
-      },
-    },
-  });
-
-  return accommodations.flatMap(({ reviews, ...accommodation }) =>
-    reviews.map((review) =>
-      mapReview({
-        ...review,
-        accommodation,
-      }),
-    ),
-  );
-};
+import type { ReviewsPageReviewsResult } from "../reviews-page.types";
 
 type GetReviewsPageReviewsOptions = {
   accommodationSlug?: string;
@@ -142,7 +67,7 @@ export const getReviewsPageReviews = async ({
   const visibleReviews = reviews.slice(0, safeTake);
 
   return {
-    reviews: visibleReviews.map(mapReview),
+    reviews: visibleReviews.map(mapReviewWithAccommodation),
     hasMore,
     nextOffset: hasMore ? safeOffset + visibleReviews.length : null,
   };

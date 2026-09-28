@@ -1,7 +1,5 @@
 "use client";
 
-import { Star } from "lucide-react";
-
 import {
   Dialog,
   DialogContent,
@@ -10,6 +8,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import type { AccommodationReviewData } from "@/lib/accommodations/reviews/accommodation-review.types";
+import { ReviewStars } from "@/components/features/reviews/shared/review-stars";
+import {
+  formatReviewDate,
+  getAuthorInitials,
+} from "@/lib/reviews/review-formatters";
 
 type AccommodationReviewsDialogProps = {
   title: string;
@@ -18,20 +21,6 @@ type AccommodationReviewsDialogProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 };
-
-const formatReviewDate = (date: Date) =>
-  new Intl.DateTimeFormat("fr-FR", {
-    month: "long",
-    year: "numeric",
-  }).format(new Date(date));
-
-const getAuthorInitials = (name: string) =>
-  name
-    .trim()
-    .split(/\s+/)
-    .slice(0, 2)
-    .map((part) => part[0]?.toUpperCase())
-    .join("");
 
 export const AccommodationReviewsDialog = ({
   title,
@@ -65,19 +54,7 @@ export const AccommodationReviewsDialog = ({
           <div className="h-15 w-px shrink-0 bg-primary/25" />
 
           <div className="pt-0.5">
-            <div
-              className="flex items-center gap-1 text-primary"
-              aria-hidden="true"
-            >
-              {Array.from({ length: 5 }, (_, index) => (
-                <Star
-                  key={index}
-                  className="size-3.5"
-                  fill="currentColor"
-                  strokeWidth={1.5}
-                />
-              ))}
-            </div>
+            <ReviewStars rating={averageRating} decorative />
 
             <p className="mt-2.5 font-heading text-2xl leading-none tracking-tight text-foreground sm:text-3xl">
               {title}
@@ -114,19 +91,7 @@ export const AccommodationReviewsDialog = ({
                   </div>
                 </div>
 
-                <div
-                  className="flex shrink-0 items-center gap-1 text-primary"
-                  aria-label={`${review.rating} étoiles sur 5`}
-                >
-                  {Array.from({ length: 5 }, (_, index) => (
-                    <Star
-                      key={index}
-                      className="size-3.5"
-                      fill={index < review.rating ? "currentColor" : "none"}
-                      strokeWidth={1.5}
-                    />
-                  ))}
-                </div>
+                <ReviewStars rating={review.rating} className="shrink-0" />
               </header>
 
               <p className="mt-5 max-w-4xl whitespace-pre-line text-sm leading-7 text-foreground/85 sm:text-[15px]">

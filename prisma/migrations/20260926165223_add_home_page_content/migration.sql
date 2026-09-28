@@ -1,0 +1,30 @@
+-- CreateTable
+CREATE TABLE "home_page_content" (
+    "id" TEXT NOT NULL,
+    "heroEyebrow" TEXT NOT NULL,
+    "heroTitle" TEXT NOT NULL,
+    "heroDescription" TEXT NOT NULL,
+    "heroButtonLabel" TEXT NOT NULL,
+    "accommodationsEyebrow" TEXT NOT NULL,
+    "accommodationsTitle" TEXT NOT NULL,
+    "accommodationsDescription" TEXT NOT NULL,
+    "escapeEyebrow" TEXT NOT NULL,
+    "escapeTitle" TEXT NOT NULL,
+    "escapeDescription" TEXT NOT NULL,
+    "escapeHandwritten" TEXT NOT NULL,
+    "escapeImageUrl" TEXT,
+    "escapeImageFileKey" TEXT,
+    "reviewsEyebrow" TEXT NOT NULL,
+    "reviewsTitle" TEXT NOT NULL,
+    "reviewsDescription" TEXT NOT NULL,
+    "ctaEyebrow" TEXT NOT NULL,
+    "ctaTitle" TEXT NOT NULL,
+    "ctaDescription" TEXT NOT NULL,
+    "ctaButtonLabel" TEXT NOT NULL,
+    "ctaImageUrl" TEXT,
+    "ctaImageFileKey" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "home_page_content_pkey" PRIMARY KEY ("id")
+);

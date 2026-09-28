@@ -1,13 +1,13 @@
 import { ReviewsPageCta } from "@/components/features/reviews/reviews-page-cta";
 import { ReviewsPageHero } from "@/components/features/reviews/reviews-page-hero";
 import { ReviewsPageReviewsSection } from "@/components/features/reviews/reviews-page-reviews-section";
+import { getRecentReviewCandidates } from "@/lib/reviews/queries/get-recent-review-candidates";
 import { getReviewsPageContent } from "@/lib/reviews/queries/get-reviews-page-content";
 import {
   getReviewsPageAccommodationFilters,
-  getReviewsPageRecentReviews,
   getReviewsPageReviews,
 } from "@/lib/reviews/queries/get-reviews-page-reviews";
-import { getReviewsPageSummary } from "@/lib/reviews/queries/get-reviews-page-summary";
+import { getReviewsSummary } from "@/lib/reviews/queries/get-reviews-summary";
 import { selectRecentDiverseReviews } from "@/lib/reviews/select-recent-diverse-reviews";
 
 export const dynamic = "force-dynamic";
@@ -19,8 +19,8 @@ export default async function ReviewsPage() {
   const [content, summary, recentCandidates, initialReviews, accommodations] =
     await Promise.all([
       getReviewsPageContent(),
-      getReviewsPageSummary(),
-      getReviewsPageRecentReviews(),
+      getReviewsSummary(),
+      getRecentReviewCandidates(),
       getReviewsPageReviews({
         take: INITIAL_REVIEWS_COUNT,
       }),

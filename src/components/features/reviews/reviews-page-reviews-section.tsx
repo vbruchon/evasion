@@ -1,9 +1,7 @@
 import type { ReviewsAccommodationFilter } from "@/components/features/reviews/all-reviews-filter";
 import type { ReviewsPageReviewsEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
-import type {
-  ReviewsPageReview,
-  ReviewsPageReviewsResult,
-} from "@/lib/reviews/reviews-page.types";
+import type { ReviewWithAccommodation } from "@/lib/reviews/review.types";
+import type { ReviewsPageReviewsResult } from "@/lib/reviews/reviews-page.types";
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { AllReviewsSection } from "@/components/features/reviews/all-reviews-section";
 import { RecentReviewsSection } from "@/components/features/reviews/recent-reviews-section";
@@ -14,7 +12,7 @@ type ReviewsPageReviewsSectionProps = {
   recentReviewsEyebrow: string;
   recentReviewsTitle: string;
   recentReviewsDescription: string;
-  recentReviews: ReviewsPageReview[];
+  recentReviews: ReviewWithAccommodation[];
 
   allReviewsTitle: string;
   allReviewsDescription: string;
