@@ -54,3 +54,11 @@ export type AccommodationHighlightDisplay = Omit<
 > & {
   id?: string;
 };
+
+export type AccommodationWithImagesAndHighlights =
+  Prisma.AccommodationGetPayload<{
+    include: {
+      images: true;
+      highlights: true;
+    };
+  }>;

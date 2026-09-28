@@ -33,3 +33,11 @@ export const getAccommodationDisplayImages = <
     galleryImages: images,
   };
 };
+
+type AccommodationCoverImage = {
+  isCover?: boolean;
+};
+
+export const getAccommodationCoverImage = <T extends AccommodationCoverImage>(
+  images: T[],
+) => images.find((image) => image.isCover) ?? images[0] ?? null;
