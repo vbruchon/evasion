@@ -1,23 +1,37 @@
+const primaryNavigation = [
+  {
+    label: "Nos logements",
+    href: "/logements",
+  },
+  {
+    label: "À propos",
+    href: "/a-propos",
+  },
+  {
+    label: "Avis",
+    href: "/avis",
+  },
+  {
+    label: "FAQ",
+    href: "/faq",
+  },
+] as const;
+
 export const siteConfig = {
   name: "Évasion",
   description: "Des séjours d’exception, pensés pour deux.",
 
-  navigation: [
+  navigation: primaryNavigation,
+
+  footerNavigation: [
     {
-      label: "Nos logements",
-      href: "/logements",
+      label: "Accueil",
+      href: "/",
     },
+    ...primaryNavigation,
     {
-      label: "À propos",
-      href: "/a-propos",
-    },
-    {
-      label: "Avis",
-      href: "/avis",
-    },
-    {
-      label: "FAQ",
-      href: "/faq",
+      label: "Contact",
+      href: "/contact",
     },
   ],
 } as const;

@@ -1,3 +1,4 @@
+import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 
 type WebsiteLayoutProps = Readonly<{
@@ -11,6 +12,8 @@ export default function WebsiteLayout({ children, modal }: WebsiteLayoutProps) {
       <SiteHeader />
 
       {children}
+
+      <SiteFooter />
 
       {modal}
     </>
