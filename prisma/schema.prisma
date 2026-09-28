@@ -429,9 +429,7 @@ model HomePageContent {
   escapeImageUrl     String?
   escapeImageFileKey String?
 
-  reviewsEyebrow     String
-  reviewsTitle       String
-  reviewsDescription String @db.Text
+  reviewsEyebrow String
 
   ctaEyebrow      String
   ctaTitle        String

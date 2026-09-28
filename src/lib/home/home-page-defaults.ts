@@ -25,9 +25,6 @@ export const homePageContentDefaults = {
   escapeHandwritten: "Juste vous deux.",
 
   reviewsEyebrow: "Vos expériences",
-  reviewsTitle: "Des moments vécus et partagés.",
-  reviewsDescription:
-    "Découvrez les impressions laissées par les voyageurs après leur séjour.",
 
   ctaEyebrow: "Votre prochaine parenthèse",
   ctaTitle: "Il ne reste plus qu’à choisir la vôtre.",
