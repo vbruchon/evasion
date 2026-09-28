@@ -3,6 +3,7 @@
 import { useState } from "react";
 
 import type { AccommodationWithImagesAndHighlights } from "@/lib/accommodations/accommodation-types";
+
 import { HomePageAccommodationFeatured } from "./home-page-accommodation-featured";
 import { HomePageAccommodationIntro } from "./home-page-accommodation-intro";
 import { HomePageAccommodationThumbnails } from "./home-page-accommodation-thumbnails";
@@ -12,6 +13,7 @@ type HomePageAccommodationSelectorProps = {
   title: string;
   description: string;
   accommodations: AccommodationWithImagesAndHighlights[];
+  activeEditorRegion?: "content";
 };
 
 export const HomePageAccommodationSelector = ({
@@ -19,6 +21,7 @@ export const HomePageAccommodationSelector = ({
   title,
   description,
   accommodations,
+  activeEditorRegion,
 }: HomePageAccommodationSelectorProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -31,6 +34,7 @@ export const HomePageAccommodationSelector = ({
           eyebrow={eyebrow}
           title={title}
           description={description}
+          activeEditorRegion={activeEditorRegion}
         />
 
         <HomePageAccommodationFeatured

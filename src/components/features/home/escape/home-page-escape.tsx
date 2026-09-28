@@ -1,5 +1,7 @@
-import { SiteSection } from "@/components/layout/site-section";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { PageLinkButton } from "@/components/layout/page-link-button";
+import { SiteSection } from "@/components/layout/site-section";
+import type { HomePageEscapeEditorSection } from "@/lib/admin/home/editor/editor-sections";
 
 import { HomePageEscapeVisual } from "./home-page-escape-visual";
 
@@ -9,6 +11,8 @@ type HomePageEscapeProps = {
   description: string;
   handwritten: string;
   imageUrl: string;
+  activeEditorRegion?: HomePageEscapeEditorSection;
+  editorPreview?: boolean;
 };
 
 export const HomePageEscape = ({
@@ -17,16 +21,28 @@ export const HomePageEscape = ({
   description,
   handwritten,
   imageUrl,
+  activeEditorRegion,
+  editorPreview = false,
 }: HomePageEscapeProps) => {
   return (
     <SiteSection
       bordered={false}
       className="relative overflow-hidden border-y border-muted"
     >
-      <HomePageEscapeVisual imageUrl={imageUrl} handwritten={handwritten} />
+      <HomePageEscapeVisual
+        imageUrl={imageUrl}
+        handwritten={handwritten}
+        activeEditorRegion={activeEditorRegion}
+      />
 
       <div className="relative z-10 mx-auto flex min-h-107.5 max-w-[1600px] items-center px-6 py-12 sm:py-16 lg:py-24 xl:py-28">
-        <div className="w-full max-w-115">
+        <AdminEditorRegion
+          region="content"
+          activeRegion={activeEditorRegion}
+          className={`w-full max-w-115 ${
+            editorPreview ? "[&_a]:pointer-events-none" : ""
+          }`}
+        >
           <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] text-primary">
             {eyebrow}
           </p>
@@ -51,7 +67,7 @@ export const HomePageEscape = ({
           >
             Découvrir notre histoire
           </PageLinkButton>
-        </div>
+        </AdminEditorRegion>
       </div>
     </SiteSection>
   );

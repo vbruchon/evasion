@@ -1,25 +1,35 @@
 import Image from "next/image";
 
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import type { HomePageEscapeEditorSection } from "@/lib/admin/home/editor/editor-sections";
+
 type HomePageEscapeVisualProps = {
   imageUrl: string;
   handwritten: string;
+  activeEditorRegion?: HomePageEscapeEditorSection;
 };
 
 export const HomePageEscapeVisual = ({
   imageUrl,
   handwritten,
+  activeEditorRegion,
 }: HomePageEscapeVisualProps) => {
   return (
     <div className="absolute inset-0">
-      <div className="absolute inset-y-0 right-0 w-full lg:w-[62%]">
+      <AdminEditorRegion
+        region="image"
+        activeRegion={activeEditorRegion}
+        className="absolute inset-y-0 right-0 w-full lg:w-[62%]"
+      >
         <Image
           src={imageUrl}
           alt=""
           fill
+          unoptimized={imageUrl.startsWith("blob:")}
           sizes="(max-width: 1023px) 100vw, 62vw"
           className="object-cover"
         />
-      </div>
+      </AdminEditorRegion>
 
       <div
         aria-hidden="true"
@@ -36,16 +46,20 @@ export const HomePageEscapeVisual = ({
         className="absolute inset-x-0 bottom-0 h-20 bg-linear-to-t from-background/45 to-transparent"
       />
 
-      <div className="absolute right-6 bottom-8 z-10 ">
+      <AdminEditorRegion
+        region="content"
+        activeRegion={activeEditorRegion}
+        className="absolute right-6 bottom-8 z-10"
+      >
         <div
           aria-hidden="true"
-          className="absolute -inset-x-10 -inset-y-3 rounded-full bg-black/65 blur-md "
+          className="absolute -inset-x-10 -inset-y-3 rounded-full bg-black/65 blur-md"
         />
 
         <p className="relative rotate-[-4deg] font-handwriting text-xl text-primary drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)] sm:text-2xl">
           {handwritten}
         </p>
-      </div>
+      </AdminEditorRegion>
     </div>
   );
 };

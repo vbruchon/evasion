@@ -1,6 +1,8 @@
-import type { AccommodationHeroImage } from "@/lib/accommodations/queries/get-accommodation-hero-images";
-import { SiteSection } from "@/components/layout/site-section";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { PageLinkButton } from "@/components/layout/page-link-button";
+import { SiteSection } from "@/components/layout/site-section";
+import type { AccommodationHeroImage } from "@/lib/accommodations/queries/get-accommodation-hero-images";
+
 import { HomePageHeroCarousel } from "./home-page-hero-carousel";
 
 type HomePageHeroProps = {
@@ -10,6 +12,7 @@ type HomePageHeroProps = {
   buttonLabel: string;
   images: readonly AccommodationHeroImage[];
   totalAccommodations: number;
+  activeEditorRegion?: "content";
 };
 
 export const HomePageHero = ({
@@ -19,6 +22,7 @@ export const HomePageHero = ({
   buttonLabel,
   images,
   totalAccommodations,
+  activeEditorRegion,
 }: HomePageHeroProps) => {
   return (
     <SiteSection
@@ -28,7 +32,11 @@ export const HomePageHero = ({
       <HomePageHeroCarousel images={images} />
 
       <div className="relative z-10 mx-auto flex min-h-190 w-full max-w-[1920px] flex-col px-6 pb-10 pt-32 sm:px-12 lg:h-full lg:min-h-180 lg:px-20 lg:pt-36 xl:px-24">
-        <div className="my-auto max-w-4xl">
+        <AdminEditorRegion
+          region="content"
+          activeRegion={activeEditorRegion}
+          className="my-auto max-w-4xl"
+        >
           <p className="mb-5 text-xs font-medium uppercase tracking-[0.32em] text-primary">
             {eyebrow}
           </p>
@@ -44,7 +52,7 @@ export const HomePageHero = ({
           <div className="mt-9">
             <PageLinkButton href="/logements">{buttonLabel}</PageLinkButton>
           </div>
-        </div>
+        </AdminEditorRegion>
 
         <div className="flex max-w-[calc(100%-180px)] items-center gap-4 pb-1 max-sm:hidden">
           <span className="h-px w-12 shrink-0 bg-primary/70" />

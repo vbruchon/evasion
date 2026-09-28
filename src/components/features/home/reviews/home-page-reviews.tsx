@@ -1,5 +1,5 @@
-import type { ReviewWithAccommodation } from "@/lib/reviews/review.types";
 import { SiteSection } from "@/components/layout/site-section";
+import type { ReviewWithAccommodation } from "@/lib/reviews/review.types";
 
 import { HomePageReviewsList } from "./home-page-reviews-list";
 import { HomePageReviewsSummary } from "./home-page-reviews-summary";
@@ -9,6 +9,7 @@ type HomePageReviewsProps = {
   averageRating: number;
   totalReviews: number;
   reviews: ReviewWithAccommodation[];
+  activeEditorRegion?: "content";
 };
 
 export const HomePageReviews = ({
@@ -16,6 +17,7 @@ export const HomePageReviews = ({
   averageRating,
   totalReviews,
   reviews,
+  activeEditorRegion,
 }: HomePageReviewsProps) => {
   if (totalReviews === 0 || reviews.length === 0) {
     return null;
@@ -31,6 +33,7 @@ export const HomePageReviews = ({
           eyebrow={eyebrow}
           averageRating={averageRating}
           totalReviews={totalReviews}
+          activeEditorRegion={activeEditorRegion}
         />
 
         <HomePageReviewsList reviews={reviews} />

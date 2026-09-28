@@ -1,18 +1,25 @@
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { PageLinkButton } from "@/components/layout/page-link-button";
 
 type HomePageAccommodationIntroProps = {
   eyebrow: string;
   title: string;
   description: string;
+  activeEditorRegion?: "content";
 };
 
 export const HomePageAccommodationIntro = ({
   eyebrow,
   title,
   description,
+  activeEditorRegion,
 }: HomePageAccommodationIntroProps) => {
   return (
-    <div className="flex flex-col justify-center py-6 lg:py-0">
+    <AdminEditorRegion
+      region="content"
+      activeRegion={activeEditorRegion}
+      className="flex flex-col justify-center py-6 lg:py-0"
+    >
       <p className="text-xs font-medium uppercase tracking-[0.3em] text-primary">
         {eyebrow}
       </p>
@@ -30,6 +37,6 @@ export const HomePageAccommodationIntro = ({
       <PageLinkButton href="/logements" variant="text" className="mt-8">
         Voir tous les logements
       </PageLinkButton>
-    </div>
+    </AdminEditorRegion>
   );
 };

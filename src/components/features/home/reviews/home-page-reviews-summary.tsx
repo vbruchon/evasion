@@ -1,21 +1,30 @@
 import { ReviewStars } from "@/components/features/reviews/shared/review-stars";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { PageLinkButton } from "@/components/layout/page-link-button";
 
 type HomePageReviewsSummaryProps = {
   eyebrow: string;
   averageRating: number;
   totalReviews: number;
+  activeEditorRegion?: "content";
 };
 
 export const HomePageReviewsSummary = ({
   eyebrow,
   averageRating,
   totalReviews,
+  activeEditorRegion,
 }: HomePageReviewsSummaryProps) => (
   <div className="text-center lg:text-left">
-    <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] text-primary">
-      {eyebrow}
-    </p>
+    <AdminEditorRegion
+      region="content"
+      activeRegion={activeEditorRegion}
+      className="mx-auto w-fit lg:mx-0"
+    >
+      <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] text-primary">
+        {eyebrow}
+      </p>
+    </AdminEditorRegion>
 
     <div className="mt-5 flex items-end justify-center gap-0.5 lg:justify-start">
       <span className="font-heading text-6xl leading-none text-primary">

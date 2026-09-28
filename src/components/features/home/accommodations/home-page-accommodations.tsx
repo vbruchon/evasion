@@ -8,6 +8,7 @@ type HomePageAccommodationsProps = {
   title: string;
   description: string;
   accommodations: AccommodationWithImagesAndHighlights[];
+  activeEditorRegion?: "content";
 };
 
 export const HomePageAccommodations = ({
@@ -15,6 +16,7 @@ export const HomePageAccommodations = ({
   title,
   description,
   accommodations,
+  activeEditorRegion,
 }: HomePageAccommodationsProps) => {
   if (accommodations.length === 0) {
     return null;
@@ -30,6 +32,7 @@ export const HomePageAccommodations = ({
         title={title}
         description={description}
         accommodations={accommodations}
+        activeEditorRegion={activeEditorRegion}
       />
     </SiteSection>
   );
