@@ -68,6 +68,12 @@ export default async function PrivacyPolicyPage() {
         </ul>
 
         <p>
+          Le prénom est facultatif. L’adresse e-mail, le motif de la demande et
+          le message sont nécessaires pour nous permettre de traiter votre
+          demande et de vous répondre.
+        </p>
+
+        <p>
           Des informations techniques, notamment votre adresse IP, peuvent
           également être utilisées temporairement afin de sécuriser le
           formulaire et de limiter les envois abusifs.
@@ -127,6 +133,14 @@ export default async function PrivacyPolicyPage() {
             du nombre de demandes envoyées.
           </li>
         </ul>
+
+        <p>
+          Certains de ces prestataires peuvent traiter des données en dehors de
+          l’Espace économique européen. Lorsque cela est nécessaire, ces
+          transferts sont encadrés par les garanties prévues par la
+          réglementation applicable, notamment les clauses contractuelles types
+          de la Commission européenne.
+        </p>
       </LegalSection>
 
       <LegalSection title="Durée de conservation">
