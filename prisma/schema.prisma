@@ -443,3 +443,36 @@ model HomePageContent {
 
   @@map("home_page_content")
 }
+
+model LegalSiteSettings {
+  id String @id
+
+  businessName String?
+  legalForm    String?
+  capital      String?
+
+  registeredOfficeAddress String?
+  email                   String?
+  phone                   String?
+
+  siren     String?
+  siret     String?
+  rcs       String?
+  rne       String?
+  vatNumber String?
+
+  publicationDirector String?
+
+  hostName    String?
+  hostCompany String?
+  hostAddress String?
+  hostPhone   String?
+
+  privacyEmail               String?
+  contactDataRetentionPeriod String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("legal_site_settings")
+}
