@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Caveat, Noto_Sans, Playfair_Display } from "next/font/google";
 
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
         className={`${notoSans.variable} ${playfairDisplay.variable} ${caveat.variable}`}
       >
         {children}
+        <Toaster />
       </body>
     </html>
   );

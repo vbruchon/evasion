@@ -2,6 +2,7 @@ import type { LucideIcon } from "lucide-react";
 import {
   CircleHelp,
   CircleUserRound,
+  FileText,
   Home,
   House,
   LayoutDashboard,
@@ -63,6 +64,11 @@ export const adminNavigation: AdminNavigationGroup[] = [
         label: "Contact",
         href: "/admin/contact",
         icon: Mail,
+      },
+      {
+        label: "Informations légales",
+        href: "/admin/informations-legales",
+        icon: FileText,
       },
     ],
   },
