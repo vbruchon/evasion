@@ -2,6 +2,7 @@
 
 import { ArrowRight } from "lucide-react";
 import { useFormContext, useWatch } from "react-hook-form";
+import Link from "next/link";
 
 import { ContactAccommodationPicker } from "@/components/features/contact/form/contact-accommodation-picker";
 import { ContactFormTextField } from "@/components/features/contact/form/contact-form-text-field";
@@ -137,6 +138,20 @@ export const ContactPageFormContent = ({
           </Button>
         </div>
       </AdminEditorRegion>
+
+      {!preview ? (
+        <p className="mt-3 text-xs leading-5 text-muted-foreground">
+          Les informations transmises sont utilisées uniquement pour répondre à
+          votre demande.{" "}
+          <Link
+            href="/politique-de-confidentialite"
+            className="text-foreground underline underline-offset-4 transition-colors hover:text-primary"
+          >
+            En savoir plus
+          </Link>
+          .
+        </p>
+      ) : null}
     </>
   );
 };
