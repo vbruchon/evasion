@@ -1,10 +1,12 @@
+import { getAdminDashboardActivity } from "@/lib/admin/dashboard/queries/get-admin-dashboard-activity";
 import { getAdminDashboardSiteStatus } from "@/lib/admin/dashboard/queries/get-admin-dashboard-site-status";
 import { getAdminDashboardSummary } from "@/lib/admin/dashboard/queries/get-admin-dashboard-summary";
 
 export const getAdminDashboardData = async () => {
-  const [siteStatus, summary] = await Promise.all([
+  const [siteStatus, summary, activity] = await Promise.all([
     getAdminDashboardSiteStatus(),
     getAdminDashboardSummary(),
+    getAdminDashboardActivity(),
   ]);
 
   const publishedAccommodations = summary.accommodations.published;
@@ -45,6 +47,9 @@ export const getAdminDashboardData = async () => {
         withoutReviews: accommodationsWithoutReviews,
       },
     },
+
+    recentPages: activity.recentPages,
+    recentAccommodations: activity.recentAccommodations,
   };
 };
 

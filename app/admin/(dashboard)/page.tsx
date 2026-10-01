@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 
 import { AdminDashboardHeader } from "@/components/features/admin/dashboard/admin-dashboard-header";
 import { AdminDashboardOverview } from "@/components/features/admin/dashboard/admin-dashboard-overview";
+import { AdminDashboardRecentActivity } from "@/components/features/admin/dashboard/admin-dashboard-recent-activity";
 import { getAdminDashboardData } from "@/lib/admin/dashboard/queries/get-admin-dashboard-data";
 import { auth } from "@/lib/auth";
 
@@ -23,6 +24,11 @@ export default async function AdminPage() {
       <AdminDashboardOverview
         accommodations={data.accommodations}
         reviews={data.reviews}
+      />
+
+      <AdminDashboardRecentActivity
+        recentPages={data.recentPages}
+        recentAccommodations={data.recentAccommodations}
       />
     </main>
   );
