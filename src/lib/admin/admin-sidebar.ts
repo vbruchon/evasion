@@ -6,6 +6,7 @@ import {
   Home,
   House,
   LayoutDashboard,
+  LayoutTemplate,
   Mail,
   Star,
 } from "lucide-react";
@@ -48,8 +49,14 @@ export const adminNavigation: AdminNavigationGroup[] = [
       {
         label: "Accueil",
         href: "/admin/accueil",
+        icon: LayoutTemplate,
+      },
+      {
+        label: "Nos logements",
+        href: "/admin/nos-logements",
         icon: Home,
       },
+
       {
         label: "Avis",
         href: "/admin/avis",
