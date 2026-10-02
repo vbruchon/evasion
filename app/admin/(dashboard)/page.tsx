@@ -1,43 +1,38 @@
 import { headers } from "next/headers";
 
+import { AdminDashboardHeader } from "@/components/features/admin/dashboard/admin-dashboard-header";
+import { AdminDashboardOverview } from "@/components/features/admin/dashboard/admin-dashboard-overview";
+import { AdminDashboardRecentActivity } from "@/components/features/admin/dashboard/admin-dashboard-recent-activity";
+import { AdminDashboardSiteStatus } from "@/components/features/admin/dashboard/admin-dashboard-site-status";
+import { getAdminDashboardData } from "@/lib/admin/dashboard/queries/get-admin-dashboard-data";
 import { auth } from "@/lib/auth";
-import { SignOutButton } from "@/components/auth/sign-out-button";
 
 export default async function AdminPage() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const [data, session] = await Promise.all([
+    getAdminDashboardData(),
+
+    auth.api.getSession({
+      headers: await headers(),
+    }),
+  ]);
+
+  const firstName = session?.user.name?.trim().split(/\s+/)[0];
 
   return (
-    <main className="min-h-screen px-6 py-10">
-      <div className="mx-auto max-w-6xl">
-        <header className="flex items-center justify-between gap-6 border-b pb-6">
-          <div>
-            <p className="section-eyebrow">Évasion</p>
+    <main className="px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-10 lg:py-10">
+      <AdminDashboardHeader firstName={firstName} />
 
-            <h1 className="mt-2 font-heading text-3xl">Tableau de bord</h1>
+      <AdminDashboardSiteStatus siteStatus={data.siteStatus} />
 
-            <p className="mt-2 text-sm text-muted-foreground">
-              Connecté en tant que {session?.user.email}
-            </p>
-          </div>
+      <AdminDashboardOverview
+        accommodations={data.accommodations}
+        reviews={data.reviews}
+      />
 
-          <SignOutButton />
-        </header>
-
-        <section className="py-10">
-          <div className="rounded-xl border bg-card p-8">
-            <h2 className="font-heading text-2xl">
-              Bienvenue dans l’administration
-            </h2>
-
-            <p className="mt-3 text-muted-foreground">
-              Le socle de connexion est opérationnel. Les fonctionnalités de
-              gestion des logements seront ajoutées ensuite.
-            </p>
-          </div>
-        </section>
-      </div>
+      <AdminDashboardRecentActivity
+        recentPages={data.recentPages}
+        recentAccommodations={data.recentAccommodations}
+      />
     </main>
   );
 }

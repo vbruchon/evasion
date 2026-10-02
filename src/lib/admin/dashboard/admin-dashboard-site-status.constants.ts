@@ -1,0 +1,1 @@
+export const REVIEWS_IMPORT_STALE_AFTER_DAYS = 30;

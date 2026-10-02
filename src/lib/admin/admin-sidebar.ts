@@ -33,17 +33,22 @@ export const adminNavigation: AdminNavigationGroup[] = [
     ],
   },
   {
-    label: "Contenu",
+    label: "Logements",
+    items: [
+      {
+        label: "Tous les logements",
+        href: "/admin/logements",
+        icon: House,
+      },
+    ],
+  },
+  {
+    label: "Pages du site",
     items: [
       {
         label: "Accueil",
         href: "/admin/accueil",
         icon: Home,
-      },
-      {
-        label: "Logements",
-        href: "/admin/logements",
-        icon: House,
       },
       {
         label: "Avis",
@@ -65,6 +70,11 @@ export const adminNavigation: AdminNavigationGroup[] = [
         href: "/admin/contact",
         icon: Mail,
       },
+    ],
+  },
+  {
+    label: "Configuration",
+    items: [
       {
         label: "Informations légales",
         href: "/admin/informations-legales",
