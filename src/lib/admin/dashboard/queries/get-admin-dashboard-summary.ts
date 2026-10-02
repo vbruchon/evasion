@@ -17,6 +17,8 @@ export const getAdminDashboardSummary = async () => {
 
       prisma.accommodation.findFirst({
         where: {
+          status: "PUBLISHED",
+
           lastReviewsImportAt: {
             not: null,
           },

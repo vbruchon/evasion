@@ -113,7 +113,7 @@ describe("getAdminDashboardSummary", () => {
       reviews: {
         total: 2,
         averageRating: 4,
-        lastImportAt: new Date("2026-09-25T10:00:00.000Z"),
+        lastImportAt: new Date("2026-09-20T10:00:00.000Z"),
       },
     });
   });

@@ -30,7 +30,7 @@ export const AdminDashboardAccommodationThumbnail = ({
         src={src}
         alt={alt}
         fill
-        sizes="40px"
+        sizes="44px"
         className="object-cover"
         onError={() => setHasError(true)}
       />
