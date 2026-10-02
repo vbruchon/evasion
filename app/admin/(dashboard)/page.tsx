@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { AdminDashboardHeader } from "@/components/features/admin/dashboard/admin-dashboard-header";
 import { AdminDashboardOverview } from "@/components/features/admin/dashboard/admin-dashboard-overview";
 import { AdminDashboardRecentActivity } from "@/components/features/admin/dashboard/admin-dashboard-recent-activity";
+import { AdminDashboardSiteStatus } from "@/components/features/admin/dashboard/admin-dashboard-site-status";
 import { getAdminDashboardData } from "@/lib/admin/dashboard/queries/get-admin-dashboard-data";
 import { auth } from "@/lib/auth";
 
@@ -20,6 +21,8 @@ export default async function AdminPage() {
   return (
     <main className="px-4 py-6 sm:px-6 sm:py-8 md:px-8 lg:px-10 lg:py-10">
       <AdminDashboardHeader firstName={firstName} />
+
+      <AdminDashboardSiteStatus siteStatus={data.siteStatus} />
 
       <AdminDashboardOverview
         accommodations={data.accommodations}

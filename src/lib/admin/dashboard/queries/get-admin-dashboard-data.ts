@@ -18,6 +18,8 @@ export const getAdminDashboardData = async () => {
     siteStatus.accommodationsWithoutReviews.length;
 
   return {
+    siteStatus,
+
     accommodations: {
       published: publishedAccommodations,
       draft: summary.accommodations.draft,
