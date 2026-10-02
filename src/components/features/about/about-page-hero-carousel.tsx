@@ -15,32 +15,34 @@ export const AboutPageHeroCarousel = ({
     <PageHeroCarousel images={images}>
       {(activeIndex, setActiveIndex) => (
         <>
-          <div aria-hidden="true" className="absolute inset-0 bg-black/15" />
+          <div aria-hidden="true" className="absolute inset-0 bg-black/30" />
 
           <div
             aria-hidden="true"
-            className="absolute inset-0 bg-linear-to-r from-background from-0% via-background/90 via-32% to-transparent to-76%"
+            className="absolute inset-0 bg-linear-to-r from-background from-0% via-background/94 via-42% to-background/18 to-82%"
           />
 
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-linear-to-b from-background/35 to-transparent"
+            className="pointer-events-none absolute inset-x-0 top-0 h-36 bg-linear-to-b from-black/50 to-transparent"
           />
 
           <div
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 h-52 bg-linear-to-t from-background via-background/65 to-transparent sm:h-60"
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-40 bg-linear-to-t from-background/85 via-background/35 to-transparent"
           />
 
-          {images.length > 1 && (
-            <div className="absolute bottom-8 right-6 z-20 flex items-center gap-4 sm:right-12 lg:bottom-10 lg:right-16">
-              <span className="font-serif text-sm tracking-[0.15em] text-foreground/80">
+          {images.length > 1 ? (
+            <div className="absolute bottom-7 right-6 z-20 hidden items-center gap-3 sm:flex lg:bottom-9 lg:right-16 xl:right-20">
+              <span className="font-serif text-xs tracking-[0.15em] text-foreground/70 sm:text-sm">
                 {String(activeIndex + 1).padStart(2, "0")}
-                <span className="mx-2 text-foreground/35">/</span>
+
+                <span className="mx-2 text-foreground/30">/</span>
+
                 {String(images.length).padStart(2, "0")}
               </span>
 
-              <div className="flex items-center gap-2">
+              <div className="hidden items-center gap-2 sm:flex">
                 {images.map((image, index) => {
                   const isActive = index === activeIndex;
 
@@ -51,14 +53,14 @@ export const AboutPageHeroCarousel = ({
                       aria-label={`Afficher l’image ${index + 1}`}
                       aria-current={isActive ? "true" : undefined}
                       onClick={() => setActiveIndex(index)}
-                      className="group flex h-8 w-10 cursor-pointer items-center"
+                      className="group flex h-8 w-9 cursor-pointer items-center"
                     >
                       <span
                         className={cn(
                           "h-px w-full transition-colors duration-500",
                           isActive
                             ? "bg-primary"
-                            : "bg-foreground/25 group-hover:bg-foreground/55",
+                            : "bg-foreground/20 group-hover:bg-foreground/50",
                         )}
                       />
                     </button>
@@ -66,7 +68,7 @@ export const AboutPageHeroCarousel = ({
                 })}
               </div>
             </div>
-          )}
+          ) : null}
         </>
       )}
     </PageHeroCarousel>

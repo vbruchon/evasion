@@ -28,7 +28,7 @@ export const FaqPageHero = ({
 }: FaqPageHeroProps) => (
   <SiteSection
     bordered={false}
-    className="relative min-h-145 overflow-hidden bg-background md:min-h-155 lg:min-h-165"
+    className="relative min-h-115 overflow-hidden border-b border-border/60 bg-background md:min-h-125 lg:min-h-135"
   >
     <AdminEditorRegion
       region="image"
@@ -41,24 +41,32 @@ export const FaqPageHero = ({
         fill
         priority
         unoptimized={imageUrl?.startsWith("blob:")}
+        aria-hidden="true"
         sizes="100vw"
-        className="object-cover object-center"
+        className="scale-[1.01] object-cover object-center opacity-90 blur-[1.5px] saturate-[0.88]"
       />
 
-      <div className="absolute inset-0 bg-black/50" />
+      <div aria-hidden="true" className="absolute inset-0 bg-black/48" />
 
-      <div className="absolute inset-0 bg-linear-to-r from-background from-0% via-background/95 via-38% to-background/15 to-82%" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-linear-to-r from-background from-0% via-background/95 via-42% to-background/25 to-82%"
+      />
 
-      <div className="absolute inset-y-0 right-0 w-[45%] bg-linear-to-l from-black/15 to-transparent" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 top-0 h-36 bg-linear-to-b from-black/50 to-transparent"
+      />
 
-      <div className="absolute inset-x-0 top-0 h-28 bg-linear-to-b from-black/25 to-transparent" />
-
-      <div className="absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-background/60 to-transparent" />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-36 bg-linear-to-t from-background/85 via-background/35 to-transparent"
+      />
     </AdminEditorRegion>
 
     <SiteContainer
       variant="inset"
-      className="relative z-10 flex min-h-145 items-center pb-14 pt-28 md:min-h-155 md:pb-16 md:pt-32 lg:min-h-165"
+      className="relative z-10 flex min-h-115 items-center pb-10 pt-28 md:min-h-125 md:pb-12 md:pt-32 lg:min-h-135"
     >
       <AdminEditorRegion
         region="content"
@@ -72,7 +80,7 @@ export const FaqPageHero = ({
           variant="compact"
         />
 
-        <div className="mt-10 hidden items-center gap-4 md:flex">
+        <div className="mt-8 hidden items-center gap-4 md:flex">
           <span className="h-px w-10 bg-primary/60" />
 
           <span className="text-[0.65rem] uppercase tracking-[0.3em] text-foreground/55">
@@ -85,13 +93,13 @@ export const FaqPageHero = ({
     <AdminEditorRegion
       region="content"
       activeRegion={activeEditorRegion}
-      className="absolute bottom-12 right-10 z-10 hidden -rotate-5 text-right font-handwritten md:block lg:bottom-14 lg:right-16 xl:right-24"
+      className="absolute bottom-10 right-10 z-10 hidden -rotate-5 text-right font-handwritten md:block lg:bottom-12 lg:right-16 xl:right-20"
     >
-      <p className="text-[1.9rem] leading-none text-white/95">
+      <p className="text-[1.7rem] leading-none text-white/85">
         {handwrittenFirstLine}
       </p>
 
-      <p className="mt-1 text-[1.8rem] leading-none text-primary">
+      <p className="mt-1 text-[1.65rem] leading-none text-primary">
         {handwrittenSecondLine}
       </p>
     </AdminEditorRegion>
