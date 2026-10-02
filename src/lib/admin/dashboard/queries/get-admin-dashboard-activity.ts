@@ -7,6 +7,7 @@ import { HOME_PAGE_CONTENT_ID } from "@/lib/home/home-page-defaults";
 import { LEGAL_SITE_SETTINGS_ID } from "@/lib/legal/legal-site-defaults";
 import { prisma } from "@/lib/prisma";
 import { REVIEWS_PAGE_CONTENT_ID } from "@/lib/reviews/reviews-page-defaults";
+import { ACCOMMODATIONS_PAGE_CONTENT_ID } from "@/lib/accommodations-page/accommodations-page-defaults";
 
 export type AdminDashboardRecentAccommodation = {
   id: string;
@@ -27,68 +28,78 @@ export type AdminDashboardRecentPage = {
 };
 
 const getRecentPages = async (): Promise<AdminDashboardRecentPage[]> => {
-  const [homePage, reviewsPage, faqPage, aboutPage, contactPage, legalPage] =
-    await Promise.all([
-      prisma.homePageContent.findUnique({
-        where: {
-          id: HOME_PAGE_CONTENT_ID,
-        },
+  const [
+    homePage,
+    accommodationsPage,
+    reviewsPage,
+    faqPage,
+    aboutPage,
+    contactPage,
+    legalPage,
+  ] = await Promise.all([
+    prisma.homePageContent.findUnique({
+      where: {
+        id: HOME_PAGE_CONTENT_ID,
+      },
+      select: {
+        updatedAt: true,
+      },
+    }),
 
-        select: {
-          updatedAt: true,
-        },
-      }),
+    prisma.accommodationsPageContent.findUnique({
+      where: {
+        id: ACCOMMODATIONS_PAGE_CONTENT_ID,
+      },
+      select: {
+        updatedAt: true,
+      },
+    }),
 
-      prisma.reviewsPageContent.findUnique({
-        where: {
-          id: REVIEWS_PAGE_CONTENT_ID,
-        },
+    prisma.reviewsPageContent.findUnique({
+      where: {
+        id: REVIEWS_PAGE_CONTENT_ID,
+      },
+      select: {
+        updatedAt: true,
+      },
+    }),
 
-        select: {
-          updatedAt: true,
-        },
-      }),
+    prisma.faqPageContent.findUnique({
+      where: {
+        id: FAQ_PAGE_CONTENT_ID,
+      },
+      select: {
+        updatedAt: true,
+      },
+    }),
 
-      prisma.faqPageContent.findUnique({
-        where: {
-          id: FAQ_PAGE_CONTENT_ID,
-        },
+    prisma.aboutPageContent.findUnique({
+      where: {
+        id: ABOUT_PAGE_CONTENT_ID,
+      },
+      select: {
+        updatedAt: true,
+      },
+    }),
 
-        select: {
-          updatedAt: true,
-        },
-      }),
+    prisma.contactPageContent.findUnique({
+      where: {
+        id: CONTACT_PAGE_CONTENT_ID,
+      },
+      select: {
+        updatedAt: true,
+      },
+    }),
 
-      prisma.aboutPageContent.findUnique({
-        where: {
-          id: ABOUT_PAGE_CONTENT_ID,
-        },
-
-        select: {
-          updatedAt: true,
-        },
-      }),
-
-      prisma.contactPageContent.findUnique({
-        where: {
-          id: CONTACT_PAGE_CONTENT_ID,
-        },
-
-        select: {
-          updatedAt: true,
-        },
-      }),
-
-      prisma.legalSiteSettings.findUnique({
-        where: {
-          id: LEGAL_SITE_SETTINGS_ID,
-        },
-
-        select: {
-          updatedAt: true,
-        },
-      }),
-    ]);
+    prisma.legalSiteSettings.findUnique({
+      where: {
+        id: LEGAL_SITE_SETTINGS_ID,
+      },
+      select: {
+        updatedAt: true,
+      },
+    }),
+  ]);
 
   const pages: Array<AdminDashboardRecentPage | null> = [
     homePage
@@ -97,6 +108,15 @@ const getRecentPages = async (): Promise<AdminDashboardRecentPage[]> => {
           label: "Accueil",
           href: "/admin/accueil",
           updatedAt: homePage.updatedAt,
+        }
+      : null,
+
+    accommodationsPage
+      ? {
+          id: "accommodations-page",
+          label: "Nos logements",
+          href: "/admin/nos-logements",
+          updatedAt: accommodationsPage.updatedAt,
         }
       : null,
 

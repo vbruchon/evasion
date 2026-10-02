@@ -3,7 +3,6 @@ import {
   CircleHelp,
   CircleUserRound,
   FileText,
-  Home,
   House,
   LayoutDashboard,
   LayoutTemplate,
@@ -54,7 +53,7 @@ export const adminNavigation: AdminNavigationGroup[] = [
       {
         label: "Nos logements",
         href: "/admin/nos-logements",
-        icon: Home,
+        icon: House,
       },
 
       {
