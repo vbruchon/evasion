@@ -25,7 +25,8 @@
     "test:contact": "dotenv -e .env.test -- vitest run tests/contact",
     "test:home": "dotenv -e .env.test -- vitest run tests/home",
     "test:legal": "dotenv -e .env.test -- vitest run tests/legal",
-    "can-commit": "pnpm exec tsc --noEmit && pnpm lint && git diff --check && pnpm test:accommodations && pnpm test:reviews && pnpm test:about && pnpm test:faq && pnpm test:contact && pnpm test:home && pnpm test:legal"
+    "test:admin": "dotenv -e .env.test -- vitest run tests/admin",
+    "can-commit": "pnpm exec tsc --noEmit && pnpm lint && git diff --check && pnpm test:accommodations && pnpm test:reviews && pnpm test:about && pnpm test:faq && pnpm test:contact && pnpm test:home && pnpm test:legal && pnpm test:admin"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",
