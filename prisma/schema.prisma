@@ -476,3 +476,24 @@ model LegalSiteSettings {
 
   @@map("legal_site_settings")
 }
+
+model AccommodationsPageContent {
+  id String @id
+
+  heroEyebrow      String
+  heroTitle        String
+  heroDescription  String  @db.Text
+  heroImageUrl     String?
+  heroImageFileKey String?
+
+  ctaEyebrow      String
+  ctaTitle        String
+  ctaButtonLabel  String
+  ctaImageUrl     String?
+  ctaImageFileKey String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("accommodations_page_content")
+}
