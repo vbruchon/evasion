@@ -3,9 +3,9 @@ import {
   CircleHelp,
   CircleUserRound,
   FileText,
-  Home,
   House,
   LayoutDashboard,
+  LayoutTemplate,
   Mail,
   Star,
 } from "lucide-react";
@@ -48,8 +48,14 @@ export const adminNavigation: AdminNavigationGroup[] = [
       {
         label: "Accueil",
         href: "/admin/accueil",
-        icon: Home,
+        icon: LayoutTemplate,
       },
+      {
+        label: "Nos logements",
+        href: "/admin/nos-logements",
+        icon: House,
+      },
+
       {
         label: "Avis",
         href: "/admin/avis",

@@ -1,20 +1,32 @@
-import { PageHero } from "@/components/layout/page-hero";
-import { ContactCta } from "@/components/layout/contact-cta";
-import { getPublishedAccommodations } from "@/lib/accommodations/accommodations";
+import { AccommodationsContactCta } from "@/components/features/accommodations/list/accommodations-contact-cta";
+import { AccommodationsPageHero } from "@/components/features/accommodations/list/accommodations-page-hero";
 import { AccommodationsSection } from "@/components/features/accommodations/list/accommodations-section";
+import { getPublishedAccommodations } from "@/lib/accommodations/accommodations";
+import { getAccommodationsPageContent } from "@/lib/accommodations-page/queries/get-accommodations-page-content";
 
 export default async function AccommodationsPage() {
-  const accommodations = await getPublishedAccommodations();
+  const [content, accommodations] = await Promise.all([
+    getAccommodationsPageContent(),
+    getPublishedAccommodations(),
+  ]);
 
   return (
     <main className="min-h-screen bg-background text-foreground">
-      <PageHero
-        title="Nos logements"
-        description="Des lieux singuliers et intimistes, imaginés pour vous offrir une véritable parenthèse à deux."
+      <AccommodationsPageHero
+        eyebrow={content.heroEyebrow}
+        title={content.heroTitle}
+        description={content.heroDescription}
+        imageUrl={content.heroImageUrl}
       />
+
       <AccommodationsSection accommodations={accommodations} />
 
-      <ContactCta />
+      <AccommodationsContactCta
+        eyebrow={content.ctaEyebrow}
+        title={content.ctaTitle}
+        buttonLabel={content.ctaButtonLabel}
+        imageUrl={content.ctaImageUrl}
+      />
     </main>
   );
 }

@@ -21,6 +21,7 @@ import { resetAccommodationDatabase } from "../../helpers/database";
 const resetDashboardActivityDatabase = async () => {
   await Promise.all([
     prisma.homePageContent.deleteMany(),
+    prisma.accommodationsPageContent.deleteMany(),
     prisma.reviewsPageContent.deleteMany(),
     prisma.faqPageContent.deleteMany(),
     prisma.aboutPageContent.deleteMany(),
