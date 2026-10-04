@@ -49,6 +49,7 @@ export const buildAccommodationBookingUrl = (
     if (isAirbnbBookingUrl(bookingUrl)) {
       url.searchParams.set("check_in", checkIn);
       url.searchParams.set("check_out", checkOut);
+      url.searchParams.set("adults", "2");
     }
 
     return url.toString();
