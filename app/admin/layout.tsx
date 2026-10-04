@@ -2,6 +2,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
+import { AdminFlashToast } from "@/components/layout/admin/admin-flash-toast";
 import { isAdminEmail } from "@/lib/admin/is-admin-email";
 import { auth } from "@/lib/auth";
 
@@ -22,5 +23,10 @@ export default async function AdminLayout({ children }: AdminLayoutProps) {
     redirect("/connexion?error=unauthorized");
   }
 
-  return children;
+  return (
+    <>
+      <AdminFlashToast />
+      {children}
+    </>
+  );
 }

@@ -5,6 +5,7 @@ import type { UseFormReturn } from "react-hook-form";
 
 import { updateContactPageContent } from "~/app/admin/contact/action";
 import type { ContactPageContentValues } from "@/lib/contact/contact-page.schema";
+import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
 
 type UseContactPageEditorSubmitOptions = {
   form: UseFormReturn<ContactPageContentValues>;
@@ -37,6 +38,7 @@ export const useContactPageEditorSubmit = ({
           return;
         }
 
+        setAdminSuccessToast("Page Contact enregistrée.");
         window.location.reload();
       } catch {
         setRootError(

@@ -8,6 +8,7 @@ import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-edito
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
 import type { FaqPageContentValues } from "@/lib/faq/faq-page.schema";
+import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
 
 type UseFaqPageEditorSubmitOptions = {
   form: UseFormReturn<FaqPageContentValues>;
@@ -59,6 +60,7 @@ export const useFaqPageEditorSubmit = ({
           return;
         }
 
+        setAdminSuccessToast("Page FAQ enregistrée.");
         window.location.reload();
       } catch {
         setRootError(

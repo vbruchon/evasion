@@ -8,6 +8,7 @@ import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-edito
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
 import type { AccommodationsPageContentValues } from "@/lib/accommodations-page/accommodations-page.schema";
+import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
 
 type UseAccommodationsPageEditorSubmitOptions = {
   form: UseFormReturn<AccommodationsPageContentValues>;
@@ -59,6 +60,7 @@ export const useAccommodationsPageEditorSubmit = ({
           return;
         }
 
+        setAdminSuccessToast("Page Nos logements enregistrée.");
         window.location.reload();
       } catch {
         setRootError(

@@ -9,6 +9,7 @@ import type { AboutPageContentValues } from "@/lib/about/about-page.schema";
 
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-editor-images";
+import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
 
 type UseAboutPageEditorSubmitOptions = {
   form: UseFormReturn<AboutPageContentValues>;
@@ -60,6 +61,7 @@ export const useAboutPageEditorSubmit = ({
           return;
         }
 
+        setAdminSuccessToast("Page À propos enregistrée.");
         window.location.reload();
       } catch {
         setRootError(

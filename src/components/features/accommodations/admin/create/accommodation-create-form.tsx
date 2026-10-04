@@ -14,6 +14,7 @@ import { AccommodationTextField } from "@/components/features/accommodations/adm
 import { AdminFormSection } from "@/components/layout/admin/admin-form-section";
 import { AdminFormSubmitButton } from "@/components/layout/admin/admin-form-submit-button";
 import { FieldGroup } from "@/components/ui/field";
+import { toast } from "sonner";
 
 const defaultValues: AccommodationCreateFormValues = {
   name: "",
@@ -52,6 +53,8 @@ export const AccommodationCreateForm = () => {
 
         return;
       }
+
+      toast.success("Logement créé.");
 
       router.push(`/admin/logements/${result.id}/modifier`);
       router.refresh();

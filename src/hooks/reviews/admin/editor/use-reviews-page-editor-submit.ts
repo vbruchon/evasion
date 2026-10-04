@@ -9,6 +9,7 @@ import type { ReviewsPageContentValues } from "@/lib/reviews/reviews-page.schema
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-editor-images";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
+import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
 
 type UseReviewsPageEditorSubmitOptions = {
   form: UseFormReturn<ReviewsPageContentValues>;
@@ -60,6 +61,7 @@ export const useReviewsPageEditorSubmit = ({
           return;
         }
 
+        setAdminSuccessToast("Page Avis enregistrée.");
         window.location.reload();
       } catch {
         setRootError(
