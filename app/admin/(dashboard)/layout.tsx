@@ -1,7 +1,8 @@
 import type { ReactNode } from "react";
 
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AdminMobileHeader } from "@/components/layout/admin/sidebar/admin-mobile-header";
 import { AdminSidebar } from "@/components/layout/admin/sidebar/admin-navigation";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 type AdminDashboardLayoutProps = {
   children: ReactNode;
@@ -14,7 +15,11 @@ export default function AdminDashboardLayout({
     <SidebarProvider>
       <AdminSidebar />
 
-      <SidebarInset>{children}</SidebarInset>
+      <SidebarInset>
+        <AdminMobileHeader />
+
+        {children}
+      </SidebarInset>
     </SidebarProvider>
   );
 }

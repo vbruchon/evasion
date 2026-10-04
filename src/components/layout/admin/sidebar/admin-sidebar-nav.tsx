@@ -10,6 +10,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 import {
   AdminNavigationGroup,
@@ -22,6 +23,7 @@ type AdminSidebarNavProps = {
 
 export const AdminSidebarNav = ({ groups }: AdminSidebarNavProps) => {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
 
   return groups.map((group) => (
     <SidebarGroup key={group.label}>
@@ -41,7 +43,12 @@ export const AdminSidebarNav = ({ groups }: AdminSidebarNavProps) => {
                   isActive={active}
                   tooltip={item.label}
                   className="h-11 gap-3 rounded-sm px-3"
-                  render={<Link href={item.href} />}
+                  render={
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpenMobile(false)}
+                    />
+                  }
                 >
                   <Icon className="size-4" />
                   <span>{item.label}</span>

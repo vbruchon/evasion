@@ -7,13 +7,17 @@ import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
+  useSidebar,
 } from "@/components/ui/sidebar";
+
+import { adminNavigation } from "@/lib/admin/admin-sidebar";
 
 import { AdminSidebarFooter } from "./admin-sidebar-footer";
 import { AdminSidebarNav } from "./admin-sidebar-nav";
-import { adminNavigation } from "@/lib/admin/admin-sidebar";
 
 export const AdminSidebar = () => {
+  const { setOpenMobile } = useSidebar();
+
   return (
     <Sidebar
       collapsible="offcanvas"
@@ -24,6 +28,7 @@ export const AdminSidebar = () => {
           href="/admin"
           aria-label="Accueil de l’administration Évasion"
           className="inline-flex items-center"
+          onClick={() => setOpenMobile(false)}
         >
           <Image
             src="/logo-horizontal.svg"
