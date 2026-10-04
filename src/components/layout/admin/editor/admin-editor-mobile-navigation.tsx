@@ -1,6 +1,7 @@
 "use client";
 
 import { Eye, Settings2 } from "lucide-react";
+import { motion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
@@ -19,29 +20,51 @@ export const AdminEditorMobileNavigation = ({
     <button
       type="button"
       className={cn(
-        "flex h-11 items-center justify-center gap-2 border-b-2 text-sm font-medium transition-colors",
+        "relative flex h-11 items-center justify-center gap-2 text-sm font-medium transition-colors",
         activeView === "preview"
-          ? "border-primary text-primary"
-          : "border-transparent text-muted-foreground hover:text-foreground",
+          ? "text-primary"
+          : "text-muted-foreground hover:text-foreground",
       )}
       onClick={() => onViewChange("preview")}
     >
       <Eye className="size-4" />
       Aperçu
+      {activeView === "preview" ? (
+        <motion.span
+          layoutId="admin-editor-mobile-view-indicator"
+          aria-hidden="true"
+          className="absolute inset-x-4 bottom-0 h-0.5 bg-primary"
+          transition={{
+            duration: 0.2,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        />
+      ) : null}
     </button>
 
     <button
       type="button"
       className={cn(
-        "flex h-11 items-center justify-center gap-2 border-b-2 text-sm font-medium transition-colors",
+        "relative flex h-11 items-center justify-center gap-2 text-sm font-medium transition-colors",
         activeView === "editor"
-          ? "border-primary text-primary"
-          : "border-transparent text-muted-foreground hover:text-foreground",
+          ? "text-primary"
+          : "text-muted-foreground hover:text-foreground",
       )}
       onClick={() => onViewChange("editor")}
     >
       <Settings2 className="size-4" />
       Édition
+      {activeView === "editor" ? (
+        <motion.span
+          layoutId="admin-editor-mobile-view-indicator"
+          aria-hidden="true"
+          className="absolute inset-x-4 bottom-0 h-0.5 bg-primary"
+          transition={{
+            duration: 0.2,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        />
+      ) : null}
     </button>
   </div>
 );
