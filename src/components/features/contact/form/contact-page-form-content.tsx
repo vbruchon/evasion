@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useFormContext, useWatch } from "react-hook-form";
 
@@ -168,18 +168,23 @@ export const ContactPageFormContent = ({
           <Button
             type="submit"
             size="lg"
+            aria-busy={form.formState.isSubmitting}
             disabled={
               form.formState.isSubmitting || (!preview && !securityReady)
             }
             className="h-13 w-full"
           >
-            {form.formState.isSubmitting
-              ? "Envoi en cours..."
-              : content.submitLabel}
-
-            {!form.formState.isSubmitting ? (
-              <ArrowRight data-icon="inline-end" />
-            ) : null}
+            {form.formState.isSubmitting ? (
+              <>
+                <Loader2 className="size-4 animate-spin" />
+                Envoi en cours...
+              </>
+            ) : (
+              <>
+                {content.submitLabel}
+                <ArrowRight data-icon="inline-end" />
+              </>
+            )}
           </Button>
         </div>
       </AdminEditorRegion>

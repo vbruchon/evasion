@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Loader2 } from "lucide-react";
 import { motion } from "motion/react";
 
 import { Button } from "@/components/ui/button";
@@ -43,6 +43,8 @@ export const AllReviewsSection = ({
     hasMore,
     selectedAccommodation,
     isPending,
+    isFiltering,
+    isLoadingMore,
     handleAccommodationChange,
     handleLoadMore,
   } = useReviewsPageList({
@@ -84,6 +86,7 @@ export const AllReviewsSection = ({
           accommodations={accommodations}
           value={selectedAccommodation}
           disabled={isPending}
+          loading={isFiltering}
           onValueChange={handleAccommodationChange}
         />
       </motion.div>
@@ -91,9 +94,11 @@ export const AllReviewsSection = ({
       {reviews.length > 0 ? (
         <>
           <div
-            className={`mt-10 grid gap-5 transition-opacity duration-200 md:grid-cols-2 xl:grid-cols-3 ${
-              isPending ? "opacity-55" : "opacity-100"
-            }`}
+            aria-busy={isFiltering}
+            className={cn(
+              "mt-10 grid gap-5 transition-opacity duration-200 md:grid-cols-2 xl:grid-cols-3",
+              isFiltering ? "opacity-55" : "opacity-100",
+            )}
           >
             {reviews.map((review, index) => (
               <motion.div
@@ -137,12 +142,21 @@ export const AllReviewsSection = ({
                 variant="outline"
                 size="lg"
                 disabled={isPending}
+                aria-busy={isLoadingMore}
                 onClick={handleLoadMore}
                 className="hover:border-primary/25 hover:bg-transparent hover:text-primary dark:hover:bg-transparent"
               >
-                {isPending ? "Chargement..." : "Afficher plus d’avis"}
-
-                {!isPending ? <ChevronDown className="ml-2 size-3.5" /> : null}
+                {isLoadingMore ? (
+                  <>
+                    <Loader2 className="size-3.5 animate-spin" />
+                    Chargement...
+                  </>
+                ) : (
+                  <>
+                    Afficher plus d’avis
+                    <ChevronDown className="ml-2 size-3.5" />
+                  </>
+                )}
               </Button>
             </motion.div>
           ) : null}

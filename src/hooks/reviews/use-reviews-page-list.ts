@@ -26,14 +26,21 @@ export const useReviewsPageList = ({
     ALL_ACCOMMODATIONS_VALUE,
   );
 
-  const [isPending, startTransition] = useTransition();
+  const [isFiltering, startFiltering] = useTransition();
+  const [isLoadingMore, startLoadingMore] = useTransition();
+
+  const isPending = isFiltering || isLoadingMore;
 
   const handleAccommodationChange = (value: string | null) => {
+    if (isPending) {
+      return;
+    }
+
     const nextValue = value ?? ALL_ACCOMMODATIONS_VALUE;
 
     setSelectedAccommodation(nextValue);
 
-    startTransition(async () => {
+    startFiltering(async () => {
       const result = await loadReviewsPageReviews({
         accommodationSlug:
           nextValue === ALL_ACCOMMODATIONS_VALUE ? undefined : nextValue,
@@ -52,7 +59,7 @@ export const useReviewsPageList = ({
       return;
     }
 
-    startTransition(async () => {
+    startLoadingMore(async () => {
       const result = await loadReviewsPageReviews({
         accommodationSlug:
           selectedAccommodation === ALL_ACCOMMODATIONS_VALUE
@@ -73,6 +80,8 @@ export const useReviewsPageList = ({
     hasMore,
     selectedAccommodation,
     isPending,
+    isFiltering,
+    isLoadingMore,
     handleAccommodationChange,
     handleLoadMore,
   };
