@@ -1,3 +1,5 @@
+import { Loader2 } from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -16,6 +18,7 @@ type AllReviewsFilterProps = {
   accommodations: ReviewsAccommodationFilter[];
   value: string;
   disabled?: boolean;
+  loading?: boolean;
   onValueChange: (value: string | null) => void;
 };
 
@@ -25,6 +28,7 @@ export const AllReviewsFilter = ({
   accommodations,
   value,
   disabled = false,
+  loading = false,
   onValueChange,
 }: AllReviewsFilterProps) => {
   if (accommodations.length <= 1) {
@@ -40,8 +44,15 @@ export const AllReviewsFilter = ({
   return (
     <div className="w-full lg:w-auto">
       <Select value={value} disabled={disabled} onValueChange={onValueChange}>
-        <SelectTrigger className="h-11 w-full min-w-52 border border-border/60 px-4 py-0 text-xs text-foreground lg:w-auto">
+        <SelectTrigger
+          aria-busy={loading}
+          className="h-11 w-full min-w-52 border border-border/60 px-4 py-0 text-xs text-foreground lg:w-auto"
+        >
           <SelectValue>{label}</SelectValue>
+
+          {loading ? (
+            <Loader2 className="ml-auto size-3.5 animate-spin text-primary" />
+          ) : null}
         </SelectTrigger>
 
         <SelectContent align="end">

@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -22,17 +23,21 @@ type AccommodationGalleryProps = {
   accommodationName: string;
   images: AccommodationDisplayImage[];
   editorPreview?: boolean;
+  animated?: boolean;
 };
 
 export const AccommodationGallery = ({
   accommodationName,
   images,
   editorPreview = false,
+  animated = false,
 }: AccommodationGalleryProps) => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [canScrollPrevious, setCanScrollPrevious] = useState(false);
   const [canScrollNext, setCanScrollNext] = useState(false);
+
+  const shouldAnimate = animated && !editorPreview;
 
   useEffect(() => {
     if (!carouselApi) {
@@ -63,11 +68,21 @@ export const AccommodationGallery = ({
     <>
       <SiteSection id="galerie" gutters spacing="compact">
         <SiteContainer>
-          <p className="section-eyebrow text-primary/85">Galerie</p>
+          <motion.div
+            initial={shouldAnimate ? { opacity: 0, y: 12 } : false}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{
+              duration: 0.85,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <p className="section-eyebrow text-primary/85">Galerie</p>
 
-          <h2 className="mt-2 font-heading text-3xl leading-tight tracking-[-0.02em] md:text-[2.5rem]">
-            Découvrez {accommodationName}
-          </h2>
+            <h2 className="mt-2 font-heading text-3xl leading-tight tracking-[-0.02em] md:text-[2.5rem]">
+              Découvrez {accommodationName}
+            </h2>
+          </motion.div>
 
           {images.length > 0 ? (
             <div className="relative mt-5">
@@ -84,22 +99,35 @@ export const AccommodationGallery = ({
                       key={image.id}
                       className="basis-1/2 pl-3 sm:basis-1/3 lg:basis-1/5"
                     >
-                      <button
-                        type="button"
-                        onClick={() => setSelectedIndex(index)}
-                        aria-label={`Agrandir l’image ${index + 1} de ${accommodationName}`}
-                        className="group relative block aspect-video w-full cursor-zoom-in overflow-hidden rounded-sm bg-card"
+                      <motion.div
+                        initial={shouldAnimate ? { opacity: 0, y: 14 } : false}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true, amount: 0.15 }}
+                        transition={{
+                          duration: 0.8,
+                          delay: shouldAnimate
+                            ? Math.min(index * 0.07, 0.28)
+                            : 0,
+                          ease: [0.22, 1, 0.36, 1],
+                        }}
                       >
-                        <Image
-                          src={image.url}
-                          alt={image.alt ?? accommodationName}
-                          fill
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
-                          className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
-                        />
+                        <button
+                          type="button"
+                          onClick={() => setSelectedIndex(index)}
+                          aria-label={`Agrandir l’image ${index + 1} de ${accommodationName}`}
+                          className="group relative block aspect-video w-full cursor-zoom-in overflow-hidden rounded-sm bg-card"
+                        >
+                          <Image
+                            src={image.url}
+                            alt={image.alt ?? accommodationName}
+                            fill
+                            sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                          />
 
-                        <div className="absolute inset-0 bg-black/20 transition-colors duration-500 group-hover:bg-black/5" />
-                      </button>
+                          <div className="absolute inset-0 bg-black/20 transition-colors duration-500 group-hover:bg-black/5" />
+                        </button>
+                      </motion.div>
                     </CarouselItem>
                   ))}
                 </CarouselContent>

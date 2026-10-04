@@ -1,5 +1,10 @@
+import * as motion from "motion/react-client";
 import type { ReactNode } from "react";
 
+import {
+  pageHeroContainerVariants,
+  pageHeroItemVariants,
+} from "@/lib/motion/page-hero-motion";
 import { cn } from "@/lib/utils";
 
 type PageHeroContentProps = {
@@ -7,6 +12,7 @@ type PageHeroContentProps = {
   title: string;
   description: string;
   variant?: "wide" | "compact";
+  animated?: boolean;
   children?: ReactNode;
 };
 
@@ -15,13 +21,19 @@ export const PageHeroContent = ({
   title,
   description,
   variant = "wide",
+  animated = false,
   children,
 }: PageHeroContentProps) => {
   const compact = variant === "compact";
 
   return (
-    <>
-      <p
+    <motion.div
+      variants={pageHeroContainerVariants}
+      initial={animated ? "hidden" : false}
+      animate="visible"
+    >
+      <motion.p
+        variants={pageHeroItemVariants}
         className={cn(
           "uppercase text-primary",
           compact
@@ -30,25 +42,28 @@ export const PageHeroContent = ({
         )}
       >
         {eyebrow}
-      </p>
+      </motion.p>
 
-      <div
+      <motion.div
+        variants={pageHeroItemVariants}
         className={cn(
           "mt-4 h-px bg-primary",
           compact ? "w-8 bg-primary/80" : "w-10",
         )}
       />
 
-      <h1
+      <motion.h1
+        variants={pageHeroItemVariants}
         className={cn(
           "mt-6 font-heading text-[2.8rem] leading-[1.02] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-[3.7rem]",
           compact ? "lg:w-120" : "lg:w-4xl",
         )}
       >
         {title}
-      </h1>
+      </motion.h1>
 
-      <p
+      <motion.p
+        variants={pageHeroItemVariants}
         className={cn(
           compact
             ? "mt-6 max-w-xs text-sm leading-6 text-foreground/72"
@@ -56,9 +71,11 @@ export const PageHeroContent = ({
         )}
       >
         {description}
-      </p>
+      </motion.p>
 
-      {children}
-    </>
+      {children ? (
+        <motion.div variants={pageHeroItemVariants}>{children}</motion.div>
+      ) : null}
+    </motion.div>
   );
 };

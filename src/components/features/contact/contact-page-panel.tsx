@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
@@ -5,37 +6,58 @@ import { cn } from "@/lib/utils";
 type ContactPagePanelProps = {
   children: ReactNode;
   variant: "page" | "modal" | "preview";
+  animated?: boolean;
 };
 
 export const ContactPagePanel = ({
   children,
   variant,
-}: ContactPagePanelProps) => (
-  <div
-    className={cn(
-      "relative min-w-0 bg-background",
-      variant === "page" && "lg:h-svh lg:min-h-0 lg:overflow-y-auto",
-      variant === "modal" && "h-full min-h-0 overflow-y-auto",
-      variant === "preview" && "min-h-full",
-    )}
-  >
-    {variant === "page" ? (
-      <div
-        aria-hidden
-        className="pointer-events-none sticky top-0 z-30 hidden h-24 -mb-24 bg-background lg:block"
-      />
-    ) : null}
+  animated = false,
+}: ContactPagePanelProps) => {
+  const shouldAnimate = animated && variant !== "preview";
 
+  return (
     <div
       className={cn(
-        "flex min-h-full",
-        variant === "page" &&
-          "px-6 pb-16 pt-28 sm:px-10 md:px-14 lg:px-14 lg:pb-4 xl:px-18",
-        variant === "modal" && "px-6 py-10 sm:px-10 lg:px-12 xl:px-14",
-        variant === "preview" && "px-10 py-14 xl:px-14",
+        "relative min-w-0 bg-background",
+        variant === "page" && "lg:h-svh lg:min-h-0 lg:overflow-y-auto",
+        variant === "modal" && "h-full min-h-0 overflow-y-auto",
+        variant === "preview" && "min-h-full",
       )}
     >
-      <div className="mx-auto my-auto w-full min-w-0 max-w-3xl">{children}</div>
+      {variant === "page" ? (
+        <div
+          aria-hidden
+          className="pointer-events-none sticky top-0 z-30 hidden h-24 -mb-24 bg-background lg:block"
+        />
+      ) : null}
+
+      <div
+        className={cn(
+          "flex min-h-full",
+          variant === "page" &&
+            "px-6 pb-16 pt-28 sm:px-10 md:px-14 lg:px-14 lg:pb-4 xl:px-18",
+          variant === "modal" && "px-6 py-10 sm:px-10 lg:px-12 xl:px-14",
+          variant === "preview" && "px-10 py-14 xl:px-14",
+        )}
+      >
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0, y: 14 } : false}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{
+            once: true,
+            amount: 0.15,
+          }}
+          transition={{
+            duration: 0.9,
+            delay: shouldAnimate ? 0.12 : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="mx-auto my-auto w-full min-w-0 max-w-3xl"
+        >
+          {children}
+        </motion.div>
+      </div>
     </div>
-  </div>
-);
+  );
+};

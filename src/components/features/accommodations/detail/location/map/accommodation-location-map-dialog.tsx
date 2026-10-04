@@ -38,6 +38,11 @@ export const AccommodationLocationMapDialog = ({
           md:border!
           md:border-primary/20!
           md:shadow-2xl!
+
+          duration-300
+ease-[cubic-bezier(0.22,1,0.36,1)]
+data-open:zoom-in-[0.985]
+data-closed:zoom-out-[0.985]
         "
       >
         <DialogTitle className="sr-only">Carte de localisation</DialogTitle>

@@ -1,35 +1,53 @@
+import * as motion from "motion/react-client";
 import Image from "next/image";
 
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import { HandwrittenReveal } from "@/components/motion/handwritten-reveal";
 import type { HomePageEscapeEditorSection } from "@/lib/admin/home/editor/editor-sections";
 
 type HomePageEscapeVisualProps = {
   imageUrl: string;
   handwritten: string;
   activeEditorRegion?: HomePageEscapeEditorSection;
+  animated?: boolean;
 };
 
 export const HomePageEscapeVisual = ({
   imageUrl,
   handwritten,
   activeEditorRegion,
+  animated = false,
 }: HomePageEscapeVisualProps) => {
   return (
     <div className="absolute inset-0">
-      <AdminEditorRegion
-        region="image"
-        activeRegion={activeEditorRegion}
+      <motion.div
+        initial={animated ? { opacity: 0 } : false}
+        whileInView={{ opacity: 1 }}
+        viewport={{
+          once: true,
+          amount: 0.2,
+        }}
+        transition={{
+          duration: 1.1,
+          ease: [0.22, 1, 0.36, 1],
+        }}
         className="absolute inset-y-0 right-0 w-full lg:w-[62%]"
       >
-        <Image
-          src={imageUrl}
-          alt=""
-          fill
-          unoptimized={imageUrl.startsWith("blob:")}
-          sizes="(max-width: 1023px) 100vw, 62vw"
-          className="object-cover"
-        />
-      </AdminEditorRegion>
+        <AdminEditorRegion
+          region="image"
+          activeRegion={activeEditorRegion}
+          className="absolute inset-0"
+        >
+          <Image
+            src={imageUrl}
+            alt=""
+            fill
+            unoptimized={imageUrl.startsWith("blob:")}
+            sizes="(max-width: 1023px) 100vw, 62vw"
+            className="object-cover"
+          />
+        </AdminEditorRegion>
+      </motion.div>
 
       <div
         aria-hidden="true"
@@ -49,7 +67,7 @@ export const HomePageEscapeVisual = ({
       <AdminEditorRegion
         region="content"
         activeRegion={activeEditorRegion}
-        className="absolute right-6 bottom-8 z-10"
+        className="absolute bottom-8 right-6 z-10"
       >
         <div
           aria-hidden="true"
@@ -57,7 +75,14 @@ export const HomePageEscapeVisual = ({
         />
 
         <p className="relative rotate-[-4deg] font-handwriting text-xl text-primary drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)] sm:text-2xl">
-          {handwritten}
+          <HandwrittenReveal
+            animated={animated}
+            trigger="inView"
+            delay={0.3}
+            duration={1.35}
+          >
+            {handwritten}
+          </HandwrittenReveal>
         </p>
       </AdminEditorRegion>
     </div>

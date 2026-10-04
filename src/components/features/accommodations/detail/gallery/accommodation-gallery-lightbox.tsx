@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
@@ -86,19 +87,39 @@ export const AccommodationGalleryLightbox = ({
           {images.length}
         </DialogDescription>
 
-        {selectedImage ? (
-          <div className="relative h-[calc(100svh-6rem)] w-[calc(100vw-6rem)] md:h-[calc(100svh-8rem)] md:w-[calc(100vw-10rem)]">
-            <Image
+        <AnimatePresence mode="wait" initial={false}>
+          {selectedImage ? (
+            <motion.div
               key={selectedImage.id}
-              src={selectedImage.url}
-              alt={selectedImage.alt ?? accommodationName}
-              fill
-              priority
-              sizes="100vw"
-              className="object-contain"
-            />
-          </div>
-        ) : null}
+              initial={{
+                opacity: 0,
+                scale: 0.995,
+              }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+              }}
+              exit={{
+                opacity: 0,
+                scale: 0.995,
+              }}
+              transition={{
+                duration: 0.25,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="relative h-[calc(100svh-6rem)] w-[calc(100vw-6rem)] md:h-[calc(100svh-8rem)] md:w-[calc(100vw-10rem)]"
+            >
+              <Image
+                src={selectedImage.url}
+                alt={selectedImage.alt ?? accommodationName}
+                fill
+                priority
+                sizes="100vw"
+                className="object-contain"
+              />
+            </motion.div>
+          ) : null}
+        </AnimatePresence>
 
         {images.length > 1 ? (
           <>

@@ -10,6 +10,7 @@ type HomePageReviewsProps = {
   totalReviews: number;
   reviews: ReviewWithAccommodation[];
   activeEditorRegion?: "content";
+  animated?: boolean;
 };
 
 export const HomePageReviews = ({
@@ -18,6 +19,7 @@ export const HomePageReviews = ({
   totalReviews,
   reviews,
   activeEditorRegion,
+  animated = false,
 }: HomePageReviewsProps) => {
   if (totalReviews === 0 || reviews.length === 0) {
     return null;
@@ -34,9 +36,10 @@ export const HomePageReviews = ({
           averageRating={averageRating}
           totalReviews={totalReviews}
           activeEditorRegion={activeEditorRegion}
+          animated={animated}
         />
 
-        <HomePageReviewsList reviews={reviews} />
+        <HomePageReviewsList reviews={reviews} animated={animated} />
       </div>
     </SiteSection>
   );

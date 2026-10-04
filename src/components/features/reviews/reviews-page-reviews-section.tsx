@@ -1,12 +1,12 @@
 import type { ReviewsAccommodationFilter } from "@/components/features/reviews/all-reviews-filter";
+import { AllReviewsSection } from "@/components/features/reviews/all-reviews-section";
+import { RecentReviewsSection } from "@/components/features/reviews/recent-reviews-section";
+import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
 import type { ReviewsPageReviewsEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import type { ReviewWithAccommodation } from "@/lib/reviews/review.types";
 import type { ReviewsPageReviewsResult } from "@/lib/reviews/reviews-page.types";
-import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
-import { AllReviewsSection } from "@/components/features/reviews/all-reviews-section";
-import { RecentReviewsSection } from "@/components/features/reviews/recent-reviews-section";
-import { SiteContainer } from "@/components/layout/site-container";
-import { SiteSection } from "@/components/layout/site-section";
 
 type ReviewsPageReviewsSectionProps = {
   recentReviewsEyebrow: string;
@@ -21,6 +21,7 @@ type ReviewsPageReviewsSectionProps = {
 
   activeEditorRegion?: ReviewsPageReviewsEditorSection;
   editorPreview?: boolean;
+  animated?: boolean;
 };
 
 export const ReviewsPageReviewsSection = ({
@@ -34,35 +35,42 @@ export const ReviewsPageReviewsSection = ({
   accommodations,
   activeEditorRegion,
   editorPreview = false,
-}: ReviewsPageReviewsSectionProps) => (
-  <SiteSection gutters spacing="large" className="relative overflow-hidden">
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(184,134,55,0.055),transparent_30%)]" />
+  animated = false,
+}: ReviewsPageReviewsSectionProps) => {
+  const shouldAnimate = animated && !editorPreview;
 
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_75%,rgba(184,134,55,0.025),transparent_28%)]" />
+  return (
+    <SiteSection gutters spacing="large" className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_85%_15%,rgba(184,134,55,0.055),transparent_30%)]" />
 
-    <SiteContainer className="relative">
-      <AdminEditorRegion
-        region="recent"
-        activeRegion={activeEditorRegion}
-        className={editorPreview ? "[&_a]:pointer-events-none" : undefined}
-      >
-        <RecentReviewsSection
-          eyebrow={recentReviewsEyebrow}
-          title={recentReviewsTitle}
-          description={recentReviewsDescription}
-          reviews={recentReviews}
-        />
-      </AdminEditorRegion>
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_75%,rgba(184,134,55,0.025),transparent_28%)]" />
 
-      <AdminEditorRegion region="all" activeRegion={activeEditorRegion}>
-        <AllReviewsSection
-          title={allReviewsTitle}
-          description={allReviewsDescription}
-          initialResult={initialReviews}
-          accommodations={accommodations}
-          editorPreview={editorPreview}
-        />
-      </AdminEditorRegion>
-    </SiteContainer>
-  </SiteSection>
-);
+      <SiteContainer className="relative">
+        <AdminEditorRegion
+          region="recent"
+          activeRegion={activeEditorRegion}
+          className={editorPreview ? "[&_a]:pointer-events-none" : undefined}
+        >
+          <RecentReviewsSection
+            eyebrow={recentReviewsEyebrow}
+            title={recentReviewsTitle}
+            description={recentReviewsDescription}
+            reviews={recentReviews}
+            animated={shouldAnimate}
+          />
+        </AdminEditorRegion>
+
+        <AdminEditorRegion region="all" activeRegion={activeEditorRegion}>
+          <AllReviewsSection
+            title={allReviewsTitle}
+            description={allReviewsDescription}
+            initialResult={initialReviews}
+            accommodations={accommodations}
+            editorPreview={editorPreview}
+            animated={shouldAnimate}
+          />
+        </AdminEditorRegion>
+      </SiteContainer>
+    </SiteSection>
+  );
+};

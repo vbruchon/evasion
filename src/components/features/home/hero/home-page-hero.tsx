@@ -1,6 +1,12 @@
+import * as motion from "motion/react-client";
+
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { PageLinkButton } from "@/components/layout/page-link-button";
 import { SiteSection } from "@/components/layout/site-section";
+import {
+  pageHeroContainerVariants,
+  pageHeroItemVariants,
+} from "@/lib/motion/page-hero-motion";
 import type { AccommodationHeroImage } from "@/lib/accommodations/queries/get-accommodation-hero-images";
 
 import { HomePageHeroCarousel } from "./home-page-hero-carousel";
@@ -13,6 +19,7 @@ type HomePageHeroProps = {
   images: readonly AccommodationHeroImage[];
   totalAccommodations: number;
   activeEditorRegion?: "content";
+  animated?: boolean;
 };
 
 export const HomePageHero = ({
@@ -23,6 +30,7 @@ export const HomePageHero = ({
   images,
   totalAccommodations,
   activeEditorRegion,
+  animated = false,
 }: HomePageHeroProps) => {
   return (
     <SiteSection
@@ -37,24 +45,48 @@ export const HomePageHero = ({
           activeRegion={activeEditorRegion}
           className="my-auto max-w-4xl"
         >
-          <p className="mb-5 text-xs font-medium uppercase tracking-[0.32em] text-primary">
-            {eyebrow}
-          </p>
+          <motion.div
+            variants={pageHeroContainerVariants}
+            initial={animated ? "hidden" : false}
+            animate="visible"
+          >
+            <motion.p
+              variants={pageHeroItemVariants}
+              className="mb-5 text-xs font-medium uppercase tracking-[0.32em] text-primary"
+            >
+              {eyebrow}
+            </motion.p>
 
-          <h1 className="max-w-4xl font-serif text-5xl leading-[0.98] tracking-[-0.035em] text-white sm:text-6xl lg:text-7xl xl:text-[5.5rem]">
-            {title}
-          </h1>
+            <motion.h1
+              variants={pageHeroItemVariants}
+              className="max-w-4xl font-heading text-5xl leading-[0.98] tracking-[-0.035em] text-white sm:text-6xl lg:text-7xl xl:text-[5.5rem]"
+            >
+              {title}
+            </motion.h1>
 
-          <p className="mt-7 max-w-2xl text-base leading-7 text-white/90 sm:text-lg sm:leading-8">
-            {description}
-          </p>
+            <motion.p
+              variants={pageHeroItemVariants}
+              className="mt-7 max-w-2xl text-base leading-7 text-white/90 sm:text-lg sm:leading-8"
+            >
+              {description}
+            </motion.p>
 
-          <div className="mt-9">
-            <PageLinkButton href="/logements">{buttonLabel}</PageLinkButton>
-          </div>
+            <motion.div variants={pageHeroItemVariants} className="mt-9">
+              <PageLinkButton href="/logements">{buttonLabel}</PageLinkButton>
+            </motion.div>
+          </motion.div>
         </AdminEditorRegion>
 
-        <div className="flex max-w-[calc(100%-180px)] items-center gap-4 pb-1 max-sm:hidden">
+        <motion.div
+          initial={animated ? { opacity: 0, y: 8 } : false}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 0.9,
+            delay: animated ? 0.5 : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="flex max-w-[calc(100%-180px)] items-center gap-4 pb-1 max-sm:hidden"
+        >
           <span className="h-px w-12 shrink-0 bg-primary/70" />
 
           <span className="text-[0.65rem] uppercase tracking-[0.3em] text-white/65">
@@ -64,7 +96,7 @@ export const HomePageHero = ({
             <span className="mx-3 text-primary/70">·</span>
             Pensés pour deux
           </span>
-        </div>
+        </motion.div>
       </div>
     </SiteSection>
   );

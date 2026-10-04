@@ -1,5 +1,7 @@
 "use client";
 
+import { useTransition } from "react";
+
 import type { AccommodationStatus } from "@/generated/prisma/client";
 
 import { updateAccommodationStatus } from "~/app/admin/logements/action";
@@ -16,10 +18,25 @@ export const AccommodationStatusBadge = ({
   id,
   status,
   disabled = false,
-}: AccommodationStatusBadgeProps) => (
-  <AccommodationStatusDropdown
-    status={status}
-    disabled={disabled}
-    onStatusChange={(nextStatus) => updateAccommodationStatus(id, nextStatus)}
-  />
-);
+}: AccommodationStatusBadgeProps) => {
+  const [isPending, startTransition] = useTransition();
+
+  const handleStatusChange = (nextStatus: AccommodationStatus) => {
+    if (nextStatus === status || isPending) {
+      return;
+    }
+
+    startTransition(async () => {
+      await updateAccommodationStatus(id, nextStatus);
+    });
+  };
+
+  return (
+    <AccommodationStatusDropdown
+      status={status}
+      disabled={disabled || isPending}
+      pending={isPending}
+      onStatusChange={handleStatusChange}
+    />
+  );
+};

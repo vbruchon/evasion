@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 import { Bath, BedDouble, DoorOpen, Ruler, Users } from "lucide-react";
 
 import type { AccommodationKeyDetailsData } from "@/lib/accommodations/accommodation-types";
@@ -5,6 +6,7 @@ import type { AccommodationKeyDetailsData } from "@/lib/accommodations/accommoda
 type AccommodationKeyDetailsProps = {
   accommodationDetails: AccommodationKeyDetailsData;
   editorPreview?: boolean;
+  animated?: boolean;
 };
 
 const DETAILS = [
@@ -43,10 +45,11 @@ const DETAILS = [
 export const AccommodationKeyDetails = ({
   accommodationDetails,
   editorPreview = false,
+  animated = false,
 }: AccommodationKeyDetailsProps) => {
   return (
     <div className="grid grid-cols-2 gap-x-6 gap-y-4 md:flex md:flex-wrap md:items-center md:gap-x-8 lg:gap-x-10 xl:gap-x-12">
-      {DETAILS.map(({ id, icon: Icon, singular, plural }) => {
+      {DETAILS.map(({ id, icon: Icon, singular, plural }, index) => {
         const value = accommodationDetails[id];
 
         if (value == null && !editorPreview) {
@@ -56,7 +59,17 @@ export const AccommodationKeyDetails = ({
         const label = value === 1 ? singular : plural;
 
         return (
-          <div key={id} className="flex items-center gap-2 lg:gap-2.5">
+          <motion.div
+            key={id}
+            initial={animated ? { opacity: 0, y: 8 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.65,
+              delay: animated ? 0.38 + index * 0.05 : 0,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+            className="flex items-center gap-2 lg:gap-2.5"
+          >
             <Icon className="size-6 shrink-0 text-primary" strokeWidth={1.5} />
 
             <span className="text-base lg:text-lg">
@@ -77,7 +90,7 @@ export const AccommodationKeyDetails = ({
                 {label}
               </span>
             </span>
-          </div>
+          </motion.div>
         );
       })}
     </div>

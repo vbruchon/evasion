@@ -1,3 +1,7 @@
+"use client";
+
+import { motion } from "motion/react";
+
 import { cn } from "@/lib/utils";
 
 type AdminEditorSubsection = {
@@ -49,13 +53,17 @@ export const AdminEditorSubsectionNav = <T extends string>({
         >
           {section.label}
 
-          <span
-            aria-hidden="true"
-            className={cn(
-              "absolute inset-x-2 bottom-0 h-px bg-primary transition-opacity",
-              active ? "opacity-100" : "opacity-0",
-            )}
-          />
+          {active ? (
+            <motion.span
+              layoutId={`admin-editor-subsection-${ariaLabel}`}
+              aria-hidden="true"
+              className="absolute inset-x-2 bottom-0 h-px bg-primary"
+              transition={{
+                duration: 0.18,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            />
+          ) : null}
         </button>
       );
     })}

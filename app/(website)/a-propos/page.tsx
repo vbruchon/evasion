@@ -3,12 +3,12 @@ import { AboutPageHero } from "@/components/features/about/about-page-hero";
 import { AboutPagePhilosophy } from "@/components/features/about/about-page-philosophy";
 import { AboutPageSpirit } from "@/components/features/about/about-page-spirit";
 import { AboutPageStats } from "@/components/features/about/about-page-stats";
+import { getAccommodationHeroImages } from "@/lib/accommodations/queries/get-accommodation-hero-images";
 import {
   ABOUT_HERO_FALLBACK_IMAGES,
   ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE,
 } from "@/lib/about/about-page-defaults";
 import { getAboutPageContent } from "@/lib/about/queries/get-about-page-content";
-import { getAccommodationHeroImages } from "@/lib/accommodations/queries/get-accommodation-hero-images";
 import { getAboutPageStats } from "@/lib/about/queries/get-about-page-stats";
 
 export const dynamic = "force-dynamic";
@@ -33,6 +33,7 @@ export default async function AboutPage() {
         description={content.heroDescription}
         buttonLabel={content.heroButtonLabel}
         images={heroImages}
+        animated
       />
 
       <AboutPageSpirit
@@ -42,6 +43,7 @@ export default async function AboutPage() {
         secondParagraph={content.spiritSecondParagraph}
         handwritten={content.spiritHandwritten}
         imageUrl={content.spiritImageUrl ?? ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE}
+        animated
       />
 
       <AboutPagePhilosophy
@@ -56,6 +58,7 @@ export default async function AboutPage() {
         thirdDescription={content.philosophyThirdDescription}
         fourthTitle={content.philosophyFourthTitle}
         fourthDescription={content.philosophyFourthDescription}
+        animated
       />
 
       <AboutPageStats
@@ -64,6 +67,7 @@ export default async function AboutPage() {
         totalAccommodations={stats.totalAccommodations}
         totalReviews={stats.totalReviews}
         averageRating={stats.averageRating}
+        animated
       />
 
       <AboutPageCta
@@ -72,6 +76,7 @@ export default async function AboutPage() {
         description={content.ctaDescription}
         buttonLabel={content.ctaButtonLabel}
         imageUrl={content.ctaImageUrl}
+        animated
       />
     </main>
   );

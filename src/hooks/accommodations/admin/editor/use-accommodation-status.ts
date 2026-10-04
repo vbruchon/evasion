@@ -6,6 +6,7 @@ import { useWatch } from "react-hook-form";
 
 import { updateAccommodationStatus } from "~/app/admin/logements/action";
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
+import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
 
 type UseAccommodationStatusOptions = {
   accommodationId: string;
@@ -48,6 +49,9 @@ export const useAccommodationStatus = ({
     try {
       await updateAccommodationStatus(accommodationId, status);
 
+      await updateAccommodationStatus(accommodationId, status);
+
+      setAdminSuccessToast("Statut du logement mis à jour.");
       window.location.reload();
     } catch {
       form.setError("root", {

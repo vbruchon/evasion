@@ -48,8 +48,12 @@ export const ContactModal = ({
           bg-background
           p-0
           shadow-2xl
+          duration-300
+          ease-[cubic-bezier(0.22,1,0.36,1)]
           sm:w-[min(94vw,1440px)]
           sm:max-w-none
+          data-open:zoom-in-[0.985]
+          data-closed:zoom-out-[0.985]
         "
       >
         <DialogTitle className="sr-only">Nous contacter</DialogTitle>
@@ -65,7 +69,7 @@ export const ContactModal = ({
           size="icon"
           aria-label="Fermer"
           onClick={() => router.back()}
-          className="absolute right-4 top-4 z-40 border border-border/60 bg-background/75 backdrop-blur-md hover:bg-background"
+          className="absolute right-4 top-4 z-40 border border-border/60 bg-background/75 backdrop-blur-md transition-colors duration-300 hover:bg-background"
         >
           <X className="size-4" />
         </Button>
@@ -80,12 +84,14 @@ export const ContactModal = ({
             reassuranceSecondLabel={content.reassuranceSecondLabel}
             reassuranceThirdLabel={content.reassuranceThirdLabel}
             variant="modal"
+            animated
           />
 
-          <ContactPagePanel variant="modal">
+          <ContactPagePanel variant="modal" animated>
             <ContactPageInteractive
               content={content}
               accommodations={accommodations}
+              animated
             />
           </ContactPagePanel>
         </div>

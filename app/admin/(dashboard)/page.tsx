@@ -1,13 +1,15 @@
+import { Suspense } from "react";
 import { headers } from "next/headers";
 
 import { AdminDashboardHeader } from "@/components/features/admin/dashboard/admin-dashboard-header";
 import { AdminDashboardOverview } from "@/components/features/admin/dashboard/admin-dashboard-overview";
 import { AdminDashboardRecentActivity } from "@/components/features/admin/dashboard/admin-dashboard-recent-activity";
 import { AdminDashboardSiteStatus } from "@/components/features/admin/dashboard/admin-dashboard-site-status";
+import { AdminDashboardSkeleton } from "@/components/features/admin/dashboard/admin-dashboard-skeleton";
 import { getAdminDashboardData } from "@/lib/admin/dashboard/queries/get-admin-dashboard-data";
 import { auth } from "@/lib/auth";
 
-export default async function AdminPage() {
+const AdminDashboardContent = async () => {
   const [data, session] = await Promise.all([
     getAdminDashboardData(),
 
@@ -34,5 +36,13 @@ export default async function AdminPage() {
         recentAccommodations={data.recentAccommodations}
       />
     </main>
+  );
+};
+
+export default function AdminPage() {
+  return (
+    <Suspense fallback={<AdminDashboardSkeleton />}>
+      <AdminDashboardContent />
+    </Suspense>
   );
 }

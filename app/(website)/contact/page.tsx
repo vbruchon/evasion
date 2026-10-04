@@ -24,12 +24,14 @@ export default async function ContactPage() {
           reassuranceSecondLabel={content.reassuranceSecondLabel}
           reassuranceThirdLabel={content.reassuranceThirdLabel}
           variant="page"
+          animated
         />
 
-        <ContactPagePanel variant="page">
+        <ContactPagePanel variant="page" animated>
           <ContactPageInteractive
             content={content}
             accommodations={accommodations}
+            animated
           />
         </ContactPagePanel>
       </section>

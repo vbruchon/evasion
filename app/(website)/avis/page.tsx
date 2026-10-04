@@ -43,6 +43,7 @@ export default async function ReviewsPage() {
         imageUrl={content.heroImageUrl}
         averageRating={summary.averageRating}
         totalReviews={summary.totalReviews}
+        animated
       />
 
       <ReviewsPageReviewsSection
@@ -54,6 +55,7 @@ export default async function ReviewsPage() {
         allReviewsDescription={content.allReviewsDescription}
         initialReviews={initialReviews}
         accommodations={accommodations}
+        animated
       />
 
       <ReviewsPageCta
@@ -64,6 +66,7 @@ export default async function ReviewsPage() {
         handwrittenHighlight={content.ctaHandwrittenHighlight}
         buttonLabel={content.ctaButtonLabel}
         imageUrl={content.ctaImageUrl}
+        animated
       />
     </main>
   );

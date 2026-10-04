@@ -61,18 +61,21 @@ export default async function AccommodationPage({
         coverImage={coverImage}
         hasGallery={accommodation.images.length > 0}
         highlights={accommodation.highlights}
+        animated
       />
 
       <AccommodationPresentation
         accommodation={accommodation}
         image={presentationImage}
+        animated
       />
 
-      <AccommodationAmenities amenities={accommodation.amenities} />
+      <AccommodationAmenities amenities={accommodation.amenities} animated />
 
       <AccommodationLocation
         accommodation={accommodation}
         accesses={accommodation.accesses}
+        animated
       />
 
       <AccommodationAvailability
@@ -83,17 +86,20 @@ export default async function AccommodationPage({
         availabilityDescription={accommodation.availabilityDescription}
         bookingButtonLabel={accommodation.bookingButtonLabel}
         error={availabilityError}
+        animated
       />
 
       <AccommodationReviews
         reviews={accommodation.reviews}
         title={accommodation.reviewsTitle}
         description={accommodation.reviewsDescription}
+        animated
       />
 
       <AccommodationGallery
         accommodationName={accommodation.name}
         images={galleryImages}
+        animated
       />
     </main>
   );

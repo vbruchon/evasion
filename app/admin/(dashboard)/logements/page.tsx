@@ -1,14 +1,20 @@
 import { Eye, House, Plus } from "lucide-react";
 import Link from "next/link";
+import { Suspense } from "react";
 
-import { Button } from "@/components/ui/button";
 import { AccommodationsAdminTable } from "@/components/features/accommodations/admin/list/accommodations-admin-table";
-import { getAdminAccommodations } from "@/lib/admin/accommodation/queries/get-admin-accommodations";
+import { AccommodationsAdminTableSkeleton } from "@/components/features/accommodations/admin/list/accommodations-admin-table-skeleton";
 import { AdminPageHeader } from "@/components/layout/admin/admin-page-header";
+import { Button } from "@/components/ui/button";
+import { getAdminAccommodations } from "@/lib/admin/accommodation/queries/get-admin-accommodations";
 
-export default async function AdminAccommodationsPage() {
+const AdminAccommodationsTableContent = async () => {
   const accommodations = await getAdminAccommodations();
 
+  return <AccommodationsAdminTable accommodations={accommodations} />;
+};
+
+export default function AdminAccommodationsPage() {
   return (
     <main className="px-6 py-10 md:px-8 lg:px-10">
       <AdminPageHeader
@@ -46,7 +52,9 @@ export default async function AdminAccommodationsPage() {
       />
 
       <section className="py-6">
-        <AccommodationsAdminTable accommodations={accommodations} />
+        <Suspense fallback={<AccommodationsAdminTableSkeleton />}>
+          <AdminAccommodationsTableContent />
+        </Suspense>
       </section>
     </main>
   );

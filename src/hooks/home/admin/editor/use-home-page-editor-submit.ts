@@ -8,6 +8,7 @@ import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-edito
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
 import type { HomePageContentValues } from "@/lib/home/home-page.schema";
+import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
 
 type UseHomePageEditorSubmitOptions = {
   form: UseFormReturn<HomePageContentValues>;
@@ -59,6 +60,7 @@ export const useHomePageEditorSubmit = ({
           return;
         }
 
+        setAdminSuccessToast("Page d’accueil enregistrée.");
         window.location.reload();
       } catch {
         setRootError(

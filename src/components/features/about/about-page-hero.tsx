@@ -1,8 +1,11 @@
+import * as motion from "motion/react-client";
+
 import { AboutPageHeroCarousel } from "@/components/features/about/about-page-hero-carousel";
-import type { AboutHeroImage } from "@/lib/about/about-page.types";
-import { PageLinkButton } from "@/components/layout/page-link-button";
-import { SiteSection } from "@/components/layout/site-section";
 import { PageHeroContent } from "@/components/layout/page-hero-content";
+import { PageLinkButton } from "@/components/layout/page-link-button";
+import { SiteContainer } from "@/components/layout/site-container";
+import { SiteSection } from "@/components/layout/site-section";
+import type { AboutHeroImage } from "@/lib/about/about-page.types";
 
 type AboutPageHeroProps = {
   eyebrow: string;
@@ -10,6 +13,7 @@ type AboutPageHeroProps = {
   description: string;
   buttonLabel: string;
   images: AboutHeroImage[];
+  animated?: boolean;
 };
 
 export const AboutPageHero = ({
@@ -18,35 +22,47 @@ export const AboutPageHero = ({
   description,
   buttonLabel,
   images,
-}: AboutPageHeroProps) => {
-  return (
-    <SiteSection
-      bordered={false}
-      className="relative min-h-190 overflow-hidden bg-background lg:h-[clamp(720px,86svh,860px)] lg:min-h-0"
+  animated = false,
+}: AboutPageHeroProps) => (
+  <SiteSection
+    bordered={false}
+    className="relative min-h-145 overflow-hidden border-b border-border/60 bg-background md:min-h-155 lg:h-[clamp(600px,72svh,700px)] lg:min-h-0"
+  >
+    <AboutPageHeroCarousel images={images} />
+
+    <SiteContainer
+      variant="inset"
+      className="relative z-10 flex min-h-145 flex-col pb-10 pt-28 md:min-h-155 md:pb-12 md:pt-32 lg:h-full lg:min-h-0"
     >
-      <AboutPageHeroCarousel images={images} />
-
-      <div className="relative z-10 mx-auto flex h-full min-h-190 w-full max-w-[1920px] flex-col px-6 pb-10 pt-32 sm:px-12 lg:min-h-0 lg:px-20 lg:pt-36 xl:px-24">
-        <div className="my-auto max-w-4xl">
-          <PageHeroContent
-            eyebrow={eyebrow}
-            title={title}
-            description={description}
-          >
-            <div className="mt-9 flex justify-center sm:justify-start">
-              <PageLinkButton href="/logements">{buttonLabel}</PageLinkButton>
-            </div>
-          </PageHeroContent>
-        </div>
-
-        <div className="hidden items-center gap-4 pb-1 lg:flex">
-          <span className="h-px w-12 bg-primary/60" />
-
-          <span className="text-[0.65rem] uppercase tracking-[0.32em] text-muted-foreground/90">
-            Ralentir · Se retrouver · Profiter
-          </span>
-        </div>
+      <div className="my-auto max-w-xl lg:max-w-2xl">
+        <PageHeroContent
+          eyebrow={eyebrow}
+          title={title}
+          description={description}
+          animated={animated}
+        >
+          <div className="mt-8 flex sm:mt-9">
+            <PageLinkButton href="/logements">{buttonLabel}</PageLinkButton>
+          </div>
+        </PageHeroContent>
       </div>
-    </SiteSection>
-  );
-};
+
+      <motion.div
+        initial={animated ? { opacity: 0, y: 8 } : false}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{
+          duration: 0.9,
+          delay: animated ? 0.5 : 0,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="hidden items-center gap-4 pb-1 lg:flex"
+      >
+        <span className="h-px w-10 bg-primary/60" />
+
+        <span className="text-[0.65rem] uppercase tracking-[0.3em] text-muted-foreground/80">
+          Ralentir · Se retrouver · Profiter
+        </span>
+      </motion.div>
+    </SiteContainer>
+  </SiteSection>
+);

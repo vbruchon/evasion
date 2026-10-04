@@ -1,6 +1,6 @@
 "use client";
 
-import { ExternalLink, FileClock, Trash2 } from "lucide-react";
+import { ExternalLink, FileClock, LoaderCircle, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -56,12 +56,18 @@ export const AccommodationEditorDraftBanner = ({
             <Button
               type="button"
               variant="outline"
-              className="text-destructive hover:text-destructive"
+              className="border-destructive/40 text-destructive hover:bg-destructive/5 hover:text-destructive"
               disabled={disabled}
-              onClick={() => setIsConfirmingDiscard(true)}
+              aria-busy={isDiscarding}
+              onClick={onDiscard}
             >
-              <Trash2 />
-              Abandonner le brouillon
+              {isDiscarding ? (
+                <LoaderCircle className="animate-spin" />
+              ) : (
+                <Trash2 />
+              )}
+
+              {isDiscarding ? "Suppression..." : "Confirmer l’abandon"}
             </Button>
           ) : (
             <>

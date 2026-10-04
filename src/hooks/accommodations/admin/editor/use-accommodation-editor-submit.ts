@@ -13,6 +13,7 @@ import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/sc
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { getAccommodationDraftValues } from "@/lib/admin/accommodation/draft/accommodation-draft";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/images/prepare-accommodation-update-images";
+import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
 
 type UseAccommodationEditorSubmitOptions = {
   accommodationId: string;
@@ -72,6 +73,12 @@ export const useAccommodationEditorSubmit = ({
           return;
         }
 
+        setAdminSuccessToast(
+          values.status === "PUBLISHED"
+            ? "Modifications publiées."
+            : "Logement enregistré.",
+        );
+
         window.location.reload();
       } catch {
         setRootError(
@@ -126,6 +133,7 @@ export const useAccommodationEditorSubmit = ({
         return;
       }
 
+      setAdminSuccessToast("Brouillon enregistré.");
       window.location.reload();
     } catch {
       setRootError(
@@ -148,6 +156,7 @@ export const useAccommodationEditorSubmit = ({
         return;
       }
 
+      setAdminSuccessToast("Brouillon abandonné.");
       window.location.reload();
     } catch {
       setRootError(

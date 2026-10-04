@@ -1,3 +1,5 @@
+import * as motion from "motion/react-client";
+
 import { getAccommodationAccess } from "@/lib/accommodations/accommodation-accesses";
 
 import { AccommodationLocationAccessPanel } from "./access/accommodation-location-access-panel";
@@ -16,6 +18,7 @@ type AccommodationLocationProps = {
   accesses: AccommodationAccessData[];
   editorPreview?: boolean;
   activeEditorRegion?: AccommodationLocationEditorSection;
+  animated?: boolean;
 };
 
 export const AccommodationLocation = ({
@@ -23,6 +26,7 @@ export const AccommodationLocation = ({
   accesses,
   editorPreview = false,
   activeEditorRegion,
+  animated = false,
 }: AccommodationLocationProps) => {
   const hasContent =
     Boolean(accommodation.locationTitle) ||
@@ -32,6 +36,8 @@ export const AccommodationLocation = ({
     Boolean(getAccommodationAccess(access.key)),
   );
 
+  const shouldAnimate = animated && !editorPreview;
+
   if (!hasContent && !hasAccesses && !editorPreview) {
     return null;
   }
@@ -39,13 +45,33 @@ export const AccommodationLocation = ({
   return (
     <SiteSection id="localisation" gutters spacing="default">
       <SiteContainer className="grid gap-10 xl:grid-cols-[0.95fr_2fr] xl:items-stretch xl:gap-14">
-        <AccommodationLocationContent
-          accommodation={accommodation}
-          editorPreview={editorPreview}
-          activeEditorRegion={activeEditorRegion}
-        />
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0, y: 14 } : false}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{
+            duration: 0.9,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+        >
+          <AccommodationLocationContent
+            accommodation={accommodation}
+            editorPreview={editorPreview}
+            activeEditorRegion={activeEditorRegion}
+          />
+        </motion.div>
 
-        <div className="grid overflow-hidden rounded-xl border border-border/60 bg-card/10 xl:grid-cols-[260px_minmax(0,1fr)]">
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0, y: 18 } : false}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+          transition={{
+            duration: 0.95,
+            delay: shouldAnimate ? 0.1 : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="grid overflow-hidden rounded-xl border border-border/60 bg-card/10 xl:grid-cols-[260px_minmax(0,1fr)]"
+        >
           <AccommodationLocationAccessPanel
             accesses={accesses}
             editorPreview={editorPreview}
@@ -59,7 +85,7 @@ export const AccommodationLocation = ({
             editorPreview={editorPreview}
             activeEditorRegion={activeEditorRegion}
           />
-        </div>
+        </motion.div>
       </SiteContainer>
     </SiteSection>
   );

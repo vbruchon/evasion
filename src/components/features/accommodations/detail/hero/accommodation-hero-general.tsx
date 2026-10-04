@@ -1,40 +1,61 @@
+import * as motion from "motion/react-client";
+
 import type { AccommodationHeroGeneralData } from "@/lib/accommodations/accommodation-types";
 import { ACCOMMODATION_PREVIEW_PLACEHOLDERS } from "@/lib/accommodations/accommodation-preview-placeholders";
+import {
+  pageHeroContainerVariants,
+  pageHeroItemVariants,
+} from "@/lib/motion/page-hero-motion";
 
 type AccommodationHeroGeneralProps = {
   accommodation: AccommodationHeroGeneralData;
   editorPreview?: boolean;
+  animated?: boolean;
 };
 
 export const AccommodationHeroGeneral = ({
   accommodation,
   editorPreview = false,
+  animated = false,
 }: AccommodationHeroGeneralProps) => {
   return (
-    <>
+    <motion.div
+      variants={pageHeroContainerVariants}
+      initial={animated ? "hidden" : false}
+      animate="visible"
+    >
       {accommodation.type ? (
-        <p className="font-heading text-lg italic text-primary md:text-xl">
+        <motion.p
+          variants={pageHeroItemVariants}
+          className="font-heading text-lg italic text-primary md:text-xl"
+        >
           {accommodation.type}
-        </p>
+        </motion.p>
       ) : editorPreview ? (
         <p className="font-heading text-lg italic text-primary/60 md:text-xl">
           {ACCOMMODATION_PREVIEW_PLACEHOLDERS.hero.type}
         </p>
       ) : null}
 
-      <h1 className="mt-4 font-heading text-4xl leading-[0.92] uppercase tracking-tight text-white md:text-6xl lg:mt-7">
+      <motion.h1
+        variants={pageHeroItemVariants}
+        className="mt-4 font-heading text-4xl leading-[0.92] uppercase tracking-tight text-white md:text-6xl lg:mt-7"
+      >
         {accommodation.name}
-      </h1>
+      </motion.h1>
 
       {accommodation.subtitle ? (
-        <p className="mt-5 text-base leading-7 text-white/85 md:text-lg lg:mt-8">
+        <motion.p
+          variants={pageHeroItemVariants}
+          className="mt-5 text-base leading-7 text-white/85 md:text-lg lg:mt-8"
+        >
           {accommodation.subtitle}
-        </p>
+        </motion.p>
       ) : editorPreview ? (
         <p className="mt-5 text-base leading-7 text-white/45 md:text-lg lg:mt-8">
           {ACCOMMODATION_PREVIEW_PLACEHOLDERS.hero.subtitle}
         </p>
       ) : null}
-    </>
+    </motion.div>
   );
 };

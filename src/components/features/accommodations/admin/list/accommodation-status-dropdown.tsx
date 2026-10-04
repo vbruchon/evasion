@@ -1,8 +1,7 @@
 "use client";
 
-import { Check, ChevronDown } from "lucide-react";
+import { Check, ChevronDown, LoaderCircle } from "lucide-react";
 
-import type { AccommodationStatus } from "@/generated/prisma/client";
 import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
@@ -10,16 +9,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { AccommodationStatus } from "@/generated/prisma/client";
 import {
   accommodationStatuses,
   getAccommodationStatus,
 } from "@/lib/admin/accommodation/accommodation-statuses";
-
 import { cn } from "@/lib/utils";
 
 type AccommodationStatusDropdownProps = {
   status: AccommodationStatus;
   disabled?: boolean;
+  pending?: boolean;
   className?: string;
   onStatusChange: (status: AccommodationStatus) => void;
 };
@@ -35,6 +35,7 @@ const statusClassNames: Record<AccommodationStatus, string> = {
 export const AccommodationStatusDropdown = ({
   status,
   disabled = false,
+  pending = false,
   className,
   onStatusChange,
 }: AccommodationStatusDropdownProps) => {
@@ -49,6 +50,7 @@ export const AccommodationStatusDropdown = ({
             type="button"
             className={disabled ? "cursor-default" : "cursor-pointer"}
             aria-label="Modifier le statut du logement"
+            aria-busy={pending}
           />
         }
       >
@@ -62,7 +64,11 @@ export const AccommodationStatusDropdown = ({
         >
           {currentStatus?.label}
 
-          <ChevronDown className="size-3.5 opacity-70" />
+          {pending ? (
+            <LoaderCircle className="size-3.5 animate-spin opacity-70" />
+          ) : (
+            <ChevronDown className="size-3.5 opacity-70" />
+          )}
         </Badge>
       </DropdownMenuTrigger>
 
