@@ -1,7 +1,7 @@
 "use client";
 
+import { ChevronLeft, ExternalLink, LoaderCircle, Save } from "lucide-react";
 import Link from "next/link";
-import { ChevronLeft, ExternalLink, Save } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 
@@ -79,10 +79,12 @@ export const AdminPageEditorHeader = ({
       <Button
         type="submit"
         disabled={disabled}
+        aria-busy={isSaving}
         size="sm"
         className="sm:h-10 sm:px-6"
       >
-        <Save />
+        {isSaving ? <LoaderCircle className="animate-spin" /> : <Save />}
+
         {isSaving ? "Enregistrement..." : "Enregistrer"}
       </Button>
     </div>

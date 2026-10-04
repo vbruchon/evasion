@@ -1,6 +1,6 @@
 "use client";
 
-import { ListRestart } from "lucide-react";
+import { ListRestart, LoaderCircle } from "lucide-react";
 import { useMemo, useState } from "react";
 
 import { AccommodationsAdminDesktopTable } from "./accommodations-admin-desktop-table";
@@ -63,8 +63,16 @@ export const AccommodationsAdminTable = ({
             variant="outline"
             onClick={stopReordering}
             disabled={isPending}
+            aria-busy={isPending}
           >
-            {isPending ? "Enregistrement..." : "Terminer"}
+            {isPending ? (
+              <>
+                <LoaderCircle className="animate-spin" />
+                Enregistrement...
+              </>
+            ) : (
+              "Terminer"
+            )}
           </Button>
         ) : (
           <Button type="button" variant="outline" onClick={startReordering}>

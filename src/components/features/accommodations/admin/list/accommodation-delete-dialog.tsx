@@ -1,7 +1,9 @@
 "use client";
 
+import { LoaderCircle } from "lucide-react";
 import { useTransition } from "react";
 
+import { deleteAccommodation } from "~/app/admin/logements/action";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -12,7 +14,6 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { deleteAccommodation } from "~/app/admin/logements/action";
 
 type AccommodationDeleteDialogProps = {
   id: string;
@@ -55,8 +56,16 @@ export const AccommodationDeleteDialog = ({
             variant="destructive"
             onClick={handleDelete}
             disabled={isPending}
+            aria-busy={isPending}
           >
-            {isPending ? "Suppression..." : "Supprimer définitivement"}
+            {isPending ? (
+              <>
+                <LoaderCircle className="animate-spin" />
+                Suppression...
+              </>
+            ) : (
+              "Supprimer définitivement"
+            )}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
