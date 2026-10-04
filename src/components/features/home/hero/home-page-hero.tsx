@@ -59,7 +59,7 @@ export const HomePageHero = ({
 
             <motion.h1
               variants={pageHeroItemVariants}
-              className="max-w-4xl font-serif text-5xl leading-[0.98] tracking-[-0.035em] text-white sm:text-6xl lg:text-7xl xl:text-[5.5rem]"
+              className="max-w-4xl font-heading text-5xl leading-[0.98] tracking-[-0.035em] text-white sm:text-6xl lg:text-7xl xl:text-[5.5rem]"
             >
               {title}
             </motion.h1>
