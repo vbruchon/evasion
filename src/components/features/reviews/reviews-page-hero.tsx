@@ -5,6 +5,7 @@ import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor
 import { PageHeroContent } from "@/components/layout/page-hero-content";
 import { SiteContainer } from "@/components/layout/site-container";
 import { SiteSection } from "@/components/layout/site-section";
+import { HandwrittenReveal } from "@/components/motion/handwritten-reveal";
 import type { ReviewsPageHeroEditorSection } from "@/lib/admin/reviews/editor/editor-sections";
 import { REVIEWS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/reviews/reviews-page-defaults";
 
@@ -18,6 +19,7 @@ type ReviewsPageHeroProps = {
   averageRating: number;
   totalReviews: number;
   activeEditorRegion?: ReviewsPageHeroEditorSection;
+  animated?: boolean;
 };
 
 export const ReviewsPageHero = ({
@@ -30,6 +32,7 @@ export const ReviewsPageHero = ({
   averageRating,
   totalReviews,
   activeEditorRegion,
+  animated = false,
 }: ReviewsPageHeroProps) => (
   <SiteSection
     bordered={false}
@@ -82,6 +85,7 @@ export const ReviewsPageHero = ({
           title={title}
           description={description}
           variant="compact"
+          animated={animated}
         >
           {totalReviews > 0 ? (
             <div className="mt-8 border-l border-primary/25 pl-4 sm:mt-9">
@@ -108,18 +112,24 @@ export const ReviewsPageHero = ({
       </AdminEditorRegion>
     </SiteContainer>
 
-    <AdminEditorRegion
-      region="content"
-      activeRegion={activeEditorRegion}
-      className="absolute bottom-10 right-10 z-10 hidden -rotate-6 text-right font-handwritten md:block lg:bottom-12 lg:right-16 xl:right-20"
-    >
-      <p className="text-[1.7rem] leading-[1.05] tracking-[-0.02em] text-white/85">
-        {handwrittenFirstLine}
-      </p>
+    <div className="absolute bottom-10 right-10 z-10 hidden md:block lg:bottom-12 lg:right-16 xl:right-20">
+      <AdminEditorRegion
+        region="content"
+        activeRegion={activeEditorRegion}
+        className="-rotate-6 text-right font-handwritten"
+      >
+        <p className="text-[1.7rem] leading-[1.05] tracking-[-0.02em] text-white/85">
+          <HandwrittenReveal animated={animated} delay={0.35} duration={1.15}>
+            {handwrittenFirstLine}
+          </HandwrittenReveal>
+        </p>
 
-      <p className="text-[1.65rem] leading-[1.05] tracking-[-0.02em] text-primary">
-        {handwrittenSecondLine}
-      </p>
-    </AdminEditorRegion>
+        <p className="text-[1.65rem] leading-[1.05] tracking-[-0.02em] text-primary">
+          <HandwrittenReveal animated={animated} delay={1.05} duration={1.1}>
+            {handwrittenSecondLine}
+          </HandwrittenReveal>
+        </p>
+      </AdminEditorRegion>
+    </div>
   </SiteSection>
 );

@@ -1,9 +1,16 @@
+import * as motion from "motion/react-client";
+
 import type { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
 
 import { AccommodationCard } from "./accommodation-card";
 
 type AccommodationsSectionProps = {
   accommodations: AccommodationWithImages[];
+};
+
+const cardTransition = {
+  duration: 0.85,
+  ease: [0.22, 1, 0.36, 1] as const,
 };
 
 export const AccommodationsSection = ({
@@ -16,15 +23,50 @@ export const AccommodationsSection = ({
     {accommodations.length > 0 ? (
       <div className="mx-auto grid max-w-360 gap-8 md:grid-cols-2 lg:gap-6 xl:grid-cols-3">
         {accommodations.map((accommodation, index) => (
-          <AccommodationCard
+          <motion.div
             key={accommodation.id}
-            accommodation={accommodation}
-            priority={index < 3}
-          />
+            initial={{
+              opacity: 0,
+              y: 18,
+            }}
+            whileInView={{
+              opacity: 1,
+              y: 0,
+            }}
+            viewport={{
+              once: true,
+              amount: 0.15,
+            }}
+            transition={{
+              ...cardTransition,
+              delay: index < 3 ? 0.3 + (index % 3) * 0.1 : (index % 3) * 0.1,
+            }}
+            className="h-full"
+          >
+            <AccommodationCard
+              accommodation={accommodation}
+              priority={index < 3}
+            />
+          </motion.div>
         ))}
       </div>
     ) : (
-      <div className="mx-auto max-w-xl border border-primary/20 bg-card/30 px-8 py-14 text-center">
+      <motion.div
+        initial={{
+          opacity: 0,
+          y: 12,
+        }}
+        whileInView={{
+          opacity: 1,
+          y: 0,
+        }}
+        viewport={{
+          once: true,
+          amount: 0.2,
+        }}
+        transition={cardTransition}
+        className="mx-auto max-w-xl border border-primary/20 bg-card/30 px-8 py-14 text-center"
+      >
         <ImagePlaceholder />
 
         <h2 className="mt-5 font-heading text-3xl tracking-[-0.03em]">
@@ -34,7 +76,7 @@ export const AccommodationsSection = ({
         <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground">
           Les logements seront prochainement disponibles.
         </p>
-      </div>
+      </motion.div>
     )}
   </section>
 );

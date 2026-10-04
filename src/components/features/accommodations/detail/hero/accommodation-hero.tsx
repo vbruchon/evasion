@@ -1,6 +1,8 @@
+import * as motion from "motion/react-client";
 import Image from "next/image";
 
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
+import { SiteSection } from "@/components/layout/site-section";
 import type {
   AccommodationDisplayImageSource,
   AccommodationHeroData,
@@ -10,11 +12,10 @@ import { ACCOMMODATION_PREVIEW_PLACEHOLDERS } from "@/lib/accommodations/accommo
 import type { AccommodationHeroEditorSection } from "@/lib/admin/accommodation/editor/editor-sections";
 import { cn } from "@/lib/utils";
 
-import { AccommodationKeyDetails } from "./accommodation-key-details";
 import { AccommodationHeroActions } from "./accommodation-hero-actions";
 import { AccommodationHeroGeneral } from "./accommodation-hero-general";
 import { AccommodationHighlights } from "./accommodation-highlights";
-import { SiteSection } from "@/components/layout/site-section";
+import { AccommodationKeyDetails } from "./accommodation-key-details";
 
 type AccommodationHeroProps = {
   accommodation: AccommodationHeroData;
@@ -23,6 +24,7 @@ type AccommodationHeroProps = {
   hasGallery?: boolean;
   activeEditorRegion?: AccommodationHeroEditorSection;
   editorPreview?: boolean;
+  animated?: boolean;
 };
 
 export const AccommodationHero = ({
@@ -32,6 +34,7 @@ export const AccommodationHero = ({
   hasGallery = false,
   activeEditorRegion,
   editorPreview = false,
+  animated = false,
 }: AccommodationHeroProps) => {
   const hasKeyDetails = [
     accommodation.guestCapacity,
@@ -45,6 +48,8 @@ export const AccommodationHero = ({
 
   const showKeyDetails = hasKeyDetails || editorPreview;
   const showHighlights = hasHighlights || editorPreview;
+
+  const shouldAnimate = animated && !editorPreview;
 
   const background = (
     <>
@@ -103,11 +108,21 @@ export const AccommodationHero = ({
             <AccommodationHeroGeneral
               accommodation={accommodation}
               editorPreview={editorPreview}
+              animated={shouldAnimate}
             />
           </AdminEditorRegion>
 
           {showKeyDetails ? (
-            <div className="mt-8 lg:mt-12">
+            <motion.div
+              initial={shouldAnimate ? { opacity: 0, y: 10 } : false}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.85,
+                delay: shouldAnimate ? 0.32 : 0,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="mt-8 lg:mt-12"
+            >
               <AdminEditorRegion
                 region="key-details"
                 activeRegion={activeEditorRegion}
@@ -116,15 +131,26 @@ export const AccommodationHero = ({
                 <AccommodationKeyDetails
                   accommodationDetails={accommodation}
                   editorPreview={editorPreview}
+                  animated={shouldAnimate}
                 />
               </AdminEditorRegion>
-            </div>
+            </motion.div>
           ) : null}
 
-          <AccommodationHeroActions
-            hasGallery={hasGallery}
-            disabled={Boolean(activeEditorRegion)}
-          />
+          <motion.div
+            initial={shouldAnimate ? { opacity: 0, y: 10 } : false}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.85,
+              delay: shouldAnimate ? 0.45 : 0,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
+            <AccommodationHeroActions
+              hasGallery={hasGallery}
+              disabled={Boolean(activeEditorRegion)}
+            />
+          </motion.div>
         </div>
       </div>
 
@@ -137,6 +163,7 @@ export const AccommodationHero = ({
           <AccommodationHighlights
             highlights={highlights}
             editorPreview={editorPreview}
+            animated={shouldAnimate}
           />
         </AdminEditorRegion>
       ) : null}

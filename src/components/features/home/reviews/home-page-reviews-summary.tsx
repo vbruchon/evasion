@@ -1,3 +1,5 @@
+import * as motion from "motion/react-client";
+
 import { ReviewStars } from "@/components/features/reviews/shared/review-stars";
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
 import { PageLinkButton } from "@/components/layout/page-link-button";
@@ -7,6 +9,7 @@ type HomePageReviewsSummaryProps = {
   averageRating: number;
   totalReviews: number;
   activeEditorRegion?: "content";
+  animated?: boolean;
 };
 
 export const HomePageReviewsSummary = ({
@@ -14,8 +17,21 @@ export const HomePageReviewsSummary = ({
   averageRating,
   totalReviews,
   activeEditorRegion,
+  animated = false,
 }: HomePageReviewsSummaryProps) => (
-  <div className="text-center lg:text-left">
+  <motion.div
+    initial={animated ? { opacity: 0, y: 14 } : false}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{
+      once: true,
+      amount: 0.35,
+    }}
+    transition={{
+      duration: 0.9,
+      ease: [0.22, 1, 0.36, 1],
+    }}
+    className="text-center lg:text-left"
+  >
     <AdminEditorRegion
       region="content"
       activeRegion={activeEditorRegion}
@@ -51,5 +67,5 @@ export const HomePageReviewsSummary = ({
     >
       Lire tous les avis
     </PageLinkButton>
-  </div>
+  </motion.div>
 );

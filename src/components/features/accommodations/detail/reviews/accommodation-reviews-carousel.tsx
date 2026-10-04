@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "motion/react";
+
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
@@ -13,6 +15,7 @@ type AccommodationReviewsCarouselProps = {
   reviews: AccommodationReviewData[];
   editorPreview: boolean;
   activeEditorRegion?: AccommodationReviewsEditorSection;
+  animated?: boolean;
 };
 
 const MAX_FEATURED_REVIEWS = 12;
@@ -21,6 +24,7 @@ export const AccommodationReviewsCarousel = ({
   reviews,
   editorPreview,
   activeEditorRegion,
+  animated = false,
 }: AccommodationReviewsCarouselProps) => {
   const featuredReviews = reviews.slice(0, MAX_FEATURED_REVIEWS);
 
@@ -62,13 +66,21 @@ export const AccommodationReviewsCarousel = ({
               onScroll={updateScrollState}
               className="flex snap-x snap-mandatory gap-4 overflow-x-auto scroll-smooth scrollbar-none [&::-webkit-scrollbar]:hidden"
             >
-              {featuredReviews.map((review) => (
-                <div
+              {featuredReviews.map((review, index) => (
+                <motion.div
                   key={review.id}
+                  initial={animated ? { opacity: 0, y: 18 } : false}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{
+                    duration: 0.85,
+                    delay: animated ? index * 0.08 : 0,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
                   className="shrink-0 snap-start basis-[88%] sm:basis-[calc(50%-0.5rem)] xl:basis-[calc(33.333%-0.67rem)]"
                 >
                   <ReviewCard review={review} />
-                </div>
+                </motion.div>
               ))}
             </div>
 

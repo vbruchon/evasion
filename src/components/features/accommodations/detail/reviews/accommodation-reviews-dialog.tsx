@@ -35,6 +35,10 @@ export const AccommodationReviewsDialog = ({
         flex max-h-[90vh] w-[calc(100vw-2rem)] max-w-none
         flex-col gap-0 overflow-hidden p-0
         sm:w-[min(92vw,1080px)] sm:max-w-none
+        duration-300
+ease-[cubic-bezier(0.22,1,0.36,1)]
+data-open:zoom-in-[0.985]
+data-closed:zoom-out-[0.985]
       "
     >
       <DialogHeader className="relative shrink-0 border-b border-border/60 px-7 py-6 text-left sm:px-9 lg:px-10">

@@ -59,6 +59,7 @@ export default async function HomePage() {
         buttonLabel={content.heroButtonLabel}
         images={heroImages}
         totalAccommodations={accommodations.length}
+        animated
       />
 
       <HomePageAccommodations
@@ -66,6 +67,7 @@ export default async function HomePage() {
         title={content.accommodationsTitle}
         description={content.accommodationsDescription}
         accommodations={homeAccommodations}
+        animated
       />
 
       <HomePageEscape
@@ -74,6 +76,7 @@ export default async function HomePage() {
         description={content.escapeDescription}
         handwritten={content.escapeHandwritten}
         imageUrl={content.escapeImageUrl ?? HOME_PAGE_DEFAULT_ESCAPE_IMAGE}
+        animated
       />
 
       <HomePageReviews
@@ -81,6 +84,7 @@ export default async function HomePage() {
         averageRating={reviewsSummary.averageRating}
         totalReviews={reviewsSummary.totalReviews}
         reviews={recentReviews}
+        animated
       />
 
       <HomePageCta
@@ -89,6 +93,7 @@ export default async function HomePage() {
         description={content.ctaDescription}
         buttonLabel={content.ctaButtonLabel}
         imageUrl={content.ctaImageUrl}
+        animated
       />
     </main>
   );

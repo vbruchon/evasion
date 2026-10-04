@@ -6,6 +6,7 @@ import { SiteContainer } from "@/components/layout/site-container";
 import { SiteSection } from "@/components/layout/site-section";
 import type { FaqPageHeroEditorSection } from "@/lib/admin/faq/editor/editor-sections";
 import { FAQ_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/faq/faq-page-defaults";
+import { HandwrittenReveal } from "@/components/motion/handwritten-reveal";
 
 type FaqPageHeroProps = {
   eyebrow: string;
@@ -15,6 +16,7 @@ type FaqPageHeroProps = {
   handwrittenSecondLine: string;
   imageUrl: string | null;
   activeEditorRegion?: FaqPageHeroEditorSection;
+  animated?: boolean;
 };
 
 export const FaqPageHero = ({
@@ -25,6 +27,7 @@ export const FaqPageHero = ({
   handwrittenSecondLine,
   imageUrl,
   activeEditorRegion,
+  animated = false,
 }: FaqPageHeroProps) => (
   <SiteSection
     bordered={false}
@@ -78,30 +81,37 @@ export const FaqPageHero = ({
           title={title}
           description={description}
           variant="compact"
-        />
+          animated={animated}
+        >
+          <div className="mt-8 hidden items-center gap-4 md:flex">
+            <span className="h-px w-10 bg-primary/60" />
 
-        <div className="mt-8 hidden items-center gap-4 md:flex">
-          <span className="h-px w-10 bg-primary/60" />
-
-          <span className="text-[0.65rem] uppercase tracking-[0.3em] text-foreground/55">
-            Préparer · Réserver · Profiter
-          </span>
-        </div>
+            <span className="text-[0.65rem] uppercase tracking-[0.3em] text-foreground/55">
+              Préparer · Réserver · Profiter
+            </span>
+          </div>
+        </PageHeroContent>
       </AdminEditorRegion>
     </SiteContainer>
 
-    <AdminEditorRegion
-      region="content"
-      activeRegion={activeEditorRegion}
-      className="absolute bottom-10 right-10 z-10 hidden -rotate-5 text-right font-handwritten md:block lg:bottom-12 lg:right-16 xl:right-20"
-    >
-      <p className="text-[1.7rem] leading-none text-white/85">
-        {handwrittenFirstLine}
-      </p>
+    <div className="absolute bottom-10 right-10 z-10 hidden md:block lg:bottom-12 lg:right-16 xl:right-20">
+      <AdminEditorRegion
+        region="content"
+        activeRegion={activeEditorRegion}
+        className="-rotate-5 text-right font-handwritten"
+      >
+        <p className="text-[1.7rem] leading-none text-white/85">
+          <HandwrittenReveal animated={animated} delay={0} duration={1.15}>
+            {handwrittenFirstLine}
+          </HandwrittenReveal>
+        </p>
 
-      <p className="mt-1 text-[1.65rem] leading-none text-primary">
-        {handwrittenSecondLine}
-      </p>
-    </AdminEditorRegion>
+        <p className="mt-1 text-[1.65rem] leading-none text-primary">
+          <HandwrittenReveal animated={animated} delay={0.5} duration={1.1}>
+            {handwrittenSecondLine}
+          </HandwrittenReveal>
+        </p>
+      </AdminEditorRegion>
+    </div>
   </SiteSection>
 );

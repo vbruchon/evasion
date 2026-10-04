@@ -1,8 +1,9 @@
 "use client";
 
+import { AnimatePresence, motion } from "motion/react";
 import { ArrowRight } from "lucide-react";
-import { useFormContext, useWatch } from "react-hook-form";
 import Link from "next/link";
+import { useFormContext, useWatch } from "react-hook-form";
 
 import { ContactAccommodationPicker } from "@/components/features/contact/form/contact-accommodation-picker";
 import { ContactFormTextField } from "@/components/features/contact/form/contact-form-text-field";
@@ -11,8 +12,8 @@ import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor
 import { Button } from "@/components/ui/button";
 import type { ContactPageFormEditorRegion } from "@/lib/admin/contact/editor/editor-sections";
 import type { ContactPageContentValues } from "@/lib/contact/contact-page.schema";
-import type { ContactRequestValues } from "@/lib/contact/contact-request.schema";
 import type { ContactPageAccommodation } from "@/lib/contact/queries/get-contact-page-accommodations";
+import type { ContactRequestValues } from "@/lib/contact/contact-request.schema";
 import { cn } from "@/lib/utils";
 
 type ContactPageFormContentProps = {
@@ -59,13 +60,57 @@ export const ContactPageFormContent = ({
             preview={preview}
           />
 
-          {subject === "ACCOMMODATION" ? (
-            <ContactAccommodationPicker
-              accommodations={accommodations}
-              label={content.accommodationLabel}
-              preview={preview}
-            />
-          ) : null}
+          {preview ? (
+            subject === "ACCOMMODATION" ? (
+              <ContactAccommodationPicker
+                accommodations={accommodations}
+                label={content.accommodationLabel}
+                preview
+              />
+            ) : null
+          ) : (
+            <AnimatePresence initial={false}>
+              {subject === "ACCOMMODATION" ? (
+                <motion.div
+                  key="accommodation-picker"
+                  initial={{
+                    opacity: 0,
+                    height: 0,
+                    y: -8,
+                  }}
+                  animate={{
+                    opacity: 1,
+                    height: "auto",
+                    y: 0,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    height: 0,
+                    y: -6,
+                  }}
+                  transition={{
+                    height: {
+                      duration: 0.45,
+                      ease: [0.22, 1, 0.36, 1],
+                    },
+                    opacity: {
+                      duration: 0.3,
+                    },
+                    y: {
+                      duration: 0.4,
+                      ease: [0.22, 1, 0.36, 1],
+                    },
+                  }}
+                  className="overflow-hidden"
+                >
+                  <ContactAccommodationPicker
+                    accommodations={accommodations}
+                    label={content.accommodationLabel}
+                  />
+                </motion.div>
+              ) : null}
+            </AnimatePresence>
+          )}
         </div>
       </AdminEditorRegion>
 

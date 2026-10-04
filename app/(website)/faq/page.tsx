@@ -17,6 +17,7 @@ export default async function FaqPage() {
         handwrittenFirstLine={content.heroHandwrittenFirstLine}
         handwrittenSecondLine={content.heroHandwrittenSecondLine}
         imageUrl={content.heroImageUrl}
+        animated
       />
 
       <FaqPageQuestions
@@ -24,6 +25,7 @@ export default async function FaqPage() {
         title={content.questionsTitle}
         description={content.questionsDescription}
         items={content.items}
+        animated
       />
 
       <FaqPageCta
@@ -32,6 +34,7 @@ export default async function FaqPage() {
         description={content.ctaDescription}
         buttonLabel={content.ctaButtonLabel}
         imageUrl={content.ctaImageUrl}
+        animated
       />
     </main>
   );

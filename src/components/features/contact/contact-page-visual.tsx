@@ -1,6 +1,12 @@
+import * as motion from "motion/react-client";
 import { Clock3, Heart, UserRound } from "lucide-react";
 import Image from "next/image";
 
+import { HandwrittenReveal } from "@/components/motion/handwritten-reveal";
+import {
+  pageHeroContainerVariants,
+  pageHeroItemVariants,
+} from "@/lib/motion/page-hero-motion";
 import { CONTACT_PAGE_DEFAULT_IMAGE } from "@/lib/contact/contact-page-defaults";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +19,7 @@ type ContactPageVisualProps = {
   reassuranceSecondLabel: string;
   reassuranceThirdLabel: string;
   variant?: "page" | "modal" | "preview";
+  animated?: boolean;
 };
 
 export const ContactPageVisual = ({
@@ -24,6 +31,7 @@ export const ContactPageVisual = ({
   reassuranceSecondLabel,
   reassuranceThirdLabel,
   variant = "page",
+  animated = false,
 }: ContactPageVisualProps) => {
   const reassuranceItems = [
     {
@@ -39,6 +47,8 @@ export const ContactPageVisual = ({
       label: reassuranceThirdLabel,
     },
   ] as const;
+
+  const shouldAnimate = animated && variant !== "preview";
 
   return (
     <div
@@ -70,7 +80,10 @@ export const ContactPageVisual = ({
         className="pointer-events-none absolute inset-y-0 left-0 z-5 w-[78%] bg-linear-to-r from-black/85 via-black/55 to-transparent backdrop-blur-[2px]"
       />
 
-      <div
+      <motion.div
+        variants={pageHeroContainerVariants}
+        initial={shouldAnimate ? "hidden" : false}
+        animate="visible"
         className={cn(
           "relative z-10 flex h-full min-h-inherit flex-col",
           variant === "page" &&
@@ -79,29 +92,52 @@ export const ContactPageVisual = ({
           variant === "preview" && "px-10 py-12 xl:px-14",
         )}
       >
-        <div className="flex items-center gap-4">
+        <motion.div
+          variants={pageHeroItemVariants}
+          className="flex items-center gap-4"
+        >
           <span className="text-[0.65rem] uppercase tracking-[0.28em] text-primary">
             {eyebrow}
           </span>
-        </div>
+        </motion.div>
 
         <div className="my-auto max-w-xl py-16 lg:py-12">
-          <p className="-rotate-4 origin-left font-handwritten text-3xl leading-none text-primary/90 lg:text-3xl">
-            {handwritten}
-          </p>
+          <motion.div variants={pageHeroItemVariants}>
+            <p className="-rotate-4 origin-left font-handwritten text-3xl leading-none text-primary/90 lg:text-3xl">
+              <HandwrittenReveal
+                animated={shouldAnimate}
+                delay={0.1}
+                duration={1.15}
+              >
+                {handwritten}
+              </HandwrittenReveal>
+            </p>
+          </motion.div>
 
-          <h1 className="mt-7 font-heading text-5xl leading-[0.98] tracking-[-0.045em] text-white sm:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl">
+          <motion.h1
+            variants={pageHeroItemVariants}
+            className="mt-7 font-heading text-5xl leading-[0.98] tracking-[-0.045em] text-white sm:text-6xl lg:text-5xl xl:text-6xl 2xl:text-7xl"
+          >
             {title}
-          </h1>
+          </motion.h1>
 
-          <div className="mt-8 h-px w-full max-w-sm bg-linear-to-r from-primary/80 to-white/10" />
+          <motion.div
+            variants={pageHeroItemVariants}
+            className="mt-8 h-px w-full max-w-sm origin-left bg-linear-to-r from-primary/80 to-white/10"
+          />
 
-          <p className="mt-7 max-w-md text-sm leading-7 text-white/72 md:text-base">
+          <motion.p
+            variants={pageHeroItemVariants}
+            className="mt-7 max-w-md text-sm leading-7 text-white/72 md:text-base"
+          >
             {description}
-          </p>
+          </motion.p>
         </div>
 
-        <div className="grid gap-4 border-t border-white/15 pt-6 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+        <motion.div
+          variants={pageHeroItemVariants}
+          className="grid gap-4 border-t border-white/15 pt-6 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3"
+        >
           {reassuranceItems.map(({ icon: Icon, label }) => (
             <div key={label} className="flex items-center gap-3 text-white/75">
               <Icon className="size-5 shrink-0 text-primary" />
@@ -109,8 +145,8 @@ export const ContactPageVisual = ({
               <span className="text-xs leading-5">{label}</span>
             </div>
           ))}
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </div>
   );
 };

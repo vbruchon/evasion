@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 import Image from "next/image";
 
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
@@ -5,6 +6,10 @@ import { SiteContainer } from "@/components/layout/site-container";
 import { SiteSection } from "@/components/layout/site-section";
 import { ACCOMMODATIONS_PAGE_DEFAULT_HERO_IMAGE } from "@/lib/accommodations-page/accommodations-page-defaults";
 import type { AccommodationsPageEditorRegion } from "@/lib/admin/accommodations-page/editor/editor-sections";
+import {
+  pageHeroContainerVariants,
+  pageHeroItemVariants,
+} from "@/lib/motion/page-hero-motion";
 
 type AccommodationsPageHeroProps = {
   eyebrow: string;
@@ -12,6 +17,7 @@ type AccommodationsPageHeroProps = {
   description: string;
   imageUrl: string | null;
   activeEditorRegion?: AccommodationsPageEditorRegion;
+  animated?: boolean;
 };
 
 export const AccommodationsPageHero = ({
@@ -20,6 +26,7 @@ export const AccommodationsPageHero = ({
   description,
   imageUrl,
   activeEditorRegion,
+  animated = false,
 }: AccommodationsPageHeroProps) => (
   <SiteSection
     bordered={false}
@@ -68,38 +75,57 @@ export const AccommodationsPageHero = ({
         activeRegion={activeEditorRegion}
         className="w-full max-w-xl lg:max-w-2xl"
       >
-        <div className="flex items-center gap-4">
-          <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] text-primary sm:text-xs">
-            {eyebrow}
-          </p>
+        <motion.div
+          variants={pageHeroContainerVariants}
+          initial={animated ? "hidden" : "visible"}
+          animate="visible"
+        >
+          <motion.div
+            variants={pageHeroItemVariants}
+            className="flex items-center gap-4"
+          >
+            <p className="text-[0.65rem] font-medium uppercase tracking-[0.3em] text-primary sm:text-xs">
+              {eyebrow}
+            </p>
 
-          <span
+            <span
+              aria-hidden="true"
+              className="h-px w-10 bg-primary/65 sm:w-14"
+            />
+          </motion.div>
+
+          <motion.h1
+            variants={pageHeroItemVariants}
+            className="mt-5 max-w-3xl font-heading text-[2.9rem] leading-[0.94] tracking-[-0.045em] sm:text-6xl lg:text-7xl"
+          >
+            {title}
+          </motion.h1>
+
+          <motion.div
+            variants={pageHeroItemVariants}
             aria-hidden="true"
-            className="h-px w-10 bg-primary/65 sm:w-14"
-          />
-        </div>
+            className="mt-5 flex items-center gap-3"
+          >
+            <span className="h-px w-10 bg-primary/40 sm:w-14" />
 
-        <h1 className="mt-5 max-w-3xl font-heading text-[2.9rem] leading-[0.94] tracking-[-0.045em] text-primary sm:text-6xl lg:text-7xl">
-          {title}
-        </h1>
+            <Image
+              src="/logo-icon.svg"
+              alt=""
+              width={42}
+              height={40}
+              className="h-auto w-11 shrink-0 object-contain sm:w-13"
+            />
 
-        <div aria-hidden="true" className="mt-5 flex items-center gap-3">
-          <span className="h-px w-10 bg-primary/40 sm:w-14" />
+            <span className="h-px w-10 bg-primary/40 sm:w-14" />
+          </motion.div>
 
-          <Image
-            src="/logo-icon.svg"
-            alt=""
-            width={42}
-            height={40}
-            className="h-auto w-11 shrink-0 object-contain sm:w-13"
-          />
-
-          <span className="h-px w-10 bg-primary/40 sm:w-14" />
-        </div>
-
-        <p className="mt-5 max-w-lg text-sm leading-6 text-foreground/75 sm:text-base sm:leading-7">
-          {description}
-        </p>
+          <motion.p
+            variants={pageHeroItemVariants}
+            className="mt-5 max-w-lg text-sm leading-6 text-foreground/75 sm:text-base sm:leading-7"
+          >
+            {description}
+          </motion.p>
+        </motion.div>
       </AdminEditorRegion>
     </SiteContainer>
   </SiteSection>

@@ -1,3 +1,4 @@
+import * as motion from "motion/react-client";
 import { AlertCircle, Loader2 } from "lucide-react";
 
 import { AdminEditorRegion } from "@/components/layout/admin/editor/admin-editor-region";
@@ -19,6 +20,7 @@ type AccommodationAvailabilityProps = {
   editorPreview?: boolean;
   loading?: boolean;
   error?: string | null;
+  animated?: boolean;
 };
 
 export const AccommodationAvailability = ({
@@ -32,7 +34,10 @@ export const AccommodationAvailability = ({
   editorPreview = false,
   loading = false,
   error = null,
+  animated = false,
 }: AccommodationAvailabilityProps) => {
+  const shouldAnimate = animated && !editorPreview;
+
   if (!hasCalendar && !editorPreview) {
     return null;
   }
@@ -40,7 +45,16 @@ export const AccommodationAvailability = ({
   return (
     <SiteSection id="disponibilites" gutters spacing="default">
       <SiteContainer className="grid gap-12 xl:grid-cols-[0.7fr_1.8fr] xl:gap-20">
-        <div className="xl:pt-4">
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0, y: 14 } : false}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{
+            duration: 0.9,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="xl:pt-4"
+        >
           <p className="section-eyebrow text-primary/85">Disponibilités</p>
 
           <AdminEditorRegion
@@ -64,9 +78,19 @@ export const AccommodationAvailability = ({
               Les dates barrées ne sont plus disponibles à la réservation.
             </p>
           ) : null}
-        </div>
+        </motion.div>
 
-        <div className="min-w-0">
+        <motion.div
+          initial={shouldAnimate ? { opacity: 0, y: 18 } : false}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.12 }}
+          transition={{
+            duration: 0.95,
+            delay: shouldAnimate ? 0.1 : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          className="min-w-0"
+        >
           {!hasCalendar ? (
             <AdminEditorRegion
               region="calendar"
@@ -130,7 +154,7 @@ export const AccommodationAvailability = ({
               editorPreview={editorPreview}
             />
           ) : null}
-        </div>
+        </motion.div>
       </SiteContainer>
     </SiteSection>
   );
