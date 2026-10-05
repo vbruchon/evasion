@@ -48,7 +48,7 @@ export const accommodations = [
     locationRadiusMeters: 5000,
 
     status: "PUBLISHED" as const,
-    position: 3,
+    position: 1,
     publishedAt: new Date(),
 
     highlights: {
@@ -165,7 +165,7 @@ export const accommodations = [
     locationRadiusMeters: 6000,
 
     status: "PUBLISHED" as const,
-    position: 4,
+    position: 2,
     publishedAt: new Date(),
 
     highlights: {
@@ -285,7 +285,7 @@ export const accommodations = [
     locationRadiusMeters: 8000,
 
     status: "PUBLISHED" as const,
-    position: 5,
+    position: 3,
     publishedAt: new Date(),
 
     highlights: {
@@ -412,7 +412,7 @@ export const accommodations = [
     locationRadiusMeters: 7000,
 
     status: "PUBLISHED" as const,
-    position: 6,
+    position: 4,
     publishedAt: new Date(),
 
     highlights: {
