@@ -49,8 +49,6 @@ export const useAccommodationStatus = ({
     try {
       await updateAccommodationStatus(accommodationId, status);
 
-      await updateAccommodationStatus(accommodationId, status);
-
       setAdminSuccessToast("Statut du logement mis à jour.");
       window.location.reload();
     } catch {
