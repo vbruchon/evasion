@@ -25,16 +25,12 @@ test("validates the public contact form flow", async ({ page }) => {
     }),
   ).toBeVisible();
 
-  //
-  // 1. The “Accommodation” topic is selected by default
-  //
-
   const accommodationSubject = page.getByRole("button", {
-    name: /A place to Live/,
+    name: /Un logement/,
   });
 
   const otherSubject = page.getByRole("button", {
-    name: /Other Request/,
+    name: /Autre demande/,
   });
 
   await expect(accommodationSubject).toHaveAttribute("aria-pressed", "true");
@@ -45,10 +41,6 @@ test("validates the public contact form flow", async ({ page }) => {
     }),
   ).toBeVisible();
 
-  //
-  // 2. Selecting an accommodation
-  //
-
   const accommodationCard = page.getByRole("button", {
     name: "La Cabane",
   });
@@ -56,10 +48,6 @@ test("validates the public contact form flow", async ({ page }) => {
   await accommodationCard.click();
 
   await expect(accommodationCard).toHaveAttribute("aria-pressed", "true");
-
-  //
-  // 3. Hovering over “Other Request” hides the housing selector
-  //
 
   await otherSubject.click();
 
@@ -71,19 +59,12 @@ test("validates the public contact form flow", async ({ page }) => {
     }),
   ).not.toBeVisible();
 
-  //
-  // 4. A Look Back at “A place to Live”
-  //
-
   await accommodationSubject.click();
 
   await expect(accommodationSubject).toHaveAttribute("aria-pressed", "true");
 
   await expect(accommodationCard).toHaveAttribute("aria-pressed", "false");
 
-  //
-  // 5. Wait for the test Turnstile to make the form usable.
-  //
   const submitButton = page.getByRole("button", {
     name: "Envoyer ma demande",
   });
@@ -91,10 +72,6 @@ test("validates the public contact form flow", async ({ page }) => {
   await expect(submitButton).toBeEnabled({
     timeout: 30_000,
   });
-
-  //
-  // 6. Validation of Required Fields
-  //
 
   await submitButton.click();
 
@@ -107,10 +84,6 @@ test("validates the public contact form flow", async ({ page }) => {
   await expect(
     page.getByText("Sélectionnez le logement concerné."),
   ).toBeVisible();
-
-  //
-  // 7. Validating the email address format
-  //
 
   await page.getByLabel("E-mail").fill("adresse-invalide");
 

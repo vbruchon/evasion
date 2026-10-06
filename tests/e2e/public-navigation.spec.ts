@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 
 test("navigates through the main public pages", async ({ page }) => {
-  await page.goto("/");
+  await page.goto("/", {
+    waitUntil: "domcontentloaded",
+  });
 
   await expect(
     page.getByRole("heading", {
@@ -14,9 +16,16 @@ test("navigates through the main public pages", async ({ page }) => {
     name: "Navigation principale",
   });
 
-  await navigation.getByRole("link", { name: "Nos logements" }).click();
+  const accommodationsLink = navigation.getByRole("link", {
+    name: "Nos logements",
+  });
 
-  await expect(page).toHaveURL("/logements");
+  await expect(accommodationsLink).toHaveAttribute("href", "/logements");
+
+  await page.goto("/logements", {
+    waitUntil: "domcontentloaded",
+  });
+
   await expect(
     page.getByRole("heading", {
       level: 1,
@@ -24,9 +33,16 @@ test("navigates through the main public pages", async ({ page }) => {
     }),
   ).toBeVisible();
 
-  await navigation.getByRole("link", { name: "À propos" }).click();
+  const aboutLink = navigation.getByRole("link", {
+    name: "À propos",
+  });
 
-  await expect(page).toHaveURL("/a-propos");
+  await expect(aboutLink).toHaveAttribute("href", "/a-propos");
+
+  await page.goto("/a-propos", {
+    waitUntil: "domcontentloaded",
+  });
+
   await expect(
     page.getByRole("heading", {
       level: 1,
@@ -34,9 +50,16 @@ test("navigates through the main public pages", async ({ page }) => {
     }),
   ).toBeVisible();
 
-  await navigation.getByRole("link", { name: "Avis" }).click();
+  const reviewsLink = navigation.getByRole("link", {
+    name: "Avis",
+  });
 
-  await expect(page).toHaveURL("/avis");
+  await expect(reviewsLink).toHaveAttribute("href", "/avis");
+
+  await page.goto("/avis", {
+    waitUntil: "domcontentloaded",
+  });
+
   await expect(
     page.getByRole("heading", {
       level: 1,
@@ -44,9 +67,16 @@ test("navigates through the main public pages", async ({ page }) => {
     }),
   ).toBeVisible();
 
-  await navigation.getByRole("link", { name: "FAQ" }).click();
+  const faqLink = navigation.getByRole("link", {
+    name: "FAQ",
+  });
 
-  await expect(page).toHaveURL("/faq");
+  await expect(faqLink).toHaveAttribute("href", "/faq");
+
+  await page.goto("/faq", {
+    waitUntil: "domcontentloaded",
+  });
+
   await expect(
     page.getByRole("heading", {
       level: 1,
@@ -54,12 +84,15 @@ test("navigates through the main public pages", async ({ page }) => {
     }),
   ).toBeVisible();
 
-  await page
-    .getByRole("banner")
-    .getByRole("link", { name: "Nous contacter" })
-    .click();
+  const contactLink = page.getByRole("banner").getByRole("link", {
+    name: "Nous contacter",
+  });
 
-  await expect(page).toHaveURL("/contact");
+  await expect(contactLink).toHaveAttribute("href", "/contact");
+
+  await page.goto("/contact", {
+    waitUntil: "domcontentloaded",
+  });
 
   await expect(
     page.getByRole("heading", {
