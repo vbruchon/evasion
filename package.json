@@ -26,6 +26,9 @@
     "test:legal": "dotenv -e .env.test -- vitest run tests/legal",
     "test:admin": "dotenv -e .env.test -- vitest run tests/admin",
     "test:accommodations-page": "dotenv -e .env.test -- vitest run tests/accommodations-page",
+    "test:e2e:prepare": "dotenv -e .env.e2e -- tsx tests/e2e/setup/check-e2e-database.ts && dotenv -e .env.e2e -- prisma generate && dotenv -e .env.e2e -- prisma migrate reset --force && dotenv -e .env.e2e -- prisma db seed",
+    "test:e2e": "pnpm test:e2e:prepare && dotenv -e .env.e2e -- playwright test",
+    "test:e2e:ui": "pnpm test:e2e:prepare && dotenv -e .env.e2e -- playwright test --ui",
     "can-commit": "pnpm exec tsc --noEmit && pnpm lint && git diff --check && pnpm test:accommodations && pnpm test:accommodations-page && pnpm test:reviews && pnpm test:about && pnpm test:faq && pnpm test:contact && pnpm test:home && pnpm test:legal && pnpm test:admin"
   },
   "dependencies": {
@@ -63,6 +66,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.63.0",
     "@prisma/adapter-pg": "^7.9.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/dom": "^10.4.1",
