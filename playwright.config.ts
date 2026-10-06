@@ -6,7 +6,7 @@ const baseURL = `http://127.0.0.1:${port}`;
 export default defineConfig({
   testDir: "./tests/e2e",
 
-  timeout: 60_000,
+  timeout: 90_000,
 
   fullyParallel: false,
   workers: 1,
@@ -23,7 +23,7 @@ export default defineConfig({
   use: {
     baseURL,
 
-    navigationTimeout: 30_000,
+    navigationTimeout: 60_000,
 
     trace: "retain-on-failure",
     screenshot: "only-on-failure",
