@@ -22,30 +22,77 @@ const createAccesses = (accesses: SeedAccess[]) => ({
   create: accesses,
 });
 
+const createImages = ({
+  directory,
+  alts,
+}: {
+  directory: string;
+  alts: {
+    hero: string;
+    presentation: string;
+    gallery: string[];
+  };
+}) => ({
+  create: [
+    {
+      url: `/images/accommodations/${directory}/hero.webp`,
+      fileKey: `seed-demo-${directory}-hero`,
+      alt: alts.hero,
+      position: 0,
+      isCover: true,
+      isPresentation: false,
+    },
+    {
+      url: `/images/accommodations/${directory}/presentation.webp`,
+      fileKey: `seed-demo-${directory}-presentation`,
+      alt: alts.presentation,
+      position: 1,
+      isCover: false,
+      isPresentation: true,
+    },
+    ...alts.gallery.map((alt, index) => ({
+      url: `/images/accommodations/${directory}/gallery-${String(
+        index + 1,
+      ).padStart(2, "0")}.webp`,
+      fileKey: `seed-demo-${directory}-gallery-${String(index + 1).padStart(
+        2,
+        "0",
+      )}`,
+      alt,
+      position: index + 2,
+      isCover: false,
+      isPresentation: false,
+    })),
+  ],
+});
+
 export const accommodations = [
   {
     name: "La Cabane",
     slug: "la-cabane",
-    type: "Cabane avec spa",
+    type: "Cabane perchée",
     subtitle:
-      "Une cabane chaleureuse avec spa privatif et vue panoramique sur le Vercors",
+      "Un refuge en bois suspendu au milieu des arbres pour ralentir à deux",
     shortDescription:
-      "Une cabane chaleureuse avec spa privatif et vue dégagée sur le Vercors.",
+      "Une cabane perchée et intimiste, enveloppée par la forêt du Vercors.",
     description:
-      "Offrez-vous une parenthèse au calme dans cette cabane chaleureuse, pensée pour deux personnes et nichée dans un environnement naturel avec vue sur le Vercors.\n\nEntre bois, lumière douce et ambiance cocooning, le logement invite à ralentir et à profiter pleinement du moment. Installez-vous sur la terrasse, détendez-vous dans le spa privatif et laissez-vous séduire par le paysage qui s’étend devant vous.\n\nUne escapade idéale pour un séjour romantique, une occasion particulière ou simplement quelques jours à deux loin du quotidien.",
+      "Perchée entre les arbres, La Cabane offre une parenthèse simple et chaleureuse au cœur d’une forêt préservée du Vercors.\n\nSon architecture compacte privilégie le bois, la lumière naturelle et une relation permanente avec la végétation. Depuis le salon comme depuis la chambre, les grandes ouvertures donnent l’impression de vivre directement parmi les arbres.\n\nSur la terrasse, un bain chaud privatif prolonge l’expérience en extérieur. Ici, pas de panorama spectaculaire ni de grands volumes : tout a été pensé autour du calme, de l’intimité et du plaisir de se retrouver à deux.",
 
     guestCapacity: 2,
     bedrooms: 1,
     beds: 1,
     bathrooms: 1,
-    surface: 28,
+    surface: 32,
 
-    locationTitle: "Un refuge confidentiel au cœur du Vercors",
+    locationTitle: "Cachée dans les forêts du Vercors",
     locationDescription:
-      "La Cabane se niche dans un environnement préservé, entre forêts et reliefs du Vercors. Un cadre idéal pour ralentir, profiter du calme et retrouver la nature à quelques kilomètres seulement des villages de montagne.",
-    locationLatitude: 45.069,
-    locationLongitude: 5.55,
+      "La Cabane se situe dans un secteur boisé à proximité de Léoncel, entre sous-bois, reliefs doux et chemins forestiers. Sa localisation volontairement approximative préserve l’intimité du lieu tout en permettant de découvrir facilement le Vercors drômois.",
+    locationLatitude: 44.906,
+    locationLongitude: 5.195,
     locationRadiusMeters: 5000,
+
+    availabilityCalendarUrl: "/api/demo-calendars/cabane.ics",
+    bookingUrl: null,
 
     status: "PUBLISHED" as const,
     position: 1,
@@ -54,22 +101,143 @@ export const accommodations = [
     highlights: {
       create: [
         {
-          title: "Spa privatif",
-          description: "Jacuzzi rien que pour vous",
-          icon: "Waves",
+          title: "Cabane perchée",
+          description: "Un refuge suspendu entre les arbres",
+          icon: "Trees",
           position: 0,
         },
         {
-          title: "Vue sur le Vercors",
-          description: "Panorama sur les reliefs du Vercors",
-          icon: "Mountain",
+          title: "Bain chaud privatif",
+          description: "Un moment de détente au cœur de la forêt",
+          icon: "Waves",
           position: 1,
         },
         {
           title: "Ambiance cocooning",
-          description: "Bois, douceur et intimité",
+          description: "Bois, lumière douce et intimité",
           icon: "Heart",
           position: 2,
+        },
+        {
+          title: "Calme absolu",
+          description: "Une parenthèse loin du quotidien",
+          icon: "Moon",
+          position: 3,
+        },
+      ],
+    },
+
+    amenities: createAmenities([
+      { key: "hair-dryer" },
+      { key: "shampoo" },
+      { key: "body-soap" },
+      { key: "hot-water" },
+      { key: "essentials" },
+      { key: "bed-linen" },
+      { key: "extra-pillows-blankets" },
+      { key: "heating" },
+      { key: "wifi" },
+      { key: "kitchen" },
+      { key: "refrigerator" },
+      { key: "coffee-maker" },
+      { key: "coffee" },
+      { key: "outdoor-furniture" },
+      { key: "jacuzzi", details: "Bain chaud privatif sur la terrasse" },
+      { key: "free-parking-on-premises", details: "À proximité du logement" },
+    ]),
+
+    accesses: createAccesses([
+      {
+        key: "car-access",
+        details: "Accès par une petite route forestière",
+      },
+      {
+        key: "parking",
+        details: "Stationnement privé à proximité",
+      },
+      {
+        key: "walk-to-accommodation",
+        details: "Court chemin aménagé entre le parking et la cabane",
+      },
+      {
+        key: "stairs",
+        details: "Escalier extérieur pour rejoindre la cabane",
+      },
+    ]),
+
+    images: createImages({
+      directory: "cabane",
+      alts: {
+        hero: "La Cabane perchée au milieu de la forêt",
+        presentation:
+          "Salon chaleureux en bois de La Cabane ouvert sur les arbres",
+        gallery: [
+          "Chambre de La Cabane avec vue sur la forêt",
+          "Terrasse en bois et bain chaud privatif de La Cabane",
+          "Vue sur la forêt depuis le salon de La Cabane",
+          "Salle de bain aux matières naturelles de La Cabane",
+          "Détail du salon en bois de La Cabane",
+        ],
+      },
+    }),
+  },
+
+  {
+    name: "Le Chalet",
+    slug: "le-chalet",
+    type: "Chalet panoramique",
+    subtitle:
+      "Un chalet chaleureux ouvert sur les reliefs du Vercors et les lumières du soir",
+    shortDescription:
+      "Un chalet panoramique en bois avec bain chaud face aux reliefs du Vercors.",
+    description:
+      "Installé sur les hauteurs du Vercors, Le Chalet associe l’atmosphère chaleureuse d’un refuge de montagne à de larges ouvertures tournées vers le paysage.\n\nLe bois habille les volumes généreux tandis que la grande façade vitrée accompagne la lumière tout au long de la journée. Le salon et la chambre prolongent naturellement le regard vers les reliefs environnants.\n\nÀ l’extérieur, la terrasse devient une véritable pièce supplémentaire. Le bain chaud privatif permet de profiter du panorama jusqu’au coucher du soleil, dans une ambiance pensée pour ralentir et savourer chaque instant.",
+
+    guestCapacity: 4,
+    bedrooms: 2,
+    beds: 2,
+    bathrooms: 1,
+    surface: 68,
+
+    locationTitle: "Sur les hauteurs du Vercors drômois",
+    locationDescription:
+      "Le Chalet se trouve dans les environs de Vassieux-en-Vercors, au cœur d’un paysage mêlant forêts, clairières et reliefs montagneux. Le secteur offre de nombreux départs de randonnée tout en conservant une vraie sensation d’isolement.",
+    locationLatitude: 44.894,
+    locationLongitude: 5.37,
+    locationRadiusMeters: 6000,
+
+    availabilityCalendarUrl: "/api/demo-calendars/chalet.ics",
+    bookingUrl: "https://www.airbnb.fr/",
+
+    status: "PUBLISHED" as const,
+    position: 2,
+    publishedAt: new Date(),
+
+    highlights: {
+      create: [
+        {
+          title: "Vue panoramique",
+          description: "Les reliefs du Vercors face au chalet",
+          icon: "Mountain",
+          position: 0,
+        },
+        {
+          title: "Bain chaud extérieur",
+          description: "Profitez du paysage depuis la terrasse",
+          icon: "Waves",
+          position: 1,
+        },
+        {
+          title: "Esprit chalet",
+          description: "Bois naturel et volumes chaleureux",
+          icon: "Flame",
+          position: 2,
+        },
+        {
+          title: "Terrasse privative",
+          description: "Un espace ouvert sur la montagne",
+          icon: "Sun",
+          position: 3,
         },
       ],
     },
@@ -81,208 +249,83 @@ export const accommodations = [
       { key: "hot-water" },
       { key: "essentials" },
       { key: "bed-linen" },
-      { key: "wifi" },
+      { key: "extra-pillows-blankets" },
       { key: "heating" },
-      { key: "kitchen" },
-      { key: "refrigerator" },
-      { key: "coffee-maker" },
-      { key: "outdoor-furniture" },
-      { key: "outdoor-dining" },
-      { key: "jacuzzi", details: "Privatif" },
-      { key: "free-parking-on-premises", details: "Sur place" },
-    ]),
-
-    accesses: createAccesses([
-      {
-        key: "car-access",
-        details: "Route goudronnée jusqu’au logement",
-      },
-      {
-        key: "parking",
-        details: "Stationnement privé et gratuit sur place",
-      },
-      {
-        key: "walk-to-accommodation",
-        details: "Quelques mètres à pied depuis le stationnement",
-      },
-      {
-        key: "single-level",
-        details: "Accès sans escalier au logement",
-      },
-    ]),
-
-    images: {
-      create: [
-        {
-          url: "/images/accommodations/cabane/hero.png",
-          fileKey: "seed-demo-cabane-hero",
-          alt: "Vue extérieure de La Cabane",
-          position: 0,
-          isCover: true,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/cabane/gallery-01.png",
-          fileKey: "seed-demo-cabane-gallery-01",
-          alt: "Intérieur chaleureux de La Cabane",
-          position: 1,
-          isCover: false,
-          isPresentation: true,
-        },
-        {
-          url: "/images/accommodations/cabane/gallery-02.png",
-          fileKey: "seed-demo-cabane-gallery-02",
-          alt: "Terrasse et spa privatif de La Cabane",
-          position: 2,
-          isCover: false,
-          isPresentation: false,
-        },
-      ],
-    },
-  },
-
-  {
-    name: "Le Chalet",
-    slug: "le-chalet",
-    type: "Chalet de montagne",
-    subtitle: "Bois, sommets enneigés et bain chaud face aux montagnes",
-    shortDescription:
-      "Un refuge alpin en bois, entre bain chaud extérieur et horizons enneigés.",
-    description:
-      "Perché au cœur d’un paysage de montagne, Le Chalet invite à retrouver le plaisir d’un séjour simple, confortable et profondément dépaysant.\n\nÀ l’intérieur, le bois omniprésent, les lumières douces et l’esprit montagnard créent une ambiance enveloppante, idéale après une journée passée au grand air. Depuis la chambre comme depuis la terrasse, les sommets accompagnent chaque moment du séjour.\n\nÀ l’extérieur, le bain chaud devient le point de rendez-vous incontournable : quelques degrés sous zéro, la vapeur qui s’élève et les montagnes face à vous. Une adresse faite pour profiter de l’hiver, ralentir et savourer pleinement le décor.",
-
-    guestCapacity: 4,
-    bedrooms: 2,
-    beds: 3,
-    bathrooms: 1,
-    surface: 65,
-
-    locationTitle: "Face aux sommets de Haute-Savoie",
-    locationDescription:
-      "Le Chalet profite d’un emplacement privilégié au pied des massifs alpins, dans un secteur calme entouré de forêts et de montagnes. L’environnement offre une véritable sensation de déconnexion tout en restant facilement accessible.",
-    locationLatitude: 45.923,
-    locationLongitude: 6.869,
-    locationRadiusMeters: 6000,
-
-    status: "PUBLISHED" as const,
-    position: 2,
-    publishedAt: new Date(),
-
-    highlights: {
-      create: [
-        {
-          title: "Bain chaud extérieur",
-          description: "Face aux sommets enneigés",
-          icon: "Waves",
-          position: 0,
-        },
-        {
-          title: "Vue montagne",
-          description: "Panorama depuis le chalet",
-          icon: "Mountain",
-          position: 1,
-        },
-        {
-          title: "Esprit chalet",
-          description: "Bois et ambiance chaleureuse",
-          icon: "Flame",
-          position: 2,
-        },
-        {
-          title: "Pleine nature",
-          description: "Calme et déconnexion",
-          icon: "Trees",
-          position: 3,
-        },
-      ],
-    },
-
-    amenities: createAmenities([
-      { key: "mountain-view" },
-      { key: "hair-dryer" },
-      { key: "hot-water" },
-      { key: "essentials" },
-      { key: "bed-linen" },
       { key: "wifi" },
-      { key: "heating" },
       { key: "kitchen" },
       { key: "refrigerator" },
       { key: "freezer" },
+      { key: "cooking-basics" },
+      { key: "dishes-cutlery" },
       { key: "coffee-maker" },
       { key: "dining-table" },
       { key: "outdoor-furniture" },
-      { key: "jacuzzi", details: "Bain chaud extérieur" },
+      { key: "outdoor-dining" },
+      { key: "jacuzzi", details: "Bain chaud extérieur avec vue" },
       { key: "free-parking-on-premises", details: "Sur place" },
     ]),
 
     accesses: createAccesses([
       {
         key: "car-access",
-        details: "Accessible en voiture toute l’année",
+        details: "Accessible en voiture par une route de montagne",
       },
       {
         key: "parking",
-        details: "Deux places privées devant le chalet",
+        details: "Deux places privées au pied du chalet",
       },
       {
         key: "stairs",
         details: "Quelques marches pour rejoindre l’entrée",
       },
+      {
+        key: "self-check-in",
+        details: "Arrivée autonome grâce à une boîte à clé sécurisée",
+      },
     ]),
 
-    images: {
-      create: [
-        {
-          url: "/images/accommodations/chalet/hero.png",
-          fileKey: "seed-demo-chalet-hero",
-          alt: "Chalet en bois au cœur des montagnes enneigées",
-          position: 0,
-          isCover: true,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/chalet/gallery-01.png",
-          fileKey: "seed-demo-chalet-gallery-01",
-          alt: "Chambre chaleureuse du Chalet avec vue sur les montagnes",
-          position: 1,
-          isCover: false,
-          isPresentation: true,
-        },
-        {
-          url: "/images/accommodations/chalet/gallery-02.png",
-          fileKey: "seed-demo-chalet-gallery-02",
-          alt: "Bain chaud extérieur du Chalet face aux sommets",
-          position: 2,
-          isCover: false,
-          isPresentation: false,
-        },
-      ],
-    },
+    images: createImages({
+      directory: "chalet",
+      alts: {
+        hero: "Le Chalet en bois dominant les reliefs du Vercors",
+        presentation: "Salon panoramique du Chalet ouvert sur les montagnes",
+        gallery: [
+          "Chambre en bois du Chalet",
+          "Bain chaud sur la terrasse panoramique du Chalet",
+          "Terrasse et espace repas extérieur du Chalet",
+          "Vue sur le Vercors depuis la terrasse du Chalet",
+          "Détail du salon du Chalet face au panorama",
+        ],
+      },
+    }),
   },
 
   {
-    name: "Le Jet",
-    slug: "le-jet",
-    type: "Jet privé aménagé",
+    name: "L’Écrin",
+    slug: "lecrin",
+    type: "Refuge architectural",
     subtitle:
-      "Dormez à bord d’un véritable jet privé transformé en suite d’exception",
+      "Une architecture minérale presque effacée dans les reliefs sauvages de la Drôme",
     shortDescription:
-      "Une nuit hors du commun à bord d’un jet privé entièrement réinventé en hébergement.",
+      "Un refuge contemporain semi-enterré entre pierre, lumière et falaises calcaires.",
     description:
-      "Passez la nuit dans un lieu que l’on associe habituellement au voyage plutôt qu’au séjour : un véritable jet privé réaménagé en hébergement d’exception.\n\nLa cabine conserve les codes emblématiques de l’aviation privée tout en accueillant désormais une chambre élégante, un espace salon et tout le confort nécessaire pour profiter des lieux sans jamais quitter le sol. Hublots, volumes atypiques et détails issus de l’appareil participent pleinement à l’expérience.\n\nPlus qu’une simple nuitée, Le Jet propose de vivre quelques heures dans un univers habituellement inaccessible. Une adresse singulière pour marquer une occasion, surprendre ou simplement découvrir une façon totalement différente de séjourner.",
+      "L’Écrin a été imaginé comme une architecture discrète, presque absorbée par le paysage minéral qui l’entoure.\n\nPartiellement intégré dans la pente, le logement mêle pierre claire, enduits naturels, bois sombre et grandes surfaces vitrées. À l’intérieur, les lignes sont volontairement sobres afin de laisser la lumière et les reliefs devenir les véritables éléments de décoration.\n\nLa terrasse et son bassin prolongent cette sensation d’ouverture. À toute heure de la journée, les falaises calcaires semblent entrer dans le logement et donnent au lieu une atmosphère aussi spectaculaire qu’apaisante.",
 
     guestCapacity: 2,
     bedrooms: 1,
     beds: 1,
     bathrooms: 1,
-    surface: 40,
+    surface: 55,
 
-    locationTitle: "Une adresse insolite aux portes de Lyon",
+    locationTitle: "Entre falaises et reliefs de la vallée de la Gervanne",
     locationDescription:
-      "Le Jet se trouve dans un secteur paisible de la métropole lyonnaise, suffisamment à l’écart pour profiter pleinement de l’expérience tout en restant proche des grands axes et des principales attractions de la région.",
-    locationLatitude: 45.73,
-    locationLongitude: 4.94,
-    locationRadiusMeters: 8000,
+      "L’Écrin se cache dans les reliefs proches d’Omblèze, au sein d’un paysage minéral caractéristique de la Drôme. Falaises calcaires, végétation sèche et vallées encaissées composent un environnement radicalement différent des forêts du Vercors.",
+    locationLatitude: 44.862,
+    locationLongitude: 5.221,
+    locationRadiusMeters: 7000,
+
+    availabilityCalendarUrl: null,
+    bookingUrl: "https://www.airbnb.fr/",
 
     status: "PUBLISHED" as const,
     position: 3,
@@ -291,125 +334,114 @@ export const accommodations = [
     highlights: {
       create: [
         {
-          title: "Expérience unique",
-          description: "Une nuit à bord d’un véritable jet privé",
+          title: "Architecture minérale",
+          description: "Un refuge intégré directement au relief",
           icon: "Sparkles",
           position: 0,
         },
         {
-          title: "Cabine préservée",
-          description: "Hublots et détails d’origine",
-          icon: "Plane",
+          title: "Bassin privatif",
+          description: "Un espace d’eau ouvert sur les falaises",
+          icon: "Waves",
           position: 1,
         },
         {
-          title: "Suite privative",
-          description: "Une chambre directement à bord",
-          icon: "BedDouble",
+          title: "Vue sur les falaises",
+          description: "Le paysage comme décor principal",
+          icon: "Mountain",
           position: 2,
         },
         {
-          title: "Espace salon",
-          description: "Un salon installé dans la cabine",
-          icon: "Armchair",
+          title: "Design épuré",
+          description: "Pierre, bois et lignes contemporaines",
+          icon: "Leaf",
           position: 3,
-        },
-        {
-          title: "Séjour insolite",
-          description: "Une expérience vraiment hors du commun",
-          icon: "Star",
-          position: 4,
         },
       ],
     },
 
     amenities: createAmenities([
+      { key: "mountain-view" },
       { key: "hair-dryer" },
+      { key: "body-soap" },
       { key: "hot-water" },
       { key: "essentials" },
       { key: "bed-linen" },
-      { key: "television" },
-      { key: "audio-system" },
+      { key: "blackout-shades" },
       { key: "air-conditioning" },
       { key: "heating" },
       { key: "wifi" },
       { key: "kitchen" },
+      { key: "refrigerator" },
       { key: "coffee-maker" },
-      { key: "dining-table" },
-      { key: "free-parking-on-premises", details: "Sur place" },
+      { key: "wine-glasses" },
+      { key: "outdoor-furniture" },
+      { key: "sun-loungers" },
+      { key: "free-parking-on-premises", details: "Sur la propriété" },
     ]),
 
     accesses: createAccesses([
       {
         key: "car-access",
-        details: "Accès direct depuis les grands axes",
+        details: "Accès par une petite route de montagne",
       },
       {
         key: "parking",
-        details: "Stationnement privé à proximité immédiate",
+        details: "Stationnement privé en retrait du logement",
       },
       {
         key: "walk-to-accommodation",
-        details: "Accès au Jet en quelques mètres à pied",
+        details: "Quelques dizaines de mètres sur un chemin aménagé",
       },
       {
         key: "single-level",
-        details: "Accès principal sans escalier",
+        details: "Logement principalement de plain-pied",
       },
     ]),
 
-    images: {
-      create: [
-        {
-          url: "/images/accommodations/jet/hero.png",
-          fileKey: "seed-demo-jet-hero",
-          alt: "Jet privé aménagé au coucher du soleil",
-          position: 0,
-          isCover: true,
-          isPresentation: false,
-        },
-        {
-          url: "/images/accommodations/jet/gallery-01.png",
-          fileKey: "seed-demo-jet-gallery-01",
-          alt: "Chambre aménagée à l’intérieur du Jet",
-          position: 1,
-          isCover: false,
-          isPresentation: true,
-        },
-        {
-          url: "/images/accommodations/jet/gallery-02.png",
-          fileKey: "seed-demo-jet-gallery-02",
-          alt: "Salon et espace repas du Jet",
-          position: 2,
-          isCover: false,
-          isPresentation: false,
-        },
-      ],
-    },
+    images: createImages({
+      directory: "ecrin",
+      alts: {
+        hero: "L’Écrin intégré dans un paysage de falaises calcaires",
+        presentation:
+          "Salon contemporain de L’Écrin ouvert sur le bassin et les falaises",
+        gallery: [
+          "Chambre minimaliste de L’Écrin face au paysage",
+          "Terrasse minérale et bassin privatif de L’Écrin",
+          "Vue sur les falaises depuis le salon de L’Écrin",
+          "Salle de bain minérale de L’Écrin",
+          "Détail des matières naturelles et du bois de L’Écrin",
+        ],
+      },
+    }),
   },
 
   {
-    name: "L’Écrin Nature",
-    slug: "lecrin-nature",
-    type: "Habitat intégré à la nature",
-    subtitle: "Un refuge végétalisé qui disparaît presque au cœur de la forêt",
+    name: "La Bergerie",
+    slug: "la-bergerie",
+    type: "Bergerie en pierre",
+    subtitle:
+      "Une ancienne bergerie restaurée entre pierre, campagne et douceur provençale",
     shortDescription:
-      "Un habitat organique fondu dans la forêt pour vivre au plus près de la nature.",
+      "Une bergerie en pierre restaurée avec bassin, cheminée et horizons ouverts sur la Drôme.",
     description:
-      "À première vue, L’Écrin Nature semble presque disparaître dans le paysage. Sa toiture végétalisée, ses lignes organiques et son implantation au milieu des arbres ont été pensées pour prolonger la forêt plutôt que s’en détacher.\n\nÀ l’intérieur, les matières naturelles et les larges ouvertures maintiennent un lien permanent avec l’extérieur. La lumière traverse les feuillages, les arbres deviennent le décor principal et le silence prend peu à peu la place du rythme quotidien.\n\nLa terrasse et le point d’eau prolongent cette immersion jusque dehors. Ici, l’expérience repose moins sur l’accumulation d’équipements que sur une idée simple : disposer d’un lieu confortable où la nature reste présente à chaque instant.",
+      "La Bergerie conserve l’essentiel de son histoire : des murs épais en pierre, une toiture en tuiles anciennes, des poutres apparentes et une cheminée autour de laquelle le temps semble ralentir.\n\nLa rénovation privilégie les matières simples et naturelles. Les espaces intérieurs mêlent mobilier contemporain discret, bois ancien, terre cuite et teintes lumineuses sans effacer le caractère rural du bâtiment.\n\nÀ l’extérieur, une grande terrasse en pierre et un bassin bordé de végétation ouvrent sur la campagne drômoise. Une adresse paisible pour profiter du soleil, des paysages agricoles et des longues soirées dehors.",
 
-    guestCapacity: 2,
-    bedrooms: 1,
-    beds: 1,
+    guestCapacity: 4,
+    bedrooms: 2,
+    beds: 2,
     bathrooms: 1,
-    surface: 32,
+    surface: 82,
 
-    locationTitle: "Une immersion au cœur de l’Ardèche",
+    locationTitle: "Au milieu des collines de la Drôme",
     locationDescription:
-      "L’Écrin Nature se cache dans un environnement boisé et préservé du sud de l’Ardèche. Ici, les chemins, les reliefs et la végétation composent un décor naturel où le logement semble presque disparaître.",
-    locationLatitude: 44.407,
-    locationLongitude: 4.394,
+      "La Bergerie se situe dans la campagne autour de Saoû, entre champs, petites routes et collines boisées. Le paysage, plus ouvert et méridional, offre une autre facette de la Drôme, entre patrimoine rural et premiers accents provençaux.",
+    locationLatitude: 44.648,
+    locationLongitude: 5.064,
     locationRadiusMeters: 7000,
+
+    availabilityCalendarUrl: "/api/demo-calendars/bergerie.ics",
+    bookingUrl: "https://www.airbnb.fr/",
 
     status: "PUBLISHED" as const,
     position: 4,
@@ -418,104 +450,204 @@ export const accommodations = [
     highlights: {
       create: [
         {
-          title: "Immersion en forêt",
-          description: "Au plus près de la nature",
-          icon: "Trees",
+          title: "Maison de caractère",
+          description: "Pierre ancienne et charme préservé",
+          icon: "Star",
           position: 0,
         },
         {
-          title: "Architecture organique",
-          description: "Fondue dans le paysage",
-          icon: "Leaf",
+          title: "Bassin extérieur",
+          description: "Quelques brasses face à la campagne",
+          icon: "Waves",
           position: 1,
         },
         {
-          title: "Toiture végétalisée",
-          description: "Une extension de la forêt",
-          icon: "Sprout",
+          title: "Cheminée en pierre",
+          description: "Le cœur chaleureux de la maison",
+          icon: "Flame",
           position: 2,
         },
         {
-          title: "Grandes ouvertures",
-          description: "La forêt comme décor",
+          title: "Terrasse au soleil",
+          description: "Repas et soirées en plein air",
           icon: "Sun",
           position: 3,
-        },
-        {
-          title: "Terrasse privative",
-          description: "Ouverte sur la nature",
-          icon: "Coffee",
-          position: 4,
-        },
-        {
-          title: "Calme absolu",
-          description: "Loin du rythme quotidien",
-          icon: "Moon",
-          position: 5,
         },
       ],
     },
 
     amenities: createAmenities([
       { key: "hair-dryer" },
+      { key: "shampoo" },
+      { key: "body-soap" },
       { key: "hot-water" },
       { key: "essentials" },
       { key: "bed-linen" },
+      { key: "extra-pillows-blankets" },
       { key: "heating" },
+      { key: "wifi" },
       { key: "kitchen" },
       { key: "refrigerator" },
+      { key: "freezer" },
+      { key: "cooking-basics" },
+      { key: "dishes-cutlery" },
       { key: "coffee-maker" },
+      { key: "wine-glasses" },
+      { key: "dining-table" },
       { key: "outdoor-furniture" },
       { key: "outdoor-dining" },
-      { key: "free-parking-on-premises", details: "Sur place" },
+      { key: "sun-loungers" },
+      { key: "free-parking-on-premises", details: "Dans la propriété" },
     ]),
 
     accesses: createAccesses([
       {
         key: "car-access",
-        details: "Derniers kilomètres par une petite route de campagne",
+        details: "Accès par une petite route de campagne",
       },
       {
         key: "parking",
-        details: "Stationnement privé à l’entrée du domaine",
+        details: "Stationnement privé devant la propriété",
       },
       {
         key: "walk-to-accommodation",
-        details: "Environ 100 mètres à pied depuis le parking",
+        details: "Accès direct depuis la cour",
       },
       {
         key: "stairs",
-        details: "Quelques marches naturelles sur le chemin d’accès",
+        details: "Quelques marches entre les différents niveaux",
       },
     ]),
 
-    images: {
+    images: createImages({
+      directory: "bergerie",
+      alts: {
+        hero: "La Bergerie en pierre au cœur de la campagne drômoise",
+        presentation: "Salon en pierre de La Bergerie avec cheminée ancienne",
+        gallery: [
+          "Chambre de La Bergerie aux murs en pierre",
+          "Terrasse en pierre de La Bergerie",
+          "Bassin extérieur de La Bergerie face à la campagne",
+          "Cuisine et salle à manger de La Bergerie",
+          "Détail du salon et de la cheminée de La Bergerie",
+        ],
+      },
+    }),
+  },
+
+  {
+    name: "Le Belvédère",
+    slug: "le-belvedere",
+    type: "Lodge panoramique",
+    subtitle:
+      "Une ligne contemporaine suspendue au-dessus du paysage pour vivre face au Vercors",
+    shortDescription:
+      "Un lodge contemporain spectaculaire suspendu face aux reliefs du Vercors.",
+    description:
+      "Le Belvédère a été dessiné autour d’une idée simple : faire disparaître la frontière entre l’intérieur et le paysage.\n\nPosé sur un promontoire rocheux, le lodge déploie une longue façade vitrée face aux reliefs du Vercors. Bois sombre, verre, métal et lignes horizontales composent une architecture volontairement contemporaine qui contraste avec la roche environnante.\n\nDepuis le salon, la chambre ou même la salle de bain, le panorama accompagne chaque moment. La terrasse suspendue et son spa encastré prolongent encore cette sensation de hauteur et font du lieu une véritable plateforme d’observation privée.",
+
+    guestCapacity: 2,
+    bedrooms: 1,
+    beds: 1,
+    bathrooms: 1,
+    surface: 72,
+
+    locationTitle: "Suspendu au-dessus des reliefs du Vercors",
+    locationDescription:
+      "Le Belvédère domine un secteur escarpé du Vercors drômois, dans les environs de Saint-Julien-en-Vercors. Son emplacement offre de larges perspectives sur les plateaux, les falaises et les vallées environnantes.",
+    locationLatitude: 45.05,
+    locationLongitude: 5.445,
+    locationRadiusMeters: 8000,
+
+    availabilityCalendarUrl: "/api/demo-calendars/belvedere.ics",
+    bookingUrl: "https://www.airbnb.fr/",
+
+    status: "PUBLISHED" as const,
+    position: 5,
+    publishedAt: new Date(),
+
+    highlights: {
       create: [
         {
-          url: "/images/accommodations/nature/hero.png",
-          fileKey: "seed-demo-nature-hero",
-          alt: "Refuge végétalisé intégré au cœur de la forêt",
+          title: "Panorama exceptionnel",
+          description: "Une vue ouverte à perte de vue",
+          icon: "Mountain",
           position: 0,
-          isCover: true,
-          isPresentation: false,
         },
         {
-          url: "/images/accommodations/nature/gallery-01.png",
-          fileKey: "seed-demo-nature-gallery-01",
-          alt: "Intérieur naturel et chaleureux de L’Écrin Nature",
+          title: "Spa suspendu",
+          description: "Un bain chaud directement face au paysage",
+          icon: "Waves",
           position: 1,
-          isCover: false,
-          isPresentation: true,
         },
         {
-          url: "/images/accommodations/nature/gallery-02.png",
-          fileKey: "seed-demo-nature-gallery-02",
-          alt: "Terrasse de L’Écrin Nature ouverte sur la forêt",
+          title: "Architecture contemporaine",
+          description: "Verre, bois sombre et lignes épurées",
+          icon: "Sparkles",
           position: 2,
-          isCover: false,
-          isPresentation: false,
+        },
+        {
+          title: "Suite panoramique",
+          description: "La montagne jusque depuis le lit",
+          icon: "BedDouble",
+          position: 3,
         },
       ],
     },
+
+    amenities: createAmenities([
+      { key: "mountain-view" },
+      { key: "hair-dryer" },
+      { key: "body-soap" },
+      { key: "hot-water" },
+      { key: "essentials" },
+      { key: "bed-linen" },
+      { key: "blackout-shades" },
+      { key: "air-conditioning" },
+      { key: "heating" },
+      { key: "wifi" },
+      { key: "kitchen" },
+      { key: "refrigerator" },
+      { key: "coffee-maker" },
+      { key: "wine-glasses" },
+      { key: "dining-table" },
+      { key: "outdoor-furniture" },
+      { key: "jacuzzi", details: "Spa encastré dans la terrasse" },
+      { key: "free-parking-on-premises", details: "Sur la propriété" },
+    ]),
+
+    accesses: createAccesses([
+      {
+        key: "car-access",
+        details: "Accès par une route de montagne",
+      },
+      {
+        key: "parking",
+        details: "Stationnement privé en amont du logement",
+      },
+      {
+        key: "walk-to-accommodation",
+        details: "Court chemin sécurisé jusqu’au lodge",
+      },
+      {
+        key: "single-level",
+        details: "Espaces de vie entièrement de plain-pied",
+      },
+    ]),
+
+    images: createImages({
+      directory: "belvedere",
+      alts: {
+        hero: "Le Belvédère suspendu face aux reliefs du Vercors",
+        presentation: "Salon contemporain du Belvédère ouvert sur le panorama",
+        gallery: [
+          "Chambre panoramique du Belvédère",
+          "Spa encastré sur la terrasse suspendue du Belvédère",
+          "Vue sur le Vercors depuis le salon du Belvédère",
+          "Salle de bain panoramique du Belvédère",
+          "Façade en bois sombre et terrasse du Belvédère",
+        ],
+      },
+    }),
   },
 ];

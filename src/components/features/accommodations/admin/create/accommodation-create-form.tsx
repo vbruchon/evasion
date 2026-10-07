@@ -89,7 +89,7 @@ export const AccommodationCreateForm = () => {
               <AccommodationTextField
                 name="name"
                 label="Nom du logement"
-                placeholder="Ex : Le Dôme"
+                placeholder="Ex : La Cabane"
               />
 
               <AccommodationTextField

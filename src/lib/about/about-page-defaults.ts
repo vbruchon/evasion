@@ -11,7 +11,7 @@ export const ABOUT_HERO_FALLBACK_IMAGES: PageHeroCarouselImage[] = [
 ];
 
 export const ABOUT_PAGE_DEFAULT_SPIRIT_IMAGE =
-  "/images/accommodations/nature/gallery-01.png";
+  "/images/accommodations/bergerie/presentation.webp";
 
 export const ABOUT_PAGE_DEFAULT_CTA_IMAGE =
   "/images/pages/shared/evasion-page-cta.png";

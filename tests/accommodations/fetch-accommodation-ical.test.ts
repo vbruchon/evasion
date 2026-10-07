@@ -1,8 +1,19 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import { fetchAccommodationIcal } from "@/lib/accommodations/availability/fetch-accommodation-ical";
 
 describe("fetchAccommodationIcal", () => {
+  beforeEach(() => {
+    vi.stubEnv("VERCEL_URL", "");
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "");
+    vi.stubEnv("VERCEL_PROJECT_PRODUCTION_URL", "");
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
+  });
+
   it("returns the iCal content when the request succeeds", async () => {
     const content = `
 BEGIN:VCALENDAR
@@ -26,6 +37,33 @@ END:VCALENDAR
       new URL(
         "https://www.airbnb.com/calendar/ical/123456789.ics?s=test-secret",
       ),
+      {
+        next: {
+          revalidate: 300,
+        },
+      },
+    );
+  });
+
+  it("resolves a root-relative calendar URL against the local site", async () => {
+    const content = `
+BEGIN:VCALENDAR
+VERSION:2.0
+END:VCALENDAR
+`;
+
+    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(content, {
+        status: 200,
+      }),
+    );
+
+    await expect(
+      fetchAccommodationIcal("/api/demo-calendars/cabane.ics"),
+    ).resolves.toBe(content);
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      new URL("http://localhost:3000/api/demo-calendars/cabane.ics"),
       {
         next: {
           revalidate: 300,
