@@ -63,6 +63,16 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
     }),
   });
 
+  if (!(await accommodationRow.isVisible())) {
+    const paginationButtons = page.getByRole("button", {
+      name: /^Page \d+$/,
+    });
+
+    if ((await paginationButtons.count()) > 0) {
+      await paginationButtons.last().click();
+    }
+  }
+
   await expect(accommodationRow).toBeVisible();
 
   const editLink = accommodationRow.locator(
@@ -77,7 +87,7 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
   expect(editHref).toMatch(/^\/admin\/logements\/[^/]+\/modifier$/);
 
   //
-  // 3. open editor
+  // 3. Open editor
   //
 
   await page.goto(editHref!, {
@@ -151,7 +161,7 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
   expect(publishResponse.ok()).toBe(true);
 
   //
-  // 6. Verifying the actual persisted state
+  // 6. Verify persisted state
   //
 
   await page.goto(editHref!, {
