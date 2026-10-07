@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 
+import { getPublishedAccommodationSitemapEntries } from "@/lib/accommodations/accommodations";
 import { siteUrl } from "@/lib/seo/site-url";
 
 const publicRoutes = [
@@ -49,10 +50,23 @@ const publicRoutes = [
   priority: number;
 }[];
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  return publicRoutes.map((route) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const accommodations = await getPublishedAccommodationSitemapEntries();
+
+  const staticRoutes: MetadataRoute.Sitemap = publicRoutes.map((route) => ({
     url: new URL(route.path, siteUrl).toString(),
     changeFrequency: route.changeFrequency,
     priority: route.priority,
   }));
+
+  const accommodationRoutes: MetadataRoute.Sitemap = accommodations.map(
+    (accommodation) => ({
+      url: new URL(`/logements/${accommodation.slug}`, siteUrl).toString(),
+      lastModified: accommodation.updatedAt,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    }),
+  );
+
+  return [...staticRoutes, ...accommodationRoutes];
 }

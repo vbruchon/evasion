@@ -26,6 +26,23 @@ export const getPublishedAccommodations = async () => {
   });
 };
 
+export const getPublishedAccommodationSitemapEntries = async () => {
+  return prisma.accommodation.findMany({
+    where: {
+      status: "PUBLISHED",
+    },
+
+    orderBy: {
+      position: "asc",
+    },
+
+    select: {
+      slug: true,
+      updatedAt: true,
+    },
+  });
+};
+
 export const getPublishedAccommodationBySlug = async (slug: string) => {
   return prisma.accommodation.findFirst({
     where: {
