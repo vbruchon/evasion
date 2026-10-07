@@ -10,6 +10,14 @@ import {
 } from "@/lib/about/about-page-defaults";
 import { getAboutPageContent } from "@/lib/about/queries/get-about-page-content";
 import { getAboutPageStats } from "@/lib/about/queries/get-about-page-stats";
+import { createPageMetadata } from "@/lib/seo/create-page-metadata";
+
+export const metadata = createPageMetadata({
+  title: "À propos",
+  description:
+    "Découvrez l’esprit Évasion et notre sélection d’hébergements singuliers, pensés pour ralentir, se retrouver et profiter d’un moment à deux.",
+  path: "/a-propos",
+});
 
 export const dynamic = "force-dynamic";
 

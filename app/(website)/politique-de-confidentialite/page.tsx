@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo/create-page-metadata";
 import Link from "next/link";
 
 import { LegalPageLayout } from "@/components/features/legal/legal-page-layout";
@@ -8,11 +8,12 @@ import { getLegalSiteSettings } from "@/lib/legal/queries/get-legal-site-setting
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Politique de confidentialité",
   description:
     "Informations sur la collecte et le traitement des données personnelles sur le site Évasion.",
-};
+  path: "/politique-de-confidentialite",
+});
 
 export default async function PrivacyPolicyPage() {
   const settings = await getLegalSiteSettings();
