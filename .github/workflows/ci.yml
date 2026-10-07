@@ -71,6 +71,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Audit production dependencies
+        run: pnpm security:audit
+
       - name: Create test environment
         run: |
           echo "DATABASE_URL=$DATABASE_URL" > .env.test

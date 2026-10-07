@@ -57,6 +57,7 @@ export const ContactPageForm = ({
                 appearance: "interaction-only",
                 theme: "dark",
                 language: "fr",
+                action: "contact",
               }}
               onSuccess={(token) => {
                 setTurnstileToken(token);

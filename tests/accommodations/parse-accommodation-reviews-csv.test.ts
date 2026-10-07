@@ -90,4 +90,22 @@ describe("parseAccommodationReviewsCsv", () => {
       "Le commentaire est absent à la ligne 2.",
     );
   });
+
+  it("rejects a CSV containing too many reviews", () => {
+    const header = '"Nom";"Date";"Note";"Commentaire"';
+
+    const rows = Array.from(
+      {
+        length: 5_001,
+      },
+      (_, index) =>
+        `"Voyageur ${index}";"2026-08-17T09:37:30Z";"5";"Très beau séjour."`,
+    );
+
+    expect(() =>
+      parseAccommodationReviewsCsv([header, ...rows].join("\n")),
+    ).toThrow(
+      "Le fichier CSV contient trop d’avis. Le maximum autorisé est de 5 000.",
+    );
+  });
 });
