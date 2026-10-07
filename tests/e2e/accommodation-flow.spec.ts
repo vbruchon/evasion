@@ -63,17 +63,23 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
     }),
   });
 
+  const paginationButtons = page.getByRole("button", {
+    name: /^Page \d+$/,
+  });
+
+  await expect
+    .poll(
+      async () =>
+        (await accommodationRow.isVisible()) ||
+        (await paginationButtons.count()) > 0,
+    )
+    .toBe(true);
+
   if (!(await accommodationRow.isVisible())) {
-    const paginationButtons = page.getByRole("button", {
-      name: /^Page \d+$/,
-    });
+    await paginationButtons.last().click();
 
-    if ((await paginationButtons.count()) > 0) {
-      await paginationButtons.last().click();
-    }
+    await expect(accommodationRow).toBeVisible();
   }
-
-  await expect(accommodationRow).toBeVisible();
 
   const editLink = accommodationRow.locator(
     'a[href^="/admin/logements/"][href$="/modifier"]',

@@ -11,6 +11,26 @@ export const accommodationTypeSchema = z
   .trim()
   .max(100, "Le type ne peut pas dépasser 100 caractères.");
 
+const DEMO_CALENDAR_PATH_PATTERN = /^\/api\/demo-calendars\/[^/?#]+\.ics$/;
+
+const isValidAccommodationCalendarUrl = (value: string) => {
+  if (!value) {
+    return true;
+  }
+
+  if (DEMO_CALENDAR_PATH_PATTERN.test(value)) {
+    return true;
+  }
+
+  try {
+    const url = new URL(value);
+
+    return url.protocol === "https:" && !url.username && !url.password;
+  } catch {
+    return false;
+  }
+};
+
 export const accommodationBaseFieldsSchema = z.object({
   name: accommodationNameSchema,
 
@@ -84,7 +104,11 @@ export const accommodationBaseFieldsSchema = z.object({
   availabilityCalendarUrl: z
     .string()
     .trim()
-    .max(2048, "Le lien du calendrier est trop long."),
+    .max(2048, "Le lien du calendrier est trop long.")
+    .refine(isValidAccommodationCalendarUrl, {
+      message:
+        "Le calendrier doit utiliser HTTPS ou être un calendrier de démonstration valide.",
+    }),
 
   bookingUrl: z
     .string()
