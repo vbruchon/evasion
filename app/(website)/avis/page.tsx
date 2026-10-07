@@ -9,6 +9,14 @@ import {
 } from "@/lib/reviews/queries/get-reviews-page-reviews";
 import { getReviewsSummary } from "@/lib/reviews/queries/get-reviews-summary";
 import { selectRecentDiverseReviews } from "@/lib/reviews/select-recent-diverse-reviews";
+import { createPageMetadata } from "@/lib/seo/create-page-metadata";
+
+export const metadata = createPageMetadata({
+  title: "Avis voyageurs",
+  description:
+    "Découvrez les avis laissés par les voyageurs après leur séjour dans les hébergements Évasion et leurs expériences à deux.",
+  path: "/avis",
+});
 
 export const dynamic = "force-dynamic";
 

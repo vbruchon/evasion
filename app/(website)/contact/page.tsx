@@ -3,6 +3,14 @@ import { ContactPagePanel } from "@/components/features/contact/contact-page-pan
 import { ContactPageVisual } from "@/components/features/contact/contact-page-visual";
 import { getContactPageAccommodations } from "@/lib/contact/queries/get-contact-page-accommodations";
 import { getContactPageContent } from "@/lib/contact/queries/get-contact-page-content";
+import { createPageMetadata } from "@/lib/seo/create-page-metadata";
+
+export const metadata = createPageMetadata({
+  title: "Contact",
+  description:
+    "Une question sur un logement, une réservation ou votre séjour ? Contactez Évasion et obtenez les informations dont vous avez besoin.",
+  path: "/contact",
+});
 
 export const dynamic = "force-dynamic";
 

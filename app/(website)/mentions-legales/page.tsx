@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import { createPageMetadata } from "@/lib/seo/create-page-metadata";
 
 import { LegalPageLayout } from "@/components/features/legal/legal-page-layout";
 import { LegalSection } from "@/components/features/legal/legal-section";
@@ -7,11 +7,12 @@ import { getLegalSiteSettings } from "@/lib/legal/queries/get-legal-site-setting
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Mentions légales",
   description:
     "Mentions légales du site Évasion : éditeur, publication et hébergement.",
-};
+  path: "/mentions-legales",
+});
 
 type LegalInformationProps = {
   label: string;

@@ -13,6 +13,15 @@ import { getHomePageContent } from "@/lib/home/queries/get-home-page-content";
 import { getRecentReviewCandidates } from "@/lib/reviews/queries/get-recent-review-candidates";
 import { getReviewsSummary } from "@/lib/reviews/queries/get-reviews-summary";
 import { selectRecentDiverseReviews } from "@/lib/reviews/select-recent-diverse-reviews";
+import { createPageMetadata } from "@/lib/seo/create-page-metadata";
+
+export const metadata = createPageMetadata({
+  title: "Évasion — Séjours à deux en Drôme et Vercors",
+  description:
+    "Découvrez des hébergements singuliers entre Drôme et Vercors, pensés pour ralentir, se retrouver et profiter d’une parenthèse à deux.",
+  path: "/",
+  absoluteTitle: true,
+});
 
 export const dynamic = "force-dynamic";
 

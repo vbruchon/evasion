@@ -3,6 +3,7 @@ import { Caveat, Noto_Sans, Playfair_Display } from "next/font/google";
 
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { siteUrl } from "@/lib/seo/site-url";
 
 const notoSans = Noto_Sans({
   variable: "--font-noto-sans",
@@ -22,13 +23,36 @@ const caveat = Caveat({
   display: "swap",
 });
 
+const defaultTitle = "Évasion — Séjours à deux";
+
+const defaultDescription =
+  "Des lieux d’exception et des expériences pensées pour vous évader à deux.";
+
 export const metadata: Metadata = {
+  metadataBase: siteUrl,
+
   title: {
-    default: "Évasion — Séjours à deux",
+    default: defaultTitle,
     template: "%s | Évasion",
   },
-  description:
-    "Des lieux d’exception et des expériences pensées pour vous évader à deux.",
+
+  description: defaultDescription,
+
+  applicationName: "Évasion",
+
+  openGraph: {
+    type: "website",
+    locale: "fr_FR",
+    siteName: "Évasion",
+    title: defaultTitle,
+    description: defaultDescription,
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: defaultTitle,
+    description: defaultDescription,
+  },
 };
 
 export default function RootLayout({
@@ -42,6 +66,7 @@ export default function RootLayout({
         className={`${notoSans.variable} ${playfairDisplay.variable} ${caveat.variable}`}
       >
         {children}
+
         <Toaster />
       </body>
     </html>
