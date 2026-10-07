@@ -5,12 +5,31 @@ import { betterAuth } from "better-auth/minimal";
 import { isAdminEmail } from "@/lib/admin/is-admin-email";
 import { prisma } from "@/lib/prisma";
 
+const betterAuthSecret = process.env.BETTER_AUTH_SECRET;
 const betterAuthUrl = process.env.BETTER_AUTH_URL;
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const googleClientSecret = process.env.GOOGLE_CLIENT_SECRET;
 
+if (!betterAuthSecret || betterAuthSecret.length < 32) {
+  throw new Error(
+    "BETTER_AUTH_SECRET must be defined and contain at least 32 characters.",
+  );
+}
+
 if (!betterAuthUrl) {
   throw new Error("BETTER_AUTH_URL is not defined");
+}
+
+let parsedBetterAuthUrl: URL;
+
+try {
+  parsedBetterAuthUrl = new URL(betterAuthUrl);
+} catch {
+  throw new Error("BETTER_AUTH_URL is invalid");
+}
+
+if (!["http:", "https:"].includes(parsedBetterAuthUrl.protocol)) {
+  throw new Error("BETTER_AUTH_URL must use HTTP or HTTPS");
 }
 
 if (!googleClientId) {
@@ -22,7 +41,8 @@ if (!googleClientSecret) {
 }
 
 export const auth = betterAuth({
-  baseURL: betterAuthUrl,
+  baseURL: parsedBetterAuthUrl.toString(),
+  secret: betterAuthSecret,
 
   database: prismaAdapter(prisma, {
     provider: "postgresql",

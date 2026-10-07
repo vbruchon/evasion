@@ -8,8 +8,11 @@ import { parseAccommodationDraftContent } from "@/lib/admin/accommodation/draft/
 import { resolveAccommodationDraftImages } from "@/lib/admin/accommodation/draft/resolve-accommodation-draft-images";
 import { accommodationAccesses } from "@/lib/accommodations/accommodation-accesses";
 import { prisma } from "@/lib/prisma";
+import { requireAdmin } from "@/lib/admin/require-admin";
 
 export const getAccommodationForUpdate = async (id: string) => {
+  await requireAdmin();
+
   const accommodation = await prisma.accommodation.findUnique({
     where: {
       id,

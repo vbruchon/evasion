@@ -26,9 +26,14 @@ export const getAccommodationBookingNights = (
 
 const isAirbnbBookingUrl = (bookingUrl: string) => {
   try {
-    const url = new URL(bookingUrl);
+    const hostname = new URL(bookingUrl).hostname.toLowerCase();
 
-    return url.hostname.toLowerCase().includes("airbnb.");
+    return (
+      hostname === "airbnb.com" ||
+      hostname.endsWith(".airbnb.com") ||
+      hostname === "airbnb.fr" ||
+      hostname.endsWith(".airbnb.fr")
+    );
   } catch {
     return false;
   }
@@ -42,7 +47,7 @@ export const buildAccommodationBookingUrl = (
   try {
     const url = new URL(bookingUrl);
 
-    if (!["http:", "https:"].includes(url.protocol)) {
+    if (url.protocol !== "https:" || url.username || url.password) {
       return null;
     }
 

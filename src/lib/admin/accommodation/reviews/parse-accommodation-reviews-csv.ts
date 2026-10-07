@@ -4,6 +4,7 @@ import type { AccommodationReviewImportData } from "@/lib/accommodations/reviews
 import { createAccommodationReviewImportKey } from "@/lib/accommodations/reviews/accommodation-review-import-key";
 
 const REQUIRED_COLUMNS = ["Nom", "Date", "Note", "Commentaire"] as const;
+const MAX_REVIEWS_CSV_ROWS = 5_000;
 
 type AccommodationReviewCsvRow = Record<string, string>;
 
@@ -46,6 +47,12 @@ export const parseAccommodationReviewsCsv = (
 
   if (rows.length === 0) {
     return [];
+  }
+
+  if (rows.length > MAX_REVIEWS_CSV_ROWS) {
+    throw new Error(
+      "Le fichier CSV contient trop d’avis. Le maximum autorisé est de 5 000.",
+    );
   }
 
   const columns = Object.keys(rows[0]);

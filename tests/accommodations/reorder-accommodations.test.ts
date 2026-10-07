@@ -75,4 +75,50 @@ describe("reorderAccommodationsAdmin", () => {
       },
     ]);
   });
+
+  it("rejects duplicated positions", async () => {
+    const first = await createAccommodationFixture({
+      name: "Premier",
+      position: 1,
+    });
+
+    const second = await createAccommodationFixture({
+      name: "Deuxième",
+      position: 2,
+    });
+
+    await expect(
+      reorderAccommodationsAdmin([
+        {
+          id: first.id,
+          position: 1,
+        },
+        {
+          id: second.id,
+          position: 1,
+        },
+      ]),
+    ).rejects.toThrow("Ordre des logements invalide.");
+  });
+
+  it("rejects an incomplete accommodation list", async () => {
+    const first = await createAccommodationFixture({
+      name: "Premier",
+      position: 1,
+    });
+
+    await createAccommodationFixture({
+      name: "Deuxième",
+      position: 2,
+    });
+
+    await expect(
+      reorderAccommodationsAdmin([
+        {
+          id: first.id,
+          position: 1,
+        },
+      ]),
+    ).rejects.toThrow("Ordre des logements invalide.");
+  });
 });

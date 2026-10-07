@@ -51,4 +51,34 @@ describe("buildAccommodationBookingUrl", () => {
       buildAccommodationBookingUrl("invalid-url", "2026-10-10", "2026-10-12"),
     ).toBeNull();
   });
+
+  it("rejects an HTTP booking URL", () => {
+    expect(
+      buildAccommodationBookingUrl(
+        "http://example.com/reservation",
+        "2026-10-10",
+        "2026-10-12",
+      ),
+    ).toBeNull();
+  });
+
+  it("does not treat a deceptive hostname as Airbnb", () => {
+    const bookingUrl = buildAccommodationBookingUrl(
+      "https://airbnb.evil.example/reservation",
+      "2026-10-10",
+      "2026-10-12",
+    );
+
+    expect(bookingUrl).toBe("https://airbnb.evil.example/reservation");
+  });
+
+  it("rejects booking URLs containing credentials", () => {
+    expect(
+      buildAccommodationBookingUrl(
+        "https://user:password@example.com/reservation",
+        "2026-10-10",
+        "2026-10-12",
+      ),
+    ).toBeNull();
+  });
 });
