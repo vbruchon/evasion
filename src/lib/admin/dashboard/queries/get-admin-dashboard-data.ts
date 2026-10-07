@@ -1,8 +1,11 @@
 import { getAdminDashboardActivity } from "@/lib/admin/dashboard/queries/get-admin-dashboard-activity";
 import { getAdminDashboardSiteStatus } from "@/lib/admin/dashboard/queries/get-admin-dashboard-site-status";
 import { getAdminDashboardSummary } from "@/lib/admin/dashboard/queries/get-admin-dashboard-summary";
+import { requireAdmin } from "@/lib/admin/require-admin";
 
 export const getAdminDashboardData = async () => {
+  await requireAdmin();
+
   const [siteStatus, summary, activity] = await Promise.all([
     getAdminDashboardSiteStatus(),
     getAdminDashboardSummary(),

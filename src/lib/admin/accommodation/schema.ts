@@ -1,3 +1,9 @@
+export {
+  accommodationIdSchema,
+  accommodationReorderSchema,
+  accommodationStatusSchema,
+} from "./schemas/accommodation-admin.schema";
+
 export { accommodationAccessesSchema } from "./schemas/accommodation-access.schema";
 
 export type { AccommodationAccessesInput } from "./schemas/accommodation-access.schema";

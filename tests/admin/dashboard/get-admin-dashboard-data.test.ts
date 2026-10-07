@@ -4,10 +4,16 @@ const {
   getAdminDashboardActivityMock,
   getAdminDashboardSiteStatusMock,
   getAdminDashboardSummaryMock,
+  requireAdminMock,
 } = vi.hoisted(() => ({
   getAdminDashboardActivityMock: vi.fn(),
   getAdminDashboardSiteStatusMock: vi.fn(),
   getAdminDashboardSummaryMock: vi.fn(),
+  requireAdminMock: vi.fn(),
+}));
+
+vi.mock("@/lib/admin/require-admin", () => ({
+  requireAdmin: requireAdminMock,
 }));
 
 vi.mock("@/lib/admin/dashboard/queries/get-admin-dashboard-activity", () => ({
@@ -64,6 +70,8 @@ describe("getAdminDashboardData", () => {
     getAdminDashboardActivityMock.mockReset();
     getAdminDashboardSiteStatusMock.mockReset();
     getAdminDashboardSummaryMock.mockReset();
+    requireAdminMock.mockReset();
+    requireAdminMock.mockResolvedValue({});
   });
 
   it("combines dashboard queries and derives operational statistics", async () => {
@@ -144,6 +152,8 @@ describe("getAdminDashboardData", () => {
       recentPages,
       recentAccommodations,
     });
+
+    expect(requireAdminMock).toHaveBeenCalledTimes(1);
   });
 
   it("never returns negative configured counts", async () => {

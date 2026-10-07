@@ -6,6 +6,8 @@ import { prisma } from "@/lib/prisma";
 import { createAccommodationFixture } from "../helpers/create-accommodation-fixture";
 import { resetAccommodationDatabase } from "../helpers/database";
 
+import type { AccommodationStatus } from "@/generated/prisma/client";
+
 describe("updateAccommodationStatusAdmin", () => {
   beforeEach(async () => {
     await resetAccommodationDatabase();
@@ -90,5 +92,18 @@ describe("updateAccommodationStatusAdmin", () => {
     await expect(
       updateAccommodationStatusAdmin("accommodation-inexistante", "PUBLISHED"),
     ).rejects.toThrow("Logement introuvable");
+  });
+
+  it("rejects an invalid runtime status", async () => {
+    const accommodation = await createAccommodationFixture({
+      status: "DRAFT",
+    });
+
+    await expect(
+      updateAccommodationStatusAdmin(
+        accommodation.id,
+        "INVALID_STATUS" as AccommodationStatus,
+      ),
+    ).rejects.toThrow("Statut de logement invalide.");
   });
 });
