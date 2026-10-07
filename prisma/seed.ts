@@ -8,6 +8,7 @@ import {
   ACCOMMODATIONS_PAGE_CONTENT_ID,
   accommodationsPageContentDefaults,
 } from "../src/lib/accommodations-page/accommodations-page-defaults";
+import { createAccommodationReviewImportKey } from "../src/lib/accommodations/reviews/accommodation-review-import-key";
 import {
   CONTACT_PAGE_CONTENT_ID,
   contactPageContentDefaults,
@@ -31,9 +32,22 @@ import {
   reviewsPageContentDefaults,
 } from "../src/lib/reviews/reviews-page-defaults";
 
+import { accommodationReviewSeeds } from "./seeds/accommodation-reviews";
 import { accommodations } from "./seeds/accommodations";
 
 const seedAccommodations = async () => {
+  const accommodationSlugs = accommodations.map(
+    (accommodation) => accommodation.slug,
+  );
+
+  await prisma.accommodation.deleteMany({
+    where: {
+      slug: {
+        notIn: accommodationSlugs,
+      },
+    },
+  });
+
   for (const accommodation of accommodations) {
     const { images, highlights, amenities, accesses, ...values } =
       accommodation;
@@ -68,6 +82,58 @@ const seedAccommodations = async () => {
       },
 
       create: accommodation,
+    });
+  }
+};
+
+const seedAccommodationReviews = async () => {
+  for (const reviewSeed of accommodationReviewSeeds) {
+    const accommodation = await prisma.accommodation.findUnique({
+      where: {
+        slug: reviewSeed.slug,
+      },
+
+      select: {
+        id: true,
+      },
+    });
+
+    if (!accommodation) {
+      throw new Error(
+        `Impossible de créer les avis : logement "${reviewSeed.slug}" introuvable.`,
+      );
+    }
+
+    await prisma.$transaction(async (tx) => {
+      await tx.accommodationReview.deleteMany({
+        where: {
+          accommodationId: accommodation.id,
+        },
+      });
+
+      await tx.accommodationReview.createMany({
+        data: reviewSeed.reviews.map((review) => ({
+          accommodationId: accommodation.id,
+          importKey: createAccommodationReviewImportKey(
+            review.authorName,
+            review.reviewedAt,
+          ),
+          authorName: review.authorName,
+          rating: review.rating,
+          comment: review.comment,
+          reviewedAt: review.reviewedAt,
+        })),
+      });
+
+      await tx.accommodation.update({
+        where: {
+          id: accommodation.id,
+        },
+
+        data: {
+          lastReviewsImportAt: reviewSeed.lastReviewsImportAt,
+        },
+      });
     });
   }
 };
@@ -175,7 +241,7 @@ const seedLegalSiteSettings = async () => {
       id: LEGAL_SITE_SETTINGS_ID,
     },
 
-    update: {},
+    update: legalSiteSettingsDefaults,
 
     create: {
       id: LEGAL_SITE_SETTINGS_ID,
@@ -186,6 +252,7 @@ const seedLegalSiteSettings = async () => {
 
 const main = async () => {
   await seedAccommodations();
+  await seedAccommodationReviews();
 
   await seedHomePageContent();
   await seedAccommodationsPageContent();
@@ -196,7 +263,10 @@ const main = async () => {
   await seedLegalSiteSettings();
 
   console.log(
-    `Seed terminé : ${accommodations.length} logements de démonstration et les contenus des pages publiques ont été créés.`,
+    `Seed terminé : ${accommodations.length} logements de démonstration, ${accommodationReviewSeeds.reduce(
+      (total, accommodation) => total + accommodation.reviews.length,
+      0,
+    )} avis et les contenus des pages publiques ont été créés.`,
   );
 };
 

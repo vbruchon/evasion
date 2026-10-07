@@ -8,7 +8,7 @@ export const HOME_HERO_FALLBACK_IMAGES = [
 ] as const;
 
 export const HOME_PAGE_DEFAULT_ESCAPE_IMAGE =
-  "/images/accommodations/nature/gallery-01.png";
+  "/images/accommodations/cabane/presentation.webp";
 
 export const HOME_PAGE_DEFAULT_CTA_IMAGE =
   "/images/pages/shared/evasion-page-cta.png";
