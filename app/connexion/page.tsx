@@ -1,9 +1,20 @@
+import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 import { GoogleSignInButton } from "@/components/auth/google-sign-in-button";
 import { isAdminEmail } from "@/lib/admin/is-admin-email";
 import { auth } from "@/lib/auth";
+
+export const metadata: Metadata = {
+  title: "Connexion",
+
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+  },
+};
 
 type LoginPageProps = {
   searchParams: Promise<{
