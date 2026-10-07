@@ -1,13 +1,12 @@
 import type { LookupAddress } from "node:dns";
 import { lookup } from "node:dns/promises";
 import { BlockList, isIP } from "node:net";
+import { getDemoAccommodationIcal } from "./get-demo-accommodation-ical";
 
 const INVALID_ICAL_URL_MESSAGE = "Le lien du calendrier iCal est invalide.";
 
 const ICAL_FETCH_ERROR_MESSAGE =
   "Impossible de récupérer le calendrier iCal du logement.";
-
-const LOCAL_SITE_URL = "http://localhost:3000";
 
 const DEMO_CALENDAR_PATH_PREFIX = "/api/demo-calendars/";
 
@@ -60,38 +59,12 @@ for (const [address, prefix] of blockedIpv6Subnets) {
 type ResolvedCalendarUrl =
   | {
       type: "demo";
-      url: URL;
+      filename: string;
     }
   | {
       type: "external";
       url: URL;
     };
-
-const normalizeSiteUrl = (value: string) => {
-  const normalizedValue = value.trim().replace(/\/+$/, "");
-
-  if (/^https?:\/\//i.test(normalizedValue)) {
-    return normalizedValue;
-  }
-
-  return `https://${normalizedValue}`;
-};
-
-const getCalendarBaseUrl = () => {
-  if (process.env.VERCEL_URL) {
-    return new URL(normalizeSiteUrl(process.env.VERCEL_URL));
-  }
-
-  if (process.env.NEXT_PUBLIC_SITE_URL) {
-    return new URL(normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL));
-  }
-
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return new URL(normalizeSiteUrl(process.env.VERCEL_PROJECT_PRODUCTION_URL));
-  }
-
-  return new URL(LOCAL_SITE_URL);
-};
 
 const normalizeHostname = (hostname: string) =>
   hostname
@@ -180,19 +153,23 @@ const resolveCalendarUrl = (value: string): ResolvedCalendarUrl => {
   }
 
   if (normalizedValue.startsWith("/") && !normalizedValue.startsWith("//")) {
-    const baseUrl = getCalendarBaseUrl();
-    const calendarUrl = new URL(normalizedValue, baseUrl);
+    const calendarUrl = new URL(normalizedValue, "https://evasion.local");
 
-    if (
-      calendarUrl.origin !== baseUrl.origin ||
-      !calendarUrl.pathname.startsWith(DEMO_CALENDAR_PATH_PREFIX)
-    ) {
+    if (!calendarUrl.pathname.startsWith(DEMO_CALENDAR_PATH_PREFIX)) {
+      throw new Error(INVALID_ICAL_URL_MESSAGE);
+    }
+
+    const filename = calendarUrl.pathname.slice(
+      DEMO_CALENDAR_PATH_PREFIX.length,
+    );
+
+    if (!filename || filename.includes("/")) {
       throw new Error(INVALID_ICAL_URL_MESSAGE);
     }
 
     return {
       type: "demo",
-      url: calendarUrl,
+      filename,
     };
   }
 
@@ -312,10 +289,17 @@ const readCalendarResponse = async (response: Response) => {
 export const fetchAccommodationIcal = async (url: string): Promise<string> => {
   const calendar = resolveCalendarUrl(url);
 
-  const response =
-    calendar.type === "demo"
-      ? await fetchCalendarResponse(calendar.url)
-      : await fetchExternalCalendarResponse(calendar.url);
+  if (calendar.type === "demo") {
+    const content = getDemoAccommodationIcal(calendar.filename);
+
+    if (!content) {
+      throw new Error(ICAL_FETCH_ERROR_MESSAGE);
+    }
+
+    return content;
+  }
+
+  const response = await fetchExternalCalendarResponse(calendar.url);
 
   if (REDIRECT_STATUSES.has(response.status)) {
     throw new Error(ICAL_FETCH_ERROR_MESSAGE);
