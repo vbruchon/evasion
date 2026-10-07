@@ -6,10 +6,16 @@ test.use({
 
 test.setTimeout(180_000);
 
-test("creates, modifies and publishes an accommodation", async ({ page }) => {
-  const initialName = "Le Refuge E2E";
-  const updatedName = "Le Refuge E2E Modifié";
-  const expectedSlug = "le-refuge-e2e";
+test("creates, modifies and publishes an accommodation", async ({
+  page,
+}, testInfo) => {
+  const retrySuffix = testInfo.retry === 0 ? "" : ` R${testInfo.retry}`;
+
+  const slugRetrySuffix = testInfo.retry === 0 ? "" : `-r${testInfo.retry}`;
+
+  const initialName = `Le Refuge E2E${retrySuffix}`;
+  const updatedName = `${initialName} Modifié`;
+  const expectedSlug = `le-refuge-e2e${slugRetrySuffix}`;
 
   //
   // 1. Create
@@ -48,6 +54,12 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
   const createResponse = await createResponsePromise;
 
   expect(createResponse.ok()).toBe(true);
+
+  // La création déclenche elle-même un router.push vers l'éditeur.
+  // On attend qu'il soit réellement terminé avant de continuer.
+  await expect(page).toHaveURL(/\/admin\/logements\/[^/]+\/modifier$/);
+
+  const createdEditHref = new URL(page.url()).pathname;
 
   //
   // 2. Check in admin
@@ -90,17 +102,15 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
   const editHref = await editLink.getAttribute("href");
 
   expect(editHref).not.toBeNull();
-  expect(editHref).toMatch(/^\/admin\/logements\/[^/]+\/modifier$/);
+  expect(editHref).toBe(createdEditHref);
 
   //
   // 3. Open editor
   //
 
-  await page.goto(editHref!, {
-    waitUntil: "domcontentloaded",
-  });
+  await editLink.click();
 
-  await expect(page).toHaveURL(/\/admin\/logements\/[^/]+\/modifier$/);
+  await expect(page).toHaveURL(createdEditHref);
 
   const nameField = page.getByLabel("Nom");
 
@@ -113,7 +123,7 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
   const autosaveResponsePromise = page.waitForResponse(
     (response) =>
       response.request().method() === "POST" &&
-      new URL(response.url()).pathname === editHref,
+      new URL(response.url()).pathname === createdEditHref,
     {
       timeout: 30_000,
     },
@@ -147,11 +157,13 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
   const publishResponsePromise = page.waitForResponse(
     (response) =>
       response.request().method() === "POST" &&
-      new URL(response.url()).pathname === editHref,
+      new URL(response.url()).pathname === createdEditHref,
     {
       timeout: 30_000,
     },
   );
+
+  const reloadPromise = page.waitForEvent("load");
 
   const saveButton = page.getByRole("button", {
     name: "Enregistrer",
@@ -166,13 +178,15 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
 
   expect(publishResponse.ok()).toBe(true);
 
+  // L'application appelle window.location.reload() après la sauvegarde.
+  // Surtout ne pas lancer un page.goto() en concurrence avec ce reload.
+  await reloadPromise;
+
   //
   // 6. Verify persisted state
   //
 
-  await page.goto(editHref!, {
-    waitUntil: "domcontentloaded",
-  });
+  await expect(page).toHaveURL(createdEditHref);
 
   await expect(page.getByLabel("Nom")).toHaveValue(updatedName);
 
@@ -188,11 +202,11 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
     waitUntil: "domcontentloaded",
   });
 
-  const publicLink = page.getByRole("link", {
-    name: `Découvrir ${updatedName}`,
-  });
+  const publicLink = page.locator(`a[href="/logements/${expectedSlug}"]`);
 
   await expect(publicLink).toBeVisible();
+
+  await expect(publicLink).toHaveAccessibleName(`Découvrir ${updatedName}`);
 
   const publicHref = await publicLink.getAttribute("href");
 
@@ -202,9 +216,7 @@ test("creates, modifies and publishes an accommodation", async ({ page }) => {
   // 8. Public page
   //
 
-  await page.goto(publicHref!, {
-    waitUntil: "domcontentloaded",
-  });
+  await publicLink.click();
 
   await expect(page).toHaveURL(`/logements/${expectedSlug}`);
 
