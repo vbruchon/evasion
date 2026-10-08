@@ -1,7 +1,7 @@
 "use client";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 
 import { ContactAccommodationCard } from "@/components/features/contact/form/contact-accommodation-card";
 import { FieldLabel } from "@/components/ui/field";
@@ -23,6 +23,8 @@ export const ContactAccommodationCarousel = ({
   preview = false,
   onSelect,
 }: ContactAccommodationCarouselProps) => {
+  const labelId = useId();
+
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const [canScrollLeft, setCanScrollLeft] = useState(false);
@@ -96,7 +98,7 @@ export const ContactAccommodationCarousel = ({
   return (
     <div className="min-w-0">
       <div className="mb-3 flex items-center justify-between">
-        <FieldLabel>{label}</FieldLabel>
+        <FieldLabel id={labelId}>{label}</FieldLabel>
 
         {hasOverflow && !preview ? (
           <div className="flex items-center gap-1">
@@ -126,6 +128,8 @@ export const ContactAccommodationCarousel = ({
       <div className="relative min-w-0 max-w-full overflow-hidden">
         <div
           ref={scrollRef}
+          role="group"
+          aria-labelledby={labelId}
           className="flex w-full max-w-full snap-x snap-proximity gap-3 overflow-x-auto scroll-smooth pb-2 pr-10 scrollbar-none [&::-webkit-scrollbar]:hidden"
         >
           {accommodations.map((accommodation) => (

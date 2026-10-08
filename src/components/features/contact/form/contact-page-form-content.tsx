@@ -152,7 +152,10 @@ export const ContactPageFormContent = ({
       </AdminEditorRegion>
 
       {form.formState.errors.root ? (
-        <div className="mt-6 border border-destructive/40 bg-destructive/5 px-4 py-3">
+        <div
+          role="alert"
+          className="mt-6 border border-destructive/40 bg-destructive/5 px-4 py-3"
+        >
           <p className="text-sm text-destructive">
             {form.formState.errors.root.message}
           </p>

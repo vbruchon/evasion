@@ -50,6 +50,16 @@ export const FormTextField = <TValues extends FieldValues>({
       render={({ field, fieldState }) => {
         const value = field.value == null ? "" : String(field.value);
 
+        const descriptionId = `${field.name}-description`;
+        const errorId = `${field.name}-error`;
+
+        const describedBy = [
+          description ? descriptionId : null,
+          fieldState.error ? errorId : null,
+        ]
+          .filter(Boolean)
+          .join(" ");
+
         return (
           <Field data-invalid={fieldState.invalid} className={className}>
             <FieldLabel htmlFor={field.name}>
@@ -74,6 +84,8 @@ export const FormTextField = <TValues extends FieldValues>({
                 onChange={field.onChange}
                 placeholder={placeholder}
                 aria-invalid={fieldState.invalid}
+                aria-required={!optional}
+                aria-describedby={describedBy || undefined}
                 className={inputClassName}
               />
             ) : (
@@ -88,15 +100,19 @@ export const FormTextField = <TValues extends FieldValues>({
                 placeholder={placeholder}
                 autoComplete={autoComplete}
                 aria-invalid={fieldState.invalid}
+                aria-required={!optional}
+                aria-describedby={describedBy || undefined}
                 className={inputClassName}
               />
             )}
 
             {description ? (
-              <FieldDescription>{description}</FieldDescription>
+              <FieldDescription id={descriptionId}>
+                {description}
+              </FieldDescription>
             ) : null}
 
-            <FieldError errors={[fieldState.error]} />
+            <FieldError id={errorId} errors={[fieldState.error]} />
           </Field>
         );
       }}
