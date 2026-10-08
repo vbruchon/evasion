@@ -24,7 +24,7 @@ export const AdminEditorSidebar = ({
   const transitionKey = title ?? "editor";
 
   return (
-    <aside className="flex h-full min-h-0 flex-col bg-background lg:border-l lg:border-border/60">
+    <aside className="flex h-full min-h-0 flex-col bg-background xl:border-l xl:border-border/60">
       <header className="shrink-0 border-b border-border/60 bg-card/20 px-5 py-5 sm:px-6 sm:py-6">
         <p className="text-[11px] font-medium uppercase tracking-[0.18em] text-primary">
           Édition

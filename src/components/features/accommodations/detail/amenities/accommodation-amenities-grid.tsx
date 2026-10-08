@@ -10,7 +10,7 @@ export const AccommodationAmenitiesGrid = ({
   amenities,
   showDetails = false,
 }: AccommodationAmenitiesGridProps) => (
-  <div className="grid grid-cols-2 gap-x-4">
+  <div className="grid grid-cols-2 gap-x-6">
     {amenities.map((amenity) => (
       <AccommodationAmenityItem
         key={amenity.key}

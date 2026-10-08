@@ -54,7 +54,7 @@ export const AboutPageStats = ({
     >
       <SiteContainer
         variant="inset"
-        className="relative grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-x-20"
+        className="relative grid gap-10 xl:grid-cols-12 xl:items-center xl:gap-x-20"
       >
         <motion.header
           initial={animated ? { opacity: 0, y: 12 } : false}
@@ -67,49 +67,28 @@ export const AboutPageStats = ({
             duration: 0.9,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="lg:col-span-4"
+          className="xl:col-span-4"
         >
           <AboutPageSectionHeading index="03" eyebrow={eyebrow} />
 
-          <div className="lg:ml-8">
+          <div className="xl:ml-8">
             <h2 className="mt-7 max-w-[15ch] font-heading text-4xl leading-[1.08] tracking-[-0.03em] text-foreground lg:text-5xl">
               {title}
             </h2>
           </div>
         </motion.header>
 
-        <dl className="relative grid grid-cols-3 border-y border-border/50 bg-card/20 lg:col-span-7 lg:col-start-6">
+        <dl className="relative grid grid-cols-3 border-y border-border/50 bg-card/20 xl:col-span-7 xl:col-start-6">
           <div
             aria-hidden="true"
             className="pointer-events-none absolute right-0 top-1/2 h-30 w-150 -translate-y-1/2 rounded-full bg-primary/5 blur-[130px]"
           />
 
           {stats.map((stat, index) => (
-            <motion.div
+            <div
               key={stat.id}
-              initial={
-                animated
-                  ? {
-                      opacity: 0,
-                      filter: "blur(6px)",
-                    }
-                  : false
-              }
-              whileInView={{
-                opacity: 1,
-                filter: "blur(0px)",
-              }}
-              viewport={{
-                once: true,
-                amount: 0.6,
-              }}
-              transition={{
-                duration: 1,
-                delay: animated ? index * 0.12 : 0,
-                ease: [0.22, 1, 0.36, 1],
-              }}
               className={[
-                "flex min-h-32 min-w-0 flex-col justify-center px-2 py-6 text-center sm:min-h-40 sm:px-5 lg:min-h-44 lg:px-6 lg:text-left",
+                "flex min-h-32 min-w-0 flex-col justify-center px-2 py-6 text-center sm:min-h-40 sm:px-5 xl:min-h-44 xl:px-6 xl:text-left",
                 index > 0 ? "border-l border-border/50" : "",
               ].join(" ")}
             >
@@ -120,7 +99,7 @@ export const AboutPageStats = ({
               <dd className="order-1 whitespace-nowrap font-heading text-[2rem] leading-none tracking-[-0.045em] text-primary sm:text-5xl lg:text-6xl">
                 {stat.value}
               </dd>
-            </motion.div>
+            </div>
           ))}
         </dl>
       </SiteContainer>

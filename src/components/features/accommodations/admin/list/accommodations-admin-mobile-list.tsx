@@ -37,7 +37,7 @@ export const AccommodationsAdminMobileList = ({
         items={accommodations.map((accommodation) => accommodation.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="space-y-3 md:hidden">
+        <div className="space-y-3 min-[900px]:hidden">
           {accommodations.map((accommodation) => (
             <AccommodationAdminMobileCard
               key={accommodation.id}

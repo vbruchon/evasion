@@ -18,7 +18,7 @@ export const HomePageAccommodationIntro = ({
     <AdminEditorRegion
       region="content"
       activeRegion={activeEditorRegion}
-      className="flex flex-col justify-center py-6 lg:py-0"
+      className="flex flex-col justify-center py-6 xl:py-0"
     >
       <p className="text-xs font-medium uppercase tracking-[0.3em] text-primary">
         {eyebrow}

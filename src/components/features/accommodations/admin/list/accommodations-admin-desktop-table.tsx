@@ -35,7 +35,7 @@ export const AccommodationsAdminDesktopTable = ({
   onDragEnd,
 }: AccommodationsAdminDesktopTableProps) => {
   return (
-    <div className="hidden overflow-hidden rounded-sm border border-border/60 md:block">
+    <div className="hidden overflow-hidden rounded-sm border border-border/60 min-[900px]:block">
       <DndContext
         sensors={sensors}
         collisionDetection={closestCenter}

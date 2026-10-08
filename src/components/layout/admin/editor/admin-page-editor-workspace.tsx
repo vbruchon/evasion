@@ -35,11 +35,11 @@ export const AdminPageEditorWorkspace = ({
       </div>
     ) : null}
 
-    <div className="min-h-0 flex-1 overflow-hidden lg:grid lg:grid-cols-[minmax(0,1fr)_420px]">
+    <div className="min-h-0 flex-1 overflow-hidden xl:grid xl:grid-cols-[minmax(0,1fr)_420px]">
       <div
         className={cn(
           "h-full min-h-0 overflow-y-auto",
-          activeView !== "preview" && "hidden lg:block",
+          activeView !== "preview" && "hidden xl:block",
         )}
       >
         {preview}
@@ -48,7 +48,7 @@ export const AdminPageEditorWorkspace = ({
       <div
         className={cn(
           "h-full min-h-0 overflow-hidden",
-          activeView !== "editor" && "hidden lg:block",
+          activeView !== "editor" && "hidden xl:block",
         )}
       >
         {sidebar}

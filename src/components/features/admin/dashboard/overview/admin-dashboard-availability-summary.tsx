@@ -18,10 +18,10 @@ export const AdminDashboardAvailabilitySummary = ({
       : 0;
 
   return (
-    <div className="relative px-5 pb-5 pt-3 sm:px-7 lg:min-h-35">
+    <div className="relative px-5 pb-5 pt-3 sm:px-7 xl:min-h-35">
       <div
         aria-hidden="true"
-        className="absolute bottom-5 right-0 top-2 hidden w-px bg-border/60 lg:block"
+        className="absolute bottom-5 right-0 top-2 hidden w-px bg-border/60 xl:block"
       />
 
       <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-3">

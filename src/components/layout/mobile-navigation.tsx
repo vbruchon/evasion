@@ -3,6 +3,7 @@
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 import {
   Sheet,
@@ -15,8 +16,11 @@ import {
 import { siteConfig } from "@/config/site";
 
 import { SiteLogo } from "./site-logo";
+import { cn } from "@/lib/utils";
 
 export const MobileNavigation = () => {
+  const pathname = usePathname();
+
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -43,20 +47,29 @@ export const MobileNavigation = () => {
           className="flex flex-1 flex-col py-6"
         >
           <div className="w-full">
-            {siteConfig.navigation.map((item) => (
-              <SheetClose
-                key={item.href}
-                nativeButton={false}
-                render={
-                  <Link
-                    href={item.href}
-                    className="block w-full border-b border-border/50 py-5 text-left font-heading text-2xl transition-colors hover:text-primary"
-                  />
-                }
-              >
-                {item.label}
-              </SheetClose>
-            ))}
+            {siteConfig.navigation.map((item) => {
+              const isActive =
+                pathname === item.href || pathname.startsWith(`${item.href}/`);
+
+              return (
+                <SheetClose
+                  key={item.href}
+                  nativeButton={false}
+                  render={
+                    <Link
+                      href={item.href}
+                      aria-current={isActive ? "page" : undefined}
+                      className={cn(
+                        "block w-full border-b border-border/50 py-5 text-left font-heading text-2xl transition-colors hover:text-primary",
+                        isActive && "text-primary",
+                      )}
+                    />
+                  }
+                >
+                  {item.label}
+                </SheetClose>
+              );
+            })}
           </div>
 
           <div className="mt-auto flex justify-center pt-10">

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export const AdminMobileHeader = () => (
-  <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-border/60 bg-background/95 px-4 backdrop-blur md:hidden">
+  <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center gap-3 border-b border-border/60 bg-background/95 px-4 backdrop-blur xl:hidden">
     <SidebarTrigger
       aria-label="Ouvrir le menu de l’administration"
       className="-ml-2"

@@ -1,4 +1,6 @@
-import * as motion from "motion/react-client";
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
 
 import { cn } from "@/lib/utils";
 
@@ -19,6 +21,9 @@ export const HandwrittenReveal = ({
   animated = true,
   trigger = "load",
 }: HandwrittenRevealProps) => {
+  const shouldReduceMotion = useReducedMotion();
+  const shouldAnimate = animated && !shouldReduceMotion;
+
   const hiddenState = {
     clipPath: "inset(-0.35em calc(100% + 0.35em) -0.35em -0.35em)",
     opacity: 0.7,
@@ -31,24 +36,30 @@ export const HandwrittenReveal = ({
 
   return (
     <motion.span
-      initial={animated ? hiddenState : false}
-      animate={animated && trigger === "load" ? visibleState : undefined}
-      whileInView={animated && trigger === "inView" ? visibleState : undefined}
+      initial={shouldAnimate ? hiddenState : false}
+      animate={shouldAnimate && trigger === "load" ? visibleState : undefined}
+      whileInView={
+        shouldAnimate && trigger === "inView" ? visibleState : undefined
+      }
       viewport={{
         once: true,
         amount: 0.8,
       }}
-      transition={{
-        clipPath: {
-          duration,
-          delay,
-          ease: [0.22, 1, 0.36, 1],
-        },
-        opacity: {
-          duration: 0.25,
-          delay,
-        },
-      }}
+      transition={
+        shouldAnimate
+          ? {
+              clipPath: {
+                duration,
+                delay,
+                ease: [0.22, 1, 0.36, 1],
+              },
+              opacity: {
+                duration: 0.25,
+                delay,
+              },
+            }
+          : undefined
+      }
       className={cn("inline-block", className)}
     >
       {children}
