@@ -16,7 +16,7 @@ export const AdminEditorMobileNavigation = ({
   activeView,
   onViewChange,
 }: AdminEditorMobileNavigationProps) => (
-  <div className="relative z-40 grid shrink-0 grid-cols-2 border-b border-border/60 bg-background p-2 lg:hidden">
+  <div className="relative z-40 grid shrink-0 grid-cols-2 border-b border-border/60 bg-background p-2 xl:hidden">
     <button
       type="button"
       className={cn(
