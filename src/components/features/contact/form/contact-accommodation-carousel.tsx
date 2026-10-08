@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
 
 import { ContactAccommodationCard } from "@/components/features/contact/form/contact-accommodation-card";
 import { FieldLabel } from "@/components/ui/field";
@@ -69,6 +70,8 @@ export const ContactAccommodationCarousel = ({
     };
   }, [updateScrollState]);
 
+  const shouldReduceMotion = useReducedMotion();
+
   const scroll = (direction: "previous" | "next") => {
     const element = scrollRef.current;
 
@@ -81,7 +84,7 @@ export const ContactAccommodationCarousel = ({
         direction === "next"
           ? element.clientWidth * 0.7
           : -element.clientWidth * 0.7,
-      behavior: "smooth",
+      behavior: shouldReduceMotion ? "auto" : "smooth",
     });
   };
 
@@ -89,7 +92,7 @@ export const ContactAccommodationCarousel = ({
     onSelect(id);
 
     element.scrollIntoView({
-      behavior: "smooth",
+      behavior: shouldReduceMotion ? "auto" : "smooth",
       block: "nearest",
       inline: "center",
     });

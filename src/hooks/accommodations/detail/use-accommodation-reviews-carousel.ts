@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
 
 const getCarouselMetrics = (viewport: HTMLDivElement) => {
   const firstCard = viewport.firstElementChild as HTMLElement | null;
@@ -28,6 +29,7 @@ const getCarouselMetrics = (viewport: HTMLDivElement) => {
 };
 
 export const useAccommodationReviewsCarousel = (itemCount: number) => {
+  const shouldReduceMotion = useReducedMotion();
   const viewportRef = useRef<HTMLDivElement>(null);
 
   const [activeIndex, setActiveIndex] = useState(0);
@@ -90,7 +92,7 @@ export const useAccommodationReviewsCarousel = (itemCount: number) => {
 
     viewport.scrollBy({
       left: direction === "next" ? metrics.cardStep : -metrics.cardStep,
-      behavior: "smooth",
+      behavior: shouldReduceMotion ? "auto" : "smooth",
     });
   };
 

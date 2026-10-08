@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "motion/react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { ArrowRight, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useFormContext, useWatch } from "react-hook-form";
@@ -40,6 +40,8 @@ export const ContactPageFormContent = ({
     name: "subject",
   });
 
+  const shouldReduceMotion = useReducedMotion();
+
   return (
     <>
       <AdminEditorRegion
@@ -73,34 +75,52 @@ export const ContactPageFormContent = ({
               {subject === "ACCOMMODATION" ? (
                 <motion.div
                   key="accommodation-picker"
-                  initial={{
-                    opacity: 0,
-                    height: 0,
-                    y: -8,
-                  }}
+                  initial={
+                    shouldReduceMotion
+                      ? false
+                      : {
+                          opacity: 0,
+                          height: 0,
+                          y: -8,
+                        }
+                  }
                   animate={{
                     opacity: 1,
                     height: "auto",
                     y: 0,
                   }}
-                  exit={{
-                    opacity: 0,
-                    height: 0,
-                    y: -6,
-                  }}
-                  transition={{
-                    height: {
-                      duration: 0.45,
-                      ease: [0.22, 1, 0.36, 1],
-                    },
-                    opacity: {
-                      duration: 0.3,
-                    },
-                    y: {
-                      duration: 0.4,
-                      ease: [0.22, 1, 0.36, 1],
-                    },
-                  }}
+                  exit={
+                    shouldReduceMotion
+                      ? {
+                          opacity: 0,
+                          height: "auto",
+                          y: 0,
+                        }
+                      : {
+                          opacity: 0,
+                          height: 0,
+                          y: -6,
+                        }
+                  }
+                  transition={
+                    shouldReduceMotion
+                      ? {
+                          duration: 0.01,
+                        }
+                      : {
+                          height: {
+                            duration: 0.45,
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+                          opacity: {
+                            duration: 0.3,
+                          },
+                          y: {
+                            duration: 0.4,
+                            ease: [0.22, 1, 0.36, 1],
+                          },
+                        }
+                  }
                   className="overflow-hidden"
                 >
                   <ContactAccommodationPicker

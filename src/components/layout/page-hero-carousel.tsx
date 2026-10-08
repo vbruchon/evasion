@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 
 import { cn } from "@/lib/utils";
+import { useReducedMotion } from "motion/react";
 
 export type PageHeroCarouselImage = {
   src: string;
@@ -27,9 +28,10 @@ export const PageHeroCarousel = ({
   children,
 }: PageHeroCarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  const shouldReduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (images.length <= 1) {
+    if (images.length <= 1 || shouldReduceMotion) {
       return;
     }
 
@@ -42,7 +44,7 @@ export const PageHeroCarousel = ({
     return () => {
       window.clearInterval(interval);
     };
-  }, [images.length]);
+  }, [images.length, shouldReduceMotion]);
 
   return (
     <div
