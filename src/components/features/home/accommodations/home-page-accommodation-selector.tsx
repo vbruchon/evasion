@@ -32,7 +32,7 @@ export const HomePageAccommodationSelector = ({
 
   return (
     <div className="mx-auto max-w-[1600px]">
-      <div className="grid items-stretch gap-x-10 lg:grid-cols-[minmax(360px,0.9fr)_minmax(0,1.8fr)] xl:grid-cols-[minmax(420px,0.95fr)_minmax(0,1.75fr)] xl:gap-x-14">
+      <div className="grid items-stretch gap-y-10 xl:grid-cols-[minmax(360px,0.9fr)_minmax(0,1.8fr)] xl:gap-x-14 xl:gap-y-0 2xl:grid-cols-[minmax(420px,0.95fr)_minmax(0,1.75fr)]">
         <motion.div
           initial={animated ? { opacity: 0, y: 14 } : false}
           whileInView={{ opacity: 1, y: 0 }}

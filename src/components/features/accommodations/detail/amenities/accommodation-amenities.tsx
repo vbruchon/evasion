@@ -34,6 +34,9 @@ export const AccommodationAmenities = ({
   });
 
   const shouldAnimate = animated && !editorPreview;
+  const mobileVisibleAmenities = showAll
+    ? visibleAmenities
+    : visibleAmenities.slice(0, 8);
 
   if (!hasAmenities && !editorPreview) {
     return null;
@@ -71,7 +74,7 @@ export const AccommodationAmenities = ({
           >
             <div className="mt-8 md:hidden">
               <AccommodationAmenitiesGrid
-                amenities={visibleAmenities}
+                amenities={mobileVisibleAmenities}
                 showDetails={showAll}
               />
             </div>

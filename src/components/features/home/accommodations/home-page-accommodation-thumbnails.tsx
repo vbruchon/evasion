@@ -23,7 +23,7 @@ export const HomePageAccommodationThumbnails = ({
   }
 
   return (
-    <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+    <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-[repeat(auto-fit,minmax(120px,1fr))]">
       {accommodations.map((accommodation, index) => {
         const image = getAccommodationCoverImage(accommodation.images);
 

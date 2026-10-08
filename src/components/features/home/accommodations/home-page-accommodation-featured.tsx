@@ -66,7 +66,7 @@ export const HomePageAccommodationFeatured = ({
         <div className="mt-6">
           <div aria-hidden="true" className="mb-5 h-px w-[88%] bg-border/40" />
 
-          <div className="flex items-center gap-4">
+          <div className="grid w-full min-w-0 max-w-full overflow-hidden lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.75fr)]">
             {accommodation.guestCapacity ? (
               <div className="flex min-w-0 items-center gap-1.5 whitespace-nowrap text-[0.7rem] text-foreground/80">
                 <UserRound
@@ -82,7 +82,7 @@ export const HomePageAccommodationFeatured = ({
             ) : null}
 
             {accommodation.bedrooms ? (
-              <div className="flex min-w-0 items-center gap-1.5 whitespace-nowrap text-[0.7rem] text-foreground/80">
+              <div className="flex min-w-0 flex-col justify-center border border-border/60 bg-card/45 p-5 sm:p-7 lg:border-l-0 xl:p-8">
                 <BedDouble
                   aria-hidden="true"
                   className="size-3.5 shrink-0 text-primary"
@@ -96,13 +96,13 @@ export const HomePageAccommodationFeatured = ({
             ) : null}
 
             {primaryHighlight ? (
-              <div className="flex min-w-0 items-center gap-1.5 whitespace-nowrap text-[0.7rem] text-foreground/80">
+              <div className="col-span-2 flex min-w-0 items-center gap-1.5 text-[0.7rem] text-foreground/80 sm:col-span-1">
                 <Sparkles
                   aria-hidden="true"
                   className="size-3.5 shrink-0 text-primary"
                 />
 
-                <span>{primaryHighlight.title}</span>
+                <span className="truncate">{primaryHighlight.title}</span>
               </div>
             ) : null}
           </div>

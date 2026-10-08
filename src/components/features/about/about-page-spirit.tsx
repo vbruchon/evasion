@@ -53,7 +53,7 @@ export const AboutPageSpirit = ({
         </AdminEditorRegion>
       </motion.div>
 
-      <div className="mt-12 grid gap-14 sm:mt-14 lg:mt-16 lg:grid-cols-12 lg:items-center lg:gap-x-20">
+      <div className="mt-12 grid gap-14 sm:mt-14 lg:mt-16 xl:grid-cols-12 xl:items-center xl:gap-x-20">
         <motion.div
           initial={animated ? { opacity: 0, y: 16 } : false}
           whileInView={{ opacity: 1, y: 0 }}
@@ -65,7 +65,7 @@ export const AboutPageSpirit = ({
             ...revealTransition,
             delay: animated ? 0.08 : 0,
           }}
-          className="lg:col-span-5 lg:col-start-1 lg:ml-8"
+          className="xl:col-span-5 xl:col-start-1 xl:ml-8"
         >
           <AdminEditorRegion region="content" activeRegion={activeEditorRegion}>
             <h2 className="max-w-[22ch] font-heading text-4xl leading-[1.06] tracking-[-0.035em] text-foreground sm:text-5xl lg:text-5xl">
@@ -104,12 +104,12 @@ export const AboutPageSpirit = ({
             delay: animated ? 0.12 : 0,
             ease: [0.22, 1, 0.36, 1],
           }}
-          className="lg:col-span-6 lg:col-start-7"
+          className="xl:col-span-6 xl:col-start-7"
         >
           <div className="relative">
             <div
               aria-hidden="true"
-              className="absolute -left-5 top-14 hidden h-28 w-px bg-primary/55 lg:block"
+              className="absolute -left-5 top-14 hidden h-28 w-px bg-primary/55 xl:block"
             />
 
             <AdminEditorRegion region="image" activeRegion={activeEditorRegion}>
@@ -138,7 +138,7 @@ export const AboutPageSpirit = ({
             <AdminEditorRegion
               region="content"
               activeRegion={activeEditorRegion}
-              className="relative -mt-3 ml-auto max-w-max sm:-mt-4 lg:-mr-6"
+              className="relative -mt-3 ml-auto max-w-max sm:-mt-4 xl:-mr-6"
             >
               <p className="-rotate-2 pr-3 font-handwritten text-2xl text-primary sm:pr-8 sm:text-3xl lg:text-4xl">
                 <HandwrittenReveal
