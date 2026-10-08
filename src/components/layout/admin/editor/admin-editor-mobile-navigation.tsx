@@ -19,6 +19,7 @@ export const AdminEditorMobileNavigation = ({
   <div className="relative z-40 grid shrink-0 grid-cols-2 border-b border-border/60 bg-background p-2 xl:hidden">
     <button
       type="button"
+      aria-pressed={activeView === "preview"}
       className={cn(
         "relative flex h-11 items-center justify-center gap-2 text-sm font-medium transition-colors",
         activeView === "preview"
@@ -44,6 +45,7 @@ export const AdminEditorMobileNavigation = ({
 
     <button
       type="button"
+      aria-pressed={activeView === "editor"}
       className={cn(
         "relative flex h-11 items-center justify-center gap-2 text-sm font-medium transition-colors",
         activeView === "editor"

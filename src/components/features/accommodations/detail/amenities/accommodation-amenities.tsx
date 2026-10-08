@@ -83,13 +83,26 @@ export const AccommodationAmenities = ({
               <AccommodationAmenitiesCategories categories={categories} />
             </div>
 
+            {!editorPreview && total > 8 ? (
+              <div className="md:hidden">
+                <AccommodationAmenitiesToggle
+                  expanded={showAll}
+                  total={total}
+                  className="mt-6"
+                  onToggle={handleToggleExpanded}
+                />
+              </div>
+            ) : null}
+
             {!editorPreview && canExpand ? (
-              <AccommodationAmenitiesToggle
-                expanded={showAll}
-                total={total}
-                className="mt-6"
-                onToggle={handleToggleExpanded}
-              />
+              <div className="hidden md:block">
+                <AccommodationAmenitiesToggle
+                  expanded={showAll}
+                  total={total}
+                  className="mt-6"
+                  onToggle={handleToggleExpanded}
+                />
+              </div>
             ) : null}
           </motion.div>
         ) : (
