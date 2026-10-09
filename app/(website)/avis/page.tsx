@@ -18,8 +18,6 @@ export const metadata = createPageMetadata({
   path: "/avis",
 });
 
-export const dynamic = "force-dynamic";
-
 const RECENT_REVIEWS_COUNT = 4;
 const INITIAL_REVIEWS_COUNT = 6;
 
