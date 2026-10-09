@@ -42,6 +42,7 @@ export const FaqPageHero = ({
         src={imageUrl ?? FAQ_PAGE_DEFAULT_HERO_IMAGE}
         alt=""
         fill
+        quality={65}
         priority
         unoptimized={imageUrl?.startsWith("blob:")}
         aria-hidden="true"

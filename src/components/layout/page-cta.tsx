@@ -12,6 +12,7 @@ type PageCtaProps = {
 
 type PageCtaBackgroundProps = {
   imageUrl: string;
+  quality?: number;
 };
 
 type PageCtaContentProps = {
@@ -47,12 +48,16 @@ export const PageCta = ({ background, children }: PageCtaProps) => (
   </SiteSection>
 );
 
-export const PageCtaBackground = ({ imageUrl }: PageCtaBackgroundProps) => (
+export const PageCtaBackground = ({
+  imageUrl,
+  quality = 65,
+}: PageCtaBackgroundProps) => (
   <div className="relative h-full">
     <Image
       src={imageUrl}
       alt=""
       fill
+      quality={quality}
       unoptimized={imageUrl.startsWith("blob:")}
       sizes="100vw"
       className="scale-105 object-cover blur-[6px]"

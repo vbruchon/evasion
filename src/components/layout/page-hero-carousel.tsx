@@ -12,6 +12,7 @@ export type PageHeroCarouselImage = {
 
 type PageHeroCarouselProps = {
   images: readonly PageHeroCarouselImage[];
+  quality?: number;
   children?: (
     activeIndex: number,
     setActiveIndex: (index: number) => void,
@@ -22,6 +23,7 @@ const AUTOPLAY_DELAY = 7500;
 
 export const PageHeroCarousel = ({
   images,
+  quality = 65,
   children,
 }: PageHeroCarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -70,6 +72,7 @@ export const PageHeroCarousel = ({
               fill
               loading="eager"
               fetchPriority={activeIndex === 0 ? "high" : "auto"}
+              quality={quality}
               sizes="100vw"
               style={{
                 objectPosition: activeImage.objectPosition ?? "center",

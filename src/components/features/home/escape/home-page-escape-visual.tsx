@@ -42,6 +42,7 @@ export const HomePageEscapeVisual = ({
             src={imageUrl}
             alt=""
             fill
+            quality={65}
             unoptimized={imageUrl.startsWith("blob:")}
             sizes="(max-width: 1023px) 100vw, 62vw"
             className="object-cover"

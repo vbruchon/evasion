@@ -118,6 +118,7 @@ export const AboutPageSpirit = ({
                   src={imageUrl}
                   alt="Intérieur d’un hébergement Évasion"
                   fill
+                  quality={65}
                   unoptimized={imageUrl.startsWith("blob:")}
                   sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
