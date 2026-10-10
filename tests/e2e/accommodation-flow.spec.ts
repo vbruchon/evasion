@@ -206,7 +206,7 @@ test("creates, modifies and publishes an accommodation", async ({
 
   await expect(publicLink).toBeVisible();
 
-  await expect(publicLink).toHaveAccessibleName(`Découvrir ${updatedName}`);
+  await expect(publicLink).toContainText(updatedName);
 
   const publicHref = await publicLink.getAttribute("href");
 

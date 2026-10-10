@@ -27,6 +27,7 @@ export const HomePageAccommodationFeatured = ({
             src={coverImage.url}
             alt={coverImage.alt ?? accommodation.name}
             fill
+            quality={65}
             sizes="(max-width: 1023px) 100vw, 45vw"
             className="object-cover"
           />

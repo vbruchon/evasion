@@ -24,6 +24,7 @@ export const ReviewStars = ({
   return (
     <div
       className={cn("flex items-center gap-1 text-primary", className)}
+      role={decorative ? undefined : "img"}
       aria-hidden={decorative || undefined}
       aria-label={decorative ? undefined : `${formattedRating} étoiles sur 5`}
     >

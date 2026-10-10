@@ -1,5 +1,9 @@
 import { PublicPageLoader } from "@/components/layout/public-page-loader";
 
 export default function WebsiteLoading() {
-  return <PublicPageLoader />;
+  return (
+    <div className="min-h-dvh">
+      <PublicPageLoader />
+    </div>
+  );
 }

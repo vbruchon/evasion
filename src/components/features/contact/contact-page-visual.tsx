@@ -65,6 +65,7 @@ export const ContactPageVisual = ({
         alt=""
         fill
         priority
+        fetchPriority="high"
         sizes="(min-width: 1024px) 46vw, 100vw"
         className="object-cover object-center"
       />

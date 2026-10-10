@@ -1,11 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
-
-import { cn } from "@/lib/utils";
-import { useReducedMotion } from "motion/react";
+import { useEffect, useState } from "react";
 
 export type PageHeroCarouselImage = {
   src: string;
@@ -15,6 +12,7 @@ export type PageHeroCarouselImage = {
 
 type PageHeroCarouselProps = {
   images: readonly PageHeroCarouselImage[];
+  quality?: number;
   children?: (
     activeIndex: number,
     setActiveIndex: (index: number) => void,
@@ -25,10 +23,13 @@ const AUTOPLAY_DELAY = 7500;
 
 export const PageHeroCarousel = ({
   images,
+  quality = 65,
   children,
 }: PageHeroCarouselProps) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const shouldReduceMotion = useReducedMotion();
+
+  const activeImage = images[activeIndex];
 
   useEffect(() => {
     if (images.length <= 1 || shouldReduceMotion) {
@@ -52,32 +53,35 @@ export const PageHeroCarousel = ({
       aria-label="Découvrir les hébergements Évasion"
       aria-roledescription="carrousel"
     >
-      {images.map((image, index) => {
-        const isActive = index === activeIndex;
-
-        return (
-          <div
-            key={image.src}
-            aria-hidden={!isActive}
-            className={cn(
-              "absolute inset-0 transition-opacity duration-1400 ease-in-out",
-              isActive ? "z-0 opacity-100" : "-z-10 opacity-0",
-            )}
+      <AnimatePresence initial={false}>
+        {activeImage ? (
+          <motion.div
+            key={activeImage.src}
+            initial={shouldReduceMotion ? false : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={shouldReduceMotion ? undefined : { opacity: 0 }}
+            transition={{
+              duration: shouldReduceMotion ? 0 : 1.4,
+              ease: "easeInOut",
+            }}
+            className="absolute inset-0"
           >
             <Image
-              src={image.src}
-              alt={isActive ? image.alt : ""}
+              src={activeImage.src}
+              alt={activeImage.alt}
               fill
-              priority={index === 0}
+              loading="eager"
+              fetchPriority={activeIndex === 0 ? "high" : "auto"}
+              quality={quality}
               sizes="100vw"
               style={{
-                objectPosition: image.objectPosition ?? "center",
+                objectPosition: activeImage.objectPosition ?? "center",
               }}
               className="object-cover"
             />
-          </div>
-        );
-      })}
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
 
       {children?.(activeIndex, setActiveIndex)}
     </div>

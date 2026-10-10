@@ -12,8 +12,6 @@ export const metadata = createPageMetadata({
   path: "/contact",
 });
 
-export const dynamic = "force-dynamic";
-
 export default async function ContactPage() {
   const [content, accommodations] = await Promise.all([
     getContactPageContent(),

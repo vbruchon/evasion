@@ -6,8 +6,6 @@ import { LegalSection } from "@/components/features/legal/legal-section";
 import { displayLegalValue } from "@/lib/legal/legal-site-defaults";
 import { getLegalSiteSettings } from "@/lib/legal/queries/get-legal-site-settings";
 
-export const dynamic = "force-dynamic";
-
 export const metadata = createPageMetadata({
   title: "Politique de confidentialité",
   description:

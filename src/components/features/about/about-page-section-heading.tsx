@@ -9,7 +9,7 @@ export const AboutPageSectionHeading = ({
 }: AboutPageSectionHeadingProps) => {
   return (
     <div className="flex items-center gap-4 sm:gap-5">
-      <span className="font-serif text-xs text-primary/70 sm:text-sm">
+      <span className="font-serif text-xs text-primary/80 sm:text-sm">
         {index}
       </span>
 

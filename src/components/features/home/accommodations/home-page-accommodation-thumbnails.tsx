@@ -61,6 +61,7 @@ export const HomePageAccommodationThumbnails = ({
                   src={image.url}
                   alt=""
                   fill
+                  quality={65}
                   sizes="(max-width: 639px) 50vw, (max-width: 1023px) 33vw, 250px"
                   className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />

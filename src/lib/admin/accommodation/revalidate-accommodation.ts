@@ -9,8 +9,13 @@ export const revalidateAccommodation = ({
   slug,
   id,
 }: RevalidateAccommodationOptions = {}) => {
-  revalidatePath("/admin/logements");
+  revalidatePath("/");
+  revalidatePath("/a-propos");
+  revalidatePath("/avis");
+  revalidatePath("/contact");
   revalidatePath("/logements");
+
+  revalidatePath("/admin/logements");
 
   if (slug) {
     revalidatePath(`/logements/${slug}`);
