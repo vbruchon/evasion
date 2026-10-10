@@ -45,6 +45,7 @@ export const AllReviewsFilter = ({
     <div className="w-full lg:w-auto">
       <Select value={value} disabled={disabled} onValueChange={onValueChange}>
         <SelectTrigger
+          aria-label="Filtrer les avis par logement"
           aria-busy={loading}
           className="h-11 w-full min-w-52 border border-border/60 px-4 py-0 text-xs text-foreground lg:w-auto"
         >

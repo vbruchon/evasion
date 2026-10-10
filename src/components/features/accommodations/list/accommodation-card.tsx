@@ -25,7 +25,6 @@ export const AccommodationCard = ({
   return (
     <Link
       href={accommodationHref}
-      aria-label={`Découvrir ${accommodation.name}`}
       className="
     group relative block h-full rounded-sm border border-transparent
     [border-image:linear-gradient(45deg,var(--primary)_0%,color-mix(in_oklab,var(--primary)_22%,transparent)_6%,color-mix(in_oklab,var(--primary)_10%,transparent)_50%,color-mix(in_oklab,var(--primary)_22%,transparent)_94%,var(--primary)_100%)_1]
