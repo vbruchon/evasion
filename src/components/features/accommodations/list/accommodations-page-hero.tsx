@@ -43,6 +43,7 @@ export const AccommodationsPageHero = ({
         fill
         quality={65}
         priority
+        fetchPriority="high"
         unoptimized={imageUrl?.startsWith("blob:")}
         aria-hidden="true"
         sizes="100vw"
