@@ -6,7 +6,7 @@ A modern accommodation showcase website with a custom content management interfa
 
 The project does not implement an internal booking engine. Availability can be synchronized from external iCal calendars, while booking actions redirect visitors to the configured external booking platform.
 
-**Live website:** https://...
+**Live website:** https://evasion-zeta.vercel.app/
 
 ## Overview
 
