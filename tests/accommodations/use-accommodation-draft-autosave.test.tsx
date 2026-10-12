@@ -3,6 +3,7 @@
 import { act, cleanup, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import {
   saveAccommodationDraft,
@@ -162,6 +163,8 @@ const renderAutosaveHook = ({
         defaultValues: initialValues,
       });
 
+      const [hasDraft, setHasDraft] = useState(initialHasDraft);
+
       const autosave = useAccommodationDraftAutosave({
         accommodationId: "accommodation-1",
         form,
@@ -171,13 +174,14 @@ const renderAutosaveHook = ({
         enabled: true,
         saveAsDraft,
         persistedStatus,
-        initialHasDraft,
+        onDraftStateChange: setHasDraft,
         syncPreparedImages,
         syncPersistedImages,
       });
 
       return {
         form,
+        hasDraft,
         ...autosave,
       };
     },

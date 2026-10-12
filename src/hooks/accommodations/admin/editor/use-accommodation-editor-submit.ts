@@ -22,6 +22,7 @@ type UseAccommodationEditorSubmitOptions = {
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
   presentationImageId: string | null;
+  onDraftStateChange: (hasDraft: boolean) => void;
 };
 
 export const useAccommodationEditorSubmit = ({
@@ -30,10 +31,12 @@ export const useAccommodationEditorSubmit = ({
   images,
   coverImageId,
   presentationImageId,
+  onDraftStateChange,
 }: UseAccommodationEditorSubmitOptions) => {
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [isDiscardingDraft, setIsDiscardingDraft] = useState(false);
+
   const router = useRouter();
 
   const setRootError = useCallback(
@@ -75,6 +78,9 @@ export const useAccommodationEditorSubmit = ({
           return;
         }
 
+        form.reset(values);
+        onDraftStateChange(false);
+
         toast.success(
           values.status === "PUBLISHED"
             ? "Modifications publiées."
@@ -93,6 +99,7 @@ export const useAccommodationEditorSubmit = ({
       coverImageId,
       form,
       images,
+      onDraftStateChange,
       presentationImageId,
       router,
       setRootError,
@@ -136,6 +143,9 @@ export const useAccommodationEditorSubmit = ({
         return;
       }
 
+      form.reset(values);
+      onDraftStateChange(true);
+
       toast.success("Brouillon enregistré.");
       router.refresh();
     } catch {
@@ -159,6 +169,8 @@ export const useAccommodationEditorSubmit = ({
         return;
       }
 
+      onDraftStateChange(false);
+
       toast.success("Brouillon abandonné.");
       router.refresh();
     } catch {
@@ -168,7 +180,7 @@ export const useAccommodationEditorSubmit = ({
     } finally {
       setIsDiscardingDraft(false);
     }
-  }, [accommodationId, form, router, setRootError]);
+  }, [accommodationId, form, onDraftStateChange, router, setRootError]);
 
   return {
     handleSubmit,

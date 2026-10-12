@@ -26,7 +26,7 @@ export type AccommodationHeroData = Pick<
 
 export type AccommodationHeroGeneralData = Pick<
   AccommodationHeroData,
-  "name" | "type" | "subtitle" | "startingPrice"
+  "name" | "type" | "subtitle"
 >;
 
 export type AccommodationKeyDetailsData = Pick<

@@ -16,6 +16,7 @@ import { AccommodationHeroActions } from "./accommodation-hero-actions";
 import { AccommodationHeroGeneral } from "./accommodation-hero-general";
 import { AccommodationHighlights } from "./accommodation-highlights";
 import { AccommodationKeyDetails } from "./accommodation-key-details";
+import { AccommodationStartingPrice } from "@/components/features/accommodations/shared/accommodation-starting-price";
 
 type AccommodationHeroProps = {
   accommodation: AccommodationHeroData;
@@ -36,6 +37,8 @@ export const AccommodationHero = ({
   editorPreview = false,
   animated = false,
 }: AccommodationHeroProps) => {
+  const hasStartingPrice = accommodation.startingPrice !== null;
+
   const hasKeyDetails = [
     accommodation.guestCapacity,
     accommodation.bedrooms,
@@ -44,9 +47,10 @@ export const AccommodationHero = ({
     accommodation.surface,
   ].some((value) => value !== null);
 
+  const showKeyDetails = hasStartingPrice || hasKeyDetails || editorPreview;
+
   const hasHighlights = highlights.length > 0;
 
-  const showKeyDetails = hasKeyDetails || editorPreview;
   const showHighlights = hasHighlights || editorPreview;
 
   const shouldAnimate = animated && !editorPreview;
@@ -121,18 +125,31 @@ export const AccommodationHero = ({
                 delay: shouldAnimate ? 0.32 : 0,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="mt-8 lg:mt-12"
+              className={cn(
+                hasStartingPrice ? "mt-5 lg:mt-7" : "mt-8 lg:mt-12",
+              )}
             >
               <AdminEditorRegion
                 region="key-details"
                 activeRegion={activeEditorRegion}
                 className="inline-block max-w-full p-2"
               >
-                <AccommodationKeyDetails
-                  accommodationDetails={accommodation}
-                  editorPreview={editorPreview}
-                  animated={shouldAnimate}
-                />
+                {hasStartingPrice ? (
+                  <AccommodationStartingPrice
+                    startingPrice={accommodation.startingPrice}
+                    variant="hero"
+                  />
+                ) : null}
+
+                {hasKeyDetails || editorPreview ? (
+                  <div className={cn(hasStartingPrice && "mt-8 lg:mt-10")}>
+                    <AccommodationKeyDetails
+                      accommodationDetails={accommodation}
+                      editorPreview={editorPreview}
+                      animated={shouldAnimate}
+                    />
+                  </div>
+                ) : null}
               </AdminEditorRegion>
             </motion.div>
           ) : null}

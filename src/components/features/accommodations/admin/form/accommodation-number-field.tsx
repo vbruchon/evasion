@@ -20,7 +20,8 @@ type AccommodationNumberFieldName =
   | "bedrooms"
   | "beds"
   | "bathrooms"
-  | "surface";
+  | "surface"
+  | "startingPrice";
 
 type AccommodationNumberFieldProps = {
   name: AccommodationNumberFieldName;
