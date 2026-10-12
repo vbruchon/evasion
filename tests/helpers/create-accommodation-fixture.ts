@@ -34,6 +34,7 @@ type CreateAccommodationFixtureOptions = {
   beds?: number | null;
   bathrooms?: number | null;
   surface?: number | null;
+  startingPrice?: number | null;
 
   status?: AccommodationStatus;
   position?: number;
@@ -74,6 +75,9 @@ export const createAccommodationFixture = async (
       bathrooms: options.bathrooms === undefined ? 1 : options.bathrooms,
 
       surface: options.surface === undefined ? 35 : options.surface,
+
+      startingPrice:
+        options.startingPrice === undefined ? 190 : options.startingPrice,
 
       status,
       position: options.position ?? 1,
