@@ -2,12 +2,10 @@ import { revalidatePath } from "next/cache";
 
 type RevalidateAccommodationOptions = {
   slug?: string;
-  id?: string;
 };
 
 export const revalidateAccommodation = ({
   slug,
-  id,
 }: RevalidateAccommodationOptions = {}) => {
   revalidatePath("/");
   revalidatePath("/a-propos");
@@ -19,9 +17,5 @@ export const revalidateAccommodation = ({
 
   if (slug) {
     revalidatePath(`/logements/${slug}`);
-  }
-
-  if (id) {
-    revalidatePath(`/admin/logements/${id}/modifier`);
   }
 };

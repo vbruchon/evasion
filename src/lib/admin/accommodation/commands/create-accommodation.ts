@@ -86,7 +86,6 @@ export const createAccommodationAdmin = async (
 
     revalidateAccommodation({
       slug: accommodation.slug,
-      id: accommodation.id,
     });
 
     return {
