@@ -4,6 +4,7 @@ import Image from "next/image";
 import { PageLinkButton } from "@/components/layout/page-link-button";
 import { getAccommodationCoverImage } from "@/lib/accommodations/accommodation-images";
 import type { AccommodationWithImagesAndHighlights } from "@/lib/accommodations/accommodation-types";
+import { AccommodationStartingPrice } from "../../accommodations/shared/accommodation-starting-price";
 
 type HomePageAccommodationFeaturedProps = {
   accommodation: AccommodationWithImagesAndHighlights;
@@ -109,12 +110,19 @@ export const HomePageAccommodationFeatured = ({
           </div>
         </div>
 
-        <PageLinkButton
-          href={`/logements/${accommodation.slug}`}
-          className="mt-5 w-full"
-        >
-          Découvrir le logement
-        </PageLinkButton>
+        <div className="mt-5 space-y-4">
+          <AccommodationStartingPrice
+            startingPrice={accommodation.startingPrice}
+            variant="featured"
+          />
+
+          <PageLinkButton
+            href={`/logements/${accommodation.slug}`}
+            className="w-full"
+          >
+            Découvrir le logement
+          </PageLinkButton>
+        </div>
       </div>
     </div>
   );

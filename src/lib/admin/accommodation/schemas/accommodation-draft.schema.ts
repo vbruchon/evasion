@@ -18,6 +18,7 @@ const accommodationDraftValuesSchema = z.preprocess((value) => {
     beds: null,
     bathrooms: null,
     surface: null,
+    startingPrice: null,
 
     locationTitle: "",
     locationDescription: "",

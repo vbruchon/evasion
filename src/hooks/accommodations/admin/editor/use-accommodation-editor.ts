@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { BaseSyntheticEvent } from "react";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -21,6 +21,8 @@ export const useAccommodationEditor = (
   accommodation: AccommodationUpdateData,
 ) => {
   const canSaveDraft = accommodation.status === "PUBLISHED";
+
+  const [hasDraft, setHasDraft] = useState(accommodation.hasDraft);
 
   const form = useForm<AccommodationUpdateFormValues>({
     resolver: zodResolver(accommodationUpdateSchema),
@@ -82,6 +84,7 @@ export const useAccommodationEditor = (
     images,
     coverImageId,
     presentationImageId,
+    onDraftStateChange: setHasDraft,
   });
 
   const manualActionPending =
@@ -91,7 +94,7 @@ export const useAccommodationEditor = (
     isDiscardingDraft ||
     isUpdatingStatus;
 
-  const { hasDraft, isAutosaving, autosaveStatus, cancelPendingAutosave } =
+  const { isAutosaving, autosaveStatus, cancelPendingAutosave } =
     useAccommodationDraftAutosave({
       accommodationId: accommodation.id,
       form,
@@ -101,7 +104,7 @@ export const useAccommodationEditor = (
       enabled: !manualActionPending,
       saveAsDraft: canSaveDraft,
       persistedStatus: accommodation.status,
-      initialHasDraft: accommodation.hasDraft,
+      onDraftStateChange: setHasDraft,
       syncPreparedImages,
       syncPersistedImages,
     });

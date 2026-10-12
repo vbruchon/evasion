@@ -15,6 +15,7 @@ test("creates, modifies and publishes an accommodation", async ({
 
   const initialName = `Le Refuge E2E${retrySuffix}`;
   const updatedName = `${initialName} Modifié`;
+  const startingPrice = 275;
   const expectedSlug = `le-refuge-e2e${slugRetrySuffix}`;
 
   //
@@ -55,8 +56,6 @@ test("creates, modifies and publishes an accommodation", async ({
 
   expect(createResponse.ok()).toBe(true);
 
-  // La création déclenche elle-même un router.push vers l'éditeur.
-  // On attend qu'il soit réellement terminé avant de continuer.
   await expect(page).toHaveURL(/\/admin\/logements\/[^/]+\/modifier$/);
 
   const createdEditHref = new URL(page.url()).pathname;
@@ -117,7 +116,7 @@ test("creates, modifies and publishes an accommodation", async ({
   await expect(nameField).toHaveValue(initialName);
 
   //
-  // 4. Update
+  // 4. Update name
   //
 
   const autosaveResponsePromise = page.waitForResponse(
@@ -138,7 +137,39 @@ test("creates, modifies and publishes an accommodation", async ({
   await expect(nameField).toHaveValue(updatedName);
 
   //
-  // 5. Publication
+  // 5. Update starting price
+  //
+
+  await page
+    .getByRole("button", {
+      name: "Infos clés",
+      exact: true,
+    })
+    .click();
+
+  const startingPriceField = page.getByLabel("Prix à partir de");
+
+  await expect(startingPriceField).toHaveValue("");
+
+  const priceAutosaveResponsePromise = page.waitForResponse(
+    (response) =>
+      response.request().method() === "POST" &&
+      new URL(response.url()).pathname === createdEditHref,
+    {
+      timeout: 30_000,
+    },
+  );
+
+  await startingPriceField.fill(String(startingPrice));
+
+  const priceAutosaveResponse = await priceAutosaveResponsePromise;
+
+  expect(priceAutosaveResponse.ok()).toBe(true);
+
+  await expect(startingPriceField).toHaveValue(String(startingPrice));
+
+  //
+  // 6. Publication
   //
 
   const statusTrigger = page.getByLabel("Modifier le statut du logement");
@@ -183,7 +214,7 @@ test("creates, modifies and publishes an accommodation", async ({
   ).toBeVisible();
 
   //
-  // 6. Verify persisted state
+  // 7. Verify persisted state
   //
 
   await expect(page).toHaveURL(createdEditHref);
@@ -194,8 +225,19 @@ test("creates, modifies and publishes an accommodation", async ({
     "Publié",
   );
 
+  await page
+    .getByRole("button", {
+      name: "Infos clés",
+      exact: true,
+    })
+    .click();
+
+  await expect(page.getByLabel("Prix à partir de")).toHaveValue(
+    String(startingPrice),
+  );
+
   //
-  // 7. Public check
+  // 8. Public list check
   //
 
   await page.goto("/logements", {
@@ -208,12 +250,24 @@ test("creates, modifies and publishes an accommodation", async ({
 
   await expect(publicLink).toContainText(updatedName);
 
+  await expect(
+    publicLink.getByText("À partir de", {
+      exact: true,
+    }),
+  ).toBeVisible();
+
+  await expect(
+    publicLink.getByText(`${startingPrice} €`, {
+      exact: true,
+    }),
+  ).toBeVisible();
+
   const publicHref = await publicLink.getAttribute("href");
 
   expect(publicHref).toBe(`/logements/${expectedSlug}`);
 
   //
-  // 8. Public page
+  // 9. Public page
   //
 
   await publicLink.click();
@@ -224,6 +278,18 @@ test("creates, modifies and publishes an accommodation", async ({
     page.getByRole("heading", {
       level: 1,
       name: updatedName,
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByText("À partir de", {
+      exact: true,
+    }),
+  ).toBeVisible();
+
+  await expect(
+    page.getByText(`${startingPrice} €`, {
+      exact: true,
     }),
   ).toBeVisible();
 });

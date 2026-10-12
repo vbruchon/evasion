@@ -53,6 +53,8 @@ const mockedPrepareAccommodationUpdateImages = vi.mocked(
   prepareAccommodationUpdateImages,
 );
 
+const onDraftStateChangeMock = vi.fn();
+
 const initialValues = createAccommodationUpdateValues({
   name: "Le Chalet",
   type: "Chalet",
@@ -115,6 +117,10 @@ describe("useAccommodationEditorSubmit", () => {
     ];
 
     mockedPrepareAccommodationUpdateImages.mockResolvedValue(preparedImages);
+    mockedUpdateAccommodation.mockResolvedValue({
+      success: true,
+      images: [],
+    });
 
     const { result } = renderHook(() => {
       const form = useForm<AccommodationUpdateFormValues>({
@@ -127,6 +133,7 @@ describe("useAccommodationEditorSubmit", () => {
         images,
         coverImageId: "image-1",
         presentationImageId: "image-2",
+        onDraftStateChange: onDraftStateChangeMock,
       });
 
       return {
@@ -162,5 +169,6 @@ describe("useAccommodationEditorSubmit", () => {
 
     expect(mockedSaveAccommodationDraft).not.toHaveBeenCalled();
     expect(mockedDiscardAccommodationDraft).not.toHaveBeenCalled();
+    expect(onDraftStateChangeMock).toHaveBeenCalledWith(false);
   });
 });

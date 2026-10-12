@@ -16,6 +16,7 @@ export type AccommodationHeroData = Pick<
   | "name"
   | "type"
   | "subtitle"
+  | "startingPrice"
   | "guestCapacity"
   | "bedrooms"
   | "beds"

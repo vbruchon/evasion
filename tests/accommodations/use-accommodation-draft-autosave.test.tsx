@@ -3,6 +3,7 @@
 import { act, cleanup, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 import {
   saveAccommodationDraft,
@@ -85,6 +86,7 @@ const initialDraftValues: AccommodationDraftContent["values"] = {
   beds: initialValues.beds,
   bathrooms: initialValues.bathrooms,
   surface: initialValues.surface,
+  startingPrice: initialValues.startingPrice,
 
   locationTitle: initialValues.locationTitle,
   locationDescription: initialValues.locationDescription,
@@ -161,6 +163,8 @@ const renderAutosaveHook = ({
         defaultValues: initialValues,
       });
 
+      const [hasDraft, setHasDraft] = useState(initialHasDraft);
+
       const autosave = useAccommodationDraftAutosave({
         accommodationId: "accommodation-1",
         form,
@@ -170,13 +174,14 @@ const renderAutosaveHook = ({
         enabled: true,
         saveAsDraft,
         persistedStatus,
-        initialHasDraft,
+        onDraftStateChange: setHasDraft,
         syncPreparedImages,
         syncPersistedImages,
       });
 
       return {
         form,
+        hasDraft,
         ...autosave,
       };
     },
@@ -823,6 +828,36 @@ describe("useAccommodationDraftAutosave", () => {
         expect.objectContaining({
           reviewsDescription:
             "Découvrez ce que nos voyageurs ont pensé de leur séjour.",
+        }),
+        [],
+        initialValues.highlights,
+        initialValues.amenities,
+        initialValues.accesses,
+      );
+
+      expect(result.current.hasDraft).toBe(true);
+      expect(result.current.autosaveStatus).toBe("saved");
+    });
+
+    it("autosaves when the starting price changes", async () => {
+      const { result } = renderAutosaveHook();
+
+      act(() => {
+        result.current.form.setValue("startingPrice", 275, {
+          shouldDirty: true,
+        });
+      });
+
+      expect(result.current.autosaveStatus).toBe("pending");
+
+      await advanceAutosaveTimer();
+
+      expect(mockedSaveAccommodationDraft).toHaveBeenCalledTimes(1);
+
+      expect(mockedSaveAccommodationDraft).toHaveBeenCalledWith(
+        "accommodation-1",
+        expect.objectContaining({
+          startingPrice: 275,
         }),
         [],
         initialValues.highlights,

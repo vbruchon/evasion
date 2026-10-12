@@ -33,6 +33,7 @@ export const getAccommodationForUpdate = async (id: string) => {
       beds: true,
       bathrooms: true,
       surface: true,
+      startingPrice: true,
 
       locationTitle: true,
       locationDescription: true,
@@ -139,6 +140,7 @@ export const getAccommodationForUpdate = async (id: string) => {
     beds: accommodation.beds,
     bathrooms: accommodation.bathrooms,
     surface: accommodation.surface,
+    startingPrice: accommodation.startingPrice,
 
     locationTitle: accommodation.locationTitle ?? "",
     locationDescription: accommodation.locationDescription ?? "",

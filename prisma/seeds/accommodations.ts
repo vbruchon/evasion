@@ -83,6 +83,7 @@ export const accommodations = [
     beds: 1,
     bathrooms: 1,
     surface: 32,
+    startingPrice: 190,
 
     locationTitle: "Cachée dans les forêts du Vercors",
     locationDescription:
@@ -198,6 +199,7 @@ export const accommodations = [
     beds: 2,
     bathrooms: 1,
     surface: 68,
+    startingPrice: 250,
 
     locationTitle: "Sur les hauteurs du Vercors drômois",
     locationDescription:
@@ -316,6 +318,7 @@ export const accommodations = [
     beds: 1,
     bathrooms: 1,
     surface: 55,
+    startingPrice: 290,
 
     locationTitle: "Entre falaises et reliefs de la vallée de la Gervanne",
     locationDescription:
@@ -432,6 +435,7 @@ export const accommodations = [
     beds: 2,
     bathrooms: 1,
     surface: 82,
+    startingPrice: 270,
 
     locationTitle: "Au milieu des collines de la Drôme",
     locationDescription:
@@ -551,6 +555,7 @@ export const accommodations = [
     beds: 1,
     bathrooms: 1,
     surface: 72,
+    startingPrice: 340,
 
     locationTitle: "Suspendu au-dessus des reliefs du Vercors",
     locationDescription:
