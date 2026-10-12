@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 import { AccommodationAmenities } from "@/components/features/accommodations/detail/amenities/accommodation-amenities";
 import { AccommodationAvailability } from "@/components/features/accommodations/detail/availability/accommodation-availability";
@@ -9,12 +10,9 @@ import { AccommodationLocation } from "@/components/features/accommodations/deta
 import { AccommodationPresentation } from "@/components/features/accommodations/detail/accommodation-presentation";
 import { AccommodationReviews } from "@/components/features/accommodations/detail/reviews/accommodation-reviews";
 import { getAccommodationDisplayImages } from "@/lib/accommodations/accommodation-images";
-import { getAccommodationAvailability } from "@/lib/accommodations/availability/get-accommodation-availability";
-import type { AccommodationUnavailablePeriodData } from "@/lib/accommodations/availability/accommodation-availability.types";
-import { serializeAccommodationUnavailablePeriods } from "@/lib/accommodations/availability/serialize-accommodation-unavailable-periods";
 import { getPublishedAccommodationBySlug } from "@/lib/accommodations/accommodations";
 import { createPageMetadata } from "@/lib/seo/create-page-metadata";
-
+import { AccommodationAvailabilityLoader } from "@/components/features/accommodations/detail/availability/accommodation-availability-loader";
 type AccommodationPageProps = {
   params: Promise<{
     slug: string;
@@ -76,26 +74,6 @@ export default async function AccommodationPage({
   const { coverImage, galleryImages, presentationImage } =
     getAccommodationDisplayImages(accommodation.images);
 
-  const hasAvailabilityCalendar = Boolean(
-    accommodation.availabilityCalendarUrl,
-  );
-
-  let unavailablePeriods: AccommodationUnavailablePeriodData[] = [];
-  let availabilityError: string | null = null;
-
-  if (accommodation.availabilityCalendarUrl) {
-    try {
-      const periods = await getAccommodationAvailability(
-        accommodation.availabilityCalendarUrl,
-      );
-
-      unavailablePeriods = serializeAccommodationUnavailablePeriods(periods);
-    } catch {
-      availabilityError =
-        "Impossible de récupérer les disponibilités du logement.";
-    }
-  }
-
   return (
     <main className="min-h-screen overflow-hidden bg-background text-foreground">
       <AccommodationHero
@@ -120,16 +98,30 @@ export default async function AccommodationPage({
         animated
       />
 
-      <AccommodationAvailability
-        unavailablePeriods={unavailablePeriods}
-        hasCalendar={hasAvailabilityCalendar}
-        bookingUrl={accommodation.bookingUrl}
-        availabilityTitle={accommodation.availabilityTitle}
-        availabilityDescription={accommodation.availabilityDescription}
-        bookingButtonLabel={accommodation.bookingButtonLabel}
-        error={availabilityError}
-        animated
-      />
+      {accommodation.availabilityCalendarUrl ? (
+        <Suspense
+          fallback={
+            <AccommodationAvailability
+              unavailablePeriods={[]}
+              hasCalendar
+              availabilityTitle={accommodation.availabilityTitle}
+              availabilityDescription={accommodation.availabilityDescription}
+              bookingButtonLabel={accommodation.bookingButtonLabel}
+              bookingUrl={accommodation.bookingUrl}
+              loading
+            />
+          }
+        >
+          <AccommodationAvailabilityLoader
+            calendarUrl={accommodation.availabilityCalendarUrl}
+            availabilityTitle={accommodation.availabilityTitle}
+            availabilityDescription={accommodation.availabilityDescription}
+            bookingButtonLabel={accommodation.bookingButtonLabel}
+            bookingUrl={accommodation.bookingUrl}
+            animated
+          />
+        </Suspense>
+      ) : null}
 
       <AccommodationReviews
         reviews={accommodation.reviews}

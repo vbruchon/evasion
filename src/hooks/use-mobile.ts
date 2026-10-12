@@ -1,6 +1,6 @@
 import * as React from "react";
 
-const MOBILE_BREAKPOINT = 768;
+const MOBILE_BREAKPOINT = 1280;
 
 const subscribe = (callback: () => void) => {
   const mediaQuery = window.matchMedia(

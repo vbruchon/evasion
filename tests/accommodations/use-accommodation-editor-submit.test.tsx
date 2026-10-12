@@ -20,6 +20,16 @@ import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/imag
 
 import { createAccommodationUpdateValues } from "../helpers/accommodation-values";
 
+const { routerRefreshMock } = vi.hoisted(() => ({
+  routerRefreshMock: vi.fn(),
+}));
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: routerRefreshMock,
+  }),
+}));
+
 vi.mock("~/app/admin/logements/action", () => ({
   updateAccommodation: vi.fn(),
   saveAccommodationDraft: vi.fn(),
@@ -43,6 +53,8 @@ const mockedPrepareAccommodationUpdateImages = vi.mocked(
   prepareAccommodationUpdateImages,
 );
 
+const onDraftStateChangeMock = vi.fn();
+
 const initialValues = createAccommodationUpdateValues({
   name: "Le Chalet",
   type: "Chalet",
@@ -63,6 +75,8 @@ const initialValues = createAccommodationUpdateValues({
 
 describe("useAccommodationEditorSubmit", () => {
   beforeEach(() => {
+    vi.clearAllMocks();
+
     mockedUpdateAccommodation.mockResolvedValue({
       success: false,
       message: "Erreur de test.",
@@ -103,6 +117,10 @@ describe("useAccommodationEditorSubmit", () => {
     ];
 
     mockedPrepareAccommodationUpdateImages.mockResolvedValue(preparedImages);
+    mockedUpdateAccommodation.mockResolvedValue({
+      success: true,
+      images: [],
+    });
 
     const { result } = renderHook(() => {
       const form = useForm<AccommodationUpdateFormValues>({
@@ -115,6 +133,7 @@ describe("useAccommodationEditorSubmit", () => {
         images,
         coverImageId: "image-1",
         presentationImageId: "image-2",
+        onDraftStateChange: onDraftStateChangeMock,
       });
 
       return {
@@ -150,5 +169,6 @@ describe("useAccommodationEditorSubmit", () => {
 
     expect(mockedSaveAccommodationDraft).not.toHaveBeenCalled();
     expect(mockedDiscardAccommodationDraft).not.toHaveBeenCalled();
+    expect(onDraftStateChangeMock).toHaveBeenCalledWith(false);
   });
 });

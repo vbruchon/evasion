@@ -2,13 +2,14 @@
 
 import { useCallback, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { updateHomePageContent } from "~/app/admin/accueil/action";
 import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-editor-images";
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
 import type { HomePageContentValues } from "@/lib/home/home-page.schema";
-import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
+import { toast } from "sonner";
 
 type UseHomePageEditorSubmitOptions = {
   form: UseFormReturn<HomePageContentValues>;
@@ -22,6 +23,7 @@ export const useHomePageEditorSubmit = ({
   ctaImage,
 }: UseHomePageEditorSubmitOptions) => {
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
 
   const setRootError = useCallback(
     (message: string) => {
@@ -60,8 +62,8 @@ export const useHomePageEditorSubmit = ({
           return;
         }
 
-        setAdminSuccessToast("Page d’accueil enregistrée.");
-        window.location.reload();
+        toast.success("Page d’accueil enregistrée.");
+        router.refresh();
       } catch {
         setRootError(
           "Une erreur est survenue pendant l’enregistrement de la page d’accueil.",
@@ -70,7 +72,7 @@ export const useHomePageEditorSubmit = ({
         setIsSaving(false);
       }
     },
-    [ctaImage, escapeImage, form, setRootError],
+    [ctaImage, escapeImage, form, router, setRootError],
   );
 
   const handleSubmit = form.handleSubmit(saveHomePage);

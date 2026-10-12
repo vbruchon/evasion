@@ -4,6 +4,7 @@ import Image from "next/image";
 import { PageLinkButton } from "@/components/layout/page-link-button";
 import { getAccommodationCoverImage } from "@/lib/accommodations/accommodation-images";
 import type { AccommodationWithImagesAndHighlights } from "@/lib/accommodations/accommodation-types";
+import { AccommodationStartingPrice } from "../../accommodations/shared/accommodation-starting-price";
 
 type HomePageAccommodationFeaturedProps = {
   accommodation: AccommodationWithImagesAndHighlights;
@@ -19,7 +20,7 @@ export const HomePageAccommodationFeatured = ({
   const primaryHighlight = accommodation.highlights[0];
 
   return (
-    <div className="grid min-w-0 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.75fr)]">
+    <div className="grid w-full min-w-0 max-w-full overflow-hidden lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.75fr)]">
       <div className="relative aspect-16/10 overflow-hidden lg:aspect-auto lg:min-h-90">
         {coverImage ? (
           <Image
@@ -27,6 +28,7 @@ export const HomePageAccommodationFeatured = ({
             src={coverImage.url}
             alt={coverImage.alt ?? accommodation.name}
             fill
+            quality={65}
             sizes="(max-width: 1023px) 100vw, 45vw"
             className="object-cover"
           />
@@ -44,7 +46,7 @@ export const HomePageAccommodationFeatured = ({
         )}
       </div>
 
-      <div className="flex flex-col justify-center border border-border/60 bg-card/45 p-7 lg:border-l-0 xl:p-8">
+      <div className="flex min-w-0 flex-col justify-center border border-border/60 bg-card/45 p-5 sm:p-7 lg:border-l-0 xl:p-8">
         <div className="flex items-center gap-3">
           <span className="text-[0.65rem] font-medium tracking-[0.2em] text-primary">
             {String(index + 1).padStart(2, "0")}
@@ -66,7 +68,7 @@ export const HomePageAccommodationFeatured = ({
         <div className="mt-6">
           <div aria-hidden="true" className="mb-5 h-px w-[88%] bg-border/40" />
 
-          <div className="flex items-center gap-4">
+          <div className="grid grid-cols-2 gap-x-3 gap-y-2 sm:flex sm:flex-wrap sm:items-center sm:gap-4">
             {accommodation.guestCapacity ? (
               <div className="flex min-w-0 items-center gap-1.5 whitespace-nowrap text-[0.7rem] text-foreground/80">
                 <UserRound
@@ -96,24 +98,31 @@ export const HomePageAccommodationFeatured = ({
             ) : null}
 
             {primaryHighlight ? (
-              <div className="flex min-w-0 items-center gap-1.5 whitespace-nowrap text-[0.7rem] text-foreground/80">
+              <div className="col-span-2 flex min-w-0 items-center gap-1.5 text-[0.7rem] text-foreground/80 sm:col-span-1">
                 <Sparkles
                   aria-hidden="true"
                   className="size-3.5 shrink-0 text-primary"
                 />
 
-                <span>{primaryHighlight.title}</span>
+                <span className="truncate">{primaryHighlight.title}</span>
               </div>
             ) : null}
           </div>
         </div>
 
-        <PageLinkButton
-          href={`/logements/${accommodation.slug}`}
-          className="mt-5 w-full"
-        >
-          Découvrir le logement
-        </PageLinkButton>
+        <div className="mt-5 space-y-4">
+          <AccommodationStartingPrice
+            startingPrice={accommodation.startingPrice}
+            variant="featured"
+          />
+
+          <PageLinkButton
+            href={`/logements/${accommodation.slug}`}
+            className="w-full"
+          >
+            Découvrir le logement
+          </PageLinkButton>
+        </div>
       </div>
     </div>
   );

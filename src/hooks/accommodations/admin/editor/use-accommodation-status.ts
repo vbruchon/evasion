@@ -3,10 +3,11 @@
 import { useCallback, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
 import { useWatch } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { updateAccommodationStatus } from "~/app/admin/logements/action";
 import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/schema";
-import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
+import { toast } from "sonner";
 
 type UseAccommodationStatusOptions = {
   accommodationId: string;
@@ -20,6 +21,7 @@ export const useAccommodationStatus = ({
   form,
 }: UseAccommodationStatusOptions) => {
   const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
+  const router = useRouter();
 
   const status = useWatch({
     control: form.control,
@@ -49,8 +51,8 @@ export const useAccommodationStatus = ({
     try {
       await updateAccommodationStatus(accommodationId, status);
 
-      setAdminSuccessToast("Statut du logement mis à jour.");
-      window.location.reload();
+      toast.success("Statut du logement mis à jour.");
+      router.refresh();
     } catch {
       form.setError("root", {
         message: "Une erreur est survenue pendant la modification du statut.",
@@ -58,7 +60,7 @@ export const useAccommodationStatus = ({
     } finally {
       setIsUpdatingStatus(false);
     }
-  }, [accommodationId, form, status, statusChanged]);
+  }, [accommodationId, form, router, status, statusChanged]);
 
   return {
     status,

@@ -16,7 +16,7 @@ export const AccommodationAmenityItem = ({
   <div
     className={cn(
       "flex items-start border-b border-border/50",
-      compact ? "min-h-14 gap-2.5 py-3" : "min-h-12 gap-3 py-2.5",
+      compact ? "min-h-16 gap-3 py-4" : "min-h-12 gap-3 py-2.5",
     )}
   >
     <div

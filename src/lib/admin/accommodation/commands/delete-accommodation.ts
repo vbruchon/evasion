@@ -53,7 +53,6 @@ export const deleteAccommodationAdmin = async (id: string) => {
   await deleteUploadThingFiles(fileKeys);
 
   revalidateAccommodation({
-    id: accommodation.id,
     slug: accommodation.slug,
   });
 };

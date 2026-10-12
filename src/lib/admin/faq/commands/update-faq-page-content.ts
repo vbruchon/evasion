@@ -147,7 +147,6 @@ export const updateFaqPageContentAdmin = async (
   await deleteUploadThingFiles(replacedFileKeys);
 
   revalidatePath("/faq");
-  revalidatePath("/admin/faq");
 
   return {
     success: true as const,

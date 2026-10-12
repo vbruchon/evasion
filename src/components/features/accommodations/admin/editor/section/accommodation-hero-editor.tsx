@@ -3,6 +3,7 @@ import {
   Bath,
   BedDouble,
   DoorOpen,
+  Euro,
   ImageIcon,
   Ruler,
   Users,
@@ -125,8 +126,19 @@ export const AccommodationHeroEditor = ({
   return (
     <AdminEditorSectionContent>
       <p className="text-xs leading-5 text-muted-foreground">
-        Affichées sous le sous-titre dans le hero.
+        Informations affichées dans la partie principale du logement.
       </p>
+
+      <AccommodationNumberField
+        name="startingPrice"
+        label="Prix à partir de"
+        icon={Euro}
+        placeholder="190"
+        suffix="€"
+        description="Prix indicatif par nuit affiché sur le site. Laissez vide pour masquer le tarif."
+        min={1}
+        max={10000}
+      />
 
       <div className="grid grid-cols-2 gap-4">
         <AccommodationNumberField

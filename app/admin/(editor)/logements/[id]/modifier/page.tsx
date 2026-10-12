@@ -18,5 +18,10 @@ export default async function AccommodationUpdatePage({ params }: PageProps) {
     notFound();
   }
 
-  return <AccommodationEditor accommodation={accommodation} />;
+  return (
+    <AccommodationEditor
+      key={`${accommodation.status}:${accommodation.hasDraft ? "draft" : "persisted"}`}
+      accommodation={accommodation}
+    />
+  );
 }

@@ -78,6 +78,12 @@ export const accommodationBaseFieldsSchema = z.object({
     .max(10000, "La surface ne peut pas dépasser 10 000 m².")
     .nullable(),
 
+  startingPrice: z
+    .int("Le prix doit être un nombre entier.")
+    .min(1, "Le prix doit être supérieur à 0 €.")
+    .max(10000, "Le prix ne peut pas dépasser 10 000 €.")
+    .nullable(),
+
   locationTitle: z
     .string()
     .trim()

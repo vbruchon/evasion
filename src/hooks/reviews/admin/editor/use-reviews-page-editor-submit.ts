@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { updateReviewsPageContent } from "~/app/admin/avis/action";
 import type { ReviewsPageContentValues } from "@/lib/reviews/reviews-page.schema";
@@ -9,7 +10,7 @@ import type { ReviewsPageContentValues } from "@/lib/reviews/reviews-page.schema
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-editor-images";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
-import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
+import { toast } from "sonner";
 
 type UseReviewsPageEditorSubmitOptions = {
   form: UseFormReturn<ReviewsPageContentValues>;
@@ -23,6 +24,7 @@ export const useReviewsPageEditorSubmit = ({
   ctaImage,
 }: UseReviewsPageEditorSubmitOptions) => {
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
 
   const setRootError = useCallback(
     (message: string) => {
@@ -61,8 +63,8 @@ export const useReviewsPageEditorSubmit = ({
           return;
         }
 
-        setAdminSuccessToast("Page Avis enregistrée.");
-        window.location.reload();
+        toast.success("Page Avis enregistrée.");
+        router.refresh();
       } catch {
         setRootError(
           "Une erreur est survenue pendant l’enregistrement de la page Avis.",
@@ -71,7 +73,7 @@ export const useReviewsPageEditorSubmit = ({
         setIsSaving(false);
       }
     },
-    [ctaImage, form, heroImage, setRootError],
+    [ctaImage, form, heroImage, router, setRootError],
   );
 
   const handleSubmit = form.handleSubmit(saveReviewsPage);

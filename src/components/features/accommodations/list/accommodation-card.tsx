@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { AccommodationWithImages } from "@/lib/accommodations/accommodation-types";
+import { AccommodationStartingPrice } from "@/components/features/accommodations/shared/accommodation-starting-price";
 
 type AccommodationCardProps = {
   accommodation: AccommodationWithImages;
@@ -25,7 +26,6 @@ export const AccommodationCard = ({
   return (
     <Link
       href={accommodationHref}
-      aria-label={`Découvrir ${accommodation.name}`}
       className="
     group relative block h-full rounded-sm border border-transparent
     [border-image:linear-gradient(45deg,var(--primary)_0%,color-mix(in_oklab,var(--primary)_22%,transparent)_6%,color-mix(in_oklab,var(--primary)_10%,transparent)_50%,color-mix(in_oklab,var(--primary)_22%,transparent)_94%,var(--primary)_100%)_1]
@@ -101,12 +101,18 @@ export const AccommodationCard = ({
           </CardTitle>
         </CardHeader>
 
-        <CardContent className="flex flex-1 px-6 pb-6 pt-4 md:px-7">
+        <CardContent className="flex flex-1 flex-col px-6 pb-6 pt-4 md:px-7">
           {description ? (
             <p className="line-clamp-3 text-sm leading-6 text-muted-foreground">
               {description}
             </p>
           ) : null}
+
+          <AccommodationStartingPrice
+            startingPrice={accommodation.startingPrice}
+            variant="card"
+            className="mt-auto pt-5"
+          />
         </CardContent>
       </Card>
     </Link>

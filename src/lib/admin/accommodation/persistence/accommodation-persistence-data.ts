@@ -16,6 +16,7 @@ export const toAccommodationPersistenceData = (
   beds: values.beds,
   bathrooms: values.bathrooms,
   surface: values.surface,
+  startingPrice: values.startingPrice,
 
   locationTitle: values.locationTitle || null,
   locationDescription: values.locationDescription || null,

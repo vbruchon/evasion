@@ -15,6 +15,7 @@ export const ACCOMMODATION_DRAFT_VALUE_FIELDS = [
   "beds",
   "bathrooms",
   "surface",
+  "startingPrice",
   "locationTitle",
   "locationDescription",
   "locationLatitude",

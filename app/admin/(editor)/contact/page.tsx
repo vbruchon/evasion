@@ -4,5 +4,5 @@ import { getContactPageAdminData } from "@/lib/admin/contact/queries/get-contact
 export default async function ContactPageAdminPage() {
   const data = await getContactPageAdminData();
 
-  return <ContactPageEditor data={data} />;
+  return <ContactPageEditor data={data} key={JSON.stringify(data.content)} />;
 }

@@ -24,7 +24,7 @@ export const AdminDashboardReviewsSummary = ({
       : "—";
 
   return (
-    <div className="relative border-t border-border/50 px-5 py-5 sm:px-7 lg:min-h-62.5 lg:border-t-0">
+    <div className="relative border-t border-border/50 px-5 py-5 sm:px-7 xl:min-h-62.5 xl:border-t-0">
       <div className="flex items-center justify-between gap-5">
         <div className="flex items-center gap-4">
           <div className="flex size-11 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/4">

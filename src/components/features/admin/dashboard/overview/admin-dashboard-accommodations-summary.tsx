@@ -14,10 +14,10 @@ export const AdminDashboardAccommodationsSummary = ({
     accommodations.published + accommodations.draft + accommodations.archived;
 
   return (
-    <div className="relative px-5 py-5 sm:px-7 lg:min-h-62.5">
+    <div className="relative px-5 py-5 sm:px-7 xl:min-h-62.5">
       <div
         aria-hidden="true"
-        className="absolute bottom-5 right-0 top-5 hidden w-px bg-border/60 lg:block"
+        className="absolute bottom-5 right-0 top-5 hidden w-px bg-border/60 xl:block"
       />
 
       <div className="flex items-center justify-between gap-5">

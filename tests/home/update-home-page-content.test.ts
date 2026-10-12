@@ -116,7 +116,6 @@ describe("updateHomePageContentAdmin", () => {
     expect(deleteUploadThingFilesMock).toHaveBeenLastCalledWith(["escape-1"]);
 
     expect(revalidatePathMock).toHaveBeenCalledWith("/");
-    expect(revalidatePathMock).toHaveBeenCalledWith("/admin/accueil");
   });
 
   it("cleans up new images when validation fails", async () => {

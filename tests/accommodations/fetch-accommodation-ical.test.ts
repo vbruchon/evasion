@@ -68,29 +68,18 @@ describe("fetchAccommodationIcal", () => {
     );
   });
 
-  it("resolves an allowed demo calendar URL against the local site", async () => {
-    const fetchMock = vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(ICAL_CONTENT, {
-        status: 200,
-      }),
+  it("returns an allowed demo calendar without performing an HTTP request", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch");
+
+    const content = await fetchAccommodationIcal(
+      "/api/demo-calendars/cabane.ics",
     );
 
-    await expect(
-      fetchAccommodationIcal("/api/demo-calendars/cabane.ics"),
-    ).resolves.toBe(ICAL_CONTENT);
+    expect(content).toContain("BEGIN:VCALENDAR");
+    expect(content).toContain("Réservé — La Cabane");
 
     expect(lookupMock).not.toHaveBeenCalled();
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      new URL("http://localhost:3000/api/demo-calendars/cabane.ics"),
-      expect.objectContaining({
-        redirect: "manual",
-        signal: expect.any(AbortSignal),
-        next: {
-          revalidate: 300,
-        },
-      }),
-    );
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("rejects an arbitrary internal relative URL", async () => {
@@ -219,21 +208,16 @@ describe("fetchAccommodationIcal", () => {
     expect(globalThis.fetch).toHaveBeenCalledTimes(4);
   });
 
-  it("rejects redirects from internal demo calendars", async () => {
-    vi.spyOn(globalThis, "fetch").mockResolvedValue(
-      new Response(null, {
-        status: 302,
-        headers: {
-          location: "/admin",
-        },
-      }),
-    );
+  it("rejects an unknown demo calendar", async () => {
+    const fetchMock = vi.spyOn(globalThis, "fetch");
 
     await expect(
-      fetchAccommodationIcal("/api/demo-calendars/cabane.ics"),
+      fetchAccommodationIcal("/api/demo-calendars/inconnu.ics"),
     ).rejects.toThrow(
       "Impossible de récupérer le calendrier iCal du logement.",
     );
+
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it("rejects a failed HTTP response", async () => {

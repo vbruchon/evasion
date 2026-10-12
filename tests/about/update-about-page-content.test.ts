@@ -116,7 +116,6 @@ describe("updateAboutPageContentAdmin", () => {
     expect(deleteUploadThingFilesMock).toHaveBeenLastCalledWith(["spirit-1"]);
 
     expect(revalidatePathMock).toHaveBeenCalledWith("/a-propos");
-    expect(revalidatePathMock).toHaveBeenCalledWith("/admin/a-propos");
   });
 
   it("cleans up new images when validation fails", async () => {

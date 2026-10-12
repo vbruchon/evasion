@@ -15,7 +15,7 @@ export const AdminDashboardOverview = ({
 }: AdminDashboardOverviewProps) => (
   <section className="mt-4 sm:mt-6">
     <div className="border-y border-border/50">
-      <div className="grid lg:grid-cols-2">
+      <div className="grid xl:grid-cols-2">
         <AdminDashboardAccommodationsSummary accommodations={accommodations} />
 
         <AdminDashboardReviewsSummary

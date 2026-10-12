@@ -23,8 +23,6 @@ export const metadata = createPageMetadata({
   absoluteTitle: true,
 });
 
-export const dynamic = "force-dynamic";
-
 export default async function HomePage() {
   const [content, accommodations, reviewsSummary, recentReviewCandidates] =
     await Promise.all([

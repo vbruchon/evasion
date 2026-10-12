@@ -18,6 +18,20 @@ export const AccommodationHeroGeneral = ({
   editorPreview = false,
   animated = false,
 }: AccommodationHeroGeneralProps) => {
+  const accommodationSubtitleVariants = {
+    hidden: {
+      opacity: 0.01,
+      y: 12,
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.95,
+        ease: [0.22, 1, 0.36, 1] as const,
+      },
+    },
+  };
   return (
     <motion.div
       variants={pageHeroContainerVariants}
@@ -46,7 +60,7 @@ export const AccommodationHeroGeneral = ({
 
       {accommodation.subtitle ? (
         <motion.p
-          variants={pageHeroItemVariants}
+          variants={accommodationSubtitleVariants}
           className="mt-5 text-base leading-7 text-white/85 md:text-lg lg:mt-8"
         >
           {accommodation.subtitle}

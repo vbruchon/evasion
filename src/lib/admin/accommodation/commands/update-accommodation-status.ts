@@ -56,7 +56,6 @@ export const updateAccommodationStatusAdmin = async (
   });
 
   revalidateAccommodation({
-    id: accommodation.id,
     slug: accommodation.slug,
   });
 };

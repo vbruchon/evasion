@@ -32,6 +32,7 @@ export const createAccommodationUpdateValues = (
   beds: 3,
   bathrooms: 2,
   surface: 72.5,
+  startingPrice: 190,
 
   locationTitle: "",
   locationDescription: "",
@@ -69,6 +70,7 @@ export const createAccommodationDraftValues = (
   beds: 3,
   bathrooms: 2,
   surface: 72.5,
+  startingPrice: 190,
 
   locationTitle: "",
   locationDescription: "",

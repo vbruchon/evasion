@@ -18,7 +18,7 @@ export const AdminDashboardBookingSummary = ({
       : 0;
 
   return (
-    <div className="border-t border-border/50 px-5 pb-5 pt-3 sm:px-7 lg:min-h-35 lg:border-t-0">
+    <div className="border-t border-border/50 px-5 pb-5 pt-3 sm:px-7 xl:min-h-35 xl:border-t-0">
       <div className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-x-3">
         <div className="flex size-10 items-center justify-center rounded-full bg-primary/6">
           <Link2 className="size-4 text-primary" />

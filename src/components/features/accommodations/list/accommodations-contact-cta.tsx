@@ -64,6 +64,7 @@ export const AccommodationsContactCta = ({
           src={imageUrl ?? ACCOMMODATIONS_PAGE_DEFAULT_CTA_IMAGE}
           alt=""
           fill
+          quality={65}
           unoptimized={imageUrl?.startsWith("blob:")}
           aria-hidden="true"
           sizes="100vw"

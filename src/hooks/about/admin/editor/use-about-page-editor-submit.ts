@@ -9,7 +9,8 @@ import type { AboutPageContentValues } from "@/lib/about/about-page.schema";
 
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-editor-images";
-import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 type UseAboutPageEditorSubmitOptions = {
   form: UseFormReturn<AboutPageContentValues>;
@@ -23,7 +24,7 @@ export const useAboutPageEditorSubmit = ({
   ctaImage,
 }: UseAboutPageEditorSubmitOptions) => {
   const [isSaving, setIsSaving] = useState(false);
-
+  const router = useRouter();
   const setRootError = useCallback(
     (message: string) => {
       form.setError("root", {
@@ -61,8 +62,8 @@ export const useAboutPageEditorSubmit = ({
           return;
         }
 
-        setAdminSuccessToast("Page À propos enregistrée.");
-        window.location.reload();
+        toast.success("Page À propos enregistrée.");
+        router.refresh();
       } catch {
         setRootError(
           "Une erreur est survenue pendant l’enregistrement de la page À propos.",
@@ -71,7 +72,7 @@ export const useAboutPageEditorSubmit = ({
         setIsSaving(false);
       }
     },
-    [ctaImage, form, setRootError, spiritImage],
+    [ctaImage, form, router, setRootError, spiritImage],
   );
 
   const handleSubmit = form.handleSubmit(saveAboutPage);

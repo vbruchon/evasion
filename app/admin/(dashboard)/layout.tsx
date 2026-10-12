@@ -6,10 +6,12 @@ import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 type AdminDashboardLayoutProps = {
   children: ReactNode;
+  modal: ReactNode;
 };
 
 export default function AdminDashboardLayout({
   children,
+  modal,
 }: AdminDashboardLayoutProps) {
   return (
     <SidebarProvider>
@@ -19,6 +21,7 @@ export default function AdminDashboardLayout({
         <AdminMobileHeader />
 
         {children}
+        {modal}
       </SidebarInset>
     </SidebarProvider>
   );

@@ -27,7 +27,7 @@ export const AdminDashboardRecentActivity = ({
         </p>
       </div>
 
-      <div className="grid border-t border-border/50 lg:grid-cols-2">
+      <div className="grid border-t border-border/50 xl:grid-cols-2">
         <AdminDashboardRecentPages recentPages={recentPages} />
 
         <AdminDashboardRecentAccommodations

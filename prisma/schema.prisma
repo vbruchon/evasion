@@ -96,6 +96,7 @@ model Accommodation {
   beds          Int?
   bathrooms     Int?
   surface       Float?
+  startingPrice Int?
 
   locationTitle        String?
   locationDescription  String? @db.Text

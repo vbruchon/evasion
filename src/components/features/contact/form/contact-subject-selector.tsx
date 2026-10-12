@@ -98,6 +98,8 @@ export const ContactSubjectSelector = ({
 
   return (
     <div
+      role="group"
+      aria-label="Motif de la demande"
       className={cn("mt-8 grid gap-3", hasAccommodations && "sm:grid-cols-2")}
     >
       {hasAccommodations ? (

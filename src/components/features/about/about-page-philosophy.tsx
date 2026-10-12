@@ -82,7 +82,7 @@ export const AboutPagePhilosophy = ({
       className="relative overflow-hidden py-16 sm:py-20 lg:py-24"
     >
       <SiteContainer variant="inset" className="relative">
-        <div className="grid gap-12 sm:gap-14 lg:grid-cols-12 lg:gap-x-20">
+        <div className="grid gap-12 sm:gap-14 xl:grid-cols-12 xl:gap-x-20">
           <motion.div
             initial={animated ? { opacity: 0, y: 14 } : false}
             whileInView={{ opacity: 1, y: 0 }}
@@ -91,7 +91,7 @@ export const AboutPagePhilosophy = ({
               amount: 0.3,
             }}
             transition={revealTransition}
-            className="lg:col-span-4"
+            className="xl:col-span-4"
           >
             <AdminEditorRegion
               region="introduction"
@@ -100,7 +100,7 @@ export const AboutPagePhilosophy = ({
               <header>
                 <AboutPageSectionHeading index="02" eyebrow={eyebrow} />
 
-                <div className="lg:ml-8">
+                <div className="xl:ml-8">
                   <h2 className="mt-8 max-w-[12ch] font-heading text-4xl leading-[1.05] tracking-[-0.035em] text-foreground sm:mt-10 sm:text-5xl lg:max-w-[11ch] lg:text-[3.25rem]">
                     {title}
                   </h2>
@@ -109,7 +109,7 @@ export const AboutPagePhilosophy = ({
                     {description}
                   </p>
 
-                  <div className="mt-10 hidden items-center gap-4 lg:flex">
+                  <div className="mt-10 hidden items-center gap-4 xl:flex">
                     <span className="h-px w-8 bg-primary/70" />
 
                     <span className="text-[0.6rem] uppercase tracking-[0.3em] text-muted-foreground/90">
@@ -121,7 +121,7 @@ export const AboutPagePhilosophy = ({
             </AdminEditorRegion>
           </motion.div>
 
-          <div className="relative isolate lg:col-span-7 lg:col-start-6">
+          <div className="relative isolate xl:col-span-7 xl:col-start-6">
             <div
               aria-hidden="true"
               className="pointer-events-none absolute left-1/2 top-1/2 -z-10 h-[110%] w-[115%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/10 blur-3xl sm:bg-primary/15 sm:blur-2xl"
@@ -151,7 +151,7 @@ export const AboutPagePhilosophy = ({
                       activeRegion={activeEditorRegion}
                       className={cn(
                         "h-full",
-                        index % 2 === 1 && "lg:translate-y-6",
+                        index % 2 === 1 && "xl:translate-y-6",
                       )}
                     >
                       <Card className="h-full rounded-none border-border/55 bg-card/65 py-0 shadow-none sm:bg-card/70">

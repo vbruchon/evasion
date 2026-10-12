@@ -139,7 +139,6 @@ export const updateAccommodationAdmin = async (
 
   revalidateAccommodation({
     slug: accommodation.slug,
-    id: accommodation.id,
   });
 
   return {

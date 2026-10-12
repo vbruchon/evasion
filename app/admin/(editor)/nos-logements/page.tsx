@@ -4,5 +4,7 @@ import { getAccommodationsPageAdminData } from "@/lib/admin/accommodations-page/
 export default async function AccommodationsPageAdminPage() {
   const data = await getAccommodationsPageAdminData();
 
-  return <AccommodationsPageEditor data={data} />;
+  return (
+    <AccommodationsPageEditor data={data} key={JSON.stringify(data.content)} />
+  );
 }

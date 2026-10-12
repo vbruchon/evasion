@@ -21,13 +21,13 @@ export const AdminDashboardRecentActivityColumn = ({
   <div
     className={cn(
       "relative px-5 py-4 sm:px-7",
-      borderedOnMobile && "border-t border-border/50 lg:border-t-0",
+      borderedOnMobile && "border-t border-border/50 xl:border-t-0",
     )}
   >
     {divider ? (
       <div
         aria-hidden="true"
-        className="absolute bottom-4 right-0 top-4 hidden w-px bg-border/60 lg:block"
+        className="absolute bottom-4 right-0 top-4 hidden w-px bg-border/60 xl:block"
       />
     ) : null}
 

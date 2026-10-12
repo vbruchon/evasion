@@ -47,7 +47,9 @@ export const ReviewsPageHero = ({
         src={imageUrl ?? REVIEWS_PAGE_DEFAULT_HERO_IMAGE}
         alt=""
         fill
+        quality={65}
         priority
+        fetchPriority="high"
         unoptimized={imageUrl?.startsWith("blob:")}
         sizes="100vw"
         className="scale-[1.01] object-cover object-center opacity-90 blur-[1.5px] saturate-[0.88]"

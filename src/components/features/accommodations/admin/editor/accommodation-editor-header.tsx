@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import type { AccommodationDraftAutosaveStatus } from "@/hooks/accommodations/admin/editor/use-accommodation-draft-autosave";
 
 import { AccommodationEditorHeaderActions } from "./accommodation-editor-header-actions";
+import { AccommodationEditorAutosaveStatus } from "./accommodation-editor-autosave-status";
 
 type AccommodationEditorHeaderProps = {
   status: AccommodationUpdateFormValues["status"];
@@ -94,25 +95,7 @@ export const AccommodationEditorHeader = ({
           </Badge>
         ) : null}
 
-        {autosaveStatus !== "idle" ? (
-          <span
-            className={`hidden text-xs xl:inline ${
-              autosaveStatus === "error"
-                ? "text-destructive"
-                : "text-muted-foreground"
-            }`}
-          >
-            {autosaveStatus === "pending"
-              ? "Modifications en attente..."
-              : autosaveStatus === "saving"
-                ? "Sauvegarde auto..."
-                : autosaveStatus === "saved"
-                  ? canSaveDraft
-                    ? "Brouillon enregistré"
-                    : "Modifications enregistrées"
-                  : "Échec de la sauvegarde auto"}
-          </span>
-        ) : null}
+        <AccommodationEditorAutosaveStatus status={autosaveStatus} />
       </div>
 
       <AccommodationEditorHeaderActions

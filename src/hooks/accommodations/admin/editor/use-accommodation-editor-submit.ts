@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import {
   discardAccommodationDraft,
@@ -13,7 +14,7 @@ import type { AccommodationUpdateFormValues } from "@/lib/admin/accommodation/sc
 import type { AccommodationPreviewImage } from "@/lib/admin/accommodation/images/accommodation-image-previews";
 import { getAccommodationDraftValues } from "@/lib/admin/accommodation/draft/accommodation-draft";
 import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/images/prepare-accommodation-update-images";
-import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
+import { toast } from "sonner";
 
 type UseAccommodationEditorSubmitOptions = {
   accommodationId: string;
@@ -21,6 +22,7 @@ type UseAccommodationEditorSubmitOptions = {
   images: AccommodationPreviewImage[];
   coverImageId: string | null;
   presentationImageId: string | null;
+  onDraftStateChange: (hasDraft: boolean) => void;
 };
 
 export const useAccommodationEditorSubmit = ({
@@ -29,10 +31,13 @@ export const useAccommodationEditorSubmit = ({
   images,
   coverImageId,
   presentationImageId,
+  onDraftStateChange,
 }: UseAccommodationEditorSubmitOptions) => {
   const [isSavingDraft, setIsSavingDraft] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
   const [isDiscardingDraft, setIsDiscardingDraft] = useState(false);
+
+  const router = useRouter();
 
   const setRootError = useCallback(
     (message: string) => {
@@ -73,13 +78,16 @@ export const useAccommodationEditorSubmit = ({
           return;
         }
 
-        setAdminSuccessToast(
+        form.reset(values);
+        onDraftStateChange(false);
+
+        toast.success(
           values.status === "PUBLISHED"
             ? "Modifications publiées."
             : "Logement enregistré.",
         );
 
-        window.location.reload();
+        router.refresh();
       } catch {
         setRootError(
           "Une erreur est survenue pendant l’enregistrement du logement.",
@@ -91,7 +99,9 @@ export const useAccommodationEditorSubmit = ({
       coverImageId,
       form,
       images,
+      onDraftStateChange,
       presentationImageId,
+      router,
       setRootError,
     ],
   );
@@ -133,8 +143,11 @@ export const useAccommodationEditorSubmit = ({
         return;
       }
 
-      setAdminSuccessToast("Brouillon enregistré.");
-      window.location.reload();
+      form.reset(values);
+      onDraftStateChange(true);
+
+      toast.success("Brouillon enregistré.");
+      router.refresh();
     } catch {
       setRootError(
         "Une erreur est survenue pendant l’enregistrement du brouillon.",
@@ -156,8 +169,10 @@ export const useAccommodationEditorSubmit = ({
         return;
       }
 
-      setAdminSuccessToast("Brouillon abandonné.");
-      window.location.reload();
+      onDraftStateChange(false);
+
+      toast.success("Brouillon abandonné.");
+      router.refresh();
     } catch {
       setRootError(
         "Une erreur est survenue pendant la suppression du brouillon.",
@@ -165,7 +180,7 @@ export const useAccommodationEditorSubmit = ({
     } finally {
       setIsDiscardingDraft(false);
     }
-  }, [accommodationId, form, setRootError]);
+  }, [accommodationId, form, onDraftStateChange, router, setRootError]);
 
   return {
     handleSubmit,

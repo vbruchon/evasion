@@ -46,7 +46,7 @@ type UseAccommodationDraftAutosaveOptions = {
   enabled: boolean;
   saveAsDraft: boolean;
   persistedStatus: AccommodationUpdateFormValues["status"];
-  initialHasDraft: boolean;
+  onDraftStateChange: (hasDraft: boolean) => void;
 
   syncPreparedImages: (
     sourceImages: AccommodationPreviewImage[],
@@ -67,7 +67,7 @@ export const useAccommodationDraftAutosave = ({
   enabled,
   saveAsDraft,
   persistedStatus,
-  initialHasDraft,
+  onDraftStateChange,
   syncPreparedImages,
   syncPersistedImages,
 }: UseAccommodationDraftAutosaveOptions) => {
@@ -86,10 +86,6 @@ export const useAccommodationDraftAutosave = ({
     useState<AccommodationDraftAutosaveStatus>("idle");
 
   const [isAutosaving, setIsAutosaving] = useState(false);
-
-  const [hasDraft, setHasDraft] = useState(
-    saveAsDraft ? initialHasDraft : false,
-  );
 
   const saveDraft = useCallback(async () => {
     const updateValues: AccommodationUpdateFormValues = {
@@ -141,7 +137,7 @@ export const useAccommodationDraftAutosave = ({
 
         syncPreparedImages(sourceImages, preparedImages);
 
-        setHasDraft(true);
+        onDraftStateChange(true);
         setStatus("saved");
 
         return;
@@ -173,7 +169,7 @@ export const useAccommodationDraftAutosave = ({
 
       failedSignatureRef.current = null;
 
-      setHasDraft(false);
+      onDraftStateChange(false);
       setStatus("saved");
     } catch {
       failedSignatureRef.current = currentSignature;
@@ -188,6 +184,7 @@ export const useAccommodationDraftAutosave = ({
     coverImageId,
     highlights,
     images,
+    onDraftStateChange,
     persistedStatus,
     presentationImageId,
     saveAsDraft,
@@ -237,7 +234,6 @@ export const useAccommodationDraftAutosave = ({
   }, [cancelAutosave, enabled, isAutosaving, scheduleAutosave, signature]);
 
   return {
-    hasDraft,
     isAutosaving,
     autosaveStatus: status,
     cancelPendingAutosave,

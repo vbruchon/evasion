@@ -1,7 +1,8 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useMemo } from "react";
+import type { BaseSyntheticEvent } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import {
@@ -21,9 +22,10 @@ export const useAccommodationEditor = (
 ) => {
   const canSaveDraft = accommodation.status === "PUBLISHED";
 
+  const [hasDraft, setHasDraft] = useState(accommodation.hasDraft);
+
   const form = useForm<AccommodationUpdateFormValues>({
     resolver: zodResolver(accommodationUpdateSchema),
-
     defaultValues: accommodation.formValues,
     mode: "onSubmit",
   });
@@ -69,8 +71,8 @@ export const useAccommodationEditor = (
   const hasCurrentChanges = form.formState.isDirty || imagesChanged;
 
   const {
-    handleSubmit,
-    handleSaveDraft,
+    handleSubmit: submitAccommodation,
+    handleSaveDraft: submitSaveDraft,
     handlePublishChanges: submitPublishChanges,
     handleDiscardDraft,
     isSavingDraft,
@@ -82,6 +84,7 @@ export const useAccommodationEditor = (
     images,
     coverImageId,
     presentationImageId,
+    onDraftStateChange: setHasDraft,
   });
 
   const manualActionPending =
@@ -91,7 +94,7 @@ export const useAccommodationEditor = (
     isDiscardingDraft ||
     isUpdatingStatus;
 
-  const { hasDraft, isAutosaving, autosaveStatus, cancelPendingAutosave } =
+  const { isAutosaving, autosaveStatus, cancelPendingAutosave } =
     useAccommodationDraftAutosave({
       accommodationId: accommodation.id,
       form,
@@ -101,7 +104,7 @@ export const useAccommodationEditor = (
       enabled: !manualActionPending,
       saveAsDraft: canSaveDraft,
       persistedStatus: accommodation.status,
-      initialHasDraft: accommodation.hasDraft,
+      onDraftStateChange: setHasDraft,
       syncPreparedImages,
       syncPersistedImages,
     });
@@ -114,10 +117,35 @@ export const useAccommodationEditor = (
 
   const statusSaveDisabled = draftActionDisabled;
 
+  const handleSubmit = useCallback(
+    (event?: BaseSyntheticEvent) => {
+      if (isAutosaving) {
+        return;
+      }
+
+      cancelPendingAutosave();
+      void submitAccommodation(event);
+    },
+    [cancelPendingAutosave, isAutosaving, submitAccommodation],
+  );
+
+  const handleSaveDraft = useCallback(() => {
+    if (isAutosaving) {
+      return;
+    }
+
+    cancelPendingAutosave();
+    void submitSaveDraft();
+  }, [cancelPendingAutosave, isAutosaving, submitSaveDraft]);
+
   const handlePublishChanges = useCallback(() => {
+    if (isAutosaving) {
+      return;
+    }
+
     cancelPendingAutosave();
     void submitPublishChanges();
-  }, [cancelPendingAutosave, submitPublishChanges]);
+  }, [cancelPendingAutosave, isAutosaving, submitPublishChanges]);
 
   return {
     form,

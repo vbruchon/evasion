@@ -2,13 +2,14 @@
 
 import { useCallback, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { updateFaqPageContent } from "~/app/admin/faq/action";
 import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-editor-images";
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
 import type { FaqPageContentValues } from "@/lib/faq/faq-page.schema";
-import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
+import { toast } from "sonner";
 
 type UseFaqPageEditorSubmitOptions = {
   form: UseFormReturn<FaqPageContentValues>;
@@ -22,6 +23,7 @@ export const useFaqPageEditorSubmit = ({
   ctaImage,
 }: UseFaqPageEditorSubmitOptions) => {
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
 
   const setRootError = useCallback(
     (message: string) => {
@@ -60,8 +62,8 @@ export const useFaqPageEditorSubmit = ({
           return;
         }
 
-        setAdminSuccessToast("Page FAQ enregistrée.");
-        window.location.reload();
+        toast.success("Page FAQ enregistrée.");
+        router.refresh();
       } catch {
         setRootError(
           "Une erreur est survenue pendant l’enregistrement de la page FAQ.",
@@ -70,7 +72,7 @@ export const useFaqPageEditorSubmit = ({
         setIsSaving(false);
       }
     },
-    [ctaImage, form, heroImage, setRootError],
+    [ctaImage, form, heroImage, router, setRootError],
   );
 
   const handleSubmit = form.handleSubmit(saveFaqPage);

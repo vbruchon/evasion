@@ -177,7 +177,6 @@ describe("updateFaqPageContentAdmin", () => {
     expect(deleteUploadThingFilesMock).toHaveBeenLastCalledWith(["faq-hero-1"]);
 
     expect(revalidatePathMock).toHaveBeenCalledWith("/faq");
-    expect(revalidatePathMock).toHaveBeenCalledWith("/admin/faq");
   });
 
   it("cleans up newly uploaded images when validation fails", async () => {
