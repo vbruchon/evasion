@@ -4,5 +4,5 @@ import { getReviewsPageAdminData } from "@/lib/admin/reviews/queries/get-reviews
 export default async function ReviewsPageAdminPage() {
   const data = await getReviewsPageAdminData();
 
-  return <ReviewsPageEditor data={data} />;
+  return <ReviewsPageEditor data={data} key={JSON.stringify(data.content)} />;
 }

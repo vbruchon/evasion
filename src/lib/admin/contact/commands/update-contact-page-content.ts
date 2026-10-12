@@ -44,7 +44,6 @@ export const updateContactPageContentAdmin = async (
   }
 
   revalidatePath("/contact");
-  revalidatePath("/admin/contact");
 
   return {
     success: true as const,

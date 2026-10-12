@@ -108,7 +108,6 @@ describe("updateContactPageContentAdmin", () => {
     });
 
     expect(revalidatePathMock).toHaveBeenCalledWith("/contact");
-    expect(revalidatePathMock).toHaveBeenCalledWith("/admin/contact");
   });
 
   it("updates an existing contact page content", async () => {

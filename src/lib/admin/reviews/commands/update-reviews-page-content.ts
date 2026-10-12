@@ -117,7 +117,6 @@ export const updateReviewsPageContentAdmin = async (
   await deleteUploadThingFiles(replacedFileKeys);
 
   revalidatePath("/avis");
-  revalidatePath("/admin/avis");
 
   return {
     success: true as const,

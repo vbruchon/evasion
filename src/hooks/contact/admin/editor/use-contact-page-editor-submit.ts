@@ -2,10 +2,11 @@
 
 import { useCallback, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { updateContactPageContent } from "~/app/admin/contact/action";
 import type { ContactPageContentValues } from "@/lib/contact/contact-page.schema";
-import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
+import { toast } from "sonner";
 
 type UseContactPageEditorSubmitOptions = {
   form: UseFormReturn<ContactPageContentValues>;
@@ -15,6 +16,7 @@ export const useContactPageEditorSubmit = ({
   form,
 }: UseContactPageEditorSubmitOptions) => {
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
 
   const setRootError = useCallback(
     (message: string) => {
@@ -38,8 +40,8 @@ export const useContactPageEditorSubmit = ({
           return;
         }
 
-        setAdminSuccessToast("Page Contact enregistrée.");
-        window.location.reload();
+        toast.success("Page Contact enregistrée.");
+        router.refresh();
       } catch {
         setRootError(
           "Une erreur est survenue pendant l’enregistrement de la page Contact.",
@@ -48,7 +50,7 @@ export const useContactPageEditorSubmit = ({
         setIsSaving(false);
       }
     },
-    [form, setRootError],
+    [form, router, setRootError],
   );
 
   return {

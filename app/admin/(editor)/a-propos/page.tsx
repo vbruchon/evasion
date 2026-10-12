@@ -4,5 +4,5 @@ import { getAboutPageAdminData } from "@/lib/admin/about/queries/get-about-page-
 export default async function AboutPageAdminPage() {
   const data = await getAboutPageAdminData();
 
-  return <AboutPageEditor data={data} />;
+  return <AboutPageEditor key={JSON.stringify(data.content)} data={data} />;
 }

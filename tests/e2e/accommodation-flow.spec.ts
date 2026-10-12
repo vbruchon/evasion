@@ -163,8 +163,6 @@ test("creates, modifies and publishes an accommodation", async ({
     },
   );
 
-  const reloadPromise = page.waitForEvent("load");
-
   const saveButton = page.getByRole("button", {
     name: "Enregistrer",
     exact: true,
@@ -178,9 +176,11 @@ test("creates, modifies and publishes an accommodation", async ({
 
   expect(publishResponse.ok()).toBe(true);
 
-  // L'application appelle window.location.reload() après la sauvegarde.
-  // Surtout ne pas lancer un page.goto() en concurrence avec ce reload.
-  await reloadPromise;
+  await expect(
+    page.getByRole("button", {
+      name: "Sauvegarder en brouillon",
+    }),
+  ).toBeVisible();
 
   //
   // 6. Verify persisted state

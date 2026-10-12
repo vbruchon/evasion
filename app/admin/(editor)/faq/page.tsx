@@ -4,5 +4,5 @@ import { getFaqPageAdminData } from "@/lib/admin/faq/queries/get-faq-page-admin-
 export default async function FaqPageAdminPage() {
   const data = await getFaqPageAdminData();
 
-  return <FaqPageEditor data={data} />;
+  return <FaqPageEditor data={data} key={JSON.stringify(data.content)} />;
 }

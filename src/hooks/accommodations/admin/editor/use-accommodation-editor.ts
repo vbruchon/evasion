@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import type { BaseSyntheticEvent } from "react";
 import { useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 
@@ -23,7 +24,6 @@ export const useAccommodationEditor = (
 
   const form = useForm<AccommodationUpdateFormValues>({
     resolver: zodResolver(accommodationUpdateSchema),
-
     defaultValues: accommodation.formValues,
     mode: "onSubmit",
   });
@@ -69,8 +69,8 @@ export const useAccommodationEditor = (
   const hasCurrentChanges = form.formState.isDirty || imagesChanged;
 
   const {
-    handleSubmit,
-    handleSaveDraft,
+    handleSubmit: submitAccommodation,
+    handleSaveDraft: submitSaveDraft,
     handlePublishChanges: submitPublishChanges,
     handleDiscardDraft,
     isSavingDraft,
@@ -114,10 +114,35 @@ export const useAccommodationEditor = (
 
   const statusSaveDisabled = draftActionDisabled;
 
+  const handleSubmit = useCallback(
+    (event?: BaseSyntheticEvent) => {
+      if (isAutosaving) {
+        return;
+      }
+
+      cancelPendingAutosave();
+      void submitAccommodation(event);
+    },
+    [cancelPendingAutosave, isAutosaving, submitAccommodation],
+  );
+
+  const handleSaveDraft = useCallback(() => {
+    if (isAutosaving) {
+      return;
+    }
+
+    cancelPendingAutosave();
+    void submitSaveDraft();
+  }, [cancelPendingAutosave, isAutosaving, submitSaveDraft]);
+
   const handlePublishChanges = useCallback(() => {
+    if (isAutosaving) {
+      return;
+    }
+
     cancelPendingAutosave();
     void submitPublishChanges();
-  }, [cancelPendingAutosave, submitPublishChanges]);
+  }, [cancelPendingAutosave, isAutosaving, submitPublishChanges]);
 
   return {
     form,

@@ -2,13 +2,14 @@
 
 import { useCallback, useState } from "react";
 import type { UseFormReturn } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 import { updateAccommodationsPageContent } from "~/app/admin/nos-logements/action";
 import { prepareAdminEditorImages } from "@/lib/admin/editor/prepare-admin-editor-images";
 import type { AdminEditorImage } from "@/lib/admin/images/admin-editor-image.types";
 import { uploadFiles } from "@/lib/admin/uploadthing/client";
 import type { AccommodationsPageContentValues } from "@/lib/accommodations-page/accommodations-page.schema";
-import { setAdminSuccessToast } from "@/lib/admin/admin-success-toast";
+import { toast } from "sonner";
 
 type UseAccommodationsPageEditorSubmitOptions = {
   form: UseFormReturn<AccommodationsPageContentValues>;
@@ -22,6 +23,7 @@ export const useAccommodationsPageEditorSubmit = ({
   ctaImage,
 }: UseAccommodationsPageEditorSubmitOptions) => {
   const [isSaving, setIsSaving] = useState(false);
+  const router = useRouter();
 
   const setRootError = useCallback(
     (message: string) => {
@@ -60,8 +62,8 @@ export const useAccommodationsPageEditorSubmit = ({
           return;
         }
 
-        setAdminSuccessToast("Page Nos logements enregistrée.");
-        window.location.reload();
+        toast.success("Page Nos logements enregistrée.");
+        router.refresh();
       } catch {
         setRootError(
           "Une erreur est survenue pendant l’enregistrement de la page Nos logements.",
@@ -70,7 +72,7 @@ export const useAccommodationsPageEditorSubmit = ({
         setIsSaving(false);
       }
     },
-    [ctaImage, form, heroImage, setRootError],
+    [ctaImage, form, heroImage, router, setRootError],
   );
 
   const handleSubmit = form.handleSubmit(saveAccommodationsPage);

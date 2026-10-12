@@ -20,6 +20,16 @@ import { prepareAccommodationUpdateImages } from "@/lib/admin/accommodation/imag
 
 import { createAccommodationUpdateValues } from "../helpers/accommodation-values";
 
+const { routerRefreshMock } = vi.hoisted(() => ({
+  routerRefreshMock: vi.fn(),
+}));
+
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({
+    refresh: routerRefreshMock,
+  }),
+}));
+
 vi.mock("~/app/admin/logements/action", () => ({
   updateAccommodation: vi.fn(),
   saveAccommodationDraft: vi.fn(),
@@ -63,6 +73,8 @@ const initialValues = createAccommodationUpdateValues({
 
 describe("useAccommodationEditorSubmit", () => {
   beforeEach(() => {
+    vi.clearAllMocks();
+
     mockedUpdateAccommodation.mockResolvedValue({
       success: false,
       message: "Erreur de test.",

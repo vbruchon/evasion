@@ -126,7 +126,6 @@ describe("updateAccommodationsPageContentAdmin", () => {
     expect(deleteUploadThingFilesMock).toHaveBeenLastCalledWith(["hero-1"]);
 
     expect(revalidatePathMock).toHaveBeenCalledWith("/logements");
-    expect(revalidatePathMock).toHaveBeenCalledWith("/admin/nos-logements");
   });
 
   it("cleans up newly uploaded images when validation fails", async () => {

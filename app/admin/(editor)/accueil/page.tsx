@@ -4,5 +4,5 @@ import { getHomePageAdminData } from "@/lib/admin/home/queries/get-home-page-adm
 export default async function HomePageAdminPage() {
   const data = await getHomePageAdminData();
 
-  return <HomePageEditor data={data} />;
+  return <HomePageEditor data={data} key={JSON.stringify(data.content)} />;
 }

@@ -118,7 +118,6 @@ export const updateHomePageContentAdmin = async (
   await deleteUploadThingFiles(replacedFileKeys);
 
   revalidatePath("/");
-  revalidatePath("/admin/accueil");
 
   return {
     success: true as const,

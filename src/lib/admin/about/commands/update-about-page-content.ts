@@ -118,7 +118,6 @@ export const updateAboutPageContentAdmin = async (
   await deleteUploadThingFiles(replacedFileKeys);
 
   revalidatePath("/a-propos");
-  revalidatePath("/admin/a-propos");
 
   return {
     success: true as const,
