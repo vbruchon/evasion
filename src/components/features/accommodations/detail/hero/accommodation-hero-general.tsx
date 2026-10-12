@@ -6,6 +6,7 @@ import {
   pageHeroContainerVariants,
   pageHeroItemVariants,
 } from "@/lib/motion/page-hero-motion";
+import { AccommodationStartingPrice } from "@/components/features/accommodations/shared/accommodation-starting-price";
 
 type AccommodationHeroGeneralProps = {
   accommodation: AccommodationHeroGeneralData;
@@ -69,6 +70,18 @@ export const AccommodationHeroGeneral = ({
         <p className="mt-5 text-base leading-7 text-white/45 md:text-lg lg:mt-8">
           {ACCOMMODATION_PREVIEW_PLACEHOLDERS.hero.subtitle}
         </p>
+      ) : null}
+
+      {accommodation.startingPrice !== null ? (
+        <motion.div
+          variants={accommodationSubtitleVariants}
+          className="mt-5 lg:mt-7"
+        >
+          <AccommodationStartingPrice
+            startingPrice={accommodation.startingPrice}
+            variant="hero"
+          />
+        </motion.div>
       ) : null}
     </motion.div>
   );

@@ -29,6 +29,7 @@ export const useAccommodationEditorPreviewData = ({
     beds,
     bathrooms,
     surface,
+    startingPrice,
     locationTitle,
     locationDescription,
     locationLatitude,
@@ -50,6 +51,7 @@ export const useAccommodationEditorPreviewData = ({
       "beds",
       "bathrooms",
       "surface",
+      "startingPrice",
       "locationTitle",
       "locationDescription",
       "locationLatitude",
@@ -73,6 +75,7 @@ export const useAccommodationEditorPreviewData = ({
     beds,
     bathrooms,
     surface,
+    startingPrice,
 
     locationTitle,
     locationDescription,
